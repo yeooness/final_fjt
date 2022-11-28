@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-u75c@yyzhv059zm$c8@vm!ct=2eo1$)_dmawn#9%=8b4q-00j9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '*'
 
 
 # Application definition
@@ -139,4 +139,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "accounts.User"
-
