@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "accounts",
     "care",
-    "community",
+    "communities",
     "dogwalking",
     "information",
     "journal",

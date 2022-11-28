@@ -1,6 +1,7 @@
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from django.conf import settings
 
 # Create your models here.
 
@@ -16,6 +17,7 @@ class Community(models.Model):
     ]
 
     community = models.CharField(
+        max_length=20,
         choices=community_choices,
         default="선택",
     )
@@ -30,4 +32,5 @@ class Community(models.Model):
         options={"quality": 90},
     )
 
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
