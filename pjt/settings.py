@@ -33,8 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'care',
-    'community',
     'dogwalking',
+    'communities',
     'information',
     'journal',
     'qna',
