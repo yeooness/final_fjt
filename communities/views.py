@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect
 from .models import Community
 from .forms import CommunityForm
@@ -27,7 +24,6 @@ def create(request):
             return redirect("communities:index")
     else:
         community_form = CommunityForm()
-
     return render(request, "communities/create.html", { "community_form": community_form })
 
 def detail(request, community_pk):
@@ -53,4 +49,6 @@ def update(request, community_pk):
 
 def delete(request, community_pk):
     Community.objects.get(pk=community_pk).delete()
+
     return redirect("communities:index")
+
