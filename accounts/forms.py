@@ -14,10 +14,10 @@ class CustomUserCreationForm(UserChangeForm):
             'first_name',
             'age',
             'gender',
-            'phone_number',
+            'phone_num',
             'profile_image',
         ]
-        labels = {'username': '아이디', 'last_name': '성', 'first_name': '이름', 'age': '나이', 'gender': '성별', 'phone_number': '연락처', 'profile_image': '프로필 이미지'}
+        labels = {'username': '아이디', 'last_name': '성', 'first_name': '이름', 'age': '나이', 'gender': '성별', 'phone_num': '연락처', 'profile_image': '프로필 이미지'}
 
 # 회원 정보 수정
 class CustomUserChangeForm(UserChangeForm):
