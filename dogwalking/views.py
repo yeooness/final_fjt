@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Dogwalking
-from .forms import DogwalkingForm
+from .forms import DogwalkingForm, CommentForm
 from django.views.generic import ListView, TemplateView
 
 # Create your views here.
@@ -35,8 +35,11 @@ def create(request):
 
 def detail(request, dogwakling_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
+    comment_form = CommentForm()
     context = {
         "dogwalking": dogwalking,
+        "comments": dogwalking.comment_set.all(),
+        "comment_form": comment_form,
     }
     return render(request, "dogwalking/detail.html", context)
 
@@ -86,3 +89,14 @@ class TaggedObjectLV(ListView):
         context = super().get_context_data(**kwargs)
         context["tagname"] = self.kwargs["tag"]
         return context
+
+
+def comment_create(request, pk):
+    dogwalking = Dogwalking.objects.get(pk=pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.dogwalking = dogwalking
+        comment.user = request.user
+        comment.save()
+    return redirect("dogwalking:detail", dogwalking.pk)

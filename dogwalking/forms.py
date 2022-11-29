@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dogwalking, Review
+from .models import Dogwalking, Review, Comment
 
 
 class DogwalkingForm(forms.ModelForm):
@@ -25,3 +25,11 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = "__all__"
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            "content",
+        ]
