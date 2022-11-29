@@ -10,9 +10,13 @@ from django.core.paginator import Paginator
 def index(request):
     communities = Community.objects.order_by("-pk")
     # 글 보기
-    block = Community.objects.exclude(user__in=request.user.blocking.all()).order_by("-pk")
+    block = Community.objects.exclude(user__in=request.user.blocking.all()).order_by(
+        "-pk"
+    )
     # 글 안보기
-    non_block = Community.objects.filter(user__in=request.user.blocking.all()).order_by("-pk")
+    non_block = Community.objects.filter(user__in=request.user.blocking.all()).order_by(
+        "-pk"
+    )
 
     # 카테고리
     community_name = "모든게시판"
@@ -37,7 +41,7 @@ def index(request):
         # 페이지네이션
         paginator = Paginator(block, 9)
         page_number = request.GET.get("board")
-        page_obj = paginator.get_page(page_number) # 숫지만
+        page_obj = paginator.get_page(page_number)  # 숫지만
 
         context = {
             # "at_all": at_all,
@@ -87,7 +91,9 @@ def update(request, community_pk):
 
     if request.user == community.user:
         if request.method == "POST":
-            community_form = CommunityForm(request.POST, request.FILES, instance=community)
+            community_form = CommunityForm(
+                request.POST, request.FILES, instance=community
+            )
 
             if community_form.is_valid():
                 community_form.save()
@@ -95,9 +101,12 @@ def update(request, community_pk):
         else:
             community_form = CommunityForm(instance=community)
 
-        return render(request, "communities/update.html", {"community_form": community_form})
+        return render(
+            request, "communities/update.html", {"community_form": community_form}
+        )
     else:
         return redirect(request, "communities/update.html", community_pk)
+
 
 def delete(request, community_pk):
     Community.objects.get(pk=community_pk).delete()

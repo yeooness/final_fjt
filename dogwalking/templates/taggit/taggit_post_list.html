@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block content %}
+
+<h1><span class="badge rounded-pill bg-primary">#{{ tagname }}</span></h1>
+{% for dogwalking in object_list %}
+<a href="{% url 'dogwalking:detail' dogwalking.pk %}">{{ dogwalking.title }}</a>
+{% endfor %}
+
+{% endblock content %}
