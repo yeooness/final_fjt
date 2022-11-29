@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-u75c@yyzhv059zm$c8@vm!ct=2eo1$)_dmawn#9%=8b4q-00j9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = "*"
 
 
 # Application definition
@@ -49,7 +49,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "taggit.apps.TaggitAppConfig",
+    "taggit_templatetags2",
 ]
+
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

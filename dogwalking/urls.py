@@ -6,7 +6,10 @@ app_name = "dogwalking"
 urlpatterns = [
     path("", views.index, name="index"),
     path("create/", views.create, name="create"),
-    path("<int:pk>/", views.detail, name="detail"),
-    path("<int:pk>/update/", views.update, name="update"),
-    path("<int:pk>/delete/", views.delete, name="delete"),
+    path("<int:dogwakling_pk>/", views.detail, name="detail"),
+    path("<int:dogwakling_pk>/update/", views.update, name="update"),
+    path("<int:dogwakling_pk>/delete/", views.delete, name="delete"),
+    path("tag/", views.TagCloudTV.as_view(), name="tag_cloud"),
+    path("tag/<str:tag>/", views.TaggedObjectLV.as_view(), name="tagged_object_list"),
+    path("<int:pk>/comments/", views.comment_create, name="comment_create"),
 ]

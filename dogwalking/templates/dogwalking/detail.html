@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block content %}
+<!-- 글 상세 내용 -->
+<div class="container">
+  <div>
+    {{ dogwalking.title }}
+  </div>
+  <div>
+    {{ dogwalking.members}}
+  </div>
+  <div>
+    {{ dogwalking.content}}
+  </div>
+  <div>
+    {{ dogwalking.updated_at }}
+  </div>
+  {% if dogwalking.image %}
+  <div class="d-flex justify-content-center">
+    <img src="{{ dogwalking.image.url }}" alt="{{ dogwalking.image }}" class="container px-0">
+  </div>
+  {% else %}
+  <div class="d-flex justify-content-center">
+    <img src="" alt="">
+  </div>
+  {% endif %}
+
+
+  <!-- tag -->
+  {% if dogwalking.tags.all %}
+  {% for tag in dogwalking.tags.all %}
+  <h4><a style="text-decoration: none" href="{% url 'dogwalking:tagged_object_list' tag.name %}">
+      <span class="badge rounded-pill bg-primary">
+        #{{ tag.name }}
+      </span>
+    </a>
+  </h4>
+  {% endfor %}
+  <a style="text-decoration: none" href="{% url 'dogwalking:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a>
+  {% endif %}
+</div>
+
+<!-- 수정/삭제 버튼 -->
+<div class="text-end me-5">
+  <a class="btn btn-outline-dark" href="{% url 'dogwalking:update' dogwalking.pk %}">
+    수정
+  </a>
+  <a class="btn btn-outline-dark" href="{% url 'dogwalking:delete' dogwalking.pk %}">
+    삭제
+  </a>
+</div>
+
+<!-- 댓글 -->
+<h4 class="my-3">댓글</h4>
+<!-- {% if comments %}
+<p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>
+{% endif %} -->
+{% if request.user.is_authenticated %}
+<form action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form comment_form layout='inline'%}
+  {% bootstrap_button button_type="submit" content="OK" %}
+</form>
+{% endif %}
+<hr>
+{% for comment in comments %}
+<p>{{ comment.content }}</p>
+<hr>
+{% empty %}
+<p>댓글이 없습니다.</p>
+{% endfor %}
+
+{% endblock content %}

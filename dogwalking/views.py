@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Dogwalking
-from .forms import DogwalkingForm
+from .forms import DogwalkingForm, CommentForm
+from django.views.generic import ListView, TemplateView
 
 # Create your views here.
 def index(request):
@@ -13,9 +14,16 @@ def index(request):
 
 def create(request):
     if request.method == "POST":
-        dogwalking_form = DogwalkingForm(request.POST)
+        tags = request.POST.get("tags", "").split(",")
+        dogwalking_form = DogwalkingForm(request.POST, request.FILES)
         if dogwalking_form.is_valid():
-            dogwalking_form.save()
+            dogwalking = dogwalking_form.save(commit=False)
+            dogwalking.user = request.user
+            dogwalking.save()
+            for tag in tags:
+                tag = tag.strip()
+                if tag != "":
+                    dogwalking.tags.add(tag)
             return redirect("dogwalking:index")
     else:
         dogwalking_form = DogwalkingForm()
@@ -25,33 +33,70 @@ def create(request):
     return render(request, "dogwalking/create.html", context)
 
 
-def detail(request, pk):
-    dogwalking = Dogwalking.objects.get(pk=pk)
+def detail(request, dogwakling_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
+    comment_form = CommentForm()
     context = {
         "dogwalking": dogwalking,
-    }
-    return render(request, "dogwalking/detail.html")
-
-
-def update(request, pk):
-    dogwalking = Dogwalking.objects.get(pk=pk)
-    if request.method == "POST":
-        # POST : input 가져와서 검증하고 DB 에 저장
-        dogwalking_form = DogwalkingForm(request.POST, instance=dogwalking)
-        if dogwalking_form.is_valid():
-            # 유효성 검사 통과하면 저장후 상세보기 페이지로
-            dogwalking_form.save()
-            return redirect("dogwalking:detail", dogwalking.pk)
-        # 유효성 검사 통과 못하면 => 오류메세지
-    else:
-        # GET 처리 : Form 을 제공
-        dogwalking_form = DogwalkingForm(instance=dogwalking)
-    context = {
-        "dogwalking_form": dogwalking_form,
+        "comments": dogwalking.comment_set.all(),
+        "comment_form": comment_form,
     }
     return render(request, "dogwalking/detail.html", context)
 
 
-def delete(request, pk):
-    Dogwalking.objects.get(pk=pk).delete()
-    return render(request, "dogwalking/detail.html")
+def update(request, dogwakling_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
+    if request.user == dogwalking.user:
+        if request.method == "POST":
+            dogwalking_form = DogwalkingForm(
+                request.POST, request.FILES, instance=dogwalking
+            )
+
+            if dogwalking_form.is_valid():
+                dogwalking_form.save()
+                return redirect("dogwalking:detail", dogwakling_pk)
+        else:
+            dogwalking_form = DogwalkingForm(instance=dogwalking)
+
+        return render(
+            request,
+            "dogwalking/update.html",
+            {
+                "dogwalking_form": dogwalking_form,
+            },
+        )
+    else:
+        return redirect(request, "dogwalking/update.html", dogwakling_pk)
+
+
+def delete(request, dogwakling_pk):
+    Dogwalking.objects.get(pk=dogwakling_pk).delete()
+    return redirect("dogwalking:index")
+
+
+class TagCloudTV(TemplateView):
+    template_name = "taggit/taggit_cloud.html"
+
+
+class TaggedObjectLV(ListView):
+    template_name = "taggit/taggit_post_list.html"
+    model = Dogwalking
+
+    def get_queryset(self):
+        return Dogwalking.objects.filter(tags__name=self.kwargs.get("tag"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tagname"] = self.kwargs["tag"]
+        return context
+
+
+def comment_create(request, pk):
+    dogwalking = Dogwalking.objects.get(pk=pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.dogwalking = dogwalking
+        comment.user = request.user
+        comment.save()
+    return redirect("dogwalking:detail", dogwalking.pk)
