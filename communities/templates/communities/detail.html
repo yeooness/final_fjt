@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <div>
+      {{ community.title }}
+    </div>
+    <div>
+      {{ community.content}}
+    </div>
+    <div>
+      {{ community.community }}
+    </div>
+    <div>
+      {{ community.created_at }}
+      {{ community.updated_at }}
+    </div>
+    {{ community.image }}
+  </div>
+{% endblock content %}

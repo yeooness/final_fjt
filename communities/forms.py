@@ -5,10 +5,10 @@ class CommunityForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = [
+            "community",
             "title",
             "content",
             "image",
-            "community",
         ]
 
         labels = {
