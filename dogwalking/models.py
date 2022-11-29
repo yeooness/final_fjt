@@ -41,6 +41,7 @@ class Review(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=True,
+        related_name="review_user",
     )
     content = models.TextField()
     # grade = models.ForeignKey(
@@ -54,5 +55,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     Dogwalking = models.ForeignKey(Dogwalking, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="comment_user",
     )
