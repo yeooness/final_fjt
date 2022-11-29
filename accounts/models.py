@@ -45,6 +45,8 @@ class User(AbstractUser):
     naver_id = models.CharField(null=True, unique=True, max_length=100)
     google_id = models.CharField(null=True, unique=True, max_length=100)
 
+    #차단
+    blocking = models.ManyToManyField("self", symmetrical=False)
 
 class Pet(models.Model):
     # 반려동물 이름

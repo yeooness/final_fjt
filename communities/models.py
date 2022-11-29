@@ -22,8 +22,8 @@ class Community(models.Model):
         default="선택",
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
     image = ProcessedImageField(
         upload_to="images/",
         blank=True,
