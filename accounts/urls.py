@@ -24,7 +24,7 @@ urlpatterns = [
     path('templates/accounts/login/kakao/callback', views.kakao_callback),
     # 네이버 로그인
     path('login/naver/', views.naver_request, name='naver'),
-    path('login/naver/callback/', views.naver_callback),
+    path('templates/accounts/login/naver/callback', views.naver_callback),
     # 구글 로그인
     path('login/google/', views.google_request, name='google'),
     path('templates/accounts/login/google/callback', views.google_callback),

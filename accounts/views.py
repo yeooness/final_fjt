@@ -180,7 +180,7 @@ def kakao_callback(request):
 def naver_request(request):
     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
     client_id = "rbVOoAEithFIkqeqIciW"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/login/naver/callback"
+    redirect_uri = "http://localhost:8000/accounts/templates/accounts/login/naver/callback"
     state_token = secrets.token_urlsafe(16)
     return redirect(
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
@@ -193,7 +193,7 @@ def naver_callback(request):
         "client_secret": "nq9LZrYX2Y",
         "code": request.GET.get("code"),
         "state": request.GET.get("state"),
-        "redirect_uri": "http://localhost:8000/accounts/login/naver/callback",
+        "redirect_uri": "http://localhost:8000/accounts/templates/accounts/login/naver/callback",
     }
     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
     access_token = requests.post(naver_token_request_url, data=data).json()[
@@ -206,24 +206,21 @@ def naver_callback(request):
 
     naver_id = naver_user_information["response"]["id"]
     naver_nickname = naver_user_information["response"]["nickname"]
-    naver_email = naver_user_information["response"]["email"]
     naver_img = naver_user_information["response"]["profile_image"]
     if get_user_model().objects.filter(naver_id=naver_id).exists():
         naver_user = get_user_model().objects.get(naver_id=naver_id)
-        auth_login(request, naver_user)
-        return redirect(request.GET.get("next") or "articles:main")
     else:
         naver_login_user = get_user_model()()
         naver_login_user.username = naver_nickname
         naver_login_user.naver_id = naver_id
         naver_login_user.set_password(str(state_token))
-        naver_login_user.email = naver_email
         naver_login_user.image = naver_img
         naver_login_user.is_social = 2
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
-        auth_login(request, naver_user)
-        return redirect("/")
+    auth_login(request, naver_user)
+    pk = naver_user.pk
+    return redirect(request.GET.get("next") or "accounts:detail", pk)
 
 
 # 구글 로그인
