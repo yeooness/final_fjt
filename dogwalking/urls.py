@@ -11,4 +11,5 @@ urlpatterns = [
     path("<int:dogwakling_pk>/delete/", views.delete, name="delete"),
     path("tag/", views.TagCloudTV.as_view(), name="tag_cloud"),
     path("tag/<str:tag>/", views.TaggedObjectLV.as_view(), name="tagged_object_list"),
+    path("<int:pk>/comments/", views.comment_create, name="comment_create"),
 ]
