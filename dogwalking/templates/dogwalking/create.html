@@ -10,7 +10,7 @@
     enctype="multipart/form-data">
     {% csrf_token %}
     <div class="font-space">
-      {% bootstrap_form form %}
+      {% bootstrap_form dogwalking_form %}
     </div>
     {% bootstrap_button button_type="submit" button_class="btn btn-dark text-white w-100 rounded-0" content="리뷰 작성" %}
   </form>
