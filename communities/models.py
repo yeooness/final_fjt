@@ -31,6 +31,14 @@ class Community(models.Model):
         format="JPEG",
         options={"quality": 90},
     )
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_communities", blank=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+class Comment(models.Model):
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField(max_length=300, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 

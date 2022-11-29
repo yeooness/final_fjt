@@ -4,16 +4,28 @@
 {% block content %}
   <div>
     <a href="{% url 'communities:create' %}">글쓰기</a>
+    <!-- 모두보기-->
+    <form action="{% url 'communities:index' %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="전체">
+    </form>
+    <!-- 게시판 별로 나누기-->
     {% for board in community_list %}
       <span>
         <a href="?board={{ board }}">{{ board }}</a>
       </span>
     {% endfor %}
   </div>
-  <div>
-    {% for community in communities %}
-      <h3>{{ community.title }}</h3>
-    {% endfor %}
-  </div>
 
+  <div>
+    {% for community in page_obj %}
+      <div class="row card">
+        {% if community.image %}
+          <img src="{{ community.image.url }}" alt="" style="width: 100px; height: 100px;">
+        {% endif %}
+        <h3>{{ community.title }}</h3>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock content %}
