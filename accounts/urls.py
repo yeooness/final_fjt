@@ -27,5 +27,5 @@ urlpatterns = [
     path('login/naver/callback/', views.naver_callback),
     # 구글 로그인
     path('login/google/', views.google_request, name='google'),
-    path('login/google/callback/', views.google_callback),
+    path('templates/accounts/login/google/callback', views.google_callback),
 ]

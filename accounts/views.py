@@ -230,7 +230,7 @@ def naver_callback(request):
 def google_request(request):
     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
     client_id = "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/login/google/callback"
+    redirect_uri = "http://localhost:8000/accounts/templates/accounts/login/google/callback"
     google_base_url = "https://www.googleapis.com/auth"
     google_email = "/userinfo.email"
     google_myinfo = "/userinfo.profile"
@@ -246,7 +246,7 @@ def google_callback(request):
         "grant_type": "authorization_code",
         "client_id": "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com",  # 배포시 보안적용 해야함
         "client_secret": "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",
-        "redirect_uri": "http://localhost:8000/accounts/login/google/callback",
+        "redirect_uri": "http://localhost:8000/accounts/templates/accounts/login/google/callback",
     }
     google_token_request_url = "https://oauth2.googleapis.com/token"
     access_token = requests.post(google_token_request_url, data=data).json()[
@@ -263,20 +263,18 @@ def google_callback(request):
     g_email = google_user_information["email"]
     g_img = google_user_information["picture"]
 
-    if get_user_model().objects.filter(goo_id=g_id).exists():
-        google_user = get_user_model().objects.get(goo_id=g_id)
-        auth_login(request, google_user)
-        return redirect(request.GET.get("next") or "/")
+    if get_user_model().objects.filter(google_id=g_id).exists():
+        google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_name
+        google_login_user.username = g_name+g_id
         google_login_user.email = g_email
-        google_login_user.goo_id = g_id
+        google_login_user.google_id = g_id
         google_login_user.image = g_img
         google_login_user.is_social = 1
         google_login_user.set_password(str(state_token))
         google_login_user.save()
-        google_user = get_user_model().objects.get(goo_id=g_id)
-        pk = google_user.pk
-        auth_login(request, google_user)
-        return redirect("/")
+        google_user = get_user_model().objects.get(google_id=g_id)
+    auth_login(request, google_user)
+    pk = google_user.pk
+    return redirect(request.GET.get("next") or "accounts:detail", pk)
