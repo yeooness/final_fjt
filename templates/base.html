@@ -20,7 +20,9 @@
     {% comment %} 헤더 {% endcomment %}
     <nav id='main-header'>
       <div class='logo-category'>
-        <img class='logo' src="{% static 'img/logo.png' %}" alt="">
+        <a href="{% url 'communities:index' %}">
+          <img class='logo' src="{% static 'img/logo.png' %}" alt="">
+        </a>
         <ul>
           <li><a class='community' href="{% url 'communities:index' %}">커뮤니티</a></li>
           <li><a class='dogwalking:index' href="{% url 'dogwalking:index' %}">산책메이트</a></li>
