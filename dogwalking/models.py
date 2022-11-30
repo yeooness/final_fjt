@@ -15,9 +15,13 @@ class Dogwalking(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
-    # pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="pet")
-    #     condition = models.ForeignKey(Care, on_delete=models.CASCADE)
-    # grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.CASCADE,
+        related_name="pet",
+        null=True,
+    )
+    # condition = models.ForeignKey(Care, on_delete=models.CASCADE, null=True,)
     # 내 위치 주소 입력 모델로 수정 필요
     location = models.CharField(max_length=50)
     # 산책 인원 추가
@@ -34,6 +38,9 @@ class Dogwalking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     tags = TaggableManager(blank=True)
+    like_user = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_dogwalking", blank=True
+    )
 
 
 class Review(models.Model):
@@ -44,10 +51,7 @@ class Review(models.Model):
         related_name="review_user",
     )
     content = models.TextField()
-    # grade = models.ForeignKey(
-    #     Dogwalking,
-    #     on_delete=models.CASCADE,
-    # )
+    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
 
 class Comment(models.Model):
