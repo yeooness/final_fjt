@@ -80,12 +80,24 @@
   text-align: center;
 }
 .domain .image {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
-.domain .image img {
+.domain .image img:nth-of-type(1) {
+  display: block;
   width: 80%;
   box-shadow: 0.5rem 0.5rem 1rem 1rem rgba(0, 0, 0, 0.075);
   border-radius: 0.5rem;
+}
+.domain .image img:nth-of-type(2) {
+  display: block;
+  position: absolute;
+  top: 5%;
+  width: 80%;
+  height: 95%;
+  object-fit: fill;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /* 산책메이트 */
