@@ -56,7 +56,7 @@ def login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect("/")
+            return redirect('communities:index')
     else:
         form = AuthenticationForm()
     context = {"form": form}
@@ -66,8 +66,7 @@ def login(request):
 # 로그아웃
 def logout(request):
     auth_logout(request)
-    return redirect("accounts:index")
-
+    return redirect('communities:index')
 
 # 회원정보 페이지
 def detail(request, user_pk):
