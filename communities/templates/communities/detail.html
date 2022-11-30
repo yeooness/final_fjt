@@ -44,9 +44,10 @@
     </div>
 
     {% for comment in comments %}
+    <!-- 프로필 사진 넣을 때 사용 -->
       {% comment %} <div>
         {% if comment.user.profile.image %}
-          <a href="{% url 'accounts:profile' comment.user.username %}"><img src="#" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
+          <a href="{% url 'accounts:profile' comment.user.username %}"><img src="{{ 주소추가 }}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
         {% else %}
           <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
         {% endif %}

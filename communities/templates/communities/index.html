@@ -18,6 +18,15 @@
   </div>
 
   <div>
+    <h3>인기글<span class="small">(좋아요순)</span></h3>
+    <div>
+      {% for community in communities %}
+        {{ community.like_users.count }}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div>
     {% for community in page_obj %}
       <div class="row card">
         {% if community.image %}
@@ -29,5 +38,57 @@
       </div>
     </div>
   {% endfor %}
+
+  <div class="d-flex justify-content-center mt-4">
+    <div class="pagination">
+      <span class="stap-links">
+        <ul class="pagination justify-content-center">
+          <!-- 이전페이지 -->
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link text-praimary" href="?board={{name}}{{ page_obj.previous_page_number }}">이전</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+          {% endif %}
+
+          {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
+              {% if page_number == page_obj.number %}
+                <li class="page-item active" aria-current='page'>
+                  <a class="page-link text-bg-praimary border-praimary" href="?board={{name}}{{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link text-praimary" href="?board={{name}}{{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link text-bg-praimary border-praimary" href="?board={{name}}{{ page_obj.next_page_number }}">다음</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+          </li>
+          {% endif %}
+        </ul>
+      </span>
+    </div>
+  </div>
 </div>
+
+<!-- <script>
+  const like = {{ community.like_users.count }};
+  like.sort();
+  like.sort(function(a, b){
+	return b-a; // (내림차순)
+  });
+  like.sort((a,b) => b-a);
+</script> -->
 {% endblock content %}

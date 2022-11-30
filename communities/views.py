@@ -4,50 +4,70 @@ from .forms import CommunityForm, CommentForm
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 import json
+import random, re
 
 # Create your views here.
 
 def index(request):
-    communities = Community.objects.order_by("-pk")
+    communities = Community.objects.order_by("-pk") # 전체
+    # communities_like = Community.objects.order_by("-like_users")[:4]
 
     # 카테고리
     community_name = "모든게시판"
     community_list = ["자유게시판", "후기게시판", "질문게시판", "지식정보"]
     
-    paginator = Paginator(communities, 9)
+    paginator = Paginator(communities, 10)
     page_number = request.GET.get("board")
     page_obj = paginator.get_page(page_number)
 
-    if request.GET.get("board"):
-        name = request.GET.get("board")
+    if request.GET.get("board"): 
+        name = re.sub(r"[0-9]","",request.GET.get("board"))
         communities = (
             Community.objects.filter(community__contains=name).order_by("-pk")
         )
+            
         if not name:
             community_name = "모든게시판"
         else:
             community_name = name
+
         # 페이지네이션
-        paginator = Paginator(communities, 9)
+        paginator = Paginator(communities, 10)
         page_number = request.GET.get("board")
         page_obj = paginator.get_page(page_number)  # 숫지만
 
         context = {
             "name": name,
+            # "communities_like": communities_like,
             "communities": communities,
             "community_name": community_name,
             "community_list": community_list,
             "page_obj": page_obj,
         }
         return render(request, "communities/index.html", context)
+    
     else:
         context = {
+            # "communities_like": communities_like,
             "communities": communities,
             "community_name": community_name,
             "community_list": community_list,
             "page_obj": page_obj,
         }
         return render(request, "communities/index.html", context)
+
+dic = {
+    "0": "zero",
+    "1": "one",
+    "2": "two",
+    "3": "three",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine",
+}
 
 
 def create(request):
