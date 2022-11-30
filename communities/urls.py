@@ -28,4 +28,5 @@ urlpatterns = [
         views.TaggedObjectLV.as_view(),
         name="tagged_object_list",
     ),
+    path("search/", views.SearchFormView.as_view(), name="search"),
 ]

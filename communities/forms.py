@@ -30,3 +30,7 @@ class CommentForm(forms.ModelForm):
         labels = {
             "content": "댓글",
         }
+
+
+class PostSearchForm(forms.Form):
+    search_word = forms.CharField(label="Search Word")
