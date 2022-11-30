@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -9,11 +10,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/init.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block css %}{% endblock css %}
+    <title>당근집사</title>
   </head>
 
   <body>
+    {% comment %} 헤더 {% endcomment %}
+    <nav id='main-header'>
+      <div class='logo-category'>
+        <img class='logo' src="{% static 'img/logo.png' %}" alt="">
+        <ul>
+          <li><a class='community' href="{% url 'communities:index' %}">커뮤니티</a></li>
+          <li><a class='dogwalking:index' href="{% url 'dogwalking:index' %}">산책메이트</a></li>
+          <li><a class='care' href="">돌봄</a></li>
+          <li><a class='information' href="">데이트</a></li>
+        </ul>
+      </div>
+      <ul>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'accounts:detail' request.user.pk %}">{{ request.user.username }}</a>님</li>
+        <li><a class='active' href="{% url 'accounts:logout' %}">로그아웃</a></li>
+        <li><i class="bi bi-bell"></i></li>
+        {% else %}
+        <li><a class='active' href="{% url 'accounts:login' %}">로그인</a></li>
+        <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
+        {% endif %}
+      </ul>
+      {% comment %} 뷰포트가 sm 이하일 때, 햄버거버튼 생성 {% endcomment %}
+      <button id='header-offcanvas-btn' type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasRightLabel">Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class='category'>
+            <li><a class='community' href="{% url 'communities:index' %}">커뮤니티</a></li>
+            <li><a class='dogwalking:index' href="{% url 'dogwalking:index' %}">산책메이트</a></li>
+            <li><a class='care' href="">돌봄</a></li>
+            <li><a class='information' href="">데이트</a></li>
+          </ul>
+          <ul class='authenticate'>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'accounts:detail' request.user.pk %}">{{ request.user.username }}</a>님</li>
+            <li><a class='active' href="{% url 'accounts:logout' %}">로그아웃</a></li>
+            <li><i class="bi bi-bell"></i></li>
+            {% else %}
+            <li><a class='active' href="{% url 'accounts:login' %}">로그인</a></li>
+            <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    {% comment %} 메인 {% endcomment %}
     {% block content %}{% endblock content %}
+
+    {% comment %} 푸터 {% endcomment %}
+    <footer>
+      <div class='left'>
+        <img src="{% static 'img/footer_dogfoot.png' %}" alt="">
+      </div>
+      <div class='right'>
+        <p>당신 근처의 집사</p>
+        <p>(주)당근집사</p>
+        <p>서울특별시 강남구 연주로 508</p>
+        <p>연락처: 1544-9001</p>
+        <p>Copyright by dangenzipsa Co., Ltd. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block js %}{% endblock js %}
   </body>
 
 </html>
