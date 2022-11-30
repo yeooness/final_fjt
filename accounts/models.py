@@ -17,8 +17,8 @@ class User(AbstractUser):
         default=0, validators=[MaxValueValidator(100), MinValueValidator(1)]
     )
     # 성별
-    GENDER_CHOICES = (("M", "남자"), ("W", "여자"))
-    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
+    GENDER_CHOICES = ((None, "선택"), ("M", "남자"), ("W", "여자"))
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default="선택")
     # 주소
     address = models.CharField(max_length=250)
     # 연락처
@@ -48,6 +48,7 @@ class User(AbstractUser):
     # 좋아요
     liking = models.ManyToManyField("self", symmetrical=False, related_name="like")
 
+
 class Pet(models.Model):
     # 반려동물 이름
     petname = models.CharField(max_length=25)
@@ -56,8 +57,17 @@ class Pet(models.Model):
         default=0, validators=[MaxValueValidator(100), MinValueValidator(1)]
     )
     # 반려동물 성별
-    PETGENDER_CHOICES = (("M", "남아"), ("W", "여아"))
-    petgender = models.CharField(max_length=2, choices=PETGENDER_CHOICES)
+    PETGENDER_CHOICES = ((None, "선택"), ("M", "남아"), ("W", "여아"))
+    petgender = models.CharField(max_length=2, choices=PETGENDER_CHOICES, default="선택")
     # 중성화 여부
-    NEUTRALIZATION_CHOICES = (("Y", "중성화 완료"), ("N", "중성화 전"))
-    neutralization = models.CharField(max_length=2, choices=NEUTRALIZATION_CHOICES)
+    NEUTRALIZATION_CHOICES = ((None, "선택"), ("Y", "중성화 완료"), ("N", "중성화 전"))
+    neutralization = models.CharField(
+        max_length=2, choices=NEUTRALIZATION_CHOICES, default="선택"
+    )
+    # 종
+    SPECIES_CHOICES = (
+        (None, "선택"),
+        ("dog", "강아지"),
+        ("cat", "고양이"),
+    )
+    species = models.CharField(max_length=3, choices=SPECIES_CHOICES, default="선택")

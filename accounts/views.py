@@ -1,15 +1,28 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Pet
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
-from django.contrib.auth import authenticate, update_session_auth_hash, get_user_model, login as auth_login, logout as auth_logout
+from .forms import (
+    CustomUserCreationForm,
+    CustomUserChangeForm,
+    CustomPasswordChangeForm,
+    CustomPetCreationForm,
+)
+from django.contrib.auth import (
+    authenticate,
+    update_session_auth_hash,
+    get_user_model,
+    login as auth_login,
+    logout as auth_logout,
+)
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 import secrets, requests
 
 # Create your views here.
 
+
 def index(request):
-    return render(request, 'accounts/index.html')
+    return render(request, "accounts/index.html")
+
 
 # 회원가입
 def signup(request):
@@ -19,24 +32,22 @@ def signup(request):
             form.save()
             user = form.save(commit=False)
             user.address = (
-                request.POST.get('postcode')
-                + request.POST.get('address')
-                + request.POST.get('detailAddress')
-                + request.POST.get('extraAddress')
+                request.POST.get("postcode")
+                + request.POST.get("address")
+                + request.POST.get("detailAddress")
+                + request.POST.get("extraAddress")
             )
             user.save()
             # 자동 로그인
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return redirect('/')
+            return redirect(request.GET.get("next") or "/")
     else:
         form = CustomUserCreationForm()
-    context = {
-        'form'  : form
-    }
-    return render(request, 'accounts/signup.html', context)
+    context = {"form": form}
+    return render(request, "accounts/signup.html", context)
 
 
 # 로그인
@@ -45,19 +56,17 @@ def login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('/')
+            return redirect("/")
     else:
         form = AuthenticationForm()
-    context = {
-        'form' : form
-    }
-    return render(request, 'accounts/login.html', context)
+    context = {"form": form}
+    return render(request, "accounts/login.html", context)
 
 
-#로그아웃
+# 로그아웃
 def logout(request):
     auth_logout(request)
-    return redirect('/')
+    return redirect("/")
 
 
 # 회원정보 페이지
@@ -67,22 +76,35 @@ def detail(request, user_pk):
     # 반려동물 정보
     # user_pets = Pet.objects.filter(user__id=user_pk)
     # 작성한 게시글
-    # user_boards = 
+    # user_boards =
     # 작성한 후기
-    # user_reviews = 
+    # user_reviews =
     # 팔로워 목록
-    user_followers = user.followers.order_by('pk')
+    user_followers = user.followers.order_by("pk")
     # 팔로잉 목록
-    user_followings = user.followings.order_by('pk')
+    user_followings = user.followings.order_by("pk")
     context = {
-        'user' : user,
+        "user": user,
         # 'user_pets' : user_pets,
         # 'user_boards' : user_boards,
         # 'user_reviews' : user_reviews,
-        'user_followers' : user_followers,
-        'user_followings' : user_followings
+        "user_followers": user_followers,
+        "user_followings": user_followings,
     }
-    return render(request, 'accounts/detail.html', context)
+    return render(request, "accounts/detail.html", context)
+
+
+# 반려동물 등록
+def pet_register(request, user_pk):
+    if request.method == "POST":
+        form = CustomPetCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(request.GET.get("next") or "/")
+    else:
+        form = CustomPetCreationForm()
+    context = {"form": form}
+    return render(request, "accounts/pet_register.html", context)
 
 
 # 회원 정보 수정
@@ -93,19 +115,17 @@ def update(request, user_pk):
             form.save()
             user = form.save(commit=False)
             user.address = (
-                request.POST.get('postcode')
-                + request.POST.get('address')
-                + request.POST.get('detailAddress')
-                + request.POST.get('extraAddress')
+                request.POST.get("postcode")
+                + request.POST.get("address")
+                + request.POST.get("detailAddress")
+                + request.POST.get("extraAddress")
             )
             user.save()
-            return redirect('accounts:detail', user_pk)
+            return redirect("accounts:detail", user_pk)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    context = {
-        'form' : form
-    }
-    return render(request, 'accounts/update.html')
+    context = {"form": form}
+    return render(request, "accounts/update.html", context)
 
 
 # 회원 탈퇴
@@ -113,7 +133,7 @@ def delete(request, user_pk):
     user = User.objects.get(pk=user_pk)
     user.delete()
     auth_logout(request)
-    return redirect('/')
+    return redirect("/")
 
 
 # 비밀번호 변경
@@ -125,13 +145,11 @@ def passwordchange(request, user_pk):
             form.save()
             # 변경된 비밀번호로 로그인 유지
             update_session_auth_hash(request, request.user)
-            return redirect('accounts:detail', user_pk)
+            return redirect("accounts:detail", user_pk)
     else:
         form = CustomPasswordChangeForm(request.user)
-    context = {
-        'form' : form
-    }
-    return render(request, 'accounts/passwordchange.html', context)
+    context = {"form": form}
+    return render(request, "accounts/passwordchange.html", context)
 
 
 # 소셜 로그인 연동
@@ -140,9 +158,12 @@ state_token = secrets.token_urlsafe(16)
 # 카카오 로그인
 def kakao_request(request):
     kakao_api = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-    redirect_uri = "http://localhost:8000/accounts/templates/accounts/login/kakao/callback"
+    redirect_uri = (
+        "http://localhost:8000/accounts/templates/accounts/login/kakao/callback"
+    )
     client_id = "3044dd3e42caed2e8e6ed2f4650c22f7"  # 배포시 보안적용 해야함
     return redirect(f"{kakao_api}&client_id={client_id}&redirect_uri={redirect_uri}")
+
 
 def kakao_callback(request):
     data = {
@@ -172,19 +193,21 @@ def kakao_callback(request):
         kakao_login_user.save()
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
     auth_login(request, kakao_user, backend="django.contrib.auth.backends.ModelBackend")
-    pk = kakao_user.pk
-    return redirect(request.GET.get("next") or "accounts:detail", pk)
+    return redirect(request.GET.get("next") or "/")
 
 
 # 네이버 로그인
 def naver_request(request):
     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
     client_id = "rbVOoAEithFIkqeqIciW"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/templates/accounts/login/naver/callback"
+    redirect_uri = (
+        "http://localhost:8000/accounts/templates/accounts/login/naver/callback"
+    )
     state_token = secrets.token_urlsafe(16)
     return redirect(
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
     )
+
 
 def naver_callback(request):
     data = {
@@ -219,15 +242,16 @@ def naver_callback(request):
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     auth_login(request, naver_user)
-    pk = naver_user.pk
-    return redirect(request.GET.get("next") or "accounts:detail", pk)
+    return redirect(request.GET.get("next") or "/")
 
 
 # 구글 로그인
 def google_request(request):
     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
     client_id = "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/templates/accounts/login/google/callback"
+    redirect_uri = (
+        "http://localhost:8000/accounts/templates/accounts/login/google/callback"
+    )
     google_base_url = "https://www.googleapis.com/auth"
     google_email = "/userinfo.email"
     google_myinfo = "/userinfo.profile"
@@ -235,6 +259,7 @@ def google_request(request):
     return redirect(
         f"{google_api}?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}"
     )
+
 
 def google_callback(request):
     data = {
@@ -264,7 +289,7 @@ def google_callback(request):
         google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_name+g_id
+        google_login_user.username = g_name + g_id
         google_login_user.email = g_email
         google_login_user.google_id = g_id
         google_login_user.image = g_img
@@ -273,5 +298,4 @@ def google_callback(request):
         google_login_user.save()
         google_user = get_user_model().objects.get(google_id=g_id)
     auth_login(request, google_user)
-    pk = google_user.pk
-    return redirect(request.GET.get("next") or "accounts:detail", pk)
+    return redirect(request.GET.get("next") or "/")
