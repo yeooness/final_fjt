@@ -3,7 +3,15 @@
 {% block content %}
   <div>
     <div>
-      <h1>로그인 성공</h1>
+      <h1>인덱스</h1>
+      {% if user.is_authenticated %}
+        <p>{{ user.username }}</p>
+        <a href="{% url 'accounts:detail' user.pk %}">프로필</a>
+        <a href="{% url 'accounts:logout' %}">로그아웃</a>
+      {% else %}
+        <a href="{% url 'accounts:signup' %}">회원가입</a>
+        <a href="{% url 'accounts:login' %}">로그인</a>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}

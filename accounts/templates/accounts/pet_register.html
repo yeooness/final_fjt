@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <h1>반려동물 등록</h1>
+  <p>{{ user.username }}</p>
+  <form action="" method="">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">등록하기</button>
+  </form>
+{% endblock content %}
