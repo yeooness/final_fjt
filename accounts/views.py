@@ -43,7 +43,7 @@ def signup(request):
             password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return redirect(request.GET.get("next") or "/")
+            return redirect("/")
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
@@ -68,13 +68,12 @@ def logout(request):
     auth_logout(request)
     return redirect('communities:index')
 
-
 # 회원정보 페이지
 def detail(request, user_pk):
     # 회원 정보
     user = get_object_or_404(get_user_model(), pk=user_pk)
     # 반려동물 정보
-    # user_pets = Pet.objects.filter(user__id=user_pk)
+    user_pets = Pet.objects.filter(user__id=user_pk)
     # 작성한 게시글
     # user_boards =
     # 작성한 후기
@@ -85,7 +84,7 @@ def detail(request, user_pk):
     user_followings = user.followings.order_by("pk")
     context = {
         "user": user,
-        # 'user_pets' : user_pets,
+        "user_pets": user_pets,
         # 'user_boards' : user_boards,
         # 'user_reviews' : user_reviews,
         "user_followers": user_followers,
@@ -99,8 +98,10 @@ def pet_register(request, user_pk):
     if request.method == "POST":
         form = CustomPetCreationForm(request.POST)
         if form.is_valid():
+            pet = form.save(commit=False)
+            pet.user = request.user
             form.save()
-            return redirect(request.GET.get("next") or "/")
+            return redirect("accounts:index")
     else:
         form = CustomPetCreationForm()
     context = {"form": form}
@@ -133,7 +134,7 @@ def delete(request, user_pk):
     user = User.objects.get(pk=user_pk)
     user.delete()
     auth_logout(request)
-    return redirect("/")
+    return redirect("accounts:index")
 
 
 # 비밀번호 변경
@@ -193,7 +194,7 @@ def kakao_callback(request):
         kakao_login_user.save()
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
     auth_login(request, kakao_user, backend="django.contrib.auth.backends.ModelBackend")
-    return redirect(request.GET.get("next") or "/")
+    return redirect(request.GET.get("next") or "accounts:index")
 
 
 # 네이버 로그인
@@ -242,7 +243,7 @@ def naver_callback(request):
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     auth_login(request, naver_user)
-    return redirect(request.GET.get("next") or "/")
+    return redirect(request.GET.get("next") or "accounts:index")
 
 
 # 구글 로그인
@@ -298,4 +299,4 @@ def google_callback(request):
         google_login_user.save()
         google_user = get_user_model().objects.get(google_id=g_id)
     auth_login(request, google_user)
-    return redirect(request.GET.get("next") or "/")
+    return redirect(request.GET.get("next") or "accounts:index")
