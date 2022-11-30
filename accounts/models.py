@@ -50,6 +50,7 @@ class User(AbstractUser):
 
 
 class Pet(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pet")
     # 반려동물 이름
     petname = models.CharField(max_length=25)
     # 반려동물 나이
@@ -57,7 +58,7 @@ class Pet(models.Model):
         default=0, validators=[MaxValueValidator(100), MinValueValidator(1)]
     )
     # 반려동물 성별
-    PETGENDER_CHOICES = ((None, "선택"), ("M", "남아"), ("W", "여아"))
+    PETGENDER_CHOICES = ((None, "선택"), ("M", "남아"), ("F", "여아"))
     petgender = models.CharField(max_length=2, choices=PETGENDER_CHOICES, default="선택")
     # 중성화 여부
     NEUTRALIZATION_CHOICES = ((None, "선택"), ("Y", "중성화 완료"), ("N", "중성화 전"))
