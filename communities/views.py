@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Community, Comment
-from .forms import CommunityForm, CommentForm
+from .forms import CommunityForm, CommentForm, PostSearchForm
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 import json
 import random, re
+from django.views.generic import ListView, TemplateView, FormView
+from django.db.models import Q
 
 # Create your views here.
+
 
 def index(request):
     communities = Community.objects.order_by("-pk") # 전체
@@ -25,7 +28,7 @@ def index(request):
         communities = (
             Community.objects.filter(community__contains=name).order_by("-pk")
         )
-            
+
         if not name:
             community_name = "모든게시판"
         else:
@@ -72,12 +75,17 @@ dic = {
 
 def create(request):
     if request.method == "POST":
+        tags = request.POST.get("tags", "").split(",")
         community_form = CommunityForm(request.POST, request.FILES)
         if community_form.is_valid():
             print("통과")
             community = community_form.save(commit=False)
             community.user = request.user
             community.save()
+            for tag in tags:
+                tag = tag.strip()
+                if tag != "":
+                    community.tags.add(tag)
             return redirect("communities:index")
     else:
         community_form = CommunityForm()
@@ -125,6 +133,7 @@ def delete(request, community_pk):
     Community.objects.get(pk=community_pk).delete()
     return redirect("communities:index")
 
+
 # 댓글
 def comment_create(request, community_pk):
     community_data = Community.objects.get(pk=community_pk)
@@ -137,14 +146,16 @@ def comment_create(request, community_pk):
             comment.user = request.user
             comment.save()
         return redirect("communities:detail", community_pk)
-    return redirect('accounts:login')
+    return redirect("accounts:login")
+
 
 def comment_delete(request, community_pk, comment_pk):
     comment_data = Comment.objects.get(pk=comment_pk)
 
     if request.user == comment_data.user:
         comment_data.delete()
-    return redirect('communities:detail', community_pk)
+    return redirect("communities:detail", community_pk)
+
 
 # 좋아요
 def like(request, community_pk):
@@ -157,4 +168,40 @@ def like(request, community_pk):
         is_liked = True
     context = {"is_liked": is_liked, "likeCount": community.like_users.count()}
     return JsonResponse(context)
-        
+
+
+# tag
+class TagCloudTV(TemplateView):
+    template_name = "taggit/taggit_cloud.html"
+
+
+class TaggedObjectLV(ListView):
+    template_name = "taggit/taggit_post_list.html"
+    model = Community
+
+    def get_queryset(self):
+        return Community.objects.filter(tags__name=self.kwargs.get("tag"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tagname"] = self.kwargs["tag"]
+        return context
+
+
+# search
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = "communities/search.html"
+
+    def form_valid(self, form):
+        searchWord = form.cleaned_data["search_word"]
+        community_list = Community.objects.filter(
+            Q(title__icontains=searchWord) | Q(content__icontains=searchWord)
+        ).distinct()
+
+        context = {}
+        context["form"] = form
+        context["search_term"] = searchWord
+        context["object_list"] = community_list
+
+        return render(self.request, self.template_name, context)

@@ -2,6 +2,12 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <h1>프로필 페이지</h1>
-  <p>{{ user.usernmae }}</p>
+  <div class="container">
+    <h1>프로필 페이지</h1>
+    <p>{{ user.username }}</p>
+    {% for user_pet in user_pets %}
+      <p>{{ user_pet.petname }}</p>
+    {% endfor %}
+    <a href="{% url 'accounts:pet_register' user.pk %}">반려동물 등록</a>
+  </div>
 {% endblock content %}
