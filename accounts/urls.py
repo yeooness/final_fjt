@@ -4,8 +4,6 @@ from . import views
 app_name = "accounts"
 
 urlpatterns = [
-    # 임시페이지
-    path("index/", views.index, name="index"),
     # 회원가입
     path("signup/", views.signup, name="signup"),
     # 로그인

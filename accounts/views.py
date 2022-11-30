@@ -22,10 +22,6 @@ from django.http import JsonResponse
 # Create your views here.
 
 
-def index(request):
-    return render(request, "accounts/index.html")
-
-
 # 회원가입
 def signup(request):
     if request.method == "POST":
@@ -45,7 +41,7 @@ def signup(request):
             password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return redirect("accounts:index")
+            return redirect("communities:index")
     else:
         form = CustomUserCreationForm()
     context = {
@@ -105,7 +101,7 @@ def pet_register(request, user_pk):
             pet = form.save(commit=False)
             pet.user = request.user
             form.save()
-            return redirect("accounts:index")
+            return redirect("communities:index")
     else:
         form = CustomPetCreationForm()
     context = {"form": form}
@@ -138,7 +134,7 @@ def delete(request, user_pk):
     user = User.objects.get(pk=user_pk)
     user.delete()
     auth_logout(request)
-    return redirect("accounts:index")
+    return redirect("communities:index")
 
 
 # 비밀번호 변경
@@ -222,7 +218,7 @@ def kakao_callback(request):
         kakao_login_user.save()
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
     auth_login(request, kakao_user, backend="django.contrib.auth.backends.ModelBackend")
-    return redirect(request.GET.get("next") or "accounts:index")
+    return redirect(request.GET.get("next") or "communities:index")
 
 
 # 네이버 로그인
@@ -271,7 +267,7 @@ def naver_callback(request):
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     auth_login(request, naver_user)
-    return redirect(request.GET.get("next") or "accounts:index")
+    return redirect(request.GET.get("next") or "communities:index")
 
 
 # 구글 로그인
@@ -327,4 +323,4 @@ def google_callback(request):
         google_login_user.save()
         google_user = get_user_model().objects.get(google_id=g_id)
     auth_login(request, google_user)
-    return redirect(request.GET.get("next") or "accounts:index")
+    return redirect(request.GET.get("next") or "communities:index")
