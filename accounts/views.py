@@ -1,3 +1,4 @@
+import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Pet
 from .forms import (
@@ -15,7 +16,8 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-import secrets, requests
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -43,10 +45,12 @@ def signup(request):
             password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return redirect("/")
+            return redirect("accounts:index")
     else:
         form = CustomUserCreationForm()
-    context = {"form": form}
+    context = {
+        "form": form,
+    }
     return render(request, "accounts/signup.html", context)
 
 
@@ -151,6 +155,30 @@ def passwordchange(request, user_pk):
         form = CustomPasswordChangeForm(request.user)
     context = {"form": form}
     return render(request, "accounts/passwordchange.html", context)
+
+
+# 팔로우
+@require_POST
+def follow(request, user_pk):
+    if request.user.is_authenticated:
+        User = get_user_model()
+        me = request.user
+        you = User.objects.get(pk=user_pk)
+        if me != you:
+            if you.followers.filter(pk=me.pk).exists():
+                you.followers.remove(me)
+                is_followed = False
+            else:
+                you.followers.add(me)
+                is_followed = True
+            context = {
+                "is_followed": is_followed,
+                "followers_count": you.followers.count(),
+                "followings_count": you.followings.count(),
+            }
+            return JsonResponse(context)
+        return redirect("accounts:detail", you.username)
+    return redirect("accounts:login")
 
 
 # 소셜 로그인 연동
