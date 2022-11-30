@@ -2,7 +2,9 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <h1>프로필 페이지</h1>
-  <p>{{ user.username }}</p>
-  <a href="{% url 'accounts:pet_register' user.pk %}">반려동물 등록</a>
+  <div class="container">
+    <h1>프로필 페이지</h1>
+    <p>{{ user.username }}</p>
+    <a href="{% url 'accounts:pet_register' user.pk %}">반려동물 등록</a>
+  </div>
 {% endblock content %}

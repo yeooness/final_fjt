@@ -100,6 +100,7 @@ def pet_register(request, user_pk):
         form = CustomPetCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect(request.GET.get("next") or "/")
     else:
         form = CustomPetCreationForm()
     context = {"form": form}
