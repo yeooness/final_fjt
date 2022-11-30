@@ -2,8 +2,10 @@ from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
+from taggit.managers import TaggableManager
 
 # Create your models here.
+
 
 class Community(models.Model):
     title = models.CharField(max_length=30)
@@ -31,9 +33,13 @@ class Community(models.Model):
         format="JPEG",
         options={"quality": 90},
     )
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_communities", blank=True)
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_communities", blank=True
+    )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    tags = TaggableManager(blank=True)
+
 
 class Comment(models.Model):
     content = models.TextField(max_length=300, blank=False)

@@ -15,16 +15,16 @@ def index(request):
 
 def create(request):
     if request.method == "POST":
-        tags = request.POST.get("tags", "").split(",")
+        # tags = request.POST.get("tags", "").split(",")
         dogwalking_form = DogwalkingForm(request.POST, request.FILES)
         if dogwalking_form.is_valid():
             dogwalking = dogwalking_form.save(commit=False)
             dogwalking.user = request.user
             dogwalking.save()
-            for tag in tags:
-                tag = tag.strip()
-                if tag != "":
-                    dogwalking.tags.add(tag)
+            # for tag in tags:
+            #     tag = tag.strip()
+            #     if tag != "":
+            #         dogwalking.tags.add(tag)
             return redirect("dogwalking:index")
     else:
         dogwalking_form = DogwalkingForm()

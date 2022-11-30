@@ -1,6 +1,7 @@
 from django import forms
 from .models import Community, Comment
 
+
 class CommunityForm(forms.ModelForm):
     class Meta:
         model = Community
@@ -9,6 +10,7 @@ class CommunityForm(forms.ModelForm):
             "title",
             "content",
             "image",
+            "tags",
         ]
 
         labels = {
@@ -16,12 +18,14 @@ class CommunityForm(forms.ModelForm):
             "title": "제목",
             "content": "내용",
             "image": "이미지",
+            "tags": "태그",
         }
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = ('community', 'user')
+        exclude = ("community", "user")
 
         labels = {
             "content": "댓글",
