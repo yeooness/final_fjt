@@ -22,6 +22,8 @@ urlpatterns = [
     path("<int:user_pk>/delete/", views.delete, name="delete"),
     # 반려동물 등록
     path("<int:user_pk>/pet_register/", views.pet_register, name="pet_register"),
+    # 팔로우
+    path("<int:user_pk>/follow/", views.follow, name="follow"),
     # 카카오 로그인
     path("login/kakao/", views.kakao_request, name="kakao"),
     path("templates/accounts/login/kakao/callback", views.kakao_callback),
