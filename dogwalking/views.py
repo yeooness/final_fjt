@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Dogwalking
 from .forms import DogwalkingForm, CommentForm
 from django.views.generic import ListView, TemplateView
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -100,3 +101,22 @@ def comment_create(request, pk):
         comment.user = request.user
         comment.save()
     return redirect("dogwalking:detail", dogwalking.pk)
+
+
+def comment_delete(request, dogwalking_pk, comment_pk):
+    dogwalking = Dogwalking.objects.get(pk=comment_pk)
+    if request.user == dogwalking.user:
+        dogwalking.delete()
+    return redirect("dogwalking:detail", dogwalking_pk)
+
+
+def like(request, dogwalking_pk):
+    dogwalking = get_object_or_404(Dogwalking, pk=dogwalking_pk)
+    if request.user in dogwalking.like_user.all():
+        dogwalking.like_user.remove(request.user)
+        is_liked = False
+    else:
+        dogwalking.like_user.add(request.user)
+        is_liked = True
+    context = {"is_liked": is_liked, "likeCount": dogwalking.like_user.count()}
+    return JsonResponse(context)
