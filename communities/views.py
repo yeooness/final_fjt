@@ -13,10 +13,7 @@ def index(request):
     # 카테고리
     community_name = "모든게시판"
     community_list = ["자유게시판", "후기게시판", "질문게시판", "지식정보"]
-
-    # 각 게시판에서 가장 많은 좋아요 수를 기록한 게시물 1개
-    # 게시판 별 상위 4개 좋아요 순
-
+    
     paginator = Paginator(communities, 9)
     page_number = request.GET.get("board")
     page_obj = paginator.get_page(page_number)
@@ -24,8 +21,7 @@ def index(request):
     if request.GET.get("board"):
         name = request.GET.get("board")
         communities = (
-            Community.objects.filter(community__contains=name)
-            .order_by("-pk")
+            Community.objects.filter(community__contains=name).order_by("-pk")
         )
         if not name:
             community_name = "모든게시판"
@@ -58,6 +54,7 @@ def create(request):
     if request.method == "POST":
         community_form = CommunityForm(request.POST, request.FILES)
         if community_form.is_valid():
+            print("통과")
             community = community_form.save(commit=False)
             community.user = request.user
             community.save()
@@ -71,8 +68,13 @@ def create(request):
 
 def detail(request, community_pk):
     community = Community.objects.get(pk=community_pk)
+    comments = community.comment_set.all()
+    form = CommentForm()
+    community.save()
     context = {
         "community": community,
+        "comments": comments,
+        "form": form,
     }
     return render(request, "communities/detail.html", context)
 
@@ -104,17 +106,17 @@ def delete(request, community_pk):
     return redirect("communities:index")
 
 # 댓글
-def comment_create(request, comment_pk):
-    community_data = get_object_or_404(Community, pk=comment_pk)
+def comment_create(request, community_pk):
+    community_data = Community.objects.get(pk=community_pk)
 
     if request.user.is_authenticated:
-        commentForm = CommentForm(request.POST)
-        if commentForm.is_valid():
-            comment = commentForm.save(commit=False)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
             comment.community = community_data
             comment.user = request.user
             comment.save()
-        return redirect("communities:detail", comment_pk)
+        return redirect("communities:detail", community_pk)
     return redirect('accounts:login')
 
 def comment_delete(request, community_pk, comment_pk):
@@ -124,7 +126,7 @@ def comment_delete(request, community_pk, comment_pk):
         comment_data.delete()
     return redirect('communities:detail', community_pk)
 
-
+# 좋아요
 def like(request, community_pk):
     community = get_object_or_404(Community, pk=community_pk)
     if request.user in community.like_users.all():

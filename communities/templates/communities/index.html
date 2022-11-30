@@ -23,7 +23,9 @@
         {% if community.image %}
           <img src="{{ community.image.url }}" alt="" style="width: 100px; height: 100px;">
         {% endif %}
-        <h3>{{ community.title }}</h3>
+        <h3>
+          <a class="text-decoration-none" href="{% url "communities:detail" community.pk %}">{{ community.title }}</a>
+        </h3>
       </div>
     </div>
   {% endfor %}

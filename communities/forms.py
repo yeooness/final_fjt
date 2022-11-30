@@ -21,10 +21,7 @@ class CommunityForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = (
-            "community",
-            "user",
-        )
+        exclude = ('community', 'user')
 
         labels = {
             "content": "댓글",

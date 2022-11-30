@@ -52,11 +52,57 @@
   </a>
 </div>
 
+<!-- like -->
+<div>
+  {% if request.user.is_authenticated %}
+  {% if request.user in dogwalking.like_user.all %}
+  <i id="" data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-hand-thumbs-up-fill like-btn"></i>
+  {% else %}
+  <i id="" data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-hand-thumbs-up like-btn"></i>
+  {% endif %}
+  {% endif %}
+  <span id="like-count">{{ dogwalking.like_user.count }}</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const likeBtn = document.querySelector('.like-btn')
+  likeBtn.addEventListener('click', function (event) {
+    console.log(event.target.dataset)
+    axios({ method: 'get', url: `/dogwalking/${event.target.dataset.dogwalkingId}/like/` }).then(response => {
+      console.log(response)
+      console.log(response.data)
+      console.log(response.data.is_liked)
+      if (response.data.is_liked === true) {
+        event
+          .target
+          .classList
+          .add('bi-hand-thumbs-up-fill')
+        event
+          .target
+          .classList
+          .remove('bi-hand-thumbs-up')
+      } else {
+        event
+          .target
+          .classList
+          .add('bi-hand-thumbs-up')
+        event
+          .target
+          .classList
+          .remove('bi-hand-thumbs-up-fill')
+      }
+      const likeCount = document.querySelector('#like-count')
+      likeCount.innerText = response.data.likeCount
+    })
+  })
+</script>
+
 <!-- 댓글 -->
 <h4 class="my-3">댓글</h4>
-<!-- {% if comments %}
+{% if comments %}
 <p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>
-{% endif %} -->
+{% endif %}
 {% if request.user.is_authenticated %}
 <form action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
   {% csrf_token %}
@@ -71,5 +117,7 @@
 {% empty %}
 <p>댓글이 없습니다.</p>
 {% endfor %}
+
+
 
 {% endblock content %}
