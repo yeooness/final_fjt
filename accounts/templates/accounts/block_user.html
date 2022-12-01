@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  {% if user.blockers %}
+    {% for block_user in blockers %}
+      <div>
+        <div>
+          {% if block_user.profile_image %}
+            <img src="{{ block_user.profile_image.url }}" alt="">
+          {% endif %}
+          <p>{{ block_user.username }}
+            <a href="{% url 'accounts:block_user_block' block_user.pk%}" class="btn btn-primary">차단 해제</a>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock content %}

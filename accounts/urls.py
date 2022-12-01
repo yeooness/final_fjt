@@ -17,11 +17,21 @@ urlpatterns = [
     # 비밀번호 변경
     path("<int:user_pk>/passwordchange/", views.passwordchange, name="passwordchange"),
     # 회원 탈퇴
-    path("<int:user_pk>/delete/", views.delete, name="delete"),
+    path("delete/", views.delete, name="delete"),
     # 반려동물 등록
     path("<int:user_pk>/pet_register/", views.pet_register, name="pet_register"),
+    # 반려동물 정보 수정
+    # path("<int:user_pk>/<int:pet_pk>/pet_update/", views.pet_update, name="pet_update"),
     # 팔로우
     path("<int:user_pk>/follow/", views.follow, name="follow"),
+    # 차단
+    path("<int:user_pk>/block/", views.block, name="block"),
+    path("block_user/", views.block_user, name="block_user"),
+    path(
+        "<int:user_pk>/block_user_block/",
+        views.block_user_block,
+        name="block_user_block",
+    ),
     # 카카오 로그인
     path("login/kakao/", views.kakao_request, name="kakao"),
     path("templates/accounts/login/kakao/callback", views.kakao_callback),

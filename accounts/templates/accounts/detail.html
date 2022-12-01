@@ -11,10 +11,30 @@
       {% endif %}
     </div>
     <p>{{ user.username }}</p>
-    <!-- 프로필 편집 / 팔로우 -->
+    <!-- 프로필 편집 / 팔로우 / 차단 -->
     <div>
       {% if request.user == user %}
         <a href="{% url 'accounts:update' user.pk %}" class="btn btn-primary">프로필 수정</a>
+        <a href="{% url 'accounts:block_user' %}" class="btn btn-primary">차단 회원 목록</a>
+        <a href="{% url 'accounts:delete' %}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">탈퇴하기</a>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">회원탈퇴</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                정말 탈퇴하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              </div>
+            </div>
+          </div>
+        </div>
       {% else %}
         <form id="follow-form" data-user-id='{{ user.pk }}'>
           {% csrf_token %}
@@ -24,6 +44,13 @@
             <input type="submit" class="btn btn-primary" value="팔로우">
           {% endif %}
         </form>
+        <a href="{% url 'accounts:block' user.pk %}">
+          {% if request.user in user.blockers.all %}
+            <input type="submit" class="btn btn-danger" value="차단 해제">
+          {% else %}
+            <input type="submit" class="btn btn-danger" value="차단">
+          {% endif %}
+        </a>
       {% endif %}
     </div>
 
@@ -40,9 +67,12 @@
     <!-- 반려동물 목록 -->
     <div>
       {% for user_pet in user_pets %}
+        {% if user_pet.pet_image %}
+          <img src="{{ user_pet.pet_image.url }}" alt="">
+        {% endif %}
         <p>{{ user_pet.petname }}</p>
       {% endfor %}
-      <a href="{% url 'accounts:pet_register' user.pk %}">반려동물 등록</a>
+      <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
     </div>
   </div>
 
@@ -56,6 +86,9 @@
         </div>
         <div class="modal-body d-flex flex-column">
           {% for follower in user_followers %}
+            {% if follower.profile_image %}
+              <img src="{{ follower.profile_image.url }}" alt="">
+            {% endif %}
             <div class="my-1">
               <a href="{% url 'accounts:detail' follower.pk %}">
                 <span class="ms-2" style="color: black;">{{ follower.username }}</span></a>
@@ -78,8 +111,11 @@
         </div>
         <div class="modal-body d-flex flex-column">
           {% for following in user_followings %}
+            {% if following.profile_image %}
+              <img src="{{ following.profile_image.url }}" alt="">
+            {% endif %}
             <div class="my-1">
-              <a href="{% url 'accounts:detail' following.pk %}"></a>
+              <a href="{% url 'accounts:detail' following.pk %}">{{ following.username }}</a>
             </div>
             {% empty %}
             <p>아직 팔로잉하는 회원이 없어요</p>
