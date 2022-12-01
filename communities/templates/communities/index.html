@@ -44,10 +44,10 @@
             <p class='badge'>인기</p>
             <p class='title'>
               <a href="{% url 'communities:detail' article.pk %}">
-                {{ article.title|truncatechars:15 }}
+                {{ article.title|truncatechars:14 }}
               </a>
             </p>
-            <p class='content'>{{ article.content|truncatechars:17 }}</p>
+            <p class='content'>{{ article.content|truncatechars:15 }}</p>
             <div class='foot'>
               <span>{{ article.updated_at|date:"Y.m.d" }}</span>
               <div class='like-comment'>

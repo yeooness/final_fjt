@@ -9,7 +9,7 @@
   position: relative;
 }
 .search_form .input-wrap #id_search_word {
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem 0.7rem;
   border: 2px solid #F6A9A8;
   border-radius: 1.5rem;
 }
@@ -144,7 +144,7 @@
 #total-articles article {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0.5rem;
+  padding: 1.5rem 0.5rem;
   border-bottom: 1px solid #D9D9D9;
 }
 #total-articles article .article-inner {
@@ -154,6 +154,7 @@
 #total-articles article .article-inner .title {
   margin-bottom: 0.1rem;
   font-weight: bold;
+  font-size: 18px;
 }
 #total-articles article .article-inner .title a:hover {
   color: #F6A9A8;

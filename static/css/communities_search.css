@@ -6,3 +6,56 @@
 .head .search-term {
   font-weight: 800;
 }
+
+/* 전체 게시글 */
+#total-articles {
+  margin-bottom: 3rem;
+}
+#total-articles article {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0.5rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#total-articles article .article-inner {
+  margin-right: 1rem;
+  width: 100%;
+}
+#total-articles article .article-inner .title {
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+  font-size: 18px;
+}
+#total-articles article .article-inner .title a:hover {
+  color: #F6A9A8;
+}
+#total-articles article .article-inner .content {
+  font-size: 0.9rem;
+  color: #5A5959;
+  text-align: left;
+}
+#total-articles article .article-inner .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  font-size: 0.6rem;
+  color: #5A5959;
+}
+#total-articles article .article-inner .foot .like-comment .bi-hand-thumbs-up,
+#total-articles article .article-inner .foot .like-comment .bi-chat-square {
+  font-size: 0.9rem;
+}
+#total-articles article .article-inner .foot .like-comment span:nth-of-type(1) {
+  margin-right: 0.5rem;
+}
+#total-articles article .article-image img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  object-fit: contain;
+}
+#total-articles .not-article {
+  text-align: center;
+  font-weight: 600;
+}
