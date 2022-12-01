@@ -4,6 +4,10 @@
 {% load widget_tweaks %}
 
 {% block css %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+/>
 <link rel="stylesheet" href="{% static 'css/communities_index.css' %}">
 {% endblock css %}
 
@@ -14,7 +18,7 @@
     {% csrf_token %}
     <div class='input-wrap'>
       {{ search_form.search_word|append_attr:'placeholder:검색하세요.' }}
-      <input type="submit" value="검색">
+      <button type="submit"><i class="bi bi-search-heart"></i></button>
     </div>
   </form>
   {% comment %} 카테고리 탭 {% endcomment %}
@@ -29,11 +33,38 @@
   {% comment %} 인기글 {% endcomment %}
   <section id='popular-articles'>
     <h4 class='head'>인기글<span class="small">(좋아요순)</span></h4>
-    <div>
-      {% for article in articles_ordered_by_like %}
-        {{ article.title }}
-        {{ article.like_users.count }}
-      {% endfor %}
+
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        {% for article in articles_ordered_by_like %}
+        <div class="swiper-slide">
+          <article>
+            <p class='badge'>인기</p>
+            <p class='title'>
+              <a href="{% url 'communities:detail' article.pk %}">
+                {{ article.title|truncatechars:15 }}
+              </a>
+            </p>
+            <p class='content'>{{ article.content|truncatechars:17 }}</p>
+            <div class='foot'>
+              <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+              <div class='like-comment'>
+                <span>
+                  <i class="bi bi-hand-thumbs-up"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span>
+                  <i class="bi bi-chat-square"></i>
+                  {{ article.comment_set.count }}
+                </span>
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-scrollbar"></div>
     </div>
   </section>
 
@@ -115,5 +146,6 @@
 {% endblock content %}
 
 {% block js %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="{% static 'js/communities_index.js' %}"></script>
 {% endblock js %}
