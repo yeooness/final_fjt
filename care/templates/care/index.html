@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+  {% for c in care %}
+  <a href="{% url 'care:detail' c.pk %}">
+    <h3>{{ c.title }}</h3>
+  </a>
+  <!-- 글 이미지 노출 사이즈 조절 필요 -->
+  <!-- {% if c.image %}
+  <div class="d-flex justify-content-center">
+    <img src="{{ c.image.url }}" alt="{{ c.image }}" class="container px-0">
+  </div>
+  {% else %}
+  <div class="d-flex justify-content-center">
+    <img src="" alt="">
+  </div>
+  {% endif %} -->
+  {% endfor %}
+</div>
+
+<div class="me-5">
+  <a class="btn btn-outline-dark" href="{% url 'care:create' %}">
+    글쓰기
+  </a>
+</div>
+
+
+{% endblock %}
