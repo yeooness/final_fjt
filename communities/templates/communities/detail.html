@@ -1,159 +1,162 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/communities_detail.css' %}">
+{% endblock css %}
 
 {% block content %}
-<div class="container">
-  <div>
-    {{ community.title }}
-  </div>
-  <div>
-    {{ community.content}}
-  </div>
-  <div>
-    {{ community.community }}
-  </div>
-  <div>
-    {{ community.created_at }}
-    {{ community.updated_at }}
-  </div>
-  {{ community.image }}
-
-  <!-- tag -->
-  {% if community.tags.all %}
-  {% for tag in community.tags.all %}
-  <h4><a style="text-decoration: none" href="{% url 'communities:tagged_object_list' tag.name %}">
-      <span class="badge rounded-pill bg-primary">
-        #{{ tag.name }}
-      </span>
-    </a>
-  </h4>
-  {% endfor %}
-  <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a>
-  {% endif %}
-</div>
-
-<!-- 수정/삭제 버튼 -->
-<div class="text-end me-5">
-  <a class="btn btn-outline-dark" href="{% url 'communities:update' community.pk %}">
-    수정
-  </a>
-  <a class="btn btn-outline-dark" href="{% url 'communities:delete' community.pk %}">
-    삭제
-  </a>
-</div>
-
-    {% for comment in comments %}
-    <!-- 프로필 사진 넣을 때 사용 -->
-      {% comment %} <div>
-        {% if comment.user.profile.image %}
-          <a href="{% url 'accounts:profile' comment.user.username %}"><img src="{{ 주소추가 }}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
-        {% else %}
-          <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
-        {% endif %}
-        <span>{{comment.user}}</span>
-      </div> {% endcomment %}
-      <div>{{ comment.created_at|date:"o-m-d" }}
-        {{ comment.created_at|time:"H:i" }}</div>
-      <div>
-        {{ comment.content }}
+<main class="container" style='max-width:40rem;'>
+  {% comment %} 헤더 {% endcomment %}
+  <section id='head'>
+    <div class='category-btns'>
+      <p class='category'>{{ community.community }}</p>
+      <!-- 수정/삭제 버튼 -->
+      {% if request.user == community.user %}
+      <div class='update-delete-btn'>
+        <a class='update-btn' href="{% url 'communities:update' community.pk %}">수정</a>
+        |
+        <!-- Button trigger modal -->
+        <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          삭제
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">정말로 삭제하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                해당 게시물을 삭제하면 관련 댓글도 전부 지워집니다.<br>
+                정말로 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'communities:delete' community.pk %}" method='POST'>
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">삭제</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      {% if request.user == comment.user %}
+      {% endif %}
+    </div>
+    <h3 class='title'>{{ community.title }}</h3>
+    <div class='detail-info'>
+      <div class='writer-info'>
+        <a href="{% url 'accounts:detail' community.user.pk %}">
+          {% if community.user.profile_image %}
+          <img class='writer-img' src="{{ community.user.profile_image.url }}" alt="">
+          {% else %}
+          <i class="bi bi-person-circle"></i>
+          {% endif %}
+        </a>
+        <div class='writer-date'>
+          <p>{{ community.user.username }}</p>
+          <p class='date'>{{ community.updated_at|date:"Y.m.d" }}</p>
+        </div>
+      </div>
+      <!-- 좋아요 -->
+      <div>
+        {% if request.user.is_authenticated %}
+        {% if request.user in community.like_users.all %}
+        <i data-community-id="{{ community.pk }}" class="bi bi-heart-fill like-btn"></i>
+        {% else %}
+        <i data-community-id="{{ community.pk }}" class="bi bi-heart like-btn"></i>
+        {% endif %}
+        {% endif %}
+        <span id="like-count">{{ community.like_users.count }}</span>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} 내용 {% endcomment %}
+  <section id='article-content'>
+    <p>{{ community.content}}</p>
+    {% if community.image %}
+    <img src="{{ community.image.url }}" alt="">
+    {% endif %}
+    <!-- tag -->
+    {% if community.tags.all %}
+    <div class='tags'>
+      {% for tag in community.tags.all %}
+      <a class='tag' href="{% url 'communities:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
+      {% endfor %}
+      {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
+    </div>
+    {% endif %}
+  </section>
+
+  {% comment %} 댓글 {% endcomment %}
+  <section id='article-comment'>
+    <div class='head'>
+      <i class="bi bi-chat-square"></i>
+      <span>{{ community.comment_set.count }}</span>
+    </div>
+    <div class='body'>
+      <!-- 댓글 작성 폼 -->
+      {% if request.user.is_authenticated %}
+      <form class='comment-form' action="{% url 'communities:comment_create' community.pk %}" method="POST">
+        {% csrf_token %}
+        <div class='row g-0'>
+          <div class='col-11'>
+            {{ form.content|attr:'rows:1'|attr:'placeholder:댓글을 남겨보세요.' }}
+          </div>
+          <div class='col-1'>
+            <input type="submit" value="저장">
+          </div>
+        </div>
+      </form>
+      {% endif %}
+      <!-- 작성된 댓글 -->
+      {% for comment in comments %}
+      <article>
+        <div class='writer-info'>
+          <a href="{% url 'accounts:detail' comment.user.pk %}">
+            {% if comment.user.profile_image %}
+            <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
+            {% else %}
+            <i class="bi bi-person-circle"></i>
+            {% endif %}
+          </a>
+          <div class='detail'>
+            <p>{{ comment.user.username }}</p>
+            <p class='date'>
+              {{ comment.created_at|date:"Y.m.d" }} 
+              {{ comment.created_at|time:"H:i" }}
+            </p>
+            <p>{{ comment.content }}</p>
+          </div>
+        </div>
+        {% if request.user == comment.user %}
         <form action="{% url "communities:comment_delete" community.pk comment.pk %}" method="POST">
           {% csrf_token %}
-          <input type="submit" value="삭제">
+          <input class='delete-btn' type="submit" value="삭제">
         </form>
-      {% endif %}
-      <hr>
+        {% endif %}
+      </article>
       {% empty %}
       <p>댓글이 없습니다.</p>
     {% endfor %}
-  </div>
+  </section>
+
   
-<!-- 좋아요 -->
-<div>
-  {% if request.user.is_authenticated %}
-  {% if request.user in community.like_users.all %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart-fill like-btn"></i>
-  {% else %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart like-btn"></i>
-  {% endif %}
-  {% endif %}
-  <span id="like-count">{{ community.like_users.count }}</span>
-</div>
-
-<!-- 리뷰 작성-->
-<div>
-  <h4>리뷰 작성</h4>
-  {% if request.user.is_authenticated %}
-  <form action="{% url 'communities:comment_create' community.pk %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <br>
-    <input type="submit" value="작성">
-  </form>
-  {% endif %}
-</div>
-
-{% for comment in comments %}
-{% comment %} <div>
-  {% if comment.user.profile.image %}
-  <a href="{% url 'accounts:profile' comment.user.username %}"><img src="#" class="rounded-circle" alt=""
-      style="height: 40px; width:40px;"></a>
-  {% else %}
-  <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt=""
-    style="height: 40px; width:40px;"></a>
-  {% endif %}
-  <span>{{comment.user}}</span>
-</div> {% endcomment %}
-<div>{{ comment.created_at|date:"o-m-d" }}
-  {{ comment.created_at|time:"H:i" }}</div>
-<div>
-  {{ comment.content }}
-</div>
-{% if request.user == comment.user %}
-<form action="{% url "communities:comment_delete" community.pk comment.pk %}" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="삭제">
-</form>
-{% endif %}
-<hr>
-{% empty %}
-<p>댓글이 없습니다.</p>
-{% endfor %}
-</div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  const likeBtn = document.querySelector('.like-btn')
-  likeBtn.addEventListener('click', function (event) {
-    console.log(event.target.dataset)
-    axios({ method: 'get', url: `/communities/${event.target.dataset.communityId}/like/` }).then(response => {
-      console.log(response)
-      console.log(response.data)
-      console.log(response.data.is_liked)
-      if (response.data.is_liked === true) {
-        event
-          .target
-          .classList
-          .add('bi-heart-fill')
-        event
-          .target
-          .classList
-          .remove('bi-heart')
-      } else {
-        event
-          .target
-          .classList
-          .add('bi-heart')
-        event
-          .target
-          .classList
-          .remove('bi-heart-fill')
-      }
-      const likeCount = document.querySelector('#like-count')
-      likeCount.innerText = response.data.likeCount
-    })
-  })
-</script>
+
+
+
+
+</main>
 {% endblock content %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/communities_detail.js' %}"></script>
+{% endblock js %}
