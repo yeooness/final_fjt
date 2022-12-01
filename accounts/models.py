@@ -32,6 +32,10 @@ class User(AbstractUser):
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
     )
+    # 차단
+    blocking = models.ManyToManyField(
+        "self", symmetrical=False, related_name="blockers"
+    )
     # 프로필 이미지
     profile_image = ProcessedImageField(
         upload_to="images/accounts/",
@@ -51,6 +55,14 @@ class User(AbstractUser):
 
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pet")
+    # 이미지
+    pet_image = ProcessedImageField(
+        upload_to="images/accounts_pet/",
+        blank=True,
+        processors=[ResizeToFill(200, 200)],
+        format="JPEG",
+        options={"quality": 100},
+    )
     # 반려동물 이름
     petname = models.CharField(max_length=25)
     # 반려동물 나이
