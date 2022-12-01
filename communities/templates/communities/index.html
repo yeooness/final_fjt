@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/communities_index.css' %}">
+{% endblock css %}
 
 {% block content %}
+  {% comment %} 검색 {% endcomment %}
+  <form action="{% url 'communities:search' %}" method="post" class='search_form'>
+    {% csrf_token %}
+    <div class='input-wrap'>
+      {{ search_form.search_word|append_attr:'placeholder:검색하세요.' }}
+      <input type="submit" value="검색">
+    </div>
+  </form>
+
+
+
+
   <div>
     <a href="{% url 'communities:create' %}">글쓰기</a>
     <!-- 모두보기-->
