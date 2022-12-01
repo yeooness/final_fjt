@@ -111,7 +111,7 @@
   {{ comment.content }}
 </div>
 {% if request.user == comment.user %}
-<form action="{% url " communities:comment_delete" community.pk comment.pk %}" method="POST">
+<form action="{% url "communities:comment_delete" community.pk comment.pk %}" method="POST">
   {% csrf_token %}
   <input type="submit" value="삭제">
 </form>
