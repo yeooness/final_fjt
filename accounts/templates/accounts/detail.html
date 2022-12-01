@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 
 {% block content %}
   <div class="container">
@@ -76,6 +77,12 @@
     </div>
   </div>
 
+  <!-- 지도 -->
+  <div class="mx-5">
+    <div id="map" style="width:500px; height:500px;"></div>
+  </div>
+
+  <!-- 모달 -->
   <!-- 팔로워 리스트 모달 -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
@@ -125,6 +132,7 @@
     </div>
   </div>
 
+  <!-- JS -->
   <!-- 팔로우/팔로우취소 비동기 처리 -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
@@ -177,4 +185,14 @@
           })
         });
   </script>
+
+  <!-- JQuery -->
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+  <!-- 지도 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07bcad82e2f9f74b80e88e8fad16a1b2&libraries=services,clusterer,drawing"></script>
+  <script src="{% static 'js/accounts_map.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/accounts_map.css' %}">
 {% endblock content %}
