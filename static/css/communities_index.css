@@ -9,20 +9,23 @@
   position: relative;
 }
 .search_form .input-wrap #id_search_word {
-  padding: 0.3rem;
+  padding: 0.3rem 0.5rem;
   border: 2px solid #F6A9A8;
+  border-radius: 1.5rem;
 }
 .search_form .input-wrap #id_search_word:focus {
   outline: none;
 }
-.search_form .input-wrap input[type='submit'] {
+.search_form .input-wrap button[type='submit'] {
   position: absolute;
   right: 0;
   width: 3rem;
   height: 100%;
   background-color: #F6A9A8;
   border: none;
+  border-radius: 0 1.5rem 1.5rem 0;
   color: white;
+  font-size: 1.2rem;
 }
 
 /* 카테고리 탭 */
@@ -62,4 +65,153 @@
 #popular-articles .head .small {
   font-size: 0.5rem;
   color: #5A5959;
+}
+#popular-articles .swiper {
+  width: 100%;
+  height: 100%;
+}
+#popular-articles .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+#popular-articles article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid #D9D9D9;
+  border-radius: 1rem;
+  box-shadow: 0.05rem 0.05rem 0.2rem 0.2rem rgb(0 0 0 / 8%);
+}
+#popular-articles article .badge {
+  margin-bottom: 0.5rem;
+  width: 3rem;
+  background-color: #F6A9A8;
+  border-radius: 1rem;
+}
+#popular-articles article .title {
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+}
+#popular-articles article .title a:hover {
+  color: #F6A9A8;
+}
+#popular-articles article .content {
+  font-size: 0.9rem;
+  color: #5A5959;
+  text-align: left;
+}
+#popular-articles article .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  font-size: 0.6rem;
+  color: #5A5959;
+}
+#popular-articles article .foot .like-comment .bi-hand-thumbs-up,
+#popular-articles article .foot .like-comment .bi-chat-square {
+  font-size: 0.9rem;
+}
+#popular-articles article .foot .like-comment span:nth-of-type(1) {
+  margin-right: 0.5rem;
+}
+
+/* 전체 게시글 */
+#total-articles {
+  margin-bottom: 3rem;
+}
+#total-articles .head {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+#total-articles article {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#total-articles article .article-inner {
+  margin-right: 1rem;
+  width: 100%;
+}
+#total-articles article .article-inner .title {
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+}
+#total-articles article .article-inner .title a:hover {
+  color: #F6A9A8;
+}
+#total-articles article .article-inner .content {
+  font-size: 0.9rem;
+  color: #5A5959;
+  text-align: left;
+}
+#total-articles article .article-inner .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  font-size: 0.6rem;
+  color: #5A5959;
+}
+#total-articles article .article-inner .foot .like-comment .bi-hand-thumbs-up,
+#total-articles article .article-inner .foot .like-comment .bi-chat-square {
+  font-size: 0.9rem;
+}
+#total-articles article .article-inner .foot .like-comment span:nth-of-type(1) {
+  margin-right: 0.5rem;
+}
+#total-articles article .article-image img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  object-fit: contain;
+}
+#total-articles .writing-btn {
+  display: inline-block;
+  position: sticky;
+  top: 90px;
+  padding: 0.5rem 0;
+  width: 100%;
+  border-radius: 1rem;
+  background-color: #EB7D80;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5rem;
+}
+#total-articles .writing-btn:hover {
+  background-color: #C0686A;
+}
+/* 페이지네이션 */
+#total-articles .pagination .page-item .page-link {
+  color: #EB7D80;
+}
+#total-articles .pagination .page-item .page-link:focus {
+  box-shadow: none;
+}
+#total-articles .pagination .page-item.disabled .page-link {
+  color: #5A5959;
+}
+#total-articles .pagination .page-item.active .page-link {
+  border: 1px solid #EB7D80;
+  background-color: #EB7D80;
+  color: white;
 }

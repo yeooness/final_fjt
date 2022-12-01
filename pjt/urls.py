@@ -27,4 +27,5 @@ urlpatterns = [
     path("dogwalking/", include("dogwalking.urls")),
     path("journal/", include("journal.urls")),
     path("notes/", include("notes.urls")),
+    path("care/", include("care.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

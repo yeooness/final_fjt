@@ -6,6 +6,7 @@ from .forms import (
     CustomUserChangeForm,
     CustomPasswordChangeForm,
     CustomPetCreationForm,
+    CustomPetChangeForm,
 )
 from django.contrib.auth import (
     authenticate,
@@ -55,7 +56,7 @@ def login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('communities:index')
+            return redirect("communities:index")
     else:
         form = AuthenticationForm()
     context = {"form": form}
@@ -65,7 +66,8 @@ def login(request):
 # 로그아웃
 def logout(request):
     auth_logout(request)
-    return redirect('communities:index')
+    return redirect("communities:index")
+
 
 # 회원정보 페이지
 def detail(request, user_pk):
@@ -95,16 +97,34 @@ def detail(request, user_pk):
 # 반려동물 등록
 def pet_register(request, user_pk):
     if request.method == "POST":
-        form = CustomPetCreationForm(request.POST)
+        form = CustomPetCreationForm(request.POST, request.FILES)
         if form.is_valid():
             pet = form.save(commit=False)
             pet.user = request.user
-            form.save()
-            return redirect("communities:index")
+            pet.save()
+            return redirect("accounts:detail", request.user.pk)
     else:
         form = CustomPetCreationForm()
     context = {"form": form}
     return render(request, "accounts/pet_register.html", context)
+
+
+# 반려동물 정보 수정
+def pet_update(request, pet_pk):
+    pet = get_object_or_404(Pet, pk=pet_pk)
+    if request.method == "POST":
+        form = CustomPetChangeForm(request.POST, request.FILES, instance=pet)
+        if form.is_valid():
+            pet = form.save(commit=False)
+            pet.user = request.user
+            pet.save()
+            return redirect("accounts:detail", request.user.pk)
+    else:
+        form = CustomPetChangeForm()
+    context = {
+        "form": form,
+    }
+    return render(request, "accounts/pet_update.html", context)
 
 
 # 회원 정보 수정
@@ -112,7 +132,6 @@ def update(request, user_pk):
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            form.save()
             user = form.save(commit=False)
             user.address = (
                 request.POST.get("postcode")
@@ -129,9 +148,9 @@ def update(request, user_pk):
 
 
 # 회원 탈퇴
-def delete(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-    user.delete()
+@login_required
+def delete(request):
+    request.user.delete()
     auth_logout(request)
     return redirect("communities:index")
 
@@ -174,6 +193,40 @@ def follow(request, user_pk):
             return JsonResponse(context)
         return redirect("accounts:detail", you.username)
     return redirect("accounts:login")
+
+
+# 차단
+@login_required
+def block(request, user_pk):
+    user = get_user_model().objects.get(pk=user_pk)
+    if user != request.user:
+        if user.blockers.filter(pk=request.user.pk).exists():
+            user.blockers.remove(request.user)
+            user.save()
+        else:
+            user.blockers.add(request.user)
+            user.save()
+    return redirect("accounts:detail", user_pk)
+
+
+@login_required
+def block_user(request):
+    blockers = request.user.blocking.all()
+    context = {"blockers": blockers}
+    return render(request, "accounts/block_user.html", context)
+
+
+@login_required
+def block_user_block(request, user_pk):
+    user = get_user_model().objects.get(pk=user_pk)
+    if user != request.user:
+        if user.blockers.filter(pk=request.user.pk).exists():
+            user.blockers.remove(request.user)
+            user.save()
+        else:
+            user.blockers.add(request.user)
+            user.save()
+    return redirect("accounts:block_user")
 
 
 # 소셜 로그인 연동
