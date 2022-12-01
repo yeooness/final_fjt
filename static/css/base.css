@@ -5,6 +5,7 @@
   align-items: center;
   position: sticky;
   top: 0;
+  z-index: 3;
   background-color: rgba(255, 255, 255, 0.938);  
 }
 #main-header .logo-category {
@@ -76,6 +77,11 @@
   #main-header .offcanvas-body ul.authenticate {
     display: flex;
   }
+}
+
+/* 메인 */
+.base-main {
+  min-height: 70vh;
 }
 
 /* 푸터 */

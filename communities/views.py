@@ -13,35 +13,19 @@ from django.db.models import Q
 
 def index(request):
     search_form = PostSearchForm()
-
-    communities = Community.objects.order_by("-pk") # 전체
-    # communities_like = Community.objects.order_by("-like_users")[:4]
+    name = request.GET.get("board", '자유게시판')
+    communities = Community.objects.filter(community=name).order_by("-pk")
 
     # 카테고리
     community_name = "모든게시판"
     community_list = ["자유게시판", "후기게시판", "질문게시판", "지식정보"]
     
+    # 페이지네이션
     paginator = Paginator(communities, 10)
-    page_number = request.GET.get("board")
+    page_number = request.GET.get('page', '1')
     page_obj = paginator.get_page(page_number)
 
-    if request.GET.get("board"): 
-        name = re.sub(r"[0-9]","",request.GET.get("board"))
-        communities = (
-            Community.objects.filter(community__contains=name).order_by("-pk")
-        )
-
-        if not name:
-            community_name = "모든게시판"
-        else:
-            community_name = name
-
-        # 페이지네이션
-        paginator = Paginator(communities, 10)
-        page_number = request.GET.get("board")
-        page_obj = paginator.get_page(page_number)  # 숫지만
-
-        context = {
+    context = {
             "name": name,
             # "communities_like": communities_like,
             "communities": communities,
@@ -50,18 +34,8 @@ def index(request):
             "page_obj": page_obj,
             "search_form": search_form,
         }
-        return render(request, "communities/index.html", context)
-    
-    else:
-        context = {
-            # "communities_like": communities_like,
-            "communities": communities,
-            "community_name": community_name,
-            "community_list": community_list,
-            "page_obj": page_obj,
-            "search_form": search_form,
-        }
-        return render(request, "communities/index.html", context)
+
+    return render(request, "communities/index.html", context)
 
 dic = {
     "0": "zero",

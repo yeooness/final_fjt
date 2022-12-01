@@ -8,6 +8,7 @@
 {% endblock css %}
 
 {% block content %}
+<main class='container'>
   {% comment %} 검색 {% endcomment %}
   <form action="{% url 'communities:search' %}" method="post" class='search_form'>
     {% csrf_token %}
@@ -16,33 +17,32 @@
       <input type="submit" value="검색">
     </div>
   </form>
-
-
-
-
-  <div>
-    <a href="{% url 'communities:create' %}">글쓰기</a>
-    <!-- 모두보기-->
-    <form action="{% url 'communities:index' %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="전체">
-    </form>
-    <!-- 게시판 별로 나누기-->
+  {% comment %} 카테고리 탭 {% endcomment %}
+  <ul class='board-tab'>
+    <input type="hidden" id='current-board' value='{{ name }}'>
     {% for board in community_list %}
-      <span>
-        <a href="?board={{ board }}">{{ board }}</a>
-      </span>
+    <li>
+      <a href="?board={{ board }}" class='board {{ board }}'>{{ board }}</a>
+    </li>
     {% endfor %}
-  </div>
-
-  <div>
-    <h3>인기글<span class="small">(좋아요순)</span></h3>
+  </ul>
+  {% comment %} 인기글 {% endcomment %}
+  <section id='popular-articles'>
+    <h4 class='head'>인기글<span class="small">(좋아요순)</span></h4>
     <div>
       {% for community in communities %}
         {{ community.like_users.count }}
       {% endfor %}
     </div>
-  </div>
+  </section>
+
+
+
+
+
+
+  <a href="{% url 'communities:create' %}">글쓰기</a>
+  
 
   <div>
     {% for community in page_obj %}
@@ -55,7 +55,7 @@
         </h3>
       </div>
     </div>
-  {% endfor %}
+    {% endfor %}
 
   <div class="d-flex justify-content-center mt-4">
     <div class="pagination">
@@ -100,6 +100,8 @@
     </div>
   </div>
 </div>
+</main>
+
 
 <!-- <script>
   const like = {{ community.like_users.count }};
@@ -110,3 +112,7 @@
   like.sort((a,b) => b-a);
 </script> -->
 {% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/communities_index.js' %}"></script>
+{% endblock js %}

@@ -2,7 +2,7 @@
 .search_form {
   display: flex;
   justify-content: end;
-  margin-right: 1rem;
+  margin: 2rem 0;
 }
 .search_form .input-wrap {
   display: inline-block;
@@ -23,4 +23,43 @@
   background-color: #F6A9A8;
   border: none;
   color: white;
+}
+
+/* 카테고리 탭 */
+.board-tab {
+  display: flex;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.board-tab li {
+  display: inline-block;
+  width: 25%;
+  border: 1px solid #F6A9A8;
+  border-right: none;
+  text-align: center;
+}
+.board-tab li:last-of-type {
+  border-right: 1px solid #F6A9A8;
+}
+.board-tab li a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-weight: 600;
+}
+.board-tab li a:hover, .board-tab li a.active {
+  background-color: #F6A9A8;
+  color: white;
+}
+
+/* 인기글 */
+#popular-articles {
+  margin-bottom: 3rem;
+}
+#popular-articles .head {
+  font-weight: 600;
+}
+#popular-articles .head .small {
+  font-size: 0.5rem;
+  color: #5A5959;
 }
