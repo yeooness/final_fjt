@@ -141,8 +141,11 @@
         </form>
         {% endif %}
       </article>
-      {% empty %}
-      <p>댓글이 없습니다.</p>
+    {% empty %}
+      <div class='no-comment'>
+        <p><i class="bi bi-chat-square-text-fill"></i></p>
+        <p class='text'>첫 댓글을 남겨주세요.</p>
+      </div>
     {% endfor %}
   </section>
 </main>

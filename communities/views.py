@@ -20,7 +20,7 @@ def index(request):
     communities_pet = Community.objects.filter(pet_species=pet_name)
     communities_pet_by_pk = communities_pet.order_by("-pk")
     articles_ordered_by_pk = communities.order_by("-pk")
-    articles_ordered_by_like = communities.annotate(like_users_cnt=Count('like_users')).order_by("-like_users_cnt")
+    articles_ordered_by_like = communities.annotate(like_users_cnt=Count('like_users')).order_by("-like_users_cnt")[:8]
 
     # 카테고리
     community_name = "모든게시판"

@@ -154,3 +154,20 @@
   background-color: white;
   color: #5A5959;
 }
+#article-comment .body .no-comment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  border: 1px solid #D9D9D9;
+}
+#article-comment .body .no-comment .bi-chat-square-text-fill {
+  margin: 0;
+  font-size: 2rem;
+  color: #F6A9A8;
+}
+#article-comment .body .no-comment .text {
+  margin: 0;
+  color: #D9D9D9;
+}

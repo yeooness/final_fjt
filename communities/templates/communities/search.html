@@ -6,24 +6,47 @@
 {% endblock css %}
 
 {% block content %}
-  <main class='container'>
-    <h3 class='head'>
-      '<span class='search-term'>{{ search_term }}</span>'에 대한 검색 결과
-    </h3>
+<main class='container'>
+  {% comment %} 헤더 {% endcomment %}
+  <h3 class='head'>
+    '<span class='search-term'>{{ search_term }}</span>'에 대한 검색 결과
+  </h3>
 
+  {% comment %} 전체 게시글 {% endcomment %}
+  <section id='total-articles'>
     {% if object_list %}
-      {% for community in object_list %}
-        <h5>
-          <a href='{% url "communities:detail" community.pk %}'>{{ community.title }}</a>
-        </h5>
-        {{ community.modify_date|date:"N d, Y" }}
-        <p>{{ community.content }}</p>
+      {% for article in object_list %}
+      <article>
+        <div class='article-inner'>
+          <p class="title">
+            <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+          </p>
+          <p class='content'>{{ article.content|truncatechars:200 }}</p>
+          <div class='foot'>
+            <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+            <div class='like-comment'>
+              <span>
+                <i class="bi bi-hand-thumbs-up"></i>
+                {{ article.like_users.count }}
+              </span>
+              <span>
+                <i class="bi bi-chat-square"></i>
+                {{ article.comment_set.count }}
+              </span>
+            </div>
+          </div>
+        </div>
+        {% if article.image %}
+        <div class='article-image'>
+          <img src="{{ article.image.url }}" alt="" style="width: 100px; height: 100px;">
+        </div>
+        {% endif %}
+      </article>
       {% endfor %}
+    <!-- 검색란이 공란인지 확인-->
     {% elif search_term %}
-      <!-- 검색란이 공란인지 확인-->
-      <b>
-        <i>Search Word({{ search_term }}) Not Found</i>
-      </b>
-    {% endif %}
-  </main>
+    <p class='not-article'><i>Search Word({{ search_term }}) Not Found</i></p>
+  {% endif %}
+  </section>
+</main>
 {% endblock %}
