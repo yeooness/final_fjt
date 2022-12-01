@@ -21,6 +21,7 @@
       <button type="submit"><i class="bi bi-search-heart"></i></button>
     </div>
   </form>
+
   {% comment %} 카테고리 탭 {% endcomment %}
   <ul class='board-tab'>
     <input type="hidden" id='current-board' value='{{ name }}'>
@@ -30,10 +31,10 @@
     </li>
     {% endfor %}
   </ul>
+
   {% comment %} 인기글 {% endcomment %}
   <section id='popular-articles'>
     <h4 class='head'>인기글<span class="small">(좋아요순)</span></h4>
-
     <!-- Swiper -->
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -68,81 +69,89 @@
     </div>
   </section>
 
-
-
-
-
-
-  <a href="{% url 'communities:create' %}">글쓰기</a>
-  
-
-  <div>
-    {% for community in page_obj %}
-      <div class="row card">
-        {% if community.image %}
-          <img src="{{ community.image.url }}" alt="" style="width: 100px; height: 100px;">
-        {% endif %}
-        <h3>
-          <a class="text-decoration-none" href="{% url "communities:detail" community.pk %}">{{ community.title }}</a>
-        </h3>
+  {% comment %} 전체 게시글 {% endcomment %}
+  <section id='total-articles'>
+    <h4 class='head'>전체 게시글</h4>
+    <div class='row'>
+      <div class='col col-9'>
+        {% for article in page_obj %}
+        <article>
+          <div class='article-inner'>
+            <p class="title">
+              <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+            </p>
+            <p class='content'>{{ article.content|truncatechars:200 }}</p>
+            <div class='foot'>
+              <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+              <div class='like-comment'>
+                <span>
+                  <i class="bi bi-hand-thumbs-up"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span>
+                  <i class="bi bi-chat-square"></i>
+                  {{ article.comment_set.count }}
+                </span>
+              </div>
+            </div>
+          </div>
+          {% if article.image %}
+          <div class='article-image'>
+            <img src="{{ article.image.url }}" alt="" style="width: 100px; height: 100px;">
+          </div>
+          {% endif %}
+        </article>
+        {% endfor %}
+        {% comment %} 페이지네이션 {% endcomment %}
+        <div class="d-flex justify-content-center mt-4">
+          <div class="pagination">
+            <span class="stap-links">
+              <ul class="pagination justify-content-center">
+                <!-- 이전페이지 -->
+                {% if page_obj.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?board={{name}}&page={{ page_obj.previous_page_number }}">이전</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                  </li>
+                {% endif %}
+      
+                {% for page_number in page_obj.paginator.page_range %}
+                  {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
+                    {% if page_number == page_obj.number %}
+                      <li class="page-item active" aria-current='page'>
+                        <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
+                      </li>
+                    {% else %}
+                      <li class="page-item">
+                        <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
+                      </li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+      
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?board={{name}}&page={{ page_obj.next_page_number }}">다음</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                </li>
+                {% endif %}
+              </ul>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class='col col-3'>
+        <a class='writing-btn' href="{% url 'communities:create' %}">글작성</a>
       </div>
     </div>
-    {% endfor %}
-
-  <div class="d-flex justify-content-center mt-4">
-    <div class="pagination">
-      <span class="stap-links">
-        <ul class="pagination justify-content-center">
-          <!-- 이전페이지 -->
-          {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a class="page-link text-praimary" href="?board={{name}}{{ page_obj.previous_page_number }}">이전</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-            </li>
-          {% endif %}
-
-          {% for page_number in page_obj.paginator.page_range %}
-            {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
-              {% if page_number == page_obj.number %}
-                <li class="page-item active" aria-current='page'>
-                  <a class="page-link text-bg-praimary border-praimary" href="?board={{name}}{{ page_number }}">{{ page_number }}</a>
-                </li>
-              {% else %}
-                <li class="page-item">
-                  <a class="page-link text-praimary" href="?board={{name}}{{ page_number }}">{{ page_number }}</a>
-                </li>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-
-          {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link text-bg-praimary border-praimary" href="?board={{name}}{{ page_obj.next_page_number }}">다음</a>
-          </li>
-          {% else %}
-          <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-          </li>
-          {% endif %}
-        </ul>
-      </span>
-    </div>
-  </div>
-</div>
+  </section>
 </main>
-
-
-<!-- <script>
-  const like = {{ community.like_users.count }};
-  like.sort();
-  like.sort(function(a, b){
-	return b-a; // (내림차순)
-  });
-  like.sort((a,b) => b-a);
-</script> -->
 {% endblock content %}
 
 {% block js %}
