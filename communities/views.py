@@ -12,6 +12,8 @@ from django.db.models import Q
 
 
 def index(request):
+    search_form = PostSearchForm()
+
     communities = Community.objects.order_by("-pk") # 전체
     # communities_like = Community.objects.order_by("-like_users")[:4]
 
@@ -46,6 +48,7 @@ def index(request):
             "community_name": community_name,
             "community_list": community_list,
             "page_obj": page_obj,
+            "search_form": search_form,
         }
         return render(request, "communities/index.html", context)
     
@@ -56,6 +59,7 @@ def index(request):
             "community_name": community_name,
             "community_list": community_list,
             "page_obj": page_obj,
+            "search_form": search_form,
         }
         return render(request, "communities/index.html", context)
 

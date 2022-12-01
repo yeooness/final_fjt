@@ -1,0 +1,26 @@
+/* 검색 */
+.search_form {
+  display: flex;
+  justify-content: end;
+  margin-right: 1rem;
+}
+.search_form .input-wrap {
+  display: inline-block;
+  position: relative;
+}
+.search_form .input-wrap #id_search_word {
+  padding: 0.3rem;
+  border: 2px solid #F6A9A8;
+}
+.search_form .input-wrap #id_search_word:focus {
+  outline: none;
+}
+.search_form .input-wrap input[type='submit'] {
+  position: absolute;
+  right: 0;
+  width: 3rem;
+  height: 100%;
+  background-color: #F6A9A8;
+  border: none;
+  color: white;
+}
