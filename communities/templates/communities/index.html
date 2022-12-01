@@ -37,8 +37,23 @@
     </div>
   </section>
 
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="?pet=강아지">강아지</a></li>
+      <li><a class="dropdown-item" href="?pet=고양이">고양이</a></li>
+    </ul>
+  </div>
 
-
+  {% comment %} <ul class='board-tab'>
+    <input type="hidden" id='current-board' value='{{ pet_name }}'>
+    {% for pet in pet_list %}
+    <li>
+      <a href="?pet={{ pet }}" class='pet {{ pet }}'>{{ pet }}</a>
+    </li>
+    {% endfor %}
+  </ul> {% endcomment %}
 
 
 

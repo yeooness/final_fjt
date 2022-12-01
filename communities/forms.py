@@ -7,6 +7,7 @@ class CommunityForm(forms.ModelForm):
         model = Community
         fields = [
             "community",
+            "pet_species",
             "title",
             "content",
             "image",
@@ -15,6 +16,7 @@ class CommunityForm(forms.ModelForm):
 
         labels = {
             "community": "게시판 선택",
+            "pet_species": "선택",
             "title": "제목",
             "content": "내용",
             "image": "이미지",

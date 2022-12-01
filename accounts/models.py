@@ -10,8 +10,7 @@ from imagekit.processors import ResizeToFill
 class User(AbstractUser):
     pass
     # 이름
-    last_name = models.CharField(max_length=25)
-    first_name = models.CharField(max_length=25)
+    nickname = models.CharField(max_length=40, blank=True)
     # 나이
     age = models.IntegerField(
         default=0, validators=[MaxValueValidator(100), MinValueValidator(1)]

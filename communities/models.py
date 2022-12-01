@@ -24,6 +24,17 @@ class Community(models.Model):
         default="선택",
     )
 
+    pet_species_choices = [
+        ("강아지", "강아지"),
+        ("고양이", "고양이"),
+    ]
+
+    pet_species = models.CharField(
+        max_length=20,
+        choices=pet_species_choices,
+        default="선택",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     image = ProcessedImageField(
