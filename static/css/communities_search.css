@@ -1,0 +1,8 @@
+/* 검색 헤더 */
+.head {
+  margin: 3rem 0;
+  text-align: center;
+}
+.head .search-term {
+  font-weight: 800;
+}
