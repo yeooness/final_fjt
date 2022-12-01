@@ -25,7 +25,7 @@ class User(AbstractUser):
         regex=r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$"
     )
     phone_num = models.CharField(
-        validators=[phone_numRegex], max_length=11, blank=True, null=True, default=""
+        validators=[phone_numRegex], max_length=11, unique=True
     )
     # 팔로우
     followings = models.ManyToManyField(
