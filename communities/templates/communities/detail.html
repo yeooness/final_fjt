@@ -69,59 +69,6 @@
       <p>댓글이 없습니다.</p>
     {% endfor %}
   </div>
-  
-<!-- 좋아요 -->
-<div>
-  {% if request.user.is_authenticated %}
-  {% if request.user in community.like_users.all %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart-fill like-btn"></i>
-  {% else %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart like-btn"></i>
-  {% endif %}
-  {% endif %}
-  <span id="like-count">{{ community.like_users.count }}</span>
-</div>
-
-<!-- 리뷰 작성-->
-<div>
-  <h4>리뷰 작성</h4>
-  {% if request.user.is_authenticated %}
-  <form action="{% url 'communities:comment_create' community.pk %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <br>
-    <input type="submit" value="작성">
-  </form>
-  {% endif %}
-</div>
-
-{% for comment in comments %}
-{% comment %} <div>
-  {% if comment.user.profile.image %}
-  <a href="{% url 'accounts:profile' comment.user.username %}"><img src="#" class="rounded-circle" alt=""
-      style="height: 40px; width:40px;"></a>
-  {% else %}
-  <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt=""
-    style="height: 40px; width:40px;"></a>
-  {% endif %}
-  <span>{{comment.user}}</span>
-</div> {% endcomment %}
-<div>{{ comment.created_at|date:"o-m-d" }}
-  {{ comment.created_at|time:"H:i" }}</div>
-<div>
-  {{ comment.content }}
-</div>
-{% if request.user == comment.user %}
-<form action="{% url "communities:comment_delete" community.pk comment.pk %}" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="삭제">
-</form>
-{% endif %}
-<hr>
-{% empty %}
-<p>댓글이 없습니다.</p>
-{% endfor %}
-</div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
