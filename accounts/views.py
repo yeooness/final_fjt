@@ -27,7 +27,6 @@ def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
             user = form.save(commit=False)
             user.address = (
                 request.POST.get("postcode")
