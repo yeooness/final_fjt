@@ -84,22 +84,33 @@
         <article class='row'>
           <div class='article-inner col {% if article.image %}col-9{% endif %} '>
             <div>
+              <p class='badge'>{{ article.pet_species }}</p>
               <p class="title">
                 <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
               </p>
               <p class='content'>{{ article.content|truncatechars:200 }}</p>
             </div>
-            <div class='foot'>
-              <span>{{ article.updated_at|date:"Y.m.d" }}</span>
-              <div class='like-comment'>
-                <span>
-                  <i class="bi bi-hand-thumbs-up"></i>
-                  {{ article.like_users.count }}
-                </span>
-                <span>
-                  <i class="bi bi-chat-square"></i>
-                  {{ article.comment_set.count }}
-                </span>
+            <div>
+              <!-- tag -->
+              {% if article.tags.all %}
+              <div class='tags'>
+                {% for tag in article.tags.all %}
+                <a class='tag' href="{% url 'communities:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+              <div class='foot'>
+                <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+                <div class='like-comment'>
+                  <span>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ article.like_users.count }}
+                  </span>
+                  <span>
+                    <i class="bi bi-chat-square"></i>
+                    {{ article.comment_set.count }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

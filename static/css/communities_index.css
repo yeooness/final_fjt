@@ -164,6 +164,12 @@
   flex-direction: column;
   justify-content: space-between;
 }
+#total-articles article .article-inner .badge {
+  margin-bottom: 0.5rem;
+  width: 3rem;
+  background-color: #F6A9A8;
+  border-radius: 1rem;
+}
 #total-articles article .article-inner .title {
   margin-bottom: 0.1rem;
   font-weight: bold;
@@ -176,6 +182,19 @@
   font-size: 0.9rem;
   color: #5A5959;
   text-align: left;
+}
+#total-articles article .article-inner .tags {
+  display: flex;
+}
+#total-articles article .article-inner .tags .tag {
+  display: block;
+  margin-right: 0.3rem;
+  /* padding: 0.1rem 0.5rem;
+  background-color: rgb(254, 236, 150);
+  border-radius: 1rem; */
+  color: #837E7E;
+  font-weight: 700;
+  font-size: 0.8rem;
 }
 #total-articles article .article-inner .foot {
   display: flex;
