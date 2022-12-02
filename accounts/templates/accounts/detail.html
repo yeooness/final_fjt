@@ -81,11 +81,11 @@
       {% endfor %}
       <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
     </div>
-  </div>
 
-  <!-- 지도 -->
-  <div class="mx-5">
-    <div id="map" style="width:500px; height:500px;"></div>
+    <!-- 지도 -->
+    <div>
+      <a href="{% url 'information:index' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+    </div>
   </div>
 
   <!-- 모달 -->
@@ -191,14 +191,4 @@
           })
         });
   </script>
-
-  <!-- JQuery -->
-  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
-  <!-- 지도 -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07bcad82e2f9f74b80e88e8fad16a1b2&libraries=services,clusterer,drawing"></script>
-  <script src="{% static 'js/accounts_map.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'css/accounts_map.css' %}">
 {% endblock content %}
