@@ -1,10 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/communities_create.css' %}">
+{% endblock css %}
 
 {% block content %}
-  <form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form community_form %}
-    <input type="submit" value="작성">
-  </form>
+  <main class='container'>
+    <h1>
+      <span class='large'>'{{ category }}'</span>에 글 작성
+    </h1>
+    <form action="{% url 'communities:create' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} 게시판 종류 {% endcomment %}
+      <input type="hidden" name="community" value='{{ category }}'>
+      {% comment %} 견종 {% endcomment %}
+      <div class='domain pet_species'>
+        <h5><span class='important'>*</span> 어떤 친구에 대한 글을 작성하실 건가요?</h5>
+        <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
+        <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
+      </div>
+      {% comment %} 제목 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 제목</h5>
+        {{ community_form.title|attr:'placeholder:제목을 입력하세요' }}
+      </div>
+      {% comment %} 내용 {% endcomment %}
+      <div class="domain">
+        <h5><span class='important'>*</span> 내용</h5>
+        {{ community_form.content|attr:'placeholder:내용을 입력하세요' }}
+      </div>
+      {% comment %} 첨부 이미지 {% endcomment %}
+      <div class="domain">
+        <h5>첨부할 이미지</h5>
+        <div class='upload-img-wrap'>
+          <img class='upload-img' src="" alt="">
+        </div>
+        <label for="id_image" class='img-label'>
+          <i class="bi bi-image"></i> 사진 첨부하기
+        </label>
+        {{ community_form.image }}
+      </div>
+      {% comment %} 태그 {% endcomment %}
+      <div class="domain">
+        <h5>태그</h5>
+        {{ community_form.tags|attr:'placeholder:태그를 입력하세요' }}
+        <p class='tags-help'>A comma-separated list of tags.</p>
+      </div>
+      {% comment %} 제출버튼 {% endcomment %}
+      <div class='submit-btn-wrap'>
+        <input type="submit" value="저장">
+      </div>
+    </form>
+  </main>
 {% endblock %}
+
+{% block js %}
+<script src="{% static 'js/communities_create.js' %}"></script>
+{% endblock js %}

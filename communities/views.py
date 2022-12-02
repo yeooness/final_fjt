@@ -67,8 +67,9 @@ def create(request):
         tags = request.POST.get("tags", "").split(",")
         community_form = CommunityForm(request.POST, request.FILES)
         if community_form.is_valid():
-            print("통과")
             community = community_form.save(commit=False)
+            community.community = request.POST.get('community')
+            community.pet_species = request.POST.get('pet_species')
             community.user = request.user
             community.save()
             for tag in tags:
@@ -78,9 +79,13 @@ def create(request):
             return redirect("communities:index")
     else:
         community_form = CommunityForm()
-    return render(
-        request, "communities/create.html", {"community_form": community_form}
-    )
+    
+    context = {
+        "community_form": community_form,
+        'category': request.GET.get('category', '자유게시판'),
+    }
+
+    return render(request, "communities/create.html", context)
 
 
 def detail(request, community_pk):
