@@ -52,8 +52,8 @@ input[type='submit'] {
   background-color: #F6A9A8;
   -webkit-appearance: none;
   -moz-appearance: none;
-  box-shadow: 0.5px 0.5px 5px 5px #f6a9a848;
-  border: 1px solid #F6A9A8;
+  box-shadow: 0.5px 0.5px 3px 3px #f6a9a848;
+  border: 1px solid white;
   width: 14px;
   height: 14px;
   border-radius: 100%;
