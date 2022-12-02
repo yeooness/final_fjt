@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <div>
+      <h1>건강일기 페이지</h1>
+      <p>{{ health.meals }}</p>
+      <p>{{ health.energy }}</p>
+      <p>{{ health.medicine }}</p>
+      <p>{{ health.time }}</p>
+      <!-- 이미지 -->
+      {% if dwj.image %}
+        <img src="[{ dwj.image.url }}" alt="">
+      {% endif %}
+      <!-- 작성 시간 -->
+      {% if dwj.created_string == False %}
+        <small>{{ dwj.created_at|date:'Y-m-d H:i' }}</small>
+      {% else %}
+        <small>{{ dwj.created_string }}</small>
+      {% endif %}
+    </div>
+    <div>
+      <a href="{% url 'journal:journal_list' %}" class="btn btn-primary">목록으로</a>
+      <a href="{% url 'journal:health_update' health.pk %}" class="btn btn-primary">수정하기</a>
+      <a href="{% url 'journal:health_delete' health.pk %}" class="btn btn-danger">삭제하기</a>
+    </div>
+  </div>
+{% endblock content %}
