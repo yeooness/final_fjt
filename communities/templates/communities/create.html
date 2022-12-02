@@ -10,7 +10,7 @@
 {% block content %}
   <main class='container'>
     <h1>
-      <span class='large'>'{{ category }}'</span>에 글 작성
+      <span class='large'>'{{ category }}'</span> 글 작성
     </h1>
     <form action="{% url 'communities:create' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}

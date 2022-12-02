@@ -106,19 +106,29 @@ def update(request, community_pk):
 
     if request.user == community.user:
         if request.method == "POST":
+            tags = request.POST.get("tags", "").split(",")
             community_form = CommunityForm(
                 request.POST, request.FILES, instance=community
             )
 
             if community_form.is_valid():
-                community_form.save()
+                community = community_form.save(commit=False)
+                community.community = request.POST.get('community')
+                community.pet_species = request.POST.get('pet_species')
+                community.save()
+                for tag in tags:
+                    tag = tag.strip()
+                    if tag != "":
+                        community.tags.add(tag)
                 return redirect("communities:detail", community_pk)
         else:
             community_form = CommunityForm(instance=community)
-
-        return render(
-            request, "communities/update.html", {"community_form": community_form}
-        )
+        
+        context = {
+            "community_form": community_form,
+            'community': community,
+        }
+        return render(request, "communities/update.html", context)
     else:
         return redirect(request, "communities/update.html", community_pk)
 
