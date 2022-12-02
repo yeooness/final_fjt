@@ -66,7 +66,7 @@
 
   {% comment %} 댓글 {% endcomment %}
   {% if request.user.is_authenticated %}
-  <form action="{% url 'care:comment_create' care.pk %}" method="POST">
+  <form action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button class="float-end btn btn-primary ">등록</button>
@@ -94,7 +94,7 @@
     </div>
 
     {% if request.user == comment.user %}
-      <form action="{% url "care:comment_delete" care.pk comment.pk %}" method="POST">
+      <form action="{% url "dogwalking:comment_delete" dogwalking.pk comment.pk %}" method="POST">
         {% csrf_token %}
         <input class='delete-btn' type="submit" value="삭제">
       </form>

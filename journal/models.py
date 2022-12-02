@@ -11,7 +11,6 @@ from django.utils import timezone
 
 class DogwalkingJournal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     route = models.TextField()
     consumed_calories = models.IntegerField()
     walking_time = models.IntegerField()
@@ -37,7 +36,6 @@ class DogwalkingJournal(models.Model):
 
 class DailyJournal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     content = models.TextField()
     image = models.ImageField(
         upload_to="images/daily_journal/",
@@ -68,11 +66,10 @@ class DailyJournal(models.Model):
 
 class HealthJournal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     meals = models.CharField(max_length=100)
     energy = models.CharField(max_length=100)
     medicine = models.CharField(max_length=100)
-    time = models.DateTimeField()
+    # time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # 작성 시간

@@ -36,6 +36,23 @@ class Care(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_care", blank=True
     )
 
+    caring_animal = models.CharField(max_length=300, default='') # 돌봄 가능 동물
+    caring_time = models.CharField(max_length=300) # 돌봄 가능 기간
+    etc = models.CharField(max_length=300) # 기타
+
+    pet_gender_choices = [
+    ("남자", "남자"),
+    ("여자", "여자"),
+    ("상관없음", "상관없음")
+    ]
+
+    pet_gender = models.CharField(
+        max_length=20,
+        choices=pet_gender_choices,
+        default="선택",
+    )
+
+
 
 class Review(models.Model):
     user = models.ForeignKey(

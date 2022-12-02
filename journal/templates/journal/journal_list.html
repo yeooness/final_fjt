@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <div>
+      {% for daily in daily_journal %}
+        <div>
+          <a href="{% url 'journal:daily_detail' daily.pk %}">
+            <p>{{ daily.content }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <div>
+      {% for dw in dw_journal %}
+        <div>
+          <a href="{% url 'journal:dwj_detail' dw.pk %}">
+            <p>{{ dw.route }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <div>
+      {% for health in health_journal %}
+        <div>
+          <a href="{% url 'journal:health_detail' health.pk %}">
+            <p>{{ health.meals }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <a href="{% url 'accounts:detail' user.pk %}" class="btn btn-primary">마이페이지</a>
+  </div>
+{% endblock content %}

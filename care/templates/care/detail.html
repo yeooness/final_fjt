@@ -8,6 +8,7 @@
     <div>
       {{ care.title }}
     </div>
+
     <div>
       {{ care.content}}
     </div>
@@ -91,7 +92,7 @@
       </div>
     {% endfor %}
     <!-- 리뷰 작성-->
-    {% comment %} <div>
+    <div>
       <h4>리뷰 작성</h4>
       {% if request.user.is_authenticated %}
         <form action="{% url 'care:comment_create' care.pk %}" method="POST">
@@ -104,7 +105,7 @@
     </div>
   </div>
 </div>
-</div> {% endcomment %}
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
