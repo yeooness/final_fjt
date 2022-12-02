@@ -37,11 +37,11 @@ class HealthJournalForm(forms.ModelForm):
             "meals",
             "energy",
             "medicine",
-            "time",
+            # "time",
         ]
         labels = {
             "meals": "급여",
             "energy": "활력",
             "medicine": "약",
-            "time": "급여/약 시간",
+            # "time": "급여/약 시간",
         }
