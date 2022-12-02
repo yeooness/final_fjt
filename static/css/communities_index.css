@@ -55,16 +55,30 @@
   color: white;
 }
 
+/* ---------------- 자유/후기/질문 게시판일때------------- */
+
 /* 인기글 */
 #popular-articles {
   margin-bottom: 3rem;
 }
-#popular-articles .head {
+#popular-articles .head-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+#popular-articles .head-wrap .head {
+  margin: 0;
   font-weight: 600;
 }
-#popular-articles .head .small {
+#popular-articles .head-wrap .head .small {
   font-size: 0.5rem;
   color: #5A5959;
+}
+#popular-articles .head-wrap .message {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #D9D9D9;
 }
 #popular-articles .swiper {
   width: 100%;
@@ -142,14 +156,13 @@
   font-weight: 600;
 }
 #total-articles article {
-  display: flex;
-  justify-content: space-between;
-  padding: 1.5rem 0.5rem;
+  padding: 1.5rem 1rem;
   border-bottom: 1px solid #D9D9D9;
 }
 #total-articles article .article-inner {
-  margin-right: 1rem;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 #total-articles article .article-inner .title {
   margin-bottom: 0.1rem;
@@ -183,7 +196,9 @@
   display: block;
   margin: 0 auto;
   width: 100%;
-  object-fit: contain;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 1rem;
 }
 #total-articles .writing-btn {
   display: inline-block;
@@ -215,4 +230,117 @@
   border: 1px solid #EB7D80;
   background-color: #EB7D80;
   color: white;
+}
+
+/* ---------------- 지식정보 게시판일때------------- */
+
+/* 지식백과 */
+#dictionary {
+  margin-bottom: 3rem;
+}
+#dictionary .head-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+#dictionary .head-wrap .head {
+  font-weight: 600;
+}
+#dictionary .head-wrap .message {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #D9D9D9;
+}
+#dictionary .swiper {
+  width: 100%;
+  height: 100%;
+}
+#dictionary .swiper-slide {
+  font-size: 18px;
+  background: #fff;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+#dictionary article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+  width: 100%;
+  border: 1px solid #D9D9D9;
+  border-radius: 1rem;
+  box-shadow: 0.05rem 0.05rem 0.2rem 0.2rem rgb(0 0 0 / 8%);
+}
+#dictionary article img {
+  width: 100%;
+  height: 10rem;
+  border-radius: 1rem 1rem 0 0;
+}
+#dictionary article .title {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 15px;
+  font-weight: bold;
+}
+#dictionary article .badge-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem 1rem 1rem;
+  width: 100%;
+}
+#dictionary article .badge-wrap .badge {
+  display: inline-block;
+  width: 5rem;
+  background-color: #F6A9A8;
+  color: white;
+  border-radius: 1rem;
+}
+#dictionary article .badge-wrap .badge:hover {
+  background-color: #EB7D80;
+}
+
+/* 반려동물 관련 기사 */
+#pet-articles {
+  margin-bottom: 3rem;
+}
+#pet-articles .head {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+#pet-articles article {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#pet-articles article .article-image img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+#pet-articles article .article-inner .title {
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+  font-size: 18px;
+}
+#pet-articles article .article-inner .title a:hover {
+  color: #F6A9A8;
+}
+#pet-articles article .article-inner .content {
+  font-size: 0.9rem;
+  color: #5A5959;
+  text-align: left;
 }

@@ -13,7 +13,7 @@ if (currentBoard) {
 
 
 
-// 인기글의 Swiper
+// '인기글의' Swiper
 // 뷰포트 너비에 따라 view 당 slide 갯수 결정하는 함수
 const decideSlidesNumber = function(viewportWidth) {  
   if (viewportWidth >= 992) {
@@ -29,7 +29,7 @@ const decideSlidesNumber = function(viewportWidth) {
 let viewportWidth = window.innerWidth
 let slidesNumber = decideSlidesNumber(viewportWidth)
 
-var swiper = new Swiper(".mySwiper", {  
+var swiper = new Swiper("#popular-articles .mySwiper", {  
   slidesPerView: slidesNumber,  
   scrollbar: {
     el: ".swiper-scrollbar",
@@ -44,7 +44,7 @@ window.addEventListener("resize", function() {
   console.log(viewportWidth)
   console.log(slidesNumber)
 
-  var swiper = new Swiper(".mySwiper", {  
+  var swiper = new Swiper("#popular-articles .mySwiper", {  
     slidesPerView: slidesNumber,  
     scrollbar: {
       el: ".swiper-scrollbar",
@@ -53,3 +53,15 @@ window.addEventListener("resize", function() {
   });
 })
 
+
+
+
+// '지식백과'의 Swiper
+// 뷰포트에 상관없이 항상 slide 갯수 = 2개
+var swiper = new Swiper("#dictionary .mySwiper", {  
+  slidesPerView: 2,  
+  scrollbar: {
+    el: ".swiper-scrollbar",
+    hide: true,
+  },
+});
