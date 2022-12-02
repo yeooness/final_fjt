@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import DailyJournal, DogwalkingJournal, HealthJournal
 from .forms import DailyJournalForm, DogwalkingJournalForm, HealthJournalForm
 
@@ -6,16 +6,16 @@ from .forms import DailyJournalForm, DogwalkingJournalForm, HealthJournalForm
 
 
 # 목록
-def index(request):
-    daily_journal = DailyJournal.objects.get("-created_at")
-    dog_walking_journal = DogwalkingJournal.objects.get("-created_at")
-    health_journal = HealthJournal.objects.get("-created_at")
+def journal_list(request):
+    daily_journal = DailyJournal.objects.order_by("-created_at")
+    dw_journal = DogwalkingJournal.objects.order_by("-created_at")
+    health_journal = HealthJournal.objects.order_by("-created_at")
     context = {
         "daily_journal": daily_journal,
-        "dog_walking_journal": dog_walking_journal,
+        "dw_journal": dw_journal,
         "health_journal": health_journal,
     }
-    render(request, "journal/index.html", context)
+    return render(request, "journal/journal_list.html", context)
 
 
 # 일기 작성
@@ -26,12 +26,39 @@ def daily_create(request):
             daily = form.save(commit=False)
             daily.user = request.user
             daily.save()
-            pk = request.user.pk
-            return redirect("accounts:detail", pk)
+            return redirect("journal:daily_detail", daily.pk)
     else:
         form = DailyJournalForm()
     context = {"form": form}
     return render(request, "journal/daily_create.html", context)
+
+
+# 일기 조회
+def daily_detail(request, dj_pk):
+    daily = get_object_or_404(DailyJournal, pk=dj_pk)
+    context = {"daily": daily}
+    return render(request, "journal/daily_detail.html", context)
+
+
+# 일기 수정
+def daily_update(request, dj_pk):
+    daily = get_object_or_404(DailyJournal, pk=dj_pk)
+    if request.method == "POST":
+        form = DailyJournalForm(request.POST, request.FILES, instance=daily)
+        if form.is_valid():
+            form.save()
+            return redirect("journal:daily_detail", daily.pk)
+    else:
+        form = DailyJournalForm(instance=daily)
+    context = {"form": form}
+    return render(request, "journal/daily_update.html", context)
+
+
+# 일기 삭제
+def daily_delete(request, dj_pk):
+    daily_journal = get_object_or_404(DailyJournal, pk=dj_pk)
+    daily_journal.delete()
+    return redirect("journal:journal_list")
 
 
 # 산책일기 작성
@@ -42,12 +69,39 @@ def dwj_create(request):
             dwj = form.save(commit=False)
             dwj.user = request.user
             dwj.save()
-            pk = request.user.pk
-            return redirect("accounts:detail", pk)
+            return redirect("journal:dwj_detail", dwj.pk)
     else:
         form = DogwalkingJournalForm()
     context = {"form": form}
     return render(request, "journal/dwj_create.html", context)
+
+
+# 산책일기 조회
+def dwj_detail(request, dwj_pk):
+    dwj = get_object_or_404(DogwalkingJournal, pk=dwj_pk)
+    context = {"dwj": dwj}
+    return render(request, "journal/dwj_detail.html", context)
+
+
+# 산책일기 수정
+def dwj_update(request, dwj_pk):
+    dwj = get_object_or_404(DogwalkingJournal, pk=dwj_pk)
+    if request.method == "POST":
+        form = DogwalkingJournalForm(request.POST, request.FILES, instance=dwj)
+        if form.is_valid():
+            form.save()
+            return redirect("journal:dwj_detail", dwj.pk)
+    else:
+        form = DogwalkingJournalForm(instance=dwj)
+    context = {"form": form}
+    return render(request, "journal/dwj_update.html", context)
+
+
+# 산책일기 삭제
+def dwj_delete(request, dwj_pk):
+    dwj_journal = get_object_or_404(DogwalkingJournal, pk=dwj_pk)
+    dwj_journal.delete()
+    return redirect("journal:journal_list")
 
 
 # 건강일기 작성
@@ -58,9 +112,36 @@ def health_create(request):
             health = form.save(commit=False)
             health.user = request.user
             health.save()
-            pk = request.user.pk
-            return redirect("accounts:detail", pk)
+            return redirect("journal:health_detail", health.pk)
     else:
         form = HealthJournalForm()
     context = {"form": form}
     return render(request, "journal/health_create.html", context)
+
+
+# 건강일기 조회
+def health_detail(request, hj_pk):
+    health = get_object_or_404(HealthJournal, pk=hj_pk)
+    context = {"health": health}
+    return render(request, "journal/health_detail.html", context)
+
+
+# 건강일기 수정
+def health_update(request, hj_pk):
+    health = get_object_or_404(HealthJournal, pk=hj_pk)
+    if request.method == "POST":
+        form = HealthJournalForm(request.POST, request.FILES, instance=health)
+        if form.is_valid():
+            form.save()
+            return redirect("journal:health_detail", health.pk)
+    else:
+        form = HealthJournalForm(instance=health)
+    context = {"form": form}
+    return render(request, "journal/health_update.html", context)
+
+
+# 건강일기 삭제
+def health_delete(request, hj_pk):
+    health_journal = get_object_or_404(DogwalkingJournal, pk=hj_pk)
+    health_journal.delete()
+    return redirect("journal:journal_list")

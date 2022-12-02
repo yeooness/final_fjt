@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <div>
+      <h1>일기 페이지</h1>
+      <p>{{ daily.content }}</p>
+      <!-- 이미지 -->
+      {% if daily.image %}
+        <img src="[{ daily.image.url }}" alt="">
+      {% endif %}
+      <!-- 작성 시간 -->
+      {% if daily.created_string == False %}
+        <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
+      {% else %}
+        <small>{{ daily.created_string }}</small>
+      {% endif %}
+    </div>
+    <div>
+      <a href="{% url 'journal:journal_list' %}" class="btn btn-primary">목록으로</a>
+      <a href="{% url 'journal:daily_update' daily.pk %}" class="btn btn-primary">수정하기</a>
+      <a href="{% url 'journal:daily_delete' daily.pk %}" class="btn btn-danger">삭제하기</a>
+    </div>
+  </div>
+{% endblock content %}
