@@ -15,7 +15,6 @@ class Community(models.Model):
         ("자유게시판", "자유게시판"),
         ("후기게시판", "후기게시판"),
         ("질문게시판", "질문게시판"),
-        ("지식정보", "지식정보"),
     ]
 
     community = models.CharField(

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dogwalking
+from .models import Dogwalking, Comment
 from .forms import DogwalkingForm, CommentForm
 from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
@@ -36,11 +36,13 @@ def create(request):
 
 def detail(request, dogwakling_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
-    comment_form = CommentForm()
+    comments = dogwalking.comment_set.all()
+    form = CommentForm()
+    dogwalking.save()
     context = {
         "dogwalking": dogwalking,
-        "comments": dogwalking.comment_set.all(),
-        "comment_form": comment_form,
+        "comments": comments,
+        "form": form,
     }
     return render(request, "dogwalking/detail.html", context)
 
@@ -92,22 +94,26 @@ class TaggedObjectLV(ListView):
         return context
 
 
-def comment_create(request, pk):
-    dogwalking = Dogwalking.objects.get(pk=pk)
-    comment_form = CommentForm(request.POST)
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.dogwalking = dogwalking
-        comment.user = request.user
-        comment.save()
-    return redirect("dogwalking:detail", dogwalking.pk)
+def comment_create(request, dogwakling_pk):
+    dogwalking_data = Dogwalking.objects.get(pk=dogwakling_pk)
+
+    if request.user.is_authenticated:
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.dogwalking = dogwalking_data
+            comment.user = request.user
+            comment.save()
+    return redirect("dogwalking:detail", dogwakling_pk)
 
 
-def comment_delete(request, dogwalking_pk, comment_pk):
-    dogwalking = Dogwalking.objects.get(pk=comment_pk)
-    if request.user == dogwalking.user:
-        dogwalking.delete()
-    return redirect("dogwalking:detail", dogwalking_pk)
+def comment_delete(request, dogwakling_pk, comment_pk):
+    comment_data = Comment.objects.get(pk=comment_pk)
+
+    if request.user == comment_data.user:
+        comment_data.delete()
+    return redirect("dogwalking:detail", dogwakling_pk)
 
 
 def like(request, dogwalking_pk):

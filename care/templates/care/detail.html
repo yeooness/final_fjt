@@ -3,165 +3,141 @@
 {% load static %}
 
 {% block content %}
-<!-- 글 상세 내용 -->
-<div class="container">
-  <div>
-    {{ care.title }}
-  </div>
-  <div>
-    {{ care.content}}
-  </div>
-  <div>
-    {{ care.updated_at }}
-  </div>
-  {% if care.image %}
-  <div class="d-flex justify-content-center">
-    <img src="{{ care.image.url }}" alt="{{ care.image }}" class="container px-0">
-  </div>
-  {% else %}
-  <div class="d-flex justify-content-center">
-    <img src="" alt="">
-  </div>
-  {% endif %}
+  <!-- 글 상세 내용 -->
+  <div class="container">
+    <div>
+      {{ care.title }}
+    </div>
+    <div>
+      {{ care.content}}
+    </div>
+    <div>
+      {{ care.updated_at }}
+    </div>
+    {% if care.image %}
+      <div class="d-flex justify-content-center">
+        <img src="{{ care.image.url }}" alt="{{ care.image }}" class="container px-0">
+      </div>
+    {% else %}
+      <div class="d-flex justify-content-center">
+        <img src="" alt="">
+      </div>
+    {% endif %}
 
+    <!-- 수정/삭제 버튼 -->
+    <div class="text-end me-5">
+      <a class="btn btn-outline-dark" href="{% url 'care:update' care.pk %}">
+        수정
+      </a>
+      <a class="btn btn-outline-dark" href="{% url 'care:delete' care.pk %}">
+        삭제
+      </a>
+    </div>
 
-<!-- 수정/삭제 버튼 -->
-<div class="text-end me-5">
-  <a class="btn btn-outline-dark" href="{% url 'care:update' care.pk %}">
-    수정
-  </a>
-  <a class="btn btn-outline-dark" href="{% url 'care:delete' care.pk %}">
-    삭제
-  </a>
+    <!-- like -->
+    <div>
+      {% if request.user.is_authenticated %}
+        {% if request.user in care.like_user.all %}
+          <i id="" data-care-id="{{ care.pk }}" class="bi bi-hand-thumbs-up-fill like-btn"></i>
+        {% else %}
+          <i id="" data-care-id="{{ care.pk }}" class="bi bi-hand-thumbs-up like-btn"></i>
+        {% endif %}
+      {% endif %}
+      <span id="like-count">{{ care.like_user.count }}</span>
+    </div>
+
+    <!-- 댓글 -->
+    {% if request.user.is_authenticated %}
+      <form action="{% url 'care:comment_create' care.pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="float-end btn btn-primary ">등록</button>
+      </form>
+    {% endif %}
+
+    {% for comment in comments %}
+      <div>
+        <div class='writer-info'>
+          <a href="{% url 'accounts:detail' comment.user.pk %}">
+            {% if comment.user.profile_image %}
+              <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
+            {% else %}
+              <i class="bi bi-person-circle"></i>
+            {% endif %}
+          </a>
+          <div class='detail'>
+            <p>{{ comment.user.username }}</p>
+            <p class='date'>
+              {{ comment.created_at|date:"Y.m.d" }}
+              {{ comment.created_at|time:"H:i" }}
+            </p>
+            <p>{{ comment.content }}</p>
+          </div>
+        </div>
+
+        {% if request.user == comment.user %}
+          <form action="{% url "care:comment_delete" care.pk comment.pk %}" method="POST">
+            {% csrf_token %}
+            <input class='delete-btn' type="submit" value="삭제">
+          </form>
+        {% endif %}
+      </div>
+      {% empty %}
+      <div class='no-comment'>
+        <p>
+          <i class="bi bi-chat-square-text-fill"></i>
+        </p>
+        <p class='text'>첫 댓글을 남겨주세요.</p>
+      </div>
+    {% endfor %}
+    <!-- 리뷰 작성-->
+    {% comment %} <div>
+      <h4>리뷰 작성</h4>
+      {% if request.user.is_authenticated %}
+        <form action="{% url 'care:comment_create' care.pk %}" method="POST">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <br>
+          <input type="submit" value="작성">
+        </form>
+      {% endif %}
+    </div>
+  </div>
 </div>
-
-<!-- like -->
-<div>
-  {% if request.user.is_authenticated %}
-  {% if request.user in care.like_user.all %}
-  <i id="" data-care-id="{{ care.pk }}" class="bi bi-hand-thumbs-up-fill like-btn"></i>
-  {% else %}
-  <i id="" data-care-id="{{ care.pk }}" class="bi bi-hand-thumbs-up like-btn"></i>
-  {% endif %}
-  {% endif %}
-  <span id="like-count">{{ care.like_user.count }}</span>
-</div>
+</div> {% endcomment %}
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  const likeBtn = document.querySelector('.like-btn')
-  likeBtn.addEventListener('click', function (event) {
-    console.log(event.target.dataset)
-    axios({ method: 'get', url: `/care/${event.target.dataset.careId}/like/` }).then(response => {
-      console.log(response)
-      console.log(response.data)
-      console.log(response.data.is_liked)
-      if (response.data.is_liked === true) {
-        event
-          .target
-          .classList
-          .add('bi-hand-thumbs-up-fill')
-        event
-          .target
-          .classList
-          .remove('bi-hand-thumbs-up')
-      } else {
-        event
-          .target
-          .classList
-          .add('bi-hand-thumbs-up')
-        event
-          .target
-          .classList
-          .remove('bi-hand-thumbs-up-fill')
-      }
-      const likeCount = document.querySelector('#like-count')
-      likeCount.innerText = response.data.likeCount
-    })
+const likeBtn = document.querySelector('.like-btn')
+likeBtn.addEventListener('click', function (event) {
+  console.log(event.target.dataset)
+  axios({method: 'get', url: `/care/${event.target.dataset.careId}/like/`}).then(response => {
+    console.log(response)
+    console.log(response.data)
+    console.log(response.data.is_liked)
+    if (response.data.is_liked === true) {
+      event
+        .target
+        .classList
+        .add('bi-hand-thumbs-up-fill')
+      event
+        .target
+        .classList
+        .remove('bi-hand-thumbs-up')
+    } else {
+      event
+        .target
+        .classList
+        .add('bi-hand-thumbs-up')
+      event
+        .target
+        .classList
+        .remove('bi-hand-thumbs-up-fill')
+    }
+    const likeCount = document.querySelector('#like-count')
+    likeCount.innerText = response.data.likeCount
   })
+})
 </script>
-
-<!-- 댓글 -->
-{% for comment in comments %}
-    <!-- 프로필 사진 넣을 때 사용 -->
-      {% comment %} <div>
-        {% if comment.user.profile.image %}
-          <a href="{% url 'accounts:profile' comment.user.username %}"><img src="{{ 주소추가 }}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
-        {% else %}
-          <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt="" style="height: 40px; width:40px;"></a>
-        {% endif %}
-        <span>{{comment.user}}</span>
-      </div> {% endcomment %}
-      <div>{{ comment.created_at|date:"o-m-d" }}
-        {{ comment.created_at|time:"H:i" }}</div>
-      <div>
-        {{ comment.content }}
-      </div>
-      {% if request.user == comment.user %}
-        <form action="{% url "communities:comment_delete" community.pk comment.pk %}" method="POST">
-          {% csrf_token %}
-          <input type="submit" value="삭제">
-        </form>
-      {% endif %}
-      <hr>
-      {% empty %}
-      <p>댓글이 없습니다.</p>
-    {% endfor %}
-  </div>
-  
-<!-- 좋아요 -->
-<div>
-  {% if request.user.is_authenticated %}
-  {% if request.user in community.like_users.all %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart-fill like-btn"></i>
-  {% else %}
-  <i id="" data-community-id="{{ community.pk }}" class="bi bi-heart like-btn"></i>
-  {% endif %}
-  {% endif %}
-  <span id="like-count">{{ community.like_users.count }}</span>
-</div>
-
-<!-- 리뷰 작성-->
-<div>
-  <h4>리뷰 작성</h4>
-  {% if request.user.is_authenticated %}
-  <form action="{% url 'care:comment_create' care.pk %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <br>
-    <input type="submit" value="작성">
-  </form>
-  {% endif %}
-</div>
-
-{% for comment in comments %}
-{% comment %} <div>
-  {% if comment.user.profile.image %}
-  <a href="{% url 'accounts:profile' comment.user.username %}"><img src="#" class="rounded-circle" alt=""
-      style="height: 40px; width:40px;"></a>
-  {% else %}
-  <a href="{% url 'accounts:profile' comment.user.username %}" class="rounded-circle" alt=""
-    style="height: 40px; width:40px;"></a>
-  {% endif %}
-  <span>{{comment.user}}</span>
-</div> {% endcomment %}
-<div>{{ comment.created_at|date:"o-m-d" }}
-  {{ comment.created_at|time:"H:i" }}</div>
-<div>
-  {{ comment.content }}
-</div>
-{% if request.user == comment.user %}
-<form action="{% url " care:comment_delete" care.pk comment.pk %}" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="삭제">
-</form>
-{% endif %}
-<hr>
-{% empty %}
-<p>댓글이 없습니다.</p>
-{% endfor %}
-</div>
-
-
 
 {% endblock content %}

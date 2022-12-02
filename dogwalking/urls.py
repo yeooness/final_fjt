@@ -14,12 +14,12 @@ urlpatterns = [
     path("tag/<str:tag>/", views.TaggedObjectLV.as_view(), name="tagged_object_list"),
     # comment
     path(
-        "<int:pk>/comment/create/",
+        "<int:dogwakling_pk>/comment/create/",
         views.comment_create,
         name="comment_create",
     ),
     path(
-        "<int:pk>/comment/<int:comment_pk>/delete/",
+        "<int:dogwakling_pk>/comment/<int:comment_pk>/delete/",
         views.comment_delete,
         name="comment_delete",
     ),
