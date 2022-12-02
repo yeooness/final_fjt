@@ -5,6 +5,7 @@ app_name = "journal"
 
 urlpatterns = [
     # 목록
+    path("", views.index, name="index"),
     path("journal_list/", views.journal_list, name="journal_list"),
     # 일기 CRUD
     path("daily_journal/create/", views.daily_create, name="daily_create"),
