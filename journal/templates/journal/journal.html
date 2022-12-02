@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  {% for daily in daily_journal %}
+    <div>
+      <p>{{ daily.content }}</p>
+    </div>
+  {% endfor %}
+{% endblock content %}
