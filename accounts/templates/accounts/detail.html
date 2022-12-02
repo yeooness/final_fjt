@@ -17,6 +17,12 @@
       {% if request.user == user %}
         <a href="{% url 'accounts:update' user.pk %}" class="btn btn-primary">프로필 수정</a>
         <a href="{% url 'accounts:block_user' %}" class="btn btn-primary">차단 회원 목록</a>
+        <!-- 일기 작성 버튼 -->
+        <a href="{% url 'journal:index' %}" class="btn btn-success">일기 목록</a>
+        <a href="{% url 'journal:daily_create' %}" class="btn btn-success">일기 작성하기</a>
+        <a href="{% url 'journal:dwj_create' %}" class="btn btn-success">산책일기 작성하기</a>
+        <a href="{% url 'journal:health_create' %}" class="btn btn-success">건강일기 작성하기</a>
+        <!-- 회원 탈퇴 -->
         <a href="{% url 'accounts:delete' %}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">탈퇴하기</a>
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -75,11 +81,11 @@
       {% endfor %}
       <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
     </div>
-  </div>
 
-  <!-- 지도 -->
-  <div class="mx-5">
-    <div id="map" style="width:500px; height:500px;"></div>
+    <!-- 지도 -->
+    <div>
+      <a href="{% url 'information:index' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+    </div>
   </div>
 
   <!-- 모달 -->
@@ -185,14 +191,4 @@
           })
         });
   </script>
-
-  <!-- JQuery -->
-  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
-  <!-- 지도 -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07bcad82e2f9f74b80e88e8fad16a1b2&libraries=services,clusterer,drawing"></script>
-  <script src="{% static 'js/accounts_map.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'css/accounts_map.css' %}">
 {% endblock content %}
