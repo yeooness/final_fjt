@@ -64,6 +64,51 @@
   <span id="like-count">{{ dogwalking.like_user.count }}</span>
 </div>
 
+  {% comment %} 댓글 {% endcomment %}
+  {% if request.user.is_authenticated %}
+  <form action="{% url 'care:comment_create' care.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="float-end btn btn-primary ">등록</button>
+  </form>
+{% endif %}
+
+{% for comment in comments %}
+  <div>
+    <div class='writer-info'>
+      <a href="{% url 'accounts:detail' comment.user.pk %}">
+        {% if comment.user.profile_image %}
+          <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
+        {% else %}
+          <i class="bi bi-person-circle"></i>
+        {% endif %}
+      </a>
+      <div class='detail'>
+        <p>{{ comment.user.username }}</p>
+        <p class='date'>
+          {{ comment.created_at|date:"Y.m.d" }}
+          {{ comment.created_at|time:"H:i" }}
+        </p>
+        <p>{{ comment.content }}</p>
+      </div>
+    </div>
+
+    {% if request.user == comment.user %}
+      <form action="{% url "care:comment_delete" care.pk comment.pk %}" method="POST">
+        {% csrf_token %}
+        <input class='delete-btn' type="submit" value="삭제">
+      </form>
+    {% endif %}
+  </div>
+  {% empty %}
+  <div class='no-comment'>
+    <p>
+      <i class="bi bi-chat-square-text-fill"></i>
+    </p>
+    <p class='text'>첫 댓글을 남겨주세요.</p>
+  </div>
+{% endfor %}
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   const likeBtn = document.querySelector('.like-btn')
@@ -97,27 +142,5 @@
     })
   })
 </script>
-
-<!-- 댓글 -->
-<h4 class="my-3">댓글</h4>
-{% if comments %}
-<p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>
-{% endif %}
-{% if request.user.is_authenticated %}
-<form action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
-  {% csrf_token %}
-  {% bootstrap_form comment_form layout='inline'%}
-  {% bootstrap_button button_type="submit" content="OK" %}
-</form>
-{% endif %}
-<hr>
-{% for comment in comments %}
-<p>{{ comment.content }}</p>
-<hr>
-{% empty %}
-<p>댓글이 없습니다.</p>
-{% endfor %}
-
-
 
 {% endblock content %}

@@ -57,7 +57,7 @@ class Review(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    Dogwalking = models.ForeignKey(Dogwalking, on_delete=models.CASCADE, null=True)
+    dogwalking = models.ForeignKey(Dogwalking, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

@@ -37,10 +37,12 @@ def create(request):
 
 def detail(request, care_pk):
     care = Care.objects.get(pk=care_pk)
+    comments = care.comment_set.all()
     form = CommentForm()
+    care.save()
     context = {
         "care": care,
-        "comments": care.comment_set.all(),
+        "comments": comments,
         "form": form,
     }
     return render(request, "care/detail.html", context)
@@ -110,6 +112,7 @@ def comment_create(request, care_pk):
 
     if request.user.is_authenticated:
         form = CommentForm(request.POST)
+
         if form.is_valid():
             comment = form.save(commit=False)
             comment.care = care_data
