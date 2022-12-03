@@ -34,9 +34,7 @@ class User(AbstractUser):
         "self", symmetrical=False, related_name="followers"
     )
     # 차단
-    blocking = models.ManyToManyField(
-        "self", symmetrical=False, related_name="blockers"
-    )
+    block = models.ManyToManyField("self", symmetrical=False, related_name="blockers")
     # 프로필 이미지
     profile_image = ProcessedImageField(
         upload_to="images/accounts/",

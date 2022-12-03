@@ -83,6 +83,8 @@ def detail(request, user_pk):
     user_followers = user.followers.order_by("pk")
     # 팔로잉 목록
     user_followings = user.followings.order_by("pk")
+    # 차단 목록
+    user_blocks = user.block.order_by("pk")
     context = {
         "user": user,
         "user_pets": user_pets,
@@ -90,6 +92,7 @@ def detail(request, user_pk):
         # 'user_reviews' : user_reviews,
         "user_followers": user_followers,
         "user_followings": user_followings,
+        "user_blocks": user_blocks,
     }
     return render(request, "accounts/detail.html", context)
 
