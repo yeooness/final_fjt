@@ -3,6 +3,8 @@
 
 {% block content %}
   <div class="container">
+    <!-- 일기 목록 -->
+    <h1>일기</h1>
     <div>
       {% for daily in daily_journal %}
         <div>
@@ -12,6 +14,8 @@
         </div>
       {% endfor %}
     </div>
+    <!-- 산책일기 목록 -->
+    <h1>산책일기</h1>
     <div>
       {% for dw in dw_journal %}
         <div>
@@ -21,6 +25,8 @@
         </div>
       {% endfor %}
     </div>
+    <!-- 건강일기 목록 -->
+    <h1>건강일기</h1>
     <div>
       {% for health in health_journal %}
         <div>
