@@ -83,6 +83,8 @@ def detail(request, user_pk):
     user_followers = user.followers.order_by("pk")
     # 팔로잉 목록
     user_followings = user.followings.order_by("pk")
+    # 차단 목록
+    user_blocks = user.block.order_by("pk")
     context = {
         "user": user,
         "user_pets": user_pets,
@@ -90,6 +92,7 @@ def detail(request, user_pk):
         # 'user_reviews' : user_reviews,
         "user_followers": user_followers,
         "user_followings": user_followings,
+        "user_blocks": user_blocks,
     }
     return render(request, "accounts/detail.html", context)
 
@@ -110,7 +113,7 @@ def pet_register(request, user_pk):
 
 
 # 반려동물 정보 수정
-def pet_update(request, pet_pk):
+def pet_update(request, user_pk, pet_pk):
     pet = get_object_or_404(Pet, pk=pet_pk)
     if request.method == "POST":
         form = CustomPetChangeForm(request.POST, request.FILES, instance=pet)
@@ -120,7 +123,7 @@ def pet_update(request, pet_pk):
             pet.save()
             return redirect("accounts:detail", request.user.pk)
     else:
-        form = CustomPetChangeForm()
+        form = CustomPetChangeForm(instance=pet)
     context = {
         "form": form,
     }

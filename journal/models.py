@@ -1,6 +1,5 @@
 from django.db import models
-
-# from imagekit.models import ProcessedImageField
+from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from accounts.models import Pet, User
 from datetime import datetime, timedelta
@@ -37,12 +36,12 @@ class DogwalkingJournal(models.Model):
 class DailyJournal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     content = models.TextField()
-    image = models.ImageField(
+    image = ProcessedImageField(
         upload_to="images/daily_journal/",
         blank=True,
-        # processors=[ResizeToFill(400, 400)],
-        # format="JPEG",
-        # options={"quality": 80},
+        processors=[ResizeToFill(400, 400)],
+        format="JPEG",
+        options={"quality": 80},
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

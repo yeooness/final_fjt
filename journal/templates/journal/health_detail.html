@@ -9,15 +9,11 @@
       <p>{{ health.energy }}</p>
       <p>{{ health.medicine }}</p>
       <p>{{ health.time }}</p>
-      <!-- 이미지 -->
-      {% if dwj.image %}
-        <img src="[{ dwj.image.url }}" alt="">
-      {% endif %}
       <!-- 작성 시간 -->
-      {% if dwj.created_string == False %}
-        <small>{{ dwj.created_at|date:'Y-m-d H:i' }}</small>
+      {% if health.created_string == False %}
+        <small>{{ health.created_at|date:'Y-m-d H:i' }}</small>
       {% else %}
-        <small>{{ dwj.created_string }}</small>
+        <small>{{ health.created_string }}</small>
       {% endif %}
     </div>
     <div>

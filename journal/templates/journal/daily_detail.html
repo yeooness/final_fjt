@@ -8,14 +8,16 @@
       <p>{{ daily.content }}</p>
       <!-- 이미지 -->
       {% if daily.image %}
-        <img src="[{ daily.image.url }}" alt="">
+        <img src="{{ daily.image.url }}" alt="">
       {% endif %}
-      <!-- 작성 시간 -->
-      {% if daily.created_string == False %}
-        <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
-      {% else %}
-        <small>{{ daily.created_string }}</small>
-      {% endif %}
+      <div>
+        <!-- 작성 시간 -->
+        {% if daily.created_string == False %}
+          <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
+        {% else %}
+          <small>{{ daily.created_string }}</small>
+        {% endif %}
+      </div>
     </div>
     <div>
       <a href="{% url 'journal:journal_list' %}" class="btn btn-primary">목록으로</a>

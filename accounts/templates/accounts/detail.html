@@ -8,17 +8,18 @@
     <!-- 프로필 이미지 -->
     <div>
       {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" alt="">
+        <img src="{{ user.profile_image.url }}" alt="" style="width: 50px; height: 50px; border-radius: 500px">
       {% endif %}
+      <span>{{ user.username }}</span>
     </div>
-    <p>{{ user.username }}</p>
     <!-- 프로필 편집 / 팔로우 / 차단 -->
     <div>
       {% if request.user == user %}
         <div>
           <a href="{% url 'accounts:update' user.pk %}" class="btn btn-primary">프로필 수정</a>
-          <a href="{% url 'accounts:block_user' %}" class="btn btn-primary">차단 회원 목록</a>
+          <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">차단 회원 목록</a>
         </div>
+        <!-- 등록한 반려동물이 있으면 일기 작성 가능 - 코드 수정 -->
         <div>
           <!-- 일기 작성 버튼 -->
           <a href="{% url 'journal:journal_list' %}" class="btn btn-success">일기 목록</a>
@@ -80,12 +81,16 @@
     <!-- 반려동물 목록 -->
     <div>
       {% for user_pet in user_pets %}
-        {% if user_pet.pet_image %}
-          <img src="{{ user_pet.pet_image.url }}" alt="">
-        {% endif %}
-        <p>{{ user_pet.petname }}</p>
+        <a href="{% url 'accounts:pet_update' user.pk user_pet.pk %}">
+          {% if user_pet.pet_image %}
+            <img src="{{ user_pet.pet_image.url }}" alt="" style="width: 50px; height: 50px; border-radius: 500px">
+          {% endif %}
+          <span>{{ user_pet.petname }}</span>
+        </a>
       {% endfor %}
-      <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
+      <div>
+        <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
+      </div>
     </div>
 
     <!-- 지도 -->
@@ -138,6 +143,31 @@
             </div>
             {% empty %}
             <p>아직 팔로잉하는 회원이 없어요</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 차단 회원 목록 모달 -->
+  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">차단 회원</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column">
+          {% for block in user_blocks %}
+            {% if block.profile_image %}
+              <img src="{{ block.profile_image.url }}" alt="">
+            {% endif %}
+            <div class="my-1">
+              <a href="{% url 'accounts:detail' block.pk %}">
+                <span class="ms-2" style="color: black;">{{ block.username }}</span></a>
+            </div>
+            {% empty %}
+            <p>아직 차단 회원이 없어요</p>
           {% endfor %}
         </div>
       </div>
