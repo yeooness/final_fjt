@@ -110,7 +110,7 @@ def pet_register(request, user_pk):
 
 
 # 반려동물 정보 수정
-def pet_update(request, pet_pk):
+def pet_update(request, user_pk, pet_pk):
     pet = get_object_or_404(Pet, pk=pet_pk)
     if request.method == "POST":
         form = CustomPetChangeForm(request.POST, request.FILES, instance=pet)
@@ -120,7 +120,7 @@ def pet_update(request, pet_pk):
             pet.save()
             return redirect("accounts:detail", request.user.pk)
     else:
-        form = CustomPetChangeForm()
+        form = CustomPetChangeForm(instance=pet)
     context = {
         "form": form,
     }
