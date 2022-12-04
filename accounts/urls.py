@@ -43,4 +43,7 @@ urlpatterns = [
     # 구글 로그인
     path("login/google", views.google_request, name="google"),
     path("templates/accounts/login/google/callback", views.google_callback),
+    # 핸드폰 인증
+    path("<int:user_pk>/phone_auth/", views.phone_auth, name="phone_auth"),
+    path("<int:user_pk>/check_auth/", views.check_auth, name="check_auth"),
 ]
