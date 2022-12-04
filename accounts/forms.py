@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Pet
+from .models import User, Pet, AuthPhone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
     UserCreationForm,
@@ -14,8 +14,8 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = [
             "username",
-            "last_name",
-            "first_name",
+            "fullname",
+            "nickname",
             "age",
             "gender",
             "phone_num",
@@ -23,8 +23,8 @@ class CustomUserCreationForm(UserCreationForm):
         ]
         labels = {
             "username": "아이디",
-            "last_name": "성",
-            "first_name": "이름",
+            "fullname": "이름",
+            "nickname": "닉네임",
             "age": "나이",
             "gender": "성별",
             "phone_num": "연락처",
@@ -40,20 +40,18 @@ class CustomUserChangeForm(UserChangeForm):
         model = get_user_model()
         fields = [
             "username",
-            "last_name",
-            "first_name",
+            "fullname",
+            "nickname",
             "age",
             "gender",
-            "phone_num",
             "profile_image",
         ]
         labels = {
             "username": "아이디",
-            "last_name": "성",
-            "first_name": "이름",
+            "fullname": "이름",
+            "nickname": "닉네임",
             "age": "나이",
             "gender": "성별",
-            "phone_num": "연락처",
             "profile_image": "프로필 이미지 변경",
         }
 
@@ -94,4 +92,14 @@ class CustomPetChangeForm(forms.ModelForm):
             "petgender": "성별",
             "neutralization": "중성화 여부",
             "species": "종",
+        }
+
+
+# 핸드폰 인증
+class AuthForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ["phone_num"]
+        labels = {
+            "phone_num": "핸드폰 번호",
         }

@@ -1,12 +1,14 @@
+from random import randint
 import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Pet
+from .models import User, Pet, AuthPhone
 from .forms import (
     CustomUserCreationForm,
     CustomUserChangeForm,
     CustomPasswordChangeForm,
     CustomPetCreationForm,
     CustomPetChangeForm,
+    AuthForm,
 )
 from django.contrib.auth import (
     authenticate,
@@ -140,23 +142,33 @@ def pet_update(request, user_pk, pet_pk):
 
 
 # 회원 정보 수정
+@login_required
 def update(request, user_pk):
-    if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.address = (
-                request.POST.get("postcode")
-                + request.POST.get("address")
-                + request.POST.get("detailAddress")
-                + request.POST.get("extraAddress")
+    if request.user.pk == user_pk:
+        user = get_object_or_404(get_user_model(), pk=user_pk)
+        if request.method == "POST":
+            update_form = CustomUserChangeForm(
+                request.POST, request.FILES, instance=request.user
             )
-            user.save()
-            return redirect("accounts:detail", user_pk)
+            auth_form = AuthForm(request.POST, instance=user)
+            if update_form.is_valid() and auth_form.is_valid():
+                user = update_form.save(commit=False)
+                user.address = (
+                    request.POST.get("postcode")
+                    + request.POST.get("address")
+                    + request.POST.get("detailAddress")
+                    + request.POST.get("extraAddress")
+                )
+                auth_form.save()
+                user.save()
+                return redirect("accounts:detail", user_pk)
+        else:
+            update_form = CustomUserChangeForm(instance=request.user)
+            auth_form = AuthForm(instance=user)
+        context = {"update_form": update_form, "auth_form": auth_form}
+        return render(request, "accounts/update.html", context)
     else:
-        form = CustomUserChangeForm(instance=request.user)
-    context = {"form": form}
-    return render(request, "accounts/update.html", context)
+        return redirect("communities:index")
 
 
 # 회원 탈퇴
@@ -378,7 +390,7 @@ def google_callback(request):
         google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_name + g_id
+        google_login_user.username = g_name
         google_login_user.email = g_email
         google_login_user.google_id = g_id
         google_login_user.image = g_img
@@ -388,3 +400,48 @@ def google_callback(request):
         google_user = get_user_model().objects.get(google_id=g_id)
     auth_login(request, google_user)
     return redirect(request.GET.get("next") or "communities:index")
+
+
+# 핸드폰 인증
+import datetime
+from django.utils import timezone
+
+
+def phone_auth(request, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    random_auth_number = randint(1000, 10000)
+    auth_phone = AuthPhone()
+    auth_phone.phone = user.phone if user.phone else request.POST["phone"]
+    auth_phone.auth_number = random_auth_number
+    auth_phone.save()
+    context = {}
+    return JsonResponse(context)
+
+
+def check_auth(request, user_pk):
+    time_limit = timezone.now() + datetime.timedelta(minutes=3)
+    user_phone = request.POST["phone"]
+    phone_auth_number = int(request.POST["auth_number"])
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    now_auth_phone = AuthPhone.objects.filter(phone=user_phone[1:]).order_by(
+        "-updated_at"
+    )[0]
+    if now_auth_phone.updated_at <= time_limit:
+        if now_auth_phone.auth_number == phone_auth_number:
+            user.phone = user_phone
+            user.is_phone_active = True
+            user.save()
+            now_auth_phone.delete()
+            is_phone_active = True
+            auth_message = "인증이 완료 되었습니다."
+        else:
+            is_phone_active = False
+            auth_message = "인증 번호가 잘못 입력 되었습니다."
+    else:
+        is_phone_active = False
+        auth_message = "인증 시간이 만료 되었습니다."
+    context = {
+        "isPhoneActive": is_phone_active,
+        "auth_message": auth_message,
+    }
+    return JsonResponse(context)

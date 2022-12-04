@@ -4,12 +4,32 @@
 {% block content %}
   <div class="container">
     <div>
-      <h1>회원가입</h1>
+      <h1>회원정보 수정</h1>
     </div>
     <div>
       <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_form update_form %}
+        {% if user.is_phone_active %}
+          {% bootstrap_form auth_form %}
+          <div id="phone-div" class="d-flex mb-3">
+            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}" style="width: 8rem;">번호 변경하기</button>
+            <p id="already-auth-user" class="mx-3 my-0 d-flex justify-content-center align-items-center" style="font-weight: bolder;">이미 인증된 사용자입니다.</p>
+            <input id="auth-phone" class="form-control d-none" name="auth-phone-input" type="text" placeholder="인증번호 입력" style="width: 8rem;">
+            <button id="auth-phone-submit" class="form-control btn btn-primary d-none mx-3" type="button" data-account-id="{{ user.pk }}" style="width: 8rem;">인증</button>
+            <p id="auth-timer" class="d-none d-flex justify-content-start align-items-center" style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
+            <p id="help-text" class="d-none d-flex justify-content-start align-items-center" style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
+          </div>
+        {% else %}
+          {% bootstrap_form auth_form %}
+          <div class="d-flex mb-3">
+            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}" style="width: 8rem;">인증번호 받기</button>
+            <input id="auth-phone" class="form-control d-none" name="auth-phone-input" type="text" placeholder="인증번호 입력" style="width: 8rem;">
+            <button id="auth-phone-submit" class="form-control btn btn-primary d-none mx-3" type="button" data-account-id="{{ user.pk }}" style="width: 8rem;">인증하기</button>
+            <p id="auth-timer" class="d-none d-flex justify-content-start align-items-center" style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
+            <p id="help-text" class="d-none d-flex justify-content-start align-items-center" style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
+          </div>
+        {% endif %}
         <div>
           <h6>주소</h6>
           <input type="text" id="sample6_postcode" placeholder="우편번호" name="postcode">
@@ -90,5 +110,124 @@
         })
         .open();
     }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    /////////////////////////////////////////////////////// 휴대폰 번호 인증 /////
+    const phoneId = document.getElementById("id_phone");
+    const getAuthBtn = document.getElementById("get-auth-btn");
+    const authPhone = document.getElementById("auth-phone");
+    const authPhoneSubmit = document.getElementById("auth-phone-submit");
+    const authTimer = document.getElementById("auth-timer");
+    const helpText = document.getElementById("help-text");
+    const csrftoken = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value;
+    getAuthBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (phoneId.value.length === 11 && !(isNaN(phoneId.value))) {
+        let formData = new FormData();
+        formData.append("phone", phoneId.value);
+        axios({
+          method: 'post',
+          url: `/accounts/${event.target.dataset.accountId}/update/check/`,
+          headers: {
+            'X-CSRFToken': csrftoken
+          },
+          data: formData
+        })
+        // 일일 허용 횟수 검사
+          .then(response => {
+          if (response.data.authCount == 5) {
+            phoneId.setAttribute("disabled", true);
+            getAuthBtn.setAttribute("disabled", true);
+            helpText
+              .classList
+              .remove("d-none");
+            helpText.textContent = "오늘은 더 이상 인증이 불가능합니다. (최대 인증횟수 5회)";
+          } else {
+            // 인증번호 입력란 보여주기
+            if (document.querySelector("#already-auth-user") != null) {
+              const phoneDiv = document.getElementById("phone-div");
+              const alreadyAuthUser = document.querySelector("#already-auth-user");
+              phoneDiv.removeChild(alreadyAuthUser);
+            };
+            getAuthBtn
+              .classList
+              .add("d-none");
+            authPhone
+              .classList
+              .remove("d-none");
+            authPhoneSubmit
+              .classList
+              .remove("d-none");
+            authTimer
+              .classList
+              .remove("d-none");
+            helpText
+              .classList
+              .remove("d-none");
+            let formData = new FormData();
+            formData.append("phone", phoneId.value);
+            axios({
+              method: 'post',
+              url: `/accounts/${event.target.dataset.accountId}/update/phone-auth/`,
+              headers: {
+                'X-CSRFToken': csrftoken
+              },
+              data: formData
+            }).then(response => {
+              let totalSec = 300;
+              let min = '';
+              let sec = '';
+              let authInterval = setInterval(function () {
+                let min = parseInt(totalSec / 60);
+                let sec = totalSec % 60;
+                if (sec < 10) {
+                  authTimer.textContent = min + " : 0" + sec + "\u00a0";
+                } else {
+                  authTimer.textContent = min + " : " + sec + "\u00a0";
+                }
+                totalSec--;
+                if (totalSec < 0) {
+                  clearInterval(authInterval);
+                  authTimer.textContent = "인증 시간이 만료되었습니다.";
+                };
+              }, 1000);
+            });
+          };
+        });
+      } else {
+        phoneId.focus();
+      };
+    });
+    /////////////////////////////////////////////////////// 인증번호 입력 후 제출 /////
+    authPhoneSubmit.addEventListener("click", (event) => {
+      event.preventDefault();
+      let formData2 = new FormData();
+      formData2.append("auth_number", authPhone.value);
+      formData2.append("phone", phoneId.value);
+      axios({
+        method: 'post',
+        url: `/accounts/${event.target.dataset.accountId}/update/check-auth/`,
+        headers: {
+          'X-CSRFToken': csrftoken
+        },
+        data: formData2
+      }).then(response => {
+        if (response.data.isPhoneActive === true) {
+          authPhoneSubmit.textContent = response.data.authErrorOrSuccess;
+          authPhoneSubmit.setAttribute("disabled", true);
+          authPhone.setAttribute("disabled", true);
+          phoneId.setAttribute("disabled", true);
+          authTimer
+            .classList
+            .add("d-none");
+        } else {
+          helpText.textContent = response.data.authErrorOrSuccess;
+        };
+      });
+    });
   </script>
 {% endblock content %}

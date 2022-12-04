@@ -1,5 +1,8 @@
+import os, time, base64, hmac, hashlib, requests
 from django.db import models
+from dotenv import load_dotenv
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -8,9 +11,17 @@ from imagekit.processors import ResizeToFill
 
 
 class User(AbstractUser):
-    pass
+    # 아이디
+    username = models.CharField(
+        max_length=25,
+        unique=True,
+        validators=[UnicodeUsernameValidator()],
+        error_messages={"unique": "이미 사용중인 아이디입니다."},
+    )
     # 이름
-    nickname = models.CharField(max_length=40, blank=True)
+    fullname = models.CharField(max_length=40, unique=True, blank=True)
+    # 닉네임
+    nickname = models.CharField(max_length=25, unique=True)
     # 나이
     age = models.IntegerField(
         default=0, validators=[MaxValueValidator(100), MinValueValidator(1)]
@@ -83,3 +94,54 @@ class Pet(models.Model):
         ("cat", "고양이"),
     )
     species = models.CharField(max_length=3, choices=SPECIES_CHOICES, default="선택")
+
+
+# 핸드폰 인증
+load_dotenv()
+
+
+class TimeStampedModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class AuthPhone(TimeStampedModel):
+    phone = models.IntegerField()
+    auth_number = models.IntegerField()
+    NAVER_CLOUD_ACCESS_KEY = os.getenv("NAVER_CLOUD_ACCESS_KEY")
+    NAVER_CLOUD_SECRET_KEY = os.getenv("NAVER_CLOUD_SECRET_KEY")
+    NAVER_CLOUD_SERVICE_ID = os.getenv("NAVER_CLOUD_SERVICE_ID")
+
+    def save(self, *args, **kwargs):
+        super().save()(*args, **kwargs)
+        self.send_sms()
+
+    def sned_sms(self):
+        timestamp = str(int(time.time() * 1000))
+        access_key = self.NAVER_CLOUD_ACCESS_KEY
+        secret_key = bytes(self.NAVER_CLOUD_SECRET_KEY, "UTF-8")
+        service_id = self.NAVER_CLOUD_SERVICE_ID
+        method = "POST"
+        uri = f"/sms/v2/services/{service_id}/messages"
+        message = method + " " + uri + "\n" + timestamp + "\n" + access_key
+        message = bytes(message, "UTF-8")
+        signing_key = base64.b64encode(
+            hmac.new(secret_key, message, digestmod=hashlib.sha256).digest()
+        )
+        url = f"https://sens.apigw.ntruss.com/sms/v2/services/{service_id}/messages"
+        data = {
+            "type": "SMS",
+            "form": "01095983520",
+            "content": f"[당근집사] 인증 번호 [{self.auth_number}] 입력해주세요.",
+            "messages": [{"to": f"{self.phone}"}],
+        }
+        headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            "x-ncp-apigw-timestamp": timestamp,
+            "x-ncp-iam-access-key": access_key,
+            "x-ncp-apigw-signature-v2": signing_key,
+        }
+        requests.post(url, json=data, headers=headers)
