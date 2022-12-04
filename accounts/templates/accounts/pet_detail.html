@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <h1>반려동물 정보 페이지</h1>
+    <div>
+      {% if pet.pet_image %}
+        <img src="{{ pet.pet_image.url }}" alt="" style="border-radius: 500px">
+      {% endif %}
+      <span>{{ pet.petname }}</span>
+    </div>
+    <!-- 수정 버튼 -->
+    <div>
+      <a href="{% url 'accounts:pet_update' user.pk pet.pk %}" class="btn btn-primary">수정하기</a>
+    </div>
+  </div>
+{% endblock content %}

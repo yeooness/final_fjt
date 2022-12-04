@@ -20,6 +20,8 @@ urlpatterns = [
     path("delete/", views.delete, name="delete"),
     # 반려동물 등록
     path("<int:user_pk>/pet_register/", views.pet_register, name="pet_register"),
+    # 반려동물 정보 페이지
+    path("<int:user_pk>/<int:pet_pk>/pet_detail/", views.pet_detail, name="pet_detail"),
     # 반려동물 정보 수정
     path("<int:user_pk>/<int:pet_pk>/pet_update/", views.pet_update, name="pet_update"),
     # 팔로우
@@ -33,12 +35,12 @@ urlpatterns = [
         name="block_user_block",
     ),
     # 카카오 로그인
-    path("login/kakao/", views.kakao_request, name="kakao"),
+    path("login/kakao", views.kakao_request, name="kakao"),
     path("templates/accounts/login/kakao/callback", views.kakao_callback),
     # 네이버 로그인
-    path("login/naver/", views.naver_request, name="naver"),
+    path("login/naver", views.naver_request, name="naver"),
     path("templates/accounts/login/naver/callback", views.naver_callback),
     # 구글 로그인
-    path("login/google/", views.google_request, name="google"),
+    path("login/google", views.google_request, name="google"),
     path("templates/accounts/login/google/callback", views.google_callback),
 ]

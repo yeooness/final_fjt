@@ -81,7 +81,7 @@
     <!-- 반려동물 목록 -->
     <div>
       {% for user_pet in user_pets %}
-        <a href="{% url 'accounts:pet_update' user.pk user_pet.pk %}">
+        <a href="{% url 'accounts:pet_detail' user.pk user_pet.pk %}">
           {% if user_pet.pet_image %}
             <img src="{{ user_pet.pet_image.url }}" alt="" style="width: 50px; height: 50px; border-radius: 500px">
           {% endif %}
