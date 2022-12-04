@@ -289,6 +289,8 @@ def kakao_callback(request):
     else:
         kakao_login_user = get_user_model()()
         kakao_login_user.username = kakao_nickname
+        kakao_login_user.nickname = kakao_nickname
+        kakao_login_user.profile_image = kakao_profile_image
         kakao_login_user.kakao_id = kakao_id
         kakao_login_user.set_password(str(state_token))
         kakao_login_user.save()
@@ -336,6 +338,8 @@ def naver_callback(request):
     else:
         naver_login_user = get_user_model()()
         naver_login_user.username = naver_nickname
+        naver_login_user.nickname = naver_nickname
+        naver_login_user.profile_image = naver_img
         naver_login_user.naver_id = naver_id
         naver_login_user.set_password(str(state_token))
         naver_login_user.image = naver_img
