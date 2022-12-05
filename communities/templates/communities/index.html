@@ -111,7 +111,7 @@
           {% if article.tags.all %}
           <div class='tags'>
             {% for tag in article.tags.all %}
-            <a class='tag' href="{% url 'communities:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
+            <a class='tag' href="">#{{ tag.name }}</a>
             {% endfor %}
           </div>
           {% endif %}
