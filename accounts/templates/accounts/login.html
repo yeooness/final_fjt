@@ -19,10 +19,18 @@
           {% bootstrap_form form %}
           <input class="login-btn" type="submit" value="로그인">
           <p class='simple-login'>간편 로그인</p>
-          <a class="social-btn google" href="{% url 'accounts:login' %}google">구글</a>
-          <a class="social-btn kakao" href="{% url 'accounts:login' %}kakao">카카오</a>
-          <a class="social-btn naver" href="{% url 'accounts:login' %}naver">네이버</a>
         </form>
+        <div class='social-btn'>
+          <a href="{% url 'accounts:login' %}google">
+            <img src="{% static 'img/btn_google_signin_light_normal_web@2x.png' %}" alt="">
+          </a>
+          <a href="{% url 'accounts:login' %}kakao">
+            <img src="{% static 'img/kakao_login_large_narrow.png' %}" alt="">
+          </a>
+          <a href="{% url 'accounts:login' %}naver">
+            <img src="{% static 'img/btnG_official.png' %}" alt="">
+          </a>
+        </div>
       </div>
     </section>
   </main>
