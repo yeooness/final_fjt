@@ -86,7 +86,7 @@
     {% if community.tags.all %}
     <div class='tags'>
       {% for tag in community.tags.all %}
-      <a class='tag' href="{% url 'communities:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
+      <a class='tag' href="">#{{ tag.name }}</a>
       {% endfor %}
       {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
     </div>

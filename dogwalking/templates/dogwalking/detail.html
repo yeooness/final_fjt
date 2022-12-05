@@ -31,14 +31,13 @@
   <!-- tag -->
   {% if dogwalking.tags.all %}
   {% for tag in dogwalking.tags.all %}
-  <h4><a style="text-decoration: none" href="{% url 'dogwalking:tagged_object_list' tag.name %}">
+  <h4><a style="text-decoration: none" href="">
       <span class="badge rounded-pill bg-primary">
         #{{ tag.name }}
       </span>
     </a>
   </h4>
   {% endfor %}
-  <a style="text-decoration: none" href="{% url 'dogwalking:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a>
   {% endif %}
 </div>
 
