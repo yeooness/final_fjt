@@ -10,18 +10,23 @@
 {% block content %}
   <main class='container'>
     <h1>
-      <span class='large'>'{{ category }}'</span> 글 작성
+      <span class='large'>글 작성</span> 
     </h1>
     <form action="{% url 'communities:create' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {% comment %} 게시판 종류 {% endcomment %}
-      <input type="hidden" name="community" value='{{ category }}'>
+      <select class="" name="community" id="">
+        <option value="자유게시판">자유게시판</option>
+        <option value="후기게시판">후기게시판</option>
+        <option value="질문게시판">질문게시판</option>
+      </select>
       {% comment %} 견종 {% endcomment %}
       <div class='domain pet_species'>
         <h5><span class='important'>*</span> 어떤 친구에 대한 글을 작성하실 건가요?</h5>
         <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
         <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
       </div>
+
       {% comment %} 제목 {% endcomment %}
       <div class='domain'>
         <h5><span class='important'>*</span> 제목</h5>

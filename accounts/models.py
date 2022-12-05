@@ -18,8 +18,6 @@ class User(AbstractUser):
         validators=[UnicodeUsernameValidator()],
         error_messages={"unique": "이미 사용중인 아이디입니다."},
     )
-    # 이름
-    fullname = models.CharField(max_length=40, unique=True, blank=True)
     # 닉네임
     nickname = models.CharField(max_length=25, unique=True)
     # 나이
@@ -62,6 +60,11 @@ class User(AbstractUser):
     # 좋아요
     liking = models.ManyToManyField("self", symmetrical=False, related_name="like")
 
+    # 알람
+    pet_notice = models.BooleanField(default=True)
+    note_notice = models.BooleanField(default=True)
+    notice_pet = models.BooleanField(default=True)
+    notice_note = models.BooleanField(default=True)
 
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pet")
@@ -145,3 +148,5 @@ class AuthPhone(TimeStampedModel):
             "x-ncp-apigw-signature-v2": signing_key,
         }
         requests.post(url, json=data, headers=headers)
+
+
