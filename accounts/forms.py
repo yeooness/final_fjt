@@ -44,14 +44,12 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = [
-            "username",
             "nickname",
             "age",
             "gender",
             "profile_image",
         ]
         labels = {
-            "username": "아이디",
             "nickname": "닉네임",
             "age": "나이",
             "gender": "성별",
