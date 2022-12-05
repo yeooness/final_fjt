@@ -5,6 +5,7 @@ from .models import User, Pet, AuthPhone
 from .forms import (
     CustomUserCreationForm,
     CustomUserChangeForm,
+    CustomAuthenticationForm,
     CustomPasswordChangeForm,
     CustomPetCreationForm,
     CustomPetChangeForm,
@@ -55,12 +56,12 @@ def signup(request):
 # 로그인
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
             return redirect("communities:index")
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     context = {"form": form}
     return render(request, "accounts/login.html", context)
 
