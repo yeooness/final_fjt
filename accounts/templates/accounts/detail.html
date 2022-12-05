@@ -98,217 +98,174 @@
       <a href="{% url 'information:index' %}" class="btn btn-primary">내 주변 친구 찾기</a>
     </div>
 
-    <h3>돌봄신청 알림</h3>
-    {% if user.pet_notice %}
-      <label class="switch">
-        <input type="checkbox" id='check1' checked="checked">
-        <span class="slider round"></span>
-      </label>
-      <p>ON</p>
-      <p style="display:none;">OFF</p>
-    {% else %}
-      <label class="switch">
-        <input type="checkbox" id='check1'>
-        <span class="slider round"></span>
-      </label>
-      <p>OFF</p>
-      <p style="display:none;">ON</p>
-    {% endif %}
-    <h3>쪽지 알림</h3>
-    {% if user.note_notice %}
-      <div class="d-flex flex-column">
-        <label class="switch">
-          <input type="checkbox" id='check2' checked="checked">
-          <span class="slider round"></span>
-        </label>
-        <h6 class="fw-bold mx-1 mt-2 text-center">ON</h6>
-        <h6 class="fw-bold mx-1 mt-2 text-center" style="display:none;">OFF</h6>
-      </div>
-    {% else %}
-      <div class="d-flex flex-column">
-        <label class="switch">
-          <input type="checkbox" id='check2'>
-          <span class="slider round"></span>
-        </label>
-        <h6 class="fw-bold mx-1 mt-2 text-center">OFF</h6>
-        <h6 class="fw-bold mx-1 mt-2 text-center" style="display:none;">ON</h6>
-      </div>
-    {% endif %}
-    <form id="form-1">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-primary">저장</button>
-    </form>
-  </div>
-</div>
-
-<!-- 모달 -->
-<!-- 팔로워 리스트 모달 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">팔로워</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex flex-column">
-        {% for follower in user_followers %}
-          {% if follower.profile_image %}
-            <img src="{{ follower.profile_image.url }}" alt="">
-          {% endif %}
-          <div class="my-1">
-            <a href="{% url 'accounts:detail' follower.pk %}">
-              <span class="ms-2" style="color: black;">{{ follower.username }}</span></a>
+    <!-- 모달 -->
+    <!-- 팔로워 리스트 모달 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">팔로워</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          {% empty %}
-          <p>아직 팔로워가 없어요</p>
-        {% endfor %}
+          <div class="modal-body d-flex flex-column">
+            {% for follower in user_followers %}
+              {% if follower.profile_image %}
+                <img src="{{ follower.profile_image.url }}" alt="">
+              {% endif %}
+              <div class="my-1">
+                <a href="{% url 'accounts:detail' follower.pk %}">
+                  <span class="ms-2" style="color: black;">{{ follower.username }}</span></a>
+              </div>
+              {% empty %}
+              <p>아직 팔로워가 없어요</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- 팔로잉 리스트 모달 -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModal2Label">팔로잉</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex flex-column">
-        {% for following in user_followings %}
-          {% if following.profile_image %}
-            <img src="{{ following.profile_image.url }}" alt="">
-          {% endif %}
-          <div class="my-1">
-            <a href="{% url 'accounts:detail' following.pk %}">{{ following.username }}</a>
+    <!-- 팔로잉 리스트 모달 -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModal2Label">팔로잉</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          {% empty %}
-          <p>아직 팔로잉하는 회원이 없어요</p>
-        {% endfor %}
+          <div class="modal-body d-flex flex-column">
+            {% for following in user_followings %}
+              {% if following.profile_image %}
+                <img src="{{ following.profile_image.url }}" alt="">
+              {% endif %}
+              <div class="my-1">
+                <a href="{% url 'accounts:detail' following.pk %}">{{ following.username }}</a>
+              </div>
+              {% empty %}
+              <p>아직 팔로잉하는 회원이 없어요</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- 차단 회원 목록 모달 -->
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">차단 회원</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex flex-column">
-        {% for block in user_blocks %}
-          {% if block.profile_image %}
-            <img src="{{ block.profile_image.url }}" alt="">
-          {% endif %}
-          <div class="my-1">
-            <a href="{% url 'accounts:detail' block.pk %}">
-              <span class="ms-2" style="color: black;">{{ block.username }}</span></a>
+    <!-- 차단 회원 목록 모달 -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">차단 회원</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          {% empty %}
-          <p>아직 차단 회원이 없어요</p>
-        {% endfor %}
+          <div class="modal-body d-flex flex-column">
+            {% for block in user_blocks %}
+              {% if block.profile_image %}
+                <img src="{{ block.profile_image.url }}" alt="">
+              {% endif %}
+              <div class="my-1">
+                <a href="{% url 'accounts:detail' block.pk %}">
+                  <span class="ms-2" style="color: black;">{{ block.username }}</span></a>
+              </div>
+              {% empty %}
+              <p>아직 차단 회원이 없어요</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- JS -->
-<!-- 팔로우/팔로우취소 비동기 처리 -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  const form = document.querySelector('#follow-form')
-  const csrftoken = document
-    .querySelector('[name=csrfmiddlewaretoken]')
-    .value
+    <!-- JS -->
+    <!-- 팔로우/팔로우취소 비동기 처리 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const form = document.querySelector('#follow-form')
+      const csrftoken = document
+        .querySelector('[name=csrfmiddlewaretoken]')
+        .value
 
-    form
-    .addEventListener('submit', function (event) {
-      event.preventDefault()
-      const userId = event
-        .target
-        .dataset
-        .userId
+        form
+        .addEventListener('submit', function (event) {
+          event.preventDefault()
+          const userId = event
+            .target
+            .dataset
+            .userId
 
-        axios({
-          method: 'post',
-          url: `/accounts/${userId}/follow/`,
-          headers: {
-            'X-CSRFToken': csrftoken
-          }
-        })
-        .then((response) => {
-          const isFollowed = response.data.is_followed
-          const followBtn = document.querySelector('#follow-form > input[type=submit]')
-          if (isFollowed === true) {
-            followBtn.value = '팔로우 취소'
-            followBtn
-              .classList
-              .add('btn2')
-          } else {
-            followBtn.value = '팔로우'
-            followBtn
-              .classList
-              .add('btn')
-            followBtn
-              .classList
-              .remove('btn2')
-          }
-          const followersCountTag = document.querySelector('#followers-count')
-          const followingsCountTag = document.querySelector('#followings-count')
-          const followersCount = response.data.followers_count
-          const followingsCount = response.data.followings_count
-          followersCountTag.innerText = followersCount
-          followingsCountTag.innerText = followingsCount
-        })
-        .catch((error) => {
-          console.log(error.response)
-        })
+            axios({
+              method: 'post',
+              url: `/accounts/${userId}/follow/`,
+              headers: {
+                'X-CSRFToken': csrftoken
+              }
+            })
+            .then((response) => {
+              const isFollowed = response.data.is_followed
+              const followBtn = document.querySelector('#follow-form > input[type=submit]')
+              if (isFollowed === true) {
+                followBtn.value = '팔로우 취소'
+                followBtn
+                  .classList
+                  .add('btn2')
+              } else {
+                followBtn.value = '팔로우'
+                followBtn
+                  .classList
+                  .add('btn')
+                followBtn
+                  .classList
+                  .remove('btn2')
+              }
+              const followersCountTag = document.querySelector('#followers-count')
+              const followingsCountTag = document.querySelector('#followings-count')
+              const followersCount = response.data.followers_count
+              const followingsCount = response.data.followings_count
+              followersCountTag.innerText = followersCount
+              followingsCountTag.innerText = followingsCount
+            })
+            .catch((error) => {
+              console.log(error.response)
+            })
+          });
+    </script>
+
+    <script>
+      var check1 = $("input[id='check1']");
+      check1.click(function () {
+        $("p").toggle();
       });
-</script>
-
-<script>
-  var check1 = $("input[id='check1']");
-  check1.click(function () {
-    $("p").toggle();
-  });
-  var check2 = $("input[id='check2']");
-  check2.click(function () {
-    $("h6").toggle();
-  });
-  const form = document.querySelector('#form-1')
-  const csrftoken = document
-    .querySelector('[name=csrfmiddlewaretoken]')
-    .value
-    form
-    .addEventListener('submit', function (event) {
-      event.preventDefault();
-      const p = document.querySelectorAll('p')
-      const h6 = document.querySelectorAll('h6')
-      for (let i = 0; i < 2; i++) {
-        if (p[i].style.display !== 'none') {
-          var realp = p[i].innerText
-        }
-        if (h6[i].style.display !== 'none') {
-          var realh6 = h6[i].innerText
-        }
-      }
-      axios({
-        method: 'post',
-        url: '/accounts/save/',
-        headers: {
-          'X-CSRFToken': csrftoken
-        },
-        params: {
-          'p': realp,
-          'h6': realh6
-        }
-      }).then(response => {
-        location.reload()
-      })
-    })
-</script>
-{% endblock content %}
+      var check2 = $("input[id='check2']");
+      check2.click(function () {
+        $("h6").toggle();
+      });
+      const form = document.querySelector('#form-1')
+      const csrftoken = document
+        .querySelector('[name=csrfmiddlewaretoken]')
+        .value
+        form
+        .addEventListener('submit', function (event) {
+          event.preventDefault();
+          const p = document.querySelectorAll('p')
+          const h6 = document.querySelectorAll('h6')
+          for (let i = 0; i < 2; i++) {
+            if (p[i].style.display !== 'none') {
+              var realp = p[i].innerText
+            }
+            if (h6[i].style.display !== 'none') {
+              var realh6 = h6[i].innerText
+            }
+          }
+          axios({
+            method: 'post',
+            url: '/accounts/save/',
+            headers: {
+              'X-CSRFToken': csrftoken
+            },
+            params: {
+              'p': realp,
+              'h6': realh6
+            }
+          }).then(response => {
+            location.reload()
+          })
+        })
+    </script>
+  {% endblock content %}
