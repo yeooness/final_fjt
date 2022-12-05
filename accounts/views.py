@@ -282,7 +282,6 @@ def kakao_callback(request):
 
     kakao_id = kakao_user_information["id"]
     kakao_nickname = kakao_user_information["properties"]["nickname"]
-    kakao_profile_image = kakao_user_information["properties"]["profile_image"]
 
     if get_user_model().objects.filter(kakao_id=kakao_id).exists():
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
@@ -290,7 +289,6 @@ def kakao_callback(request):
         kakao_login_user = get_user_model()()
         kakao_login_user.username = kakao_nickname
         kakao_login_user.nickname = kakao_nickname
-        kakao_login_user.profile_image = kakao_profile_image
         kakao_login_user.kakao_id = kakao_id
         kakao_login_user.set_password(str(state_token))
         kakao_login_user.save()
@@ -332,17 +330,14 @@ def naver_callback(request):
 
     naver_id = naver_user_information["response"]["id"]
     naver_nickname = naver_user_information["response"]["nickname"]
-    naver_img = naver_user_information["response"]["profile_image"]
     if get_user_model().objects.filter(naver_id=naver_id).exists():
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     else:
         naver_login_user = get_user_model()()
         naver_login_user.username = naver_nickname
         naver_login_user.nickname = naver_nickname
-        naver_login_user.profile_image = naver_img
         naver_login_user.naver_id = naver_id
         naver_login_user.set_password(str(state_token))
-        naver_login_user.image = naver_img
         naver_login_user.is_social = 2
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
@@ -388,16 +383,15 @@ def google_callback(request):
     g_id = google_user_information["sub"]
     g_name = google_user_information["name"]
     g_email = google_user_information["email"]
-    g_img = google_user_information["picture"]
 
     if get_user_model().objects.filter(google_id=g_id).exists():
         google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_name
+        google_login_user.username = g_email
+        google_login_user.nickname = g_name
         google_login_user.email = g_email
         google_login_user.google_id = g_id
-        google_login_user.image = g_img
         google_login_user.is_social = 1
         google_login_user.set_password(str(state_token))
         google_login_user.save()
