@@ -18,8 +18,6 @@ class User(AbstractUser):
         validators=[UnicodeUsernameValidator()],
         error_messages={"unique": "이미 사용중인 아이디입니다."},
     )
-    # 이름
-    fullname = models.CharField(max_length=40, unique=True, blank=True)
     # 닉네임
     nickname = models.CharField(max_length=25, unique=True)
     # 나이
