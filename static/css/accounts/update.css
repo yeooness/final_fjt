@@ -72,15 +72,20 @@
   background-color: #EB7D80;
   color: white;
 }
-#signup .body .password-update-wrap {
+#signup .body .password-update-wrap, #signup .body .withdrawing-member-wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
-#signup .body .password-update-wrap h6 {
+#signup .body .password-update-wrap h6, #signup .body .withdrawing-member-wrap h6 {
   margin: 0;
 }
 #signup .body .password-update-wrap .password-update {
   color: #D0ACBF;
-  font-size: 700;
+  font-weight: 700;
+}
+#signup .body .withdrawing-member-wrap .withdrawing-member {
+  color: red;
+  font-weight: 700;
 }
