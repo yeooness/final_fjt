@@ -1,6 +1,8 @@
 from random import randint
 import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import *
+from care.models import *
 from .models import User, Pet, AuthPhone
 from .forms import (
     CustomUserCreationForm,
@@ -444,3 +446,73 @@ def check_auth(request, user_pk):
         "auth_message": auth_message,
     }
     return JsonResponse(context)
+
+def save(request):
+    if request.method == "POST":
+        pet_notice = request.GET.get("p")
+        note_notice = request.GET.get("h6")
+        if pet_notice == "ON":
+            request.user.pet_notice = True
+        else:
+            request.user.pet_notice = False
+        if note_notice == "ON":
+            request.user.note_notice = True
+        else:
+            request.user.note_notice = False
+        request.user.save()
+        return JsonResponse({1: 1})
+    else:
+        return redirect("accounts:detail")
+
+# 알람
+def notice(request):
+    if request.method == "POST":
+        dic = {}
+        # if request.user.pet_notice:
+        #     if Care.objects.filter(user=request.user).exists():
+        #         card = request.user.usercard
+        #         false_comments = card.usercomment_set.filter(read=False)
+        #         for i in false_comments:
+        #             if i.created_at not in dic:
+        #                 dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+        #                     i.content,
+        #                     i.user.nickname,
+        #                     "card",
+        #                     card.pk,
+        #                 )
+        #             else:
+        #                 dic[
+        #                     (i.created_at + datetime.timedelta(minutes=1)).strftime(
+        #                         "%Y-%m-%dT%H:%M:%S"
+        #                     )
+        #                 ] = (
+        #                     i.content,
+        #                     i.user.nickname,
+        #                     "card",
+        #                     card.pk,
+        #                 )
+        if request.user.note_notice:
+            if request.user.user_to.filter(read=False).exists():
+                false_notes = request.user.user_to.filter(read=False)
+                for i in false_notes:
+                    if i.created_at not in dic:
+                        dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+                            i.title,
+                            i.from_user.nickname,
+                            "note",
+                            i.pk,
+                        )
+                    else:
+                        dic[
+                            (i.created_at + datetime.timedelta(minutes=1)).strftime(
+                                "%Y-%m-%dT%H:%M:%S"
+                            )
+                        ] = (i.title, i.from_user.nickname, "note", i.pk)
+        dic = sorted(dic.items(), reverse=True)
+        if not dic:
+            request.user.notice_pet = True
+            request.user.notice_note = True
+            request.user.save()
+        return JsonResponse({"items": dic})
+    else:
+        return redirect("communities:index")

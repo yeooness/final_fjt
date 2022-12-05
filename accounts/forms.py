@@ -21,7 +21,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = [
             "username",
-            "nickname",
             "age",
             "gender",
             "phone_num",
@@ -29,7 +28,6 @@ class CustomUserCreationForm(UserCreationForm):
         ]
         labels = {
             "username": "아이디",
-            "nickname": "닉네임",
             "age": "나이",
             "gender": "성별",
             "phone_num": "연락처",

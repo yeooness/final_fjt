@@ -61,6 +61,11 @@ class User(AbstractUser):
     # 좋아요
     liking = models.ManyToManyField("self", symmetrical=False, related_name="like")
 
+    # 알람
+    pet_notice = models.BooleanField(default=True)
+    note_notice = models.BooleanField(default=True)
+    notice_pet = models.BooleanField(default=True)
+    notice_note = models.BooleanField(default=True)
 
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pet")
@@ -150,3 +155,5 @@ class AuthPhone(TimeStampedModel):
             "x-ncp-apigw-signature-v2": signing_key,
         }
         requests.post(url, json=data, headers=headers)
+
+
