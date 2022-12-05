@@ -21,13 +21,11 @@
           {% csrf_token %}
           {% bootstrap_form update_form %}
           {% comment %} 주소 {% endcomment %}
-          {% if request.user.address %}
-            <div class='address-wrap'>
-              <h6>주소</h6>
-              <p>{{ request.user.address }}</p>
-            </div>
-          {% endif %}
           <div class='address-wrap'>
+            <h6>주소</h6>
+            {% if request.user.address %}
+            <p>{{ request.user.address }}</p>
+            {% endif %}
             <div class='search-address'>
               <input type="text" id="sample6_postcode" placeholder="우편번호" name="postcode">
               <input class="address-btn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
