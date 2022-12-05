@@ -1,0 +1,80 @@
+#login {
+  margin: 3rem auto;
+  max-width: 50rem;
+  border: 1px solid #eb7d8181;
+}
+#login .head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/static/img/bg-img2.jpg');
+  background-size: 15rem;
+}
+#login .head h3 {
+  display: inline-block;
+  width: 7rem;
+  background-color: white;
+  box-shadow: 0.3rem 0.3rem 1rem 1rem white;
+  text-align: center;
+  font-weight: 800;
+}
+#login .body {
+  padding: 4rem 2rem;
+}
+#login .body label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+#id_username, #id_password {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_username:focus, #id_password:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+#login .body .login-btn {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+#login .body .simple-login {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  margin: 1rem 0;
+}
+#login .body .simple-login::before {
+  content: ''; 
+  flex-grow: 1; 
+  background: #5A5959; 
+  height: 1px; 
+  margin-right: 10px; 
+}
+#login .body .simple-login::after {
+  content: ''; 
+  flex-grow: 1; 
+  background: #5A5959; 
+  height: 1px; 
+  margin-left: 10px; 
+}
+#login .body .social-btn a {
+  margin: 1rem 0;
+  display: block;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+}
+#login .body .social-btn a img {
+  width: 200px;
+  height: 40px;
+  object-fit: cover;
+}

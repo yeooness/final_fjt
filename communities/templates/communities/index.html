@@ -8,7 +8,7 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
 />
-<link rel="stylesheet" href="{% static 'css/communities_index.css' %}">
+<link rel="stylesheet" href="{% static 'css/communities/index.css' %}">
 {% endblock css %}
 
 {% block content %}
@@ -77,98 +77,109 @@
 
   {% comment %} 전체 게시글 {% endcomment %}
   <section id='total-articles'>
-    <h4 class='head'>전체 게시글</h4>
-    <div class='row'>
-      <div class='col col-9'>
-        {% for article in page_obj %}
-        <article class='row'>
-          <div class='article-inner col {% if article.image %}col-9{% endif %} '>
-            <div>
-              <p class='badge'>{{ article.pet_species }}</p>
-              <p class="title">
-                <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
-              </p>
-              <p class='content'>{{ article.content|truncatechars:200 }}</p>
-            </div>
-            <div>
-              <!-- tag -->
-              {% if article.tags.all %}
-              <div class='tags'>
-                {% for tag in article.tags.all %}
-                <a class='tag' href="{% url 'communities:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
-                {% endfor %}
-              </div>
-              {% endif %}
-              <div class='foot'>
-                <span>{{ article.updated_at|date:"Y.m.d" }}</span>
-                <div class='like-comment'>
-                  <span>
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ article.like_users.count }}
-                  </span>
-                  <span>
-                    <i class="bi bi-chat-square"></i>
-                    {{ article.comment_set.count }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% if article.image %}
-          <div class='article-image col col-3'>
-            <img src="{{ article.image.url }}" alt="">
+    <div class='head-wrap'>
+      <h4 class='head'>전체 게시글</h4>
+      {% comment %} 필터/글작성 버튼 {% endcomment %}
+      <div class='filter-wrap'>
+        <div class="dropdown">
+          <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            견종
+          </button>
+          <ul class="dropdown-menu" data-pet-filter='{{ pet_filter }}'>
+            <li><a class="dropdown-item active" href="/communities/?pet=전부">전부</a></li>
+            <li><a class="dropdown-item" href="/communities/?pet=강아지">강아지</a></li>
+            <li><a class="dropdown-item" href="/communities/?pet=고양이">고양이</a></li>
+          </ul>
+        </div>
+        <a class='writing-btn active' href="/communities/create/?category={{ name }}">글 작성</a>
+        <a class='writing-btn-round' href="/communities/create/?category={{ name }}"><i class="bi bi-pencil"></i></a>
+      </div>
+    </div>
+    {% comment %} 게시글 {% endcomment %}
+    {% for article in page_obj %}
+    <article class='row'>
+      <div class='article-inner col {% if article.image %}col-9{% endif %} '>
+        <div>
+          <p class='badge'>{{ article.pet_species }}</p>
+          <p class="title">
+            <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+          </p>
+          <p class='content'>{{ article.content|truncatechars:200 }}</p>
+        </div>
+        <div>
+          <!-- tag -->
+          {% if article.tags.all %}
+          <div class='tags'>
+            {% for tag in article.tags.all %}
+            <a class='tag' href="">#{{ tag.name }}</a>
+            {% endfor %}
           </div>
           {% endif %}
-        </article>
-        {% endfor %}
-        {% comment %} 페이지네이션 {% endcomment %}
-        <div class="d-flex justify-content-center mt-4">
-          <div class="pagination">
-            <span class="stap-links">
-              <ul class="pagination justify-content-center">
-                <!-- 이전페이지 -->
-                {% if page_obj.has_previous %}
-                  <li class="page-item">
-                    <a class="page-link" href="?board={{name}}&page={{ page_obj.previous_page_number }}">이전</a>
-                  </li>
-                {% else %}
-                  <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-                  </li>
-                {% endif %}
-      
-                {% for page_number in page_obj.paginator.page_range %}
-                  {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
-                    {% if page_number == page_obj.number %}
-                      <li class="page-item active" aria-current='page'>
-                        <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
-                      </li>
-                    {% else %}
-                      <li class="page-item">
-                        <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
-                      </li>
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-      
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?board={{name}}&page={{ page_obj.next_page_number }}">다음</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                  <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-                </li>
-                {% endif %}
-              </ul>
-            </span>
+          <div class='foot'>
+            <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+            <div class='like-comment'>
+              <span>
+                <i class="bi bi-hand-thumbs-up"></i>
+                {{ article.like_users.count }}
+              </span>
+              <span>
+                <i class="bi bi-chat-square"></i>
+                {{ article.comment_set.count }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      <div class='col col-3'>
-        <a class='writing-btn' href="/communities/create/?category={{ name }}">글작성</a>
+      {% if article.image %}
+      <div class='article-image col col-3'>
+        <img src="{{ article.image.url }}" alt="">
       </div>
-    </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+    {% comment %} 페이지네이션 {% endcomment %}
+    <div class="d-flex justify-content-center mt-4">
+      <div class="pagination">
+        <span class="stap-links">
+          <ul class="pagination justify-content-center">
+            <!-- 이전페이지 -->
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?board={{name}}&page={{ page_obj.previous_page_number }}">이전</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+              </li>
+            {% endif %}
+  
+            {% for page_number in page_obj.paginator.page_range %}
+              {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
+                {% if page_number == page_obj.number %}
+                  <li class="page-item active" aria-current='page'>
+                    <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?board={{name}}&page={{ page_number }}">{{ page_number }}</a>
+                  </li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+  
+            {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?board={{name}}&page={{ page_obj.next_page_number }}">다음</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+          </ul>
+        </span>
+      </div>
+    </div> 
   </section>
 
   {% comment %} ------- 지식정보 게시판일때 ------- {% endcomment %}
@@ -565,5 +576,5 @@
 
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<script src="{% static 'js/communities_index.js' %}"></script>
+<script src="{% static 'js/communities/index.js' %}"></script>
 {% endblock js %}

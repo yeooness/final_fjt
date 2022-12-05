@@ -5,8 +5,15 @@ from django.contrib.auth.forms import (
     UserCreationForm,
     UserChangeForm,
     PasswordChangeForm,
+    AuthenticationForm,
 )
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+# 로그인
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].label = '아이디'
 
 # 회원가입
 class CustomUserCreationForm(UserCreationForm):
