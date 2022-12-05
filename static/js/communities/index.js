@@ -65,3 +65,47 @@ var swiper = new Swiper("#dictionary .mySwiper", {
     hide: true,
   },
 });
+
+
+
+
+
+// 스크롤 내려가면 글 작성 버튼(동그란거) 나타나게
+document.addEventListener('scroll', function() {
+  const writingBtn = document.querySelector('.writing-btn')
+  const writingBtnRound = document.querySelector('.writing-btn-round')
+  if (document.documentElement.scrollTop < 580) {
+    writingBtn.classList.add('active')
+    writingBtnRound.classList.remove('active')
+  } else {
+    writingBtn.classList.remove('active')
+    writingBtnRound.classList.add('active')
+  }
+})
+
+
+
+
+
+// 견종 필터
+// 현재 필터에 따라 해당 dropdown-item에만 active 붙이기
+const filter = document.querySelector('.dropdown-menu').dataset.petFilter
+const dropdownItems = document.querySelectorAll('.dropdown-item')
+const filterType = {
+  '전부': 0,
+  '강아지': 1,
+  '고양이': 2,
+}
+
+for (i = 0; i < dropdownItems.length; i++) {
+  dropdownItems[i].classList.remove('active')
+}
+
+const filterIdx = filterType[filter]
+dropdownItems[filterIdx].classList.add('active')
+
+// 현재 active한 필터의 text를 버튼 text와 동일하게 설정
+const dropdownBtn = document.querySelector('.dropdown-toggle')
+const activeDropdownItem = document.querySelector('.dropdown-item.active')
+
+dropdownBtn.innerText = activeDropdownItem.innerText

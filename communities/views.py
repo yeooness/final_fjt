@@ -14,19 +14,16 @@ from django.db.models import Q, Count
 def index(request):
     search_form = PostSearchForm()
     name = request.GET.get("board", '자유게시판')
-    pet_name = request.GET.get("pet")
+    pet_name = request.GET.get("pet", '전부')
 
     communities = Community.objects.filter(community=name)
-    communities_pet = Community.objects.filter(pet_species=pet_name)
-    communities_pet_by_pk = communities_pet.order_by("-pk")
-    articles_ordered_by_pk = communities.order_by("-pk")
+    communities_pet = communities.filter(pet_species=pet_name) if pet_name !='전부' else communities
+    articles_ordered_by_pk = communities_pet.order_by("-pk")
     articles_ordered_by_like = communities.annotate(like_users_cnt=Count('like_users')).order_by("-like_users_cnt")[:8]
 
     # 카테고리
     community_name = "모든게시판"
     community_list = ["자유게시판", "후기게시판", "질문게시판", "지식정보"]
-    pet_name = "모두보기"
-    pet_list = ["강아지", "고양이"]
     
     # 페이지네이션
     paginator = Paginator(articles_ordered_by_pk, 10)
@@ -35,15 +32,13 @@ def index(request):
 
     context = {
             "name": name,
-            "pet_name": pet_name,
-            "communities_pet_by_pk": communities_pet_by_pk,
             # "communities_like": communities_like,
             "articles_ordered_by_like": articles_ordered_by_like,
             "community_name": community_name,
             "community_list": community_list,
-            "pet_list": pet_list,
             "page_obj": page_obj,
             "search_form": search_form,
+            'pet_filter': pet_name,
         }
 
     return render(request, "communities/index.html", context)
