@@ -19,7 +19,7 @@
   font-weight: 800;
 }
 #login .body {
-  padding: 5rem 2rem;
+  padding: 4rem 2rem;
 }
 #login .body label {
   margin-bottom: 0.5rem;
@@ -65,4 +65,16 @@
   background: #5A5959; 
   height: 1px; 
   margin-left: 10px; 
+}
+#login .body .social-btn a {
+  margin: 1rem 0;
+  display: block;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+}
+#login .body .social-btn a img {
+  width: 200px;
+  height: 40px;
+  object-fit: cover;
 }
