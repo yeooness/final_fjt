@@ -115,8 +115,8 @@
                   {% else %}
                   <span>중성화 X</span>
                   {% endif %}
-                </div>
-                <a class='update-btn' href="{% url 'accounts:pet_update' user.pk user_pet.pk %}">정보 수정</a>
+                </div>         
+                {% comment %} <a class='update-btn' {% if user == request.user %} href="{% url 'accounts:pet_update' user.pk user_pet.pk %}" {% endif %}>정보 수정</a> {% endcomment %}
               </article>
             </div>
             {% endfor %}
@@ -124,7 +124,7 @@
             {% if user_pets.count == 1 %}
             <div class="swiper-slide">
               <article class='add-pet-block'>
-                <a href="{% url 'accounts:pet_register' user.pk %}">
+                <a {% if user == request.user %} href="{% url 'accounts:pet_register' user.pk %}" {% endif %}>
                   <p class='plus'>+</p>
                   <p class='text'>반려동물 등록</p>
                 </a>
@@ -132,7 +132,7 @@
             </div>
             <div class="swiper-slide">
               <article class='add-pet-block'>
-                <a href="{% url 'accounts:pet_register' user.pk %}">
+                <a {% if user == request.user %} href="{% url 'accounts:pet_register' user.pk %}" {% endif %}>
                   <p class='plus'>+</p>
                   <p class='text'>반려동물 등록</p>
                 </a>
@@ -142,7 +142,7 @@
             {% else %}
             <div class="swiper-slide">
               <article class='add-pet-block'>
-                <a href="{% url 'accounts:pet_register' user.pk %}">
+                <a {% if user == request.user %} href="{% url 'accounts:pet_register' user.pk %}" {% endif %}>
                   <p class='plus'>+</p>
                   <p class='text'>반려동물 등록</p>
                 </a>
@@ -157,7 +157,7 @@
           <img src="{% static 'img/profile_dogcat.png' %}" alt="">
           <p>등록된 반려동물이 없습니다</p>
           <p>나의 첫 반려동물을 등록해보세요</p>
-          <a href="{% url 'accounts:pet_register' user.pk %}">
+          <a {% if user == request.user %} href="{% url 'accounts:pet_register' user.pk %}" {% endif %}>
             <p class='plus'>+</p>
             <p class='text'>반려동물 등록</p>
           </a>
