@@ -101,6 +101,9 @@
       <div class='article-inner col {% if article.image %}col-9{% endif %} '>
         <div>
           <p class='badge'>{{ article.pet_species }}</p>
+          {% if name == '후기게시판' %}
+          <p class='badge review_board'>{{ article.review_board }}</p>
+          {% endif %}
           <p class="title">
             <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
           </p>

@@ -59,6 +59,27 @@ input[type='submit'] {
   border-radius: 100%;
 }
 
+/* 후기게시판인 경우, 어떤 후기에 대한 글인지 */
+#id_review_board {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 150px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid #F6A9A8;
+  border-radius: 4px;
+  color: #6c757d;
+}
+#id_review_board option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#id_review_board option:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+
 /* 제목, 내용, 태그 */
 #id_title, #id_content, #id_tags {
   width: 100%;

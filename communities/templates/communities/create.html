@@ -16,12 +16,21 @@
       {% csrf_token %}
       {% comment %} 게시판 종류 {% endcomment %}
       <input type="hidden" name="community" value='{{ category }}'>
-      {% comment %} 견종 {% endcomment %}
+
+      {% comment %} 분류 {% endcomment %}
       <div class='domain pet_species'>
         <h5><span class='important'>*</span> 어떤 친구에 대한 글을 작성하실 건가요?</h5>
         <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
         <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
       </div>
+
+      {% comment %} 후기게시판인 경우, 어떤 후기에 대한 글인지 {% endcomment %}
+      {% if category == '후기게시판' %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 어떤 후기를 남기실 건가요?</h5>
+        {{ community_form.review_board }}
+      </div>
+      {% endif %}
 
       {% comment %} 제목 {% endcomment %}
       <div class='domain'>

@@ -226,6 +226,10 @@
   background-color: #F6A9A8;
   border-radius: 1rem;
 }
+#total-articles article .article-inner .badge.review_board {
+  width: 5rem;
+  background-color: #c0dec0;
+}
 #total-articles article .article-inner .title {
   margin-bottom: 0.1rem;
   font-weight: bold;
@@ -248,7 +252,7 @@
   /* padding: 0.1rem 0.5rem;
   background-color: rgb(254, 236, 150);
   border-radius: 1rem; */
-  color: #837E7E;
+  color: #cf8585;
   font-weight: 700;
   font-size: 0.8rem;
 }
