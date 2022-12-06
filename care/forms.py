@@ -58,6 +58,15 @@ class Careform(forms.ModelForm):
             "image": "이미지",
             "pet_gender": "성별",
         }
+    
+    # def save(self, commit=True):
+    #     care = self.instance
+    #     care_list = '/'.join([qs.care_list for qs in self.cleaned_data['caring_animal']])
+    #     care.list = care_list
+    #     care.save()
+    #     print(care.title, care.content, care.caring_animal)
+    #     return care
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
