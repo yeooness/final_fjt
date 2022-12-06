@@ -37,17 +37,15 @@
         
         <li class="nav-item dropdown d-flex align-items-center">
           {% if request.user.pet_notice or request.user.note_notice %}
-            {% if request.user.notice_tree and request.user.notice_note %}
+            {% if request.user.notice_pet and request.user.notice_note %}
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <!-- <i class="bi bi-bell fw-bold text-danger "></i> -->
               <img src="{% static "img/종1.png" %}" alt="" style="width: 20px; height:20px;">
             </a>
-            <ul class="dropdown-menu p-0" style="background: rgba(0, 0, 0, 0.0); border: none;">
-              <li class="p-3 dropdown-item">새로운 알림이 <br> 없어요😊</li>
+            <ul class="dropdown-menu p-0" style="background: rgba(23, 24, 23, 0.0); border: none;">
+              <li class="p-3 dropdown-item">새로운 알림이 <br> 없어요</li>
             </ul>
             {% else %}
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="apen(event)">
-              <!-- <i class="bi bi-bell-fill fw-bold text-danger"></i> -->
               <img class="bell" src="{% static "img/종2.png" %}" alt="" style="width: 20px; height:20px;">
             </a>
             {% csrf_token %}
@@ -185,6 +183,46 @@
         })
       }
   </script>
+
+  <style>
+  .bell{
+      transform-origin: 50% 0%;
+      animation-name: shake;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-delay: 2s;
+    }
+    
+    @keyframes shake{
+    	0%{
+        	transform: rotate(0deg);
+        }
+        10%{
+        	transform: rotate(20deg);
+        }
+        20%{
+        	transform: rotate(-20deg);
+        }
+        30%{
+        	transform: rotate(10deg);
+        }
+        40%{
+        	transform: rotate(-10deg);
+        }
+        50%{
+        	transform: rotate(5deg);
+        }
+        60%{
+        	transform: rotate(-5deg);
+        }
+        70%{
+        	transform: rotate(0deg);
+        }
+        100%{
+        	transform: rotate(0deg);
+        }
+    }
+  </style>
   </body>
 
 </html>
