@@ -1,5 +1,6 @@
 
 
+
 from django.conf import settings
 import django.core.validators
 from django.db import migrations, models
@@ -14,8 +15,10 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+
         ('taggit', '0005_auto_20220424_2025'),
         ('accounts', '0001_initial'),
+
     ]
 
     operations = [

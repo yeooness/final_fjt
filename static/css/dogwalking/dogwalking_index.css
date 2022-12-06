@@ -1,0 +1,118 @@
+/* Swiper */
+.swiper {
+  width: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide .card {
+  width: 300px; 
+  height: 300px;
+}
+
+.swiper-slide .card .card-image {
+  width:100%; 
+  height: 120px; 
+  overflow: hidden;
+}
+
+.swiper-slide .card .card-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  position: relative;  
+}
+
+.card-image {
+  overflow: hidden;
+  height: 300px;
+  position: relative;
+}
+
+.card-image img {
+  height: 100%;
+}
+
+/* line */
+.card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+
+.card-img-content:hover {
+  opacity: 1;
+}
+
+.card-img-content .text {
+  height: 0;
+  opacity: 1;
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+}
+
+.card-overlay {   
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  background-color: #1817178a;
+  color: #f1e46b;
+}
+
+.card-image:hover ~ .card-overlay {
+  display: block;
+}
+
+/* Top-nav */
+.top-nav {
+  width: 100%;
+  height: 75px;
+  background-color: antiquewhite;
+  position: absolute;
+  top: 0;
+  display: none;
+}
+
+/* Side-nav */
+.side-nav {
+  width: 20%;
+  height: 100vh;
+  background-color: antiquewhite;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .side-nav {
+    display: none;
+  }
+  .top-nav {
+    display: block;
+  }
+}

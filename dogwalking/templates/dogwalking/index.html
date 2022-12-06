@@ -1,16 +1,556 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
 
+
+{% block css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+<link rel="stylesheet" href="{% static 'css/dogwalking/dogwalking_index.css' %}">
+{% endblock css %}
 {% block content %}
 
-  <div>
-    {% for dw in dogwalking %}
-      <a href="{% url 'dogwalking:detail' dw.pk %}">
-        <h3>{{ dw.title }}</h3>
-      </a>
-      <!-- 글 이미지 노출 사이즈 조절 필요 -->
-      <!-- {% if dw.image %} <div class="d-flex justify-content-center"> <img src="{{ dw.image.url }}" alt="{{ dw.image }}" class="container px-0"> </div> {% else %} <div class="d-flex justify-content-center"> <img src="" alt=""> </div> {% endif %} -->
-    {% endfor %}
-  </div>
+
+
+  {% comment %} {% for dw in dogwalking %} {% endcomment %}
+  
+    <!-- Swiper -->
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="width: 80%; height: 100vh;">
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide mb-5">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <!-- Swiper 2 -->
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="width: 80%; height: 100vh;">
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide mb-5">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <!-- Swiper 3 -->
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="width: 80%; height: 100vh;">
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide mb-5">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="m-0">프로필 사진이랑 이름 / 좋아요</p>
+                </div>
+                <div class="card-image">
+                  <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" class="card-img-top rounded-0" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 16px;">
+                    <a href="detail.html">오늘밤 공원에서 산책하실분!</a> 
+                  </h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <p class="card-text">최대 1명 / 매칭 0명</p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">산책 신청</a>
+                  </div>
+                </div>
+                <div class="card-overlay">
+                  <p>두유아빠</p>
+                  <p>2022.12.01</p>
+                  <p>한강공원 산책로</p>
+                  <p>두유아빠님과 두유랑 같이 
+                    산책해서 너무 즐거웠습니다!다음에도 기회되면 또 만나요!</p>
+                  <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-primary">후기 쓰기</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    {% comment %} <a href="{% url 'dogwalking:detail' dw.pk %}">
+      <h3>{{ dw.title }}</h3>
+    </a> {% endcomment %}
+    <!-- 글 이미지 노출 사이즈 조절 필요 -->
+    {% comment %} {% if dw.image %} <div class="d-flex justify-content-center"> <img src="{{ dw.image.url }}" alt="{{ dw.image }}" class="container px-0"> </div> {% else %} <div class="d-flex justify-content-center"> <img src="" alt=""> </div> {% endif %} {% endcomment %}
+  {% comment %} {% endfor %} {% endcomment %}
+
 
   <div class="me-5">
     <a class="btn btn-outline-dark" href="{% url 'dogwalking:create' %}">
@@ -18,6 +558,10 @@
     </a>
   </div>
 
-  <!-- {% for tag in dogwalking.tags.all %} <h4><a style="text-decoration: none" href="{% url 'dogwalking:tagged_object_list' tag.name %}"> <span class="badge rounded-pill bg-primary"> #{{ tag.name }} </span> </a> </h4> {% endfor %} -->
+  {% comment %} {% for tag in dogwalking.tags.all %} <h4><a style="text-decoration: none" href="{% url 'dogwalking:tagged_object_list' tag.name %}"> <span class="badge rounded-pill bg-primary"> #{{ tag.name }} </span> </a> </h4> {% endfor %}  {% endcomment %}
 
 {% endblock %}
+{% block js %}
+<script defer src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script defer src="{% static 'js/dogwalking/dogwalking_index.js' %}"></script>
+{% endblock js%}

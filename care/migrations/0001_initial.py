@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+
         ('accounts', '0001_initial'),
     ]
 
@@ -28,7 +29,9 @@ class Migration(migrations.Migration):
                 ('caring_animal', models.CharField(default='', max_length=300)),
                 ('caring_time', models.CharField(max_length=300)),
                 ('etc', models.CharField(max_length=300)),
+
                 ('area', models.CharField(choices=[('경기도', '경기도'), ('서울시', '서울시'), ('부산광역시', '부산광역시'), ('경상남도', '경상남도'), ('인천광역시', '인천광역시'), ('경상북도', '경상북도'), ('대구광역시', '대구광역시'), ('충청남도', '충청남도'), ('전라남도', '전라남도'), ('전라북도', '전라북도'), ('충청북도', '충청북도'), ('강원도', '강원도'), ('대전광역시', '대전광역시'), ('광주광역시', '광주광역시'), ('울산광역시', '울산광역시'), ('제주도', '제주도'), ('세종시', '세종시')], default='선택', max_length=100)),
+
                 ('pet_gender', models.CharField(choices=[('남자', '남자'), ('여자', '여자'), ('상관없음', '상관없음')], default='선택', max_length=20)),
                 ('like_user', models.ManyToManyField(blank=True, related_name='like_care', to=settings.AUTH_USER_MODEL)),
                 ('pet', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='care_pet', to='accounts.pet')),
