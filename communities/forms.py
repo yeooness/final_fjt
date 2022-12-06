@@ -12,6 +12,7 @@ class CommunityForm(forms.ModelForm):
             "content",
             "image",
             "tags",
+            "review_board",
         ]
 
         labels = {

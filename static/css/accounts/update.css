@@ -1,0 +1,91 @@
+#signup {
+  margin: 3rem auto;
+  max-width: 50rem;
+  border: 1px solid #eb7d8181;
+}
+#signup .head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/static/img/bg-img2.jpg');
+  background-size: 15rem;
+}
+#signup .head h3 {
+  display: inline-block;
+  width: 7rem;
+  background-color: white;
+  box-shadow: 0.3rem 0.3rem 1rem 1rem white;
+  text-align: center;
+  font-weight: 800;
+  line-height: 2.3rem;
+}
+#signup .body {
+  padding: 4rem 2rem;
+  height: 70vh;
+  overflow:auto;
+}
+#signup .body label, #signup .body h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+#signup .body .address-wrap {
+  margin-bottom: 1rem;
+}
+#signup .body .address-wrap .search-address {
+  display: flex;
+  justify-content: space-between;
+}
+#signup .body .address-wrap .search-address .address-btn {
+  margin-left: 0.5rem;
+  background-color: #F6A9A8;
+  border: none;
+  color: white;
+}
+#id_username, #id_nickname, #id_age, #id_gender, #id_phone_num, #id_profile_image, #sample6_postcode, #sample6_address, #sample6_detailAddress {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_username:focus, #id_nickname:focus, #id_age:focus, #id_gender:focus, #id_phone_num:focus, #id_profile_image:focus, #sample6_postcode:focus, #sample6_address:focus, #sample6_detailAddress:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+.search-address, #sample6_address {
+  margin-bottom: 0.5rem;
+}
+#id_profile_image::file-selector-button {
+  background-color: #F6A9A8;
+  color: white;
+}
+#signup .body .form-text, #signup .body label[for='id_password'], #signup .body #id_password {
+  display: none;
+}
+#signup .body .update-btn {
+  margin: 1rem 0 2rem 0;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+#signup .body .password-update-wrap, #signup .body .withdrawing-member-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+#signup .body .password-update-wrap h6, #signup .body .withdrawing-member-wrap h6 {
+  margin: 0;
+}
+#signup .body .password-update-wrap .password-update {
+  color: #D0ACBF;
+  font-weight: 700;
+}
+#signup .body .withdrawing-member-wrap .withdrawing-member {
+  color: red;
+  font-weight: 700;
+}
