@@ -58,50 +58,6 @@
           </form>
         </div>
         {% endif %}
-
-        <!-- 돌봄신청 알림 / 쪽지 알림 -->
-        <div class='alarm'>
-          <h5>돌봄신청 알림</h5>
-          {% if user.pet_notice %}
-            <label class="switch">
-              <input type="checkbox" id='check1' checked="checked">
-              <span class="slider round"></span>
-            </label>
-            <p>ON</p>
-            <p style="display:none;">OFF</p>
-          {% else %}
-            <label class="switch">
-              <input type="checkbox" id='check1'>
-              <span class="slider round"></span>
-            </label>
-            <p>OFF</p>
-            <p style="display:none;">ON</p>
-          {% endif %}
-          <h5>쪽지 알림</h5>
-          {% if user.note_notice %}
-            <div class="d-flex flex-column">
-              <label class="switch">
-                <input type="checkbox" id='check2' checked="checked">
-                <span class="slider round"></span>
-              </label>
-              <h6 class="fw-bold mx-1 mt-2 text-center">ON</h6>
-              <h6 class="fw-bold mx-1 mt-2 text-center" style="display:none;">OFF</h6>
-            </div>
-          {% else %}
-            <div class="d-flex flex-column">
-              <label class="switch">
-                <input type="checkbox" id='check2'>
-                <span class="slider round"></span>
-              </label>
-              <h6 class="fw-bold mx-1 mt-2 text-center">OFF</h6>
-              <h6 class="fw-bold mx-1 mt-2 text-center" style="display:none;">ON</h6>
-            </div>
-          {% endif %}
-          <form id="form-1">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">저장</button>
-          </form>
-        </div>
       </section>
 
       {% comment %} 반려동물에 대한 정보 {% endcomment %}
