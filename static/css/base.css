@@ -14,18 +14,18 @@
 #main-header .logo {
   width: 7rem;
 }
-#main-header ul {
+#main-header ul.category, #main-header ul.authenticate {
   display: flex;
   align-items: center;
 }
-#main-header ul li {
+#main-header ul.category li, #main-header ul.authenticate li {
   padding: 0 1rem;
   font-weight: 600;
 }
-#main-header ul li a:hover {
+#main-header ul.category li a:hover, #main-header ul.authenticate li a:hover {
   color: #EB7D80;
 }
-#main-header ul li a.active {
+#main-header ul.category li a.active, #main-header ul.authenticate li a.active {
   font-weight: 900;
   color: #EB7D80;
 }
@@ -57,18 +57,18 @@
   justify-content: space-between;
 }
 @media screen and (576px < width <= 768px) {
-  #main-header ul li {
+  #main-header ul.category li, #main-header ul.authenticate li {
     padding: 0 0.5rem;
   }
 }
 @media screen and (width < 576px) {
-  #main-header ul {
+  #main-header ul.category, #main-header ul.authenticate {
     display: none;
   }
   #main-header #header-offcanvas-btn {
     display: block;
   }
-  #main-header .offcanvas-body ul {
+  #main-header .offcanvas-body ul.category, #main-header .offcanvas-body ul.authenticate {
     display: block;
   }
   #main-header .offcanvas-body ul.category li {
