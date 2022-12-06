@@ -104,6 +104,14 @@ def detail(request, user_pk):
 
 # 반려동물 등록
 def pet_register(request, user_pk):
+    print(request.POST.get('pet_species'))
+    print(request.POST.get('pet_size'))
+    print(request.POST.get('pet_gender'))
+    print(request.POST.get('pet_neutralization'))
+    print(request.POST.get('pet_vaccination'))
+    print(request.POST.getlist('feature'))
+
+
     if request.method == "POST":
         form = CustomPetCreationForm(request.POST, request.FILES)
         if form.is_valid():

@@ -74,7 +74,6 @@ class CustomPetCreationForm(forms.ModelForm):
         labels = {
             "pet_image": "사진",
             "petname": "이름",
-            "petage": "나이",
             "petgender": "성별",
             "neutralization": "중성화 여부",
             "species": "종",
