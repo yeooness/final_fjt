@@ -1,14 +1,155 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/accounts/pet_register.css' %}">
+{% endblock css %}
 
 {% block content %}
-  <div class="container">
+  <main class="container">
     <h1>반려동물 등록</h1>
-    <p>{{ user.username }}</p>
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'accounts:pet_register' user.pk %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {% bootstrap_form form %}
-      <button type="submit" class="btn btn-primary">등록하기</button>
+      {% comment %} 첨부 이미지 {% endcomment %}
+      <div class="pet-image">
+        <div class='upload-img-wrap'>
+          <img class='upload-img' src="{% static 'img/dog_and_cat.png' %}" alt="">
+          <label for="id_pet_image" class='img-label'>
+            <i class="bi bi-camera"></i>
+          </label>
+        </div>
+        {{ form.pet_image }}
+      </div>
+
+      {% comment %} 반려동물 종류 {% endcomment %}
+      <div class='domain pet_species row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 반려동물 종류</h5>
+        </div>
+        <div class='body col-9'>
+          <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
+          <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
+        </div>
+      </div>
+
+      {% comment %} 반려동물 크기 {% endcomment %}
+      <div class='domain pet_size row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 반려동물 크기</h5>
+        </div>
+        <div class='body col-9'>
+          <label><input type='radio' name='pet_size' value='대' checked/> 대</label>
+          <label><input type='radio' name='pet_size' value='중'/> 중</label>
+          <label><input type='radio' name='pet_size' value='소'/> 소</label>
+        </div>
+      </div>
+
+      {% comment %} 이름 {% endcomment %}
+      <div class='domain row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 이름</h5>
+        </div>
+        <div class='body col-9'>
+          {{ form.petname|attr:'placeholder:반려동물의 이름을 입력하세요' }}
+        </div>
+      </div>
+
+      {% comment %} 종류 {% endcomment %}
+      <div class='domain row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 종류</h5>
+        </div>
+        <div class='body col-9'>
+          {% comment %} {{ form.petname|attr:'placeholder:반려동물의 견종/묘종을 입력하세요 (e.g. 말티즈)' }} {% endcomment %}
+        </div>
+      </div>
+
+      {% comment %} 성별 {% endcomment %}
+      <div class='domain pet_gender row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 성별</h5>
+        </div>
+        <div class='body col-9'>
+          <label for='male' class='active'>남</label>
+          <input type='radio' id='male' name='pet_gender' value='남' checked/>
+          <label for='female'>여</label>
+          <input type='radio' id='female' name='pet_gender' value='여'/>
+        </div>
+      </div>
+
+      {% comment %} 생년월일 {% endcomment %}
+      <div class='domain row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 생년월일</h5>
+        </div>
+        <div class='body col-9'>
+        </div>
+      </div>
+
+      {% comment %} 중성화 여부 {% endcomment %}
+      <div class='domain pet_neutralization row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 중성화 여부</h5>
+        </div>
+        <div class='body col-9'>
+          <label for='neutralization-yes' class='active'>예</label>
+          <input type='radio' id='neutralization-yes' name='pet_neutralization' value='예' checked/>
+          <label for='neutralization-no'>아니오</label>
+          <input type='radio' id='neutralization-no' name='pet_neutralization' value='아니오'/>
+        </div>
+      </div>
+
+      {% comment %} 예방접종 여부 {% endcomment %}
+      <div class='domain pet_vaccination row'>
+        <div class='head col-3'>
+          <h5><span class='important'>*</span> 예방접종 여부</h5>
+        </div>
+        <div class='body col-9'>
+          <label for='vaccination-yes' class='active'>예</label>
+          <input type='radio' id='vaccination-yes' name='pet_vaccination' value='예' checked/>
+          <label for='vaccination-no'>아니오</label>
+          <input type='radio' id='vaccination-no' name='pet_vaccination' value='아니오'/>
+        </div>
+      </div>
+
+      {% comment %} 성격 및 특징 {% endcomment %}
+      <div class='domain row'>
+        <div class='head col-3'>
+          <h5>성격 및 특징</h5>
+          <span class='text'>다중 선택 가능</span>
+        </div>
+        <div class='body col-9'>
+          {% comment %} 강아지 {% endcomment %}
+          <div class='features active'>
+            <label for="활발한"><input type="checkbox" name="feature" value='활발한' id="활발한">#활발한</label>
+            <label for="소심한"><input type="checkbox" name="feature" value='소심한' id="소심한">#소심한</label>
+            <label for="긍정적인"><input type="checkbox" name="feature" value='긍정적인' id="긍정적인">#긍정적인</label>
+            <label for="적응력높은"><input type="checkbox" name="feature" value='적응력높은' id="적응력높은">#적응력높은</label>
+            <label for="충성심높은"><input type="checkbox" name="feature" value='충성심높은' id="충성심높은">#충성심높은</label>
+            <label for="공격적인"><input type="checkbox" name="feature" value='공격적인' id="공격적인">#공격적인</label>
+            <label for="애교많은"><input type="checkbox" name="feature" value='애교많은' id="애교많은">#애교많은</label>
+          </div>
+          {% comment %} 고양이 {% endcomment %}
+          <div class='features'>
+            <label for="예민한"><input type="checkbox" name="feature" value='예민한' id="예민한">#예민한</label>
+            <label for="공격적인"><input type="checkbox" name="feature" value='공격적인' id="공격적인">#공격적인</label>
+            <label for="애교많은"><input type="checkbox" name="feature" value='애교많은' id="애교많은">#애교많은</label>
+            <label for="호기심많은"><input type="checkbox" name="feature" value='호기심많은' id="호기심많은">#호기심많은</label>
+            <label for="겁이많은"><input type="checkbox" name="feature" value='겁이많은' id="겁이많은">#겁이많은</label>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} 제출버튼 {% endcomment %}
+      <div class='submit-btn-wrap'>
+        <input type="submit" value="반려동물 등록">
+      </div>
     </form>
-  </div>
+  </main>
 {% endblock content %}
+
+{% block js %}
+  <script src="{% static 'js/accounts/pet_register.js' %}"></script>
+{% endblock js %}

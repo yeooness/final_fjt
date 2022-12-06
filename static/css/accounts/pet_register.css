@@ -1,0 +1,173 @@
+h1 {
+  margin: 3rem 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+form {
+  max-width: 50rem;
+  margin: 3rem auto;
+}
+.submit-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+
+/* 공통 적용 부분 */
+.domain {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+.domain .head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.domain .head h5 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.domain .head .important {
+  color: red;
+}
+.domain .head .text {
+  color: #D9D9D9;
+  font-size: 0.8rem;
+}
+.domain .body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* 첨부 이미지 */
+.pet-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.pet-image .upload-img-wrap {
+  position: relative;
+  padding: 3rem;
+  width: 15rem;
+  border: 1px solid #D9D9D9;
+  border-radius: 50%;
+}
+.pet-image .upload-img-wrap .upload-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pet-image .upload-img-wrap .img-label {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 0.05rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: #D9D9D9;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  color: white;
+  cursor: pointer;
+}
+.pet-image .upload-img-wrap .img-label:hover {
+  background-color: #b3b3b3;
+}
+#id_pet_image {
+  display: none;
+}
+
+/* 반려동물 종류, 반려동물 크기 */
+.pet_species input[type='radio'], .pet_size input[type='radio'] {
+  margin-left: 1rem;
+  background-color: #FFFF;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid rgb(216, 216, 216);
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}
+.pet_species input[type='radio']:checked, .pet_size input[type='radio']:checked {
+  margin-left: 1rem;
+  background-color: #F6A9A8;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: 0.5px 0.5px 3px 3px #f6a9a848;
+  border: 1px solid white;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}
+
+/* 이름, 종류 */
+#id_petname {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_petname:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+
+/* 성별, 중성화여부 */
+.pet_gender input[type='radio'], 
+.pet_neutralization input[type='radio'],
+.pet_vaccination input[type='radio'] {
+  display: none;
+}
+.pet_gender label, 
+.pet_neutralization label,
+.pet_vaccination label {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.5rem 0;
+  width: 10rem;
+  border: 1px solid #D9D9D9;
+  color: #D9D9D9;
+  text-align: center;
+  cursor: pointer;
+}
+.pet_gender label.active, 
+.pet_neutralization label.active,
+.pet_vaccination label.active {
+  border: 1px solid #EB7D80;
+  color: #EB7D80;
+}
+
+/* 성격 및 특징 */
+.features {
+  display: none;
+}
+.features.active {
+  display: block;
+}
+.features label {
+  display: inline-block;
+  margin: 0.3rem 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 1rem;
+  color: #595858;
+}
+.features label.active {
+  background-color: #FFE9E9;
+}
+.features input[type='checkbox'] {
+  display: none;
+}
