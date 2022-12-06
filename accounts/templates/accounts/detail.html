@@ -3,81 +3,175 @@
 {% load static %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/accounts/detail.css' %}">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+/>
+<link rel="stylesheet" href="{% static 'css/accounts/detail.css' %}">
 {% endblock css %}
 
 {% block content %}
-  <main class="container">
-    <div class='section-wrap row g-5'>
+<main class="container">
+  <div class='section-wrap row g-5'>
 
-      {% comment %} 집사에 대한 정보 {% endcomment %}
-      <section class='col col-12 col-md-4' id='person'>
-        <!-- 프로필 이미지 -->
-        <div class='img-wrap'>
-          {% if user.profile_image %}
-            <img class='writer-img' src="{{ user.profile_image.url }}" alt="">
-          {% else %}
-            <i class="bi bi-person-circle"></i>
-          {% endif %}
-          <p class='name'>{{ user.username }}</p>
-        </div>
-
-        <!-- 팔로워 박스 누르면 팔로워 목록 모달로 이동 -->
-        <div class='follow-wrap'>
-          <div class="follower" data-bs-toggle="modal" data-bs-target="#exampleModal">팔로워
-            <b id="followers-count">{{ user.followers.all|length }}</b>
-          </div>
-          <div class="following" data-bs-toggle="modal" data-bs-target="#exampleModal2">팔로잉
-            <b id="followings-count">{{ user.followings.all|length }}</b>
-          </div>
-        </div>
-
-        <!-- 프로필 편집 / 팔로우 / 차단 -->
-        {% if request.user == user %}
-          <div class='update-block-wrap'>
-            <a class="update-link" href="{% url 'accounts:update' user.pk %}">회원정보 수정</a>
-            <a class="block-list" data-bs-toggle="modal" data-bs-target="#exampleModal3">차단 회원 목록</a>
-          </div>
+    {% comment %} 집사에 대한 정보 {% endcomment %}
+    <section class='col col-12 col-md-4' id='person'>
+      <!-- 프로필 이미지 -->
+      <div class='img-wrap'>
+        {% if user.profile_image %}
+          <img class='writer-img' src="{{ user.profile_image.url }}" alt="">
         {% else %}
-        <div class='follow-block-form-wrap'>
-          <form id="follow-form" action='' data-user-id='{{ user.pk }}'>
-            {% csrf_token %}
-            {% if request.user in user.followers.all %}
-              <input type="submit" value="언팔로우">
+          <i class="bi bi-person-circle"></i>
+        {% endif %}
+        <p class='name'>{{ user.username }}</p>
+      </div>
+
+      <!-- 팔로워 박스 누르면 팔로워 목록 모달로 이동 -->
+      <div class='follow-wrap'>
+        <div class="follower" data-bs-toggle="modal" data-bs-target="#exampleModal">팔로워
+          <b id="followers-count">{{ user.followers.all|length }}</b>
+        </div>
+        <div class="following" data-bs-toggle="modal" data-bs-target="#exampleModal2">팔로잉
+          <b id="followings-count">{{ user.followings.all|length }}</b>
+        </div>
+      </div>
+
+      <!-- 프로필 편집 / 팔로우 / 차단 -->
+      {% if request.user == user %}
+        <div class='update-block-wrap'>
+          <a class="update-link" href="{% url 'accounts:update' user.pk %}">회원정보 수정</a>
+          <a class="block-list" data-bs-toggle="modal" data-bs-target="#exampleModal3">차단 회원 목록</a>
+        </div>
+      {% else %}
+      <div class='follow-block-form-wrap'>
+        <form id="follow-form" action='' data-user-id='{{ user.pk }}'>
+          {% csrf_token %}
+          {% if request.user in user.followers.all %}
+            <input type="submit" value="언팔로우">
+          {% else %}
+            <input type="submit" value="팔로우">
+          {% endif %}
+        </form>
+        <form id="block-form" action="{% url 'accounts:block' user.pk %}">
+          {% csrf_token %}
+          {% if request.user in user.blockers.all %}
+            <input type="submit" value="차단 해제">
+          {% else %}
+            <input type="submit" value="차단">
+          {% endif %}
+        </form>
+      </div>
+      {% endif %}
+    </section>
+
+    {% comment %} 반려동물에 대한 정보 {% endcomment %}
+    <section class='col col-12 col-md-8' id='pets'>  
+      <!-- 반려동물 목록 -->
+      <div class='pet-register'>
+        <div class='register-btn-wrap'>
+          <h3>반려동물</h3>
+          <a class="register-btn" href="{% url 'accounts:pet_register' user.pk %}">반려동물 등록</a>
+          {% if user_pets.count >= 3 %}
+          <span class='text'>좌우로 스크롤해주세요</span>
+          {% endif %}
+        </div>
+        {% if user_pets %}
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            {% for user_pet in user_pets %}
+            <div class="swiper-slide">
+              <article class='pet' data-pet-name='{{ user_pet.petname }}'>
+                <div class='domain img-name'>
+                  {% if user_pet.pet_image %}
+                  <img class='profile' src="{{ user_pet.pet_image.url }}" alt="">
+                  {% else %}
+                  <img class='profile' src="{% static 'img/dog_and_cat.png' %}" alt="">
+                  {% endif %}
+                  <a class='name' href="{% url 'accounts:pet_detail' user.pk user_pet.pk %}">
+                    {{ user_pet.petname }}
+                  </a>
+                </div>
+                <div class='domain species'>
+                  {% if user_pet.species == 'dog' %}
+                  <img class='pet-icon' src="{% static 'img/dog.png' %}" alt="">
+                  {% else %}
+                  <img class='pet-icon' src="{% static 'img/cat.png' %}" alt="">
+                  {% endif %}
+                  <span>{{ user_pet.species }}</span>
+                </div>
+                <div class='domain age-gender'>
+                  <span class='age'>{{ user_pet.petage }}세 |</span>
+                  {% if user_pet.petgender == 'M' %}
+                  <img class='gender-icon' src="{% static 'img/male.png' %}" alt="">
+                  {% else %}
+                  <img class='gender-icon' src="{% static 'img/female.png' %}" alt="">
+                  {% endif %}
+                  <span>{{ user_pet.petgender }}</span>
+                </div>
+                <div class='domain neutralization'>
+                  {% if user_pet.neutralization %}
+                  <span>중성화 O</span>
+                  {% else %}
+                  <span>중성화 X</span>
+                  {% endif %}
+                </div>
+                <a class='update-btn' href="{% url 'accounts:pet_update' user.pk user_pet.pk %}">정보 수정</a>
+              </article>
+            </div>
+            {% endfor %}
+            {% comment %} 등록된 반려동물 수 == 1마리인 경우 {% endcomment %}
+            {% if user_pets.count == 1 %}
+            <div class="swiper-slide">
+              <article class='add-pet-block'>
+                <a href="{% url 'accounts:pet_register' user.pk %}">
+                  <p class='plus'>+</p>
+                  <p class='text'>반려동물 등록</p>
+                </a>
+              </article>
+            </div>
+            <div class="swiper-slide">
+              <article class='add-pet-block'>
+                <a href="{% url 'accounts:pet_register' user.pk %}">
+                  <p class='plus'>+</p>
+                  <p class='text'>반려동물 등록</p>
+                </a>
+              </article>
+            </div>
+            {% comment %} 등록된 반려동물 수 > 1마리인 경우 {% endcomment %}
             {% else %}
-              <input type="submit" value="팔로우">
+            <div class="swiper-slide">
+              <article class='add-pet-block'>
+                <a href="{% url 'accounts:pet_register' user.pk %}">
+                  <p class='plus'>+</p>
+                  <p class='text'>반려동물 등록</p>
+                </a>
+              </article>
+            </div>
             {% endif %}
-          </form>
-          <form id="block-form" action="{% url 'accounts:block' user.pk %}">
-            {% csrf_token %}
-            {% if request.user in user.blockers.all %}
-              <input type="submit" value="차단 해제">
-            {% else %}
-              <input type="submit" value="차단">
-            {% endif %}
-          </form>
+          </div>
+          <div class="swiper-scrollbar"></div>
+        </div>
+        {% else %}
+        <div class='no-registered-pets'>
+          <img src="{% static 'img/profile_dogcat.png' %}" alt="">
+          <p>등록된 반려동물이 없습니다</p>
+          <p>나의 첫 반려동물을 등록해보세요</p>
+          <a href="{% url 'accounts:pet_register' user.pk %}">
+            <p class='plus'>+</p>
+            <p class='text'>반려동물 등록</p>
+          </a>
         </div>
         {% endif %}
-      </section>
+      </div>
 
-      {% comment %} 반려동물에 대한 정보 {% endcomment %}
-      <section class='col col-12 col-md-8' id='pets'>
-        <!-- 반려동물 목록 -->
-        <div>
-          {% for user_pet in user_pets %}
-            <a href="{% url 'accounts:pet_detail' user.pk user_pet.pk %}">
-              {% if user_pet.pet_image %}
-                <img src="{{ user_pet.pet_image.url }}" alt="" style="width: 50px; height: 50px; border-radius: 500px">
-              {% endif %}
-              <span>{{ user_pet.petname }}</span>
-            </a>
-          {% endfor %}
-          <div>
-            <a href="{% url 'accounts:pet_register' user.pk %}" class="btn btn-primary">반려동물 등록</a>
-          </div>
+      <!-- 등록한 반려동물이 있으면 일기 작성 가능 - 코드 수정 -->
+      <div class='pet-journal'>
+        {% if user_pets %}
+        <div class='head'>
+          <h3>'<span class='active-pet-name'></span>'의 일기</h3>
+          <span class='text'>일기를 작성하고자 하는 반려동물을 선택해주세요</span>
         </div>
-
-        <!-- 등록한 반려동물이 있으면 일기 작성 가능 - 코드 수정 -->
         <div>
           <!-- 일기 작성 버튼 -->
           <a href="{% url 'journal:journal_list' %}" class="btn btn-success">일기 목록</a>
@@ -85,96 +179,109 @@
           <a href="{% url 'journal:dwj_create' %}" class="btn btn-success">산책일기 작성하기</a>
           <a href="{% url 'journal:health_create' %}" class="btn btn-success">건강일기 작성하기</a>
         </div>
-
-        <!-- 지도 -->
-        <div>
-          <a href="{% url 'information:index' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+        {% else %}
+        <div class='no-registered-pets'>
+          <h3>일기</h3>
+          <p class='text'>반려동물을 등록하면 일기를 작성할 수 있습니다</p>
         </div>
-      </section>
+        {% endif %}
+      </div>
+
+      <!-- 지도 -->
+      <div>
+        <a href="{% url 'information:index' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- 모달 -->
+<!-- 팔로워 리스트 모달 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">팔로워</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% for follower in user_followers %}
+          <a class='follow' href="{% url 'accounts:detail' follower.pk %}">
+            {% if follower.profile_image %}
+              <img src="{{ follower.profile_image.url }}" alt="">
+            {% else %}
+              <i class="bi bi-person-circle"></i>
+            {% endif %}
+            <p class='name'>{{ follower.username }}</p>
+          </a>
+        {% empty %}
+          <p>아직 팔로워가 없어요</p>
+        {% endfor %}
+      </div>
     </div>
-  </main>
+  </div>
+</div>
 
-  <!-- 모달 -->
-  <!-- 팔로워 리스트 모달 -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">팔로워</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          {% for follower in user_followers %}
-            <a class='follow' href="{% url 'accounts:detail' follower.pk %}">
-              {% if follower.profile_image %}
-                <img src="{{ follower.profile_image.url }}" alt="">
-              {% else %}
-                <i class="bi bi-person-circle"></i>
-              {% endif %}
-              <p class='name'>{{ follower.username }}</p>
-            </a>
+<!-- 팔로잉 리스트 모달 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModal2Label">팔로잉</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% for following in user_followings %}
+          <a class='follow' href="{% url 'accounts:detail' following.pk %}">
+            {% if following.profile_image %}
+              <img src="{{ following.profile_image.url }}" alt="">
+            {% else %}
+              <i class="bi bi-person-circle"></i>
+            {% endif %}
+            <p class='name'>{{ following.username }}</p>
+          </a>
+        {% empty %}
+          <p>아직 팔로잉하는 회원이 없어요</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 차단 회원 목록 모달 -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">차단 회원</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex flex-column">
+        {% for block in user_blocks %}
+          <a class='block' href="{% url 'accounts:detail' block.pk %}">
+            {% if block.profile_image %}
+              <img src="{{ block.profile_image.url }}" alt="">
+            {% else %}
+              <i class="bi bi-person-circle"></i>
+            {% endif %}
+            <p class='name'>{{ block.username }}</p>
+          </a>
           {% empty %}
-            <p>아직 팔로워가 없어요</p>
-          {% endfor %}
-        </div>
+          <p>아직 차단 회원이 없어요</p>
+        {% endfor %}
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 팔로잉 리스트 모달 -->
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModal2Label">팔로잉</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          {% for following in user_followings %}
-            <a class='follow' href="{% url 'accounts:detail' following.pk %}">
-              {% if following.profile_image %}
-                <img src="{{ following.profile_image.url }}" alt="">
-              {% else %}
-                <i class="bi bi-person-circle"></i>
-              {% endif %}
-              <p class='name'>{{ following.username }}</p>
-            </a>
-          {% empty %}
-            <p>아직 팔로잉하는 회원이 없어요</p>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 차단 회원 목록 모달 -->
-  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">차단 회원</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body d-flex flex-column">
-          {% for block in user_blocks %}
-            <a class='block' href="{% url 'accounts:detail' block.pk %}">
-              {% if block.profile_image %}
-                <img src="{{ block.profile_image.url }}" alt="">
-              {% else %}
-                <i class="bi bi-person-circle"></i>
-              {% endif %}
-              <p class='name'>{{ block.username }}</p>
-            </a>
-            {% empty %}
-            <p>아직 차단 회원이 없어요</p>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
+{% comment %} 프로필에 해당하는 user {% endcomment %}
+<input type="hidden" id="profile-user" value='{{ user.pk }}'>
+{% comment %} 현재 로그인한 유저 {% endcomment %}
+<input type="hidden" id="current-user" value='{{ request.user.pk }}'>
 {% endblock content %}
 
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="{% static 'js/accounts/detail.js' %}"></script>
 {% endblock js %}
