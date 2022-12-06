@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Event Details
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="clearfix">
+            <a class="btn btn-primary left" href="{% url 'calendarapp:calendar' %}"> 달력 </a>
+            <a class="btn btn-outline-primary right mr-2" href="{% url 'calendarapp:event_edit' event.pk %}"> 수정하기 </a>
+        </div>
+        
+        <div class="clearfix">
+            <h3>일지 제목 : {{ event.title }}</h3>
+            <p>From <span style="color: gray;">{{ event.start_time }}</span> To <span style="color: gray;">{{ event.end_time }}</span></p>
+            <hr>
+            <p>{{ event.description }}</p>
+        </div>
+        <hr>
+        <div class="clearfix">
+            <h4 class="left" > Members of this Event</h4>
+            <a class="btn btn-outline-success right" href="{% url 'calendarapp:add_eventmember' event.id %}"> 멤버추가 </a>
+        </div>
+        <table class="table table-bordered">
+            <thead>                  
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Name</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for member in eventmember %}
+                <tr role="row">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
+                    <td>{{ member.user.username }}</td>
+                    <td>{{ member.user.email }}</td>
+                    <td>
+                        <a class="btn btn-outline-danger" href="{% url 'calendarapp:remove_event' member.id %}">멤버삭제</a>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+{% endblock %}

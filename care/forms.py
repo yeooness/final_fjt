@@ -43,6 +43,7 @@ class Careform(forms.ModelForm):
         model = Care
         fields = [
             "title",
+            "area",
             "pet_gender",
             "content",
             "image",
@@ -52,6 +53,7 @@ class Careform(forms.ModelForm):
         ]
         labels = {
             "title": "제목",
+            "area": "지역",
             "content": "내용",
             "image": "이미지",
             "pet_gender": "성별",

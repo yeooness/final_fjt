@@ -35,7 +35,7 @@ def send(request, pk):
         if to_user.note_notice:
             to_user.notice_note = False
             to_user.save()
-        return redirect("meetings:index")
+        return redirect("notes:index")
     context = {
         "notes": notes,
         "form": form,

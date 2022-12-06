@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/communities_create.css' %}">
+  <link rel="stylesheet" href="{% static 'css/communities/create.css' %}">
 {% endblock css %}
 
 {% block content %}
@@ -16,7 +16,12 @@
     {% csrf_token %}
     {% comment %} {% bootstrap_form community_form %} {% endcomment %}
     {% comment %} 게시판 종류 {% endcomment %}
-    <input type="hidden" name="community" value='{{ community.community }}'>
+          {% comment %} 게시판 종류 {% endcomment %}
+          <select class="" name="community" id="">
+            <option value="자유게시판">자유게시판</option>
+            <option value="후기게시판">후기게시판</option>
+            <option value="질문게시판">질문게시판</option>
+          </select>
     {% comment %} 견종 {% endcomment %}
     <div class='domain pet_species' data-selected-species='{{ community.pet_species }}'>
       <h5><span class='important'>*</span> 어떤 친구에 대한 글을 작성하실 건가요?</h5>
@@ -59,5 +64,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/communities_update.js' %}"></script>
+<script src="{% static 'js/communities/update.js' %}"></script>
 {% endblock js %}

@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/communities_create.css' %}">
+  <link rel="stylesheet" href="{% static 'css/communities/create.css' %}">
 {% endblock css %}
 
 {% block content %}
@@ -22,6 +22,7 @@
         <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
         <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
       </div>
+
       {% comment %} 제목 {% endcomment %}
       <div class='domain'>
         <h5><span class='important'>*</span> 제목</h5>
@@ -58,5 +59,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/communities_create.js' %}"></script>
+<script src="{% static 'js/communities/create.js' %}"></script>
 {% endblock js %}

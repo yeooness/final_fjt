@@ -34,6 +34,18 @@ class Community(models.Model):
         default="선택",
     )
 
+    review_board_choices = [
+        ("용품 후기", "용품 후기"),
+        ("박람회 후기", "박람회 후기"),
+        ("병원 후기", "병원 후기"),
+    ]
+
+    review_board = models.CharField(
+        max_length=20,
+        choices=review_board_choices,
+        default="선택",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     image = ProcessedImageField(

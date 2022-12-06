@@ -1,10 +1,13 @@
 from random import randint
 import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import *
+from care.models import *
 from .models import User, Pet, AuthPhone
 from .forms import (
     CustomUserCreationForm,
     CustomUserChangeForm,
+    CustomAuthenticationForm,
     CustomPasswordChangeForm,
     CustomPetCreationForm,
     CustomPetChangeForm,
@@ -55,12 +58,12 @@ def signup(request):
 # 로그인
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
             return redirect("communities:index")
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     context = {"form": form}
     return render(request, "accounts/login.html", context)
 
@@ -282,13 +285,13 @@ def kakao_callback(request):
 
     kakao_id = kakao_user_information["id"]
     kakao_nickname = kakao_user_information["properties"]["nickname"]
-    kakao_profile_image = kakao_user_information["properties"]["profile_image"]
 
     if get_user_model().objects.filter(kakao_id=kakao_id).exists():
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
     else:
         kakao_login_user = get_user_model()()
         kakao_login_user.username = kakao_nickname
+        kakao_login_user.nickname = kakao_nickname
         kakao_login_user.kakao_id = kakao_id
         kakao_login_user.set_password(str(state_token))
         kakao_login_user.save()
@@ -330,15 +333,14 @@ def naver_callback(request):
 
     naver_id = naver_user_information["response"]["id"]
     naver_nickname = naver_user_information["response"]["nickname"]
-    naver_img = naver_user_information["response"]["profile_image"]
     if get_user_model().objects.filter(naver_id=naver_id).exists():
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     else:
         naver_login_user = get_user_model()()
         naver_login_user.username = naver_nickname
+        naver_login_user.nickname = naver_nickname
         naver_login_user.naver_id = naver_id
         naver_login_user.set_password(str(state_token))
-        naver_login_user.image = naver_img
         naver_login_user.is_social = 2
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
@@ -384,16 +386,15 @@ def google_callback(request):
     g_id = google_user_information["sub"]
     g_name = google_user_information["name"]
     g_email = google_user_information["email"]
-    g_img = google_user_information["picture"]
 
     if get_user_model().objects.filter(google_id=g_id).exists():
         google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_name
+        google_login_user.username = g_email
+        google_login_user.nickname = g_name
         google_login_user.email = g_email
         google_login_user.google_id = g_id
-        google_login_user.image = g_img
         google_login_user.is_social = 1
         google_login_user.set_password(str(state_token))
         google_login_user.save()
@@ -445,3 +446,73 @@ def check_auth(request, user_pk):
         "auth_message": auth_message,
     }
     return JsonResponse(context)
+
+def save(request):
+    if request.method == "POST":
+        pet_notice = request.GET.get("p")
+        note_notice = request.GET.get("h6")
+        if pet_notice == "ON":
+            request.user.pet_notice = True
+        else:
+            request.user.pet_notice = False
+        if note_notice == "ON":
+            request.user.note_notice = True
+        else:
+            request.user.note_notice = False
+        request.user.save()
+        return JsonResponse({1: 1})
+    else:
+        return redirect("accounts:detail")
+
+# 알람
+def notice(request):
+    if request.method == "POST":
+        dic = {}
+        # if request.user.pet_notice:
+        #     if Care.objects.filter(user=request.user).exists():
+        #         card = request.user.usercard
+        #         false_comments = card.usercomment_set.filter(read=False)
+        #         for i in false_comments:
+        #             if i.created_at not in dic:
+        #                 dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+        #                     i.content,
+        #                     i.user.nickname,
+        #                     "card",
+        #                     card.pk,
+        #                 )
+        #             else:
+        #                 dic[
+        #                     (i.created_at + datetime.timedelta(minutes=1)).strftime(
+        #                         "%Y-%m-%dT%H:%M:%S"
+        #                     )
+        #                 ] = (
+        #                     i.content,
+        #                     i.user.nickname,
+        #                     "card",
+        #                     card.pk,
+        #                 )
+        if request.user.note_notice:
+            if request.user.user_to.filter(read=False).exists():
+                false_notes = request.user.user_to.filter(read=False)
+                for i in false_notes:
+                    if i.created_at not in dic:
+                        dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+                            i.title,
+                            i.from_user.nickname,
+                            "note",
+                            i.pk,
+                        )
+                    else:
+                        dic[
+                            (i.created_at + datetime.timedelta(minutes=1)).strftime(
+                                "%Y-%m-%dT%H:%M:%S"
+                            )
+                        ] = (i.title, i.from_user.nickname, "note", i.pk)
+        dic = sorted(dic.items(), reverse=True)
+        if not dic:
+            request.user.notice_pet = True
+            request.user.notice_note = True
+            request.user.save()
+        return JsonResponse({"items": dic})
+    else:
+        return redirect("communities:index")
