@@ -56,7 +56,7 @@ class Careform(forms.ModelForm):
             "area": "지역",
             "content": "내용",
             "image": "이미지",
-            "pet_gender": "성별",
+            "pet_gender": "돌봐주실 분 성별",
         }
     
     # def save(self, commit=True):

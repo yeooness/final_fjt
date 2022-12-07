@@ -6,10 +6,54 @@ from .forms import Careform, CommentForm
 from django.http import JsonResponse
 
 # Create your views here.
+
 def index(request):
     care = Care.objects.order_by("-pk")
+    animal = request.GET.get('caring_animal') # 돌봄가능 동물
+    time = request.GET.get('caring_time') # 돌봄가능 기간
+    pet_etc = request.GET.get('etc') # 기타
+    areas = request.GET.get('area') # 지역
+    gender = request.GET.get('pet_gender') # 펫 성별
+
+    # DB모델
+    caring_animal = Care.objects.filter(caring_animal=animal)
+    caring_time = Care.objects.filter(caring_time=time)
+    etc = Care.objects.filter(etc=pet_etc)
+    area = Care.objects.filter(area=areas)
+    pet_gender = Care.objects.filter(pet_gender=gender)
+
+    # 매칭 조건
+    
+    # 돌봄가능 동물별
+    caring_animal_list = ["고양이", "강아지"]
+    # 돌봄가능 기간별
+    caring_time_list = ["4시간이하", "1일이하", "3일이하", "7일이하", "7일초과"]
+    # 기타
+    etc_list = ["사전만남 가능", "반려동물 있음", "노견/노모 케어 가능", "픽업 가능", "산책 가능", "돌봄 경력 있음"]
+    # 지역별
+    area_list = ["경기도", "서울시", "부산광역시", "경상남도", "인천광역시", "경상북도", "대구광역시", "충청남도", "전라남도",
+     "전라북도", "충청북도", "강원도", "대전광역시", "광주광역시", "울산광역시", "제주도", "세종시"]
+    # 성별
+    gender_list = ["남자", "여자", "상관없음"]
+
+
     context = {
         "care": care,
+        "animal": animal,
+        "time": time,
+        "pet_etc": pet_etc,
+        "areas": areas,
+        "gender": gender,
+        "caring_animal": caring_animal,
+        "caring_time": caring_time,
+        "etc": etc,
+        "area": area,
+        "pet_gender": pet_gender,
+        "caring_animal_list": caring_animal_list,
+        "caring_time_list": caring_time_list,
+        "etc_list": etc_list,
+        "area_list": area_list,
+        "gender_list": gender_list,
     }
     return render(request, "care/index.html", context)
 
