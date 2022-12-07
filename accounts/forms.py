@@ -13,7 +13,8 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 class CustomAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].label = '아이디'
+        self.fields["username"].label = "아이디"
+
 
 # 회원가입
 class CustomUserCreationForm(UserCreationForm):
@@ -70,10 +71,19 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 class CustomPetCreationForm(forms.ModelForm):
     class Meta:
         model = Pet
-        fields = ["pet_image", "petname", "petage", "petgender", "neutralization"]
+        fields = [
+            "pet_image",
+            "petname",
+            "petage",
+            "petgender",
+            "neutralization",
+            "breeds",
+            "birthday",
+        ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",
+            "petage": "나이",
             "petgender": "성별",
             "neutralization": "중성화 여부",
             "species": "종",
@@ -84,7 +94,15 @@ class CustomPetCreationForm(forms.ModelForm):
 class CustomPetChangeForm(forms.ModelForm):
     class Meta:
         model = Pet
-        fields = ["pet_image", "petname", "petage", "petgender", "neutralization"]
+        fields = [
+            "pet_image",
+            "petname",
+            "petage",
+            "petgender",
+            "neutralization",
+            "breeds",
+            "birthday",
+        ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",

@@ -67,6 +67,7 @@ class User(AbstractUser):
     notice_pet = models.BooleanField(default=True)
     notice_note = models.BooleanField(default=True)
 
+
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="pet")
     # 이미지
@@ -98,6 +99,8 @@ class Pet(models.Model):
         ("cat", "고양이"),
     )
     species = models.CharField(max_length=3, choices=SPECIES_CHOICES, default="선택")
+    breeds = models.CharField(max_length=100)
+    birthday = models.DateField()
 
 
 # 핸드폰 인증
@@ -155,5 +158,3 @@ class AuthPhone(TimeStampedModel):
             "x-ncp-apigw-signature-v2": signing_key,
         }
         requests.post(url, json=data, headers=headers)
-
-
