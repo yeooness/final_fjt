@@ -1,27 +1,143 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/care/index.css' %}">
+{% endblock css %}
 
 {% block content %}
+  <main>
+    {% comment %} 펫시터가 찾고자하는 돌봄글 {% endcomment %}
+    <section id='petsitter'>
+      <div class='container'>
+        <div class='super-head'>
+          <div>
+            <h1>나의 도움이 필요한 집사 찾기</h1>
+            <span class='sub-text'>나의 돌봄 조건에 따라 클릭하세요</span>
+          </div>
+          {% comment %} 제출버튼 {% endcomment %}
+          <input form='filter-form' type="submit" value="적용">
+        </div> 
 
-  <div>
-    {% for caring_animal in caring_animal_list %}
-      <a href="?caring_animal={{ caring_animal }}">{{ caring_animal }}</a>
-    {% endfor %}
-    <br>
-    {% for caring_time in caring_time_list %}
-      <a href="?caring_time={{ caring_time }}">{{ caring_time }}</a>
-    {% endfor %}
-    <br>
-    {% for etc in etc_list %}
-      <a href="?etc={{ etc }}">{{ etc }}</a>
-    {% endfor %}
-    <br>
-    {% for area in area_list %}
-      <a href="?area={{ area }}">{{ area }}</a>
-    {% endfor %}
-    <br>
-    {% for pet_gender in gender_list %}
-      <a href="?pet_gender={{ pet_gender }}">{{ pet_gender }}</a>
-    {% endfor %}
+        <div class='row'>
+          {% comment %} 1) 로그인한 사람(자신)의 프로필 {% endcomment %}
+          {% if request.user.is_authenticated %}
+          <div class='col-3' id='person'>
+            <div class='img-wrap'>
+              {% if request.user.profile_image %}
+              <img src="{{ request.user.profile_image.url }}" alt="">
+              {% else %}
+              <i class="bi bi-person-circle"></i>
+              {% endif %}
+              <span class='name'>{{ user.nickname }}</span>
+              <span>
+                {% if user.gender == 'M' %}
+                남자
+                {% else %}
+                여자
+                {% endif %}
+                  | 
+                {{ user.age }}세
+              </span>
+            </div>
+          </div>
+          {% endif %}
+
+          {% comment %} 2) 나의 돌봄 조건 {% endcomment %}
+          <div class='{% if request.user.is_authenticated %}col-9{% else %}col-12{% endif %}'>
+            <form id='filter-form' action="{% url 'care:index' %}" method='get'>
+              {% comment %} 나의 성별 {% endcomment %}
+              <div class='section petsitter_gender row'>
+                <div class='head col-3'>
+                  <h5>나의 성별</h5>
+                  <span class='text'>하나만 선택 가능</span>
+                </div>
+                <div class='body col-9'>
+                  <label for='male' class='active'>남</label>
+                  <input type='radio' id='male' name='pet_gender' value='남' checked/>
+                  <label for='female'>여</label>
+                  <input type='radio' id='female' name='pet_gender' value='여'/>
+                </div>
+              </div>
+  
+              {% comment %} 돌봄 가능 동물 {% endcomment %}
+              <div class='section caring-pet row'>
+                <div class='head col-3'>
+                  <h5>돌봄 가능 동물</h5>
+                  <span class='text'>하나만 선택 가능</span>
+                </div>
+                <div class='body col-9'>
+                  <label for='dog' class='active'>강아지</label>
+                  <input type='radio' id='dog' name='caring-pet' value='강아지' checked/>
+                  <label for='cat'>고양이</label>
+                  <input type='radio' id='cat' name='caring-pet' value='고양이'/>
+                </div>
+              </div>
+  
+              {% comment %} 돌봄 가능 시간 {% endcomment %}
+              <div class='section caring-time row'>
+                <div class='head col-3'>
+                  <h5>돌봄 가능 시간</h5>
+                  <span class='text'>하나만 선택 가능</span>
+                </div>
+                <div class='body col-9'>
+                  <label for='4시간이하' class='active'>4시간이하</label>
+                  <input type='radio' id='4시간이하' name='caring_time' value='4시간이하' checked/>
+                  <label for='1일이하'>1일이하</label>
+                  <input type='radio' id='1일이하' name='caring_time' value='1일이하'/>
+                  <label for='3일이하'>3일이하</label>
+                  <input type='radio' id='3일이하' name='caring_time' value='3일이하'/>
+                  <label for='7일이하'>7일이하</label>
+                  <input type='radio' id='7일이하' name='caring_time' value='7일이하'/>
+                  <label for='7일초과'>7일초과</label>
+                  <input type='radio' id='7일초과' name='caring_time' value='7일초과'/>
+                </div>
+              </div>
+  
+              {% comment %} 기타 {% endcomment %}
+              <div class='section etc row'>
+                <div class='head col-3'>
+                  <h5>기타</h5>
+                  <span class='text'>다중 선택 가능</span>
+                </div>
+                <div class='col-9'>
+                  <div class='body mb-2'>
+                    <label for='사전만남가능' class='active'>사전만남가능</label>
+                    <input type='checkbox' id='사전만남가능' name='etc' value='사전만남가능' checked/>
+                    <label for='반려동물있음'>반려동물있음</label>
+                    <input type='checkbox' id='반려동물있음' name='etc' value='반려동물있음'/>
+                    <label for='돌봄경력있음'>돌봄경력있음</label>
+                    <input type='checkbox' id='돌봄경력있음' name='etc' value='돌봄경력있음'/>
+                  </div>
+                  <div class='body'>
+                    <label for='픽업가능'>픽업가능</label>
+                    <input type='checkbox' id='픽업가능' name='etc' value='픽업가능'/>
+                    <label for='산책가능'>산책가능</label>
+                    <input type='checkbox' id='산책가능' name='etc' value='산책가능'/>
+                    <label for='노견/노묘케어가능'>노견/노묘케어가능</label>
+                    <input type='checkbox' id='노견/노묘케어가능' name='etc' value='노견/노묘케어가능'/>
+                  </div>
+                </div>
+              </div>
+  
+              {% comment %} 돌봄 활동 가능 지역 {% endcomment %}
+              <div class='section possible-area row'>
+                <div class='head col-3'>
+                  <h5>돌봄 활동 가능 지역</h5>
+                </div>
+                <div class='body col-9'>
+                  <select name="area" id='area'>
+                    {% for area in area_list %}
+                    <option value="{{ area }}">{{ area }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="me-5">
       <a class="btn btn-outline-dark" href="{% url 'care:create' %}">
@@ -36,5 +152,9 @@
       <!-- 글 이미지 노출 사이즈 조절 필요 -->
       <!-- {% if c.image %} <div class="d-flex justify-content-center"> <img src="{{ c.image.url }}" alt="{{ c.image }}" class="container px-0"> </div> {% else %} <div class="d-flex justify-content-center"> <img src="" alt=""> </div> {% endif %} -->
     {% endfor %}
-  </div>
+  </main>
 {% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/care/index.js' %}"></script>
+{% endblock js %}
