@@ -1,0 +1,132 @@
+/* 펫시터가 찾고자 하는 돌봄글 */
+#petsitter {
+  /* background-color: rgb(251, 247, 248); */
+  background: url(http://fiximage.10x10.co.kr/web2018/main/bg_pattern_slash.png) 0 0 repeat;
+}
+#petsitter .super-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 1rem 2rem;
+}
+#petsitter .super-head h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+#petsitter .super-head .sub-text {
+  color: #959595;
+  font-size: 0.8rem;
+}
+/* 1) 로그인한 사람의 프로필 */
+#person .img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#person .img-wrap img {
+  display: block;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 15rem;
+  height: 15rem;
+  background-color: white;
+  border-radius: 50%;
+}
+#person .img-wrap .bi-person-circle {
+  margin-bottom: 1rem;
+  font-size: 13rem;
+  color: #959595;
+  line-height: 13rem;
+}
+#person .img-wrap .name {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* 2) 나의 돌봄 조건 */
+#petsitter form {
+  width: 100%;
+  padding: 0 3rem 1rem 3rem;
+}
+#petsitter input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  /* background-color: #EB7D80;
+  color: white; */
+  background-color: white;
+  border: 2px solid rgb(208, 172, 191);
+  color: rgb(208, 172, 191);
+  /* box-shadow: 0.1rem 0.1rem 0.5rem 0.5rem rgba(208, 172, 191, 0.329); */
+}
+/* 공통 적용 부분 */
+.section {
+  padding: 0.5rem 0rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+.section .head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.section .head h5 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.section .head .text {
+  color: #cccbcb;
+  font-size: 0.8rem;
+}
+.section .body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* 나의 성별, 돌봄 가능 동물, 돌봄 가능 시간, 기타 */
+.petsitter_gender input[type='radio'], .caring-pet input[type='radio'], .caring-time input[type='radio'], .etc input[type='checkbox'] {
+  display: none;
+}
+.petsitter_gender label, .caring-pet label, .caring-time label, .etc label {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.3rem 0;
+  width: 10rem;
+  color: #595858;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2rem;
+}
+.petsitter_gender label.active, .caring-pet label.active, .caring-time label.active, .etc label.active {
+  background-color: rgb(208, 172, 191);
+  color: white;
+  /* border: 2px solid rgb(208, 172, 191);
+  color: rgb(208, 172, 191); */
+  font-weight: 700;
+}
+/* 돌봄 활동 가능 지역 */
+.possible-area {
+  border-bottom: none;
+  margin-bottom: 1rem;
+}
+#area {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 250px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid rgb(208, 172, 191);
+  border-radius: 4px;
+  color: #6c757d;
+}
+#area option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#area option:hover {
+  background-color: rgb(208, 172, 191);
+  color: white;
+}

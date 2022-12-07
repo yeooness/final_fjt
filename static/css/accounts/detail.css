@@ -15,6 +15,7 @@
 }
 #person .img-wrap img {
   display: block;
+  margin-bottom: 1rem;
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
