@@ -126,7 +126,7 @@ input[type='submit'] {
   outline: none;
 }
 
-/* 성별, 중성화여부 */
+/* 성별, 중성화 여부, 예방접종 여부 */
 .pet_gender input[type='radio'], 
 .pet_neutralization input[type='radio'],
 .pet_vaccination input[type='radio'] {

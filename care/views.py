@@ -59,6 +59,15 @@ def index(request):
 
 
 def create(request):
+    print(request.POST.get('pet_need_caring'))
+    print(request.POST.get('pet_gender'))
+    print(request.POST.get('caring_time'))
+    print(request.POST.getlist('etc'))
+
+
+
+
+
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
         care_form = Careform(request.POST, request.FILES)
