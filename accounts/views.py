@@ -3,7 +3,7 @@ import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import *
 from care.models import *
-from .models import Pet
+from .models import Pet, AuthPhone
 from .forms import *
 from django.contrib.auth import (
     authenticate,
@@ -413,29 +413,73 @@ from rest_framework.views import APIView
 from . import models as m
 
 
-class AuthSms(APIView):
-    def post(self, request, user_pk):
-        try:
-            p_num = request.data["phone_number"]
-        except KeyError:
-            return Response(
-                {"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST
-            )
-        else:
-            m.AuthSms.objects.update_or_create(phone_number=p_num)
-            return Response({"message": "OK"})
+def check(request, user_pk):
+    today_ = str(datetime.date.today())
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    user_phone = request.POST["phone"]
+    now_auth_phone = AuthPhone.objects.filter(phone=user_phone[1:])
+    auth_count = 0
+    for data in now_auth_phone:
+        if data.created_at.strftime("%Y-%m-%d") == today_:
+            auth_count += 1
+            if auth_count == 5:
+                break
+    context = {
+        "authCount": auth_count,
+    }
+    return JsonResponse(context)
 
-    def get(self, request, user_pk):
-        try:
-            p_num = request.query_params["phone_number"]
-            a_num = request.query_params["auth_number"]
-        except KeyError:
-            return Response(
-                {"message": "Bad Reuqest"}, status=status.HTTP_400_BAD_REQUEST
-            )
+
+# 휴대폰 인증번호 전송
+def phone_auth(request, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    if user.phone_num:
+        phone = user.phone_num
+        phone = "".join(phone.split("-"))
+        user.phone_num = phone
+    random_auth_number = randint(1000, 10000)
+    auth_phone = AuthPhone()
+    auth_phone.phone = user.phone_num if user.phone_num else request.POST["phone"]
+    print(user.phone_num)
+    print(request.POST["phone"])
+    auth_phone.auth_number = random_auth_number
+    auth_phone.save()
+    context = {}
+    return JsonResponse(context)
+
+
+import datetime
+from django.utils import timezone
+
+
+# 휴대폰 인증번호 입력 후 검증
+def check_auth(request, user_pk):
+    time_limit = timezone.now() + datetime.timedelta(minutes=5)
+    user_phone = request.POST["phone"]
+    phone_auth_number = int(request.POST["auth_number"])
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    now_auth_phone = AuthPhone.objects.filter(phone=user_phone[1:]).order_by(
+        "-updated_at"
+    )[0]
+    if now_auth_phone.updated_at <= time_limit:
+        if now_auth_phone.auth_number == phone_auth_number:
+            user.phone = user_phone
+            user.is_phone_active = True
+            user.save()
+            now_auth_phone.delete()
+            is_phone_active = True
+            auth_error_or_success = "인증 완료"
         else:
-            result = m.AuthSms.check_auth_number(p_num, a_num)
-            return Response({"message": "OK", "result": result})
+            is_phone_active = False
+            auth_error_or_success = "인증 번호가 다릅니다."
+    else:
+        is_phone_active = False
+        auth_error_or_success = "인증 시간이 만료되었습니다."
+    context = {
+        "isPhoneActive": is_phone_active,
+        "authErrorOrSuccess": auth_error_or_success,
+    }
+    return JsonResponse(context)
 
 
 # 알람
