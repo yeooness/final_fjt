@@ -45,7 +45,9 @@ urlpatterns = [
     path("templates/accounts/login/google/callback", views.google_callback),
     # # 핸드폰 인증
     # path("<int:user_pk>/phone_auth/", views.phone_auth, name="phone_auth"),
-    path("<int:user_pk>/update/auth_sms/", views.AuthSms.as_view(), name="auth_sms"),
+    path("<int:user_pk>/update/check/", views.check, name="check"),
+    path("<int:user_pk>/update/phone-auth/", views.phone_auth, name="phone-auth"),
+    path("<int:user_pk>/update/check-auth/", views.check_auth, name="check-auth"),
     # 알람
     path("save/", views.save, name="save"),
     path("notice/", views.notice, name="notice"),
