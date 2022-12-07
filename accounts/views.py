@@ -104,13 +104,12 @@ def detail(request, user_pk):
 
 # 반려동물 등록
 def pet_register(request, user_pk):
-    print(request.POST.get('pet_species'))
-    print(request.POST.get('pet_size'))
-    print(request.POST.get('pet_gender'))
-    print(request.POST.get('pet_neutralization'))
-    print(request.POST.get('pet_vaccination'))
-    print(request.POST.getlist('feature'))
-
+    print(request.POST.get("pet_species"))
+    print(request.POST.get("pet_size"))
+    print(request.POST.get("pet_gender"))
+    print(request.POST.get("pet_neutralization"))
+    print(request.POST.get("pet_vaccination"))
+    print(request.POST.getlist("feature"))
 
     if request.method == "POST":
         form = CustomPetCreationForm(request.POST, request.FILES)
@@ -413,48 +412,38 @@ def google_callback(request):
 
 # 핸드폰 인증
 import datetime
-from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from . import models as m
 
 
-def phone_auth(request, user_pk):
-    user = get_object_or_404(get_user_model(), pk=user_pk)
-    random_auth_number = randint(1000, 10000)
-    auth_phone = AuthPhone()
-    auth_phone.phone = user.phone if user.phone else request.POST["phone"]
-    auth_phone.auth_number = random_auth_number
-    auth_phone.save()
-    context = {}
-    return JsonResponse(context)
-
-
-def check_auth(request, user_pk):
-    time_limit = timezone.now() + datetime.timedelta(minutes=3)
-    user_phone = request.POST["phone"]
-    phone_auth_number = int(request.POST["auth_number"])
-    user = get_object_or_404(get_user_model(), pk=user_pk)
-    now_auth_phone = AuthPhone.objects.filter(phone=user_phone[1:]).order_by(
-        "-updated_at"
-    )[0]
-    if now_auth_phone.updated_at <= time_limit:
-        if now_auth_phone.auth_number == phone_auth_number:
-            user.phone = user_phone
-            user.is_phone_active = True
-            user.save()
-            now_auth_phone.delete()
-            is_phone_active = True
-            auth_message = "인증이 완료 되었습니다."
+class AuthSms(APIView):
+    def post(self, request, user_pk):
+        try:
+            p_num = request.data["phone_number"]
+        except KeyError:
+            return Response(
+                {"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
         else:
-            is_phone_active = False
-            auth_message = "인증 번호가 잘못 입력 되었습니다."
-    else:
-        is_phone_active = False
-        auth_message = "인증 시간이 만료 되었습니다."
-    context = {
-        "isPhoneActive": is_phone_active,
-        "auth_message": auth_message,
-    }
-    return JsonResponse(context)
+            m.Auth.objects.update_or_create(phone_number=p_num)
+            return Response({"message": "OK"})
 
+    def get(self, request, user_pk):
+        try:
+            p_num = request.query_params["phone_number"]
+            a_num = request.query_params["auth_number"]
+        except KeyError:
+            return Response(
+                {"message": "Bad Reuqest"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            result = m.AuthSms.check_auth_number(p_num, a_num)
+            return Response({"message": "OK", "result": result})
+
+
+# 알람
 def save(request):
     if request.method == "POST":
         pet_notice = request.GET.get("p")
@@ -471,6 +460,7 @@ def save(request):
         return JsonResponse({1: 1})
     else:
         return redirect("accounts:detail")
+
 
 # 알람
 def notice(request):

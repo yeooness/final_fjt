@@ -67,10 +67,9 @@ function sample6_execDaumPostcode() {
 
 
 // 휴대폰 번호 인증
-/////////////////////////////////////////////////////// 휴대폰 번호 인증 /
 const phoneId = document.getElementById("id_phone_num");
 const getAuthBtn = document.getElementById("get-auth-btn");
-const authPhone = document.getElementById("auth-phone");
+const authPhone = document.getElementById("auth-number");
 const authPhoneSubmit = document.getElementById("auth-phone-submit");
 const authTimer = document.getElementById("auth-timer");
 const helpText = document.getElementById("help-text");
@@ -84,7 +83,7 @@ getAuthBtn.addEventListener("click", (event) => {
     formData.append("phone", phoneId.value);
     axios({
       method: 'post',
-      url: `/accounts/${event.target.dataset.accountId}/update/check_auth/`,
+      url: `/accounts/${event.target.dataset.accountId}/update/auth_sms/`,
       headers: {
         'X-CSRFToken': csrftoken
       },
@@ -155,7 +154,7 @@ getAuthBtn.addEventListener("click", (event) => {
     phoneId.focus();
   };
 });
-/////////////////////////////////////////////////////// 인증번호 입력 후 제출 /
+// 인증번호 입력 후 제출 
 authPhoneSubmit.addEventListener("click", (event) => {
   event.preventDefault();
   let formData2 = new FormData();
