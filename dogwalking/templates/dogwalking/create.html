@@ -1,19 +1,63 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
 {% load static %}
+{% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/dogwalking/create.css' %}">
+{% endblock css %}
 
 {% block content %}
+  <main class="container">
+    <h1>산책메이트 찾기</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} 제목 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 제목</h5>
+        {{ dogwalking_form.title|attr:'placeholder:제목을 입력하세요' }}
+      </div>
 
-<div class="container">
-  <h1 class="text-start fs-5 mb-4 fw-bold font-space">산책메이트 글 작성</h1>
-  <form action="" method="POST" class="my-3 font-space fw-semibold" style="font-size: 15px;"
-    enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="font-space">
-      {% bootstrap_form dogwalking_form %}
-    </div>
-    {% bootstrap_button button_type="submit" button_class="btn btn-dark text-white w-100 rounded-0" content="리뷰 작성" %}
-  </form>
-</div>
+      {% comment %} 산책인원 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 산책인원</h5>
+        {{ dogwalking_form.members }}
+      </div>
 
+      {% comment %} 내용 {% endcomment %}
+      <div class="domain">
+        <h5><span class='important'>*</span> 내용</h5>
+        {{ dogwalking_form.content|attr:'placeholder:내용을 입력하세요' }}
+      </div>
+
+      {% comment %} 첨부 이미지 {% endcomment %}
+      <div class="domain">
+        <h5>첨부할 이미지</h5>
+        <div class='upload-img-wrap'>
+          <img class='upload-img' src="" alt="">
+        </div>
+        <label for="id_image" class='img-label'>
+          <i class="bi bi-image"></i> 사진 첨부하기
+        </label>
+        {{ dogwalking_form.image }}
+      </div>
+
+      {% comment %} 태그 {% endcomment %}
+      <div class="domain">
+        <h5>태그</h5>
+        {{ dogwalking_form.tags|attr:'placeholder:태그를 입력하세요' }}
+        <p class='tags-help'>A comma-separated list of tags.</p>
+      </div>
+
+      {% comment %} 제출버튼 {% endcomment %}
+      <div class='submit-btn-wrap'>
+        <input type="submit" value="저장">
+      </div>
+    </form>
+
+  </main>
 {% endblock content %}
+
+{% block js %}
+  <script src="{% static 'js/dogwalking/create.js' %}"></script>
+{% endblock js %}

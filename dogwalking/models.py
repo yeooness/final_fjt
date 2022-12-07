@@ -25,7 +25,7 @@ class Dogwalking(models.Model):
     # 내 위치 주소 입력 모델로 수정 필요
     location = models.CharField(max_length=50)
     # 산책 인원 추가
-    members = models.IntegerField(null=True)
+    members = models.IntegerField(null=True, default=1)
     title = models.CharField(max_length=30)
     content = models.TextField()
     image = ProcessedImageField(
