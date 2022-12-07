@@ -40,7 +40,6 @@
             <label for="id_phone_num">핸드폰 번호</label>
             <input type="text" name='phone_num' value='{{ request.user.phone_num }}' maxlength='11' class='form-control' placeholder='휴대폰 번호' id='id_phone_num'>
           </div>
-          <input type="hidden" id='' name="phone_num" value=''>
             <div id="phone-div" class="d-flex mb-3">
               <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}">번호 변경하기</button>
               <p id="already-auth-user" class="mx-3 my-0 d-flex justify-content-center align-items-center">이미 인증된 사용자입니다.</p>
