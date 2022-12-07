@@ -1,0 +1,140 @@
+h1 {
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+form {
+  max-width: 50rem;
+  margin: 3rem auto;
+}
+.submit-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+
+/* 공통 적용 부분 */
+.domain {
+  margin: 1.5rem 0;
+}
+.domain h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.domain .important {
+  color: red;
+}
+.section {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+.section .head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.section .head h5 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.section .head .text {
+  color: #D9D9D9;
+  font-size: 0.8rem;
+}
+.section .body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* 돌봄이 필요한 반려동물, 반려동물과 함께 지내는 지역 */
+#pet_need_caring, #id_area {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 250px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid #F6A9A8;
+  border-radius: 4px;
+  color: #6c757d;
+}
+#pet_need_caring option, #id_area option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#pet_need_caring option:hover, #id_area option:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+
+/* 제목, 내용 */
+#id_title, #id_content {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_title:focus, #id_content:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+
+/* 첨부 이미지 */
+.upload-img-wrap {
+  display: none;
+  background-color: #FFF8F5;
+  text-align: center;
+}
+.upload-img-wrap.active {
+  display: block;
+}
+.upload-img {
+  width: 30%;
+}
+.img-label {
+  padding: 0.5rem;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #F6A9A8;
+  color: #F6A9A8;
+  text-align: center;
+}
+.img-label:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+#id_image {
+  display: none;
+}
+
+/* 요구하는 조건 */
+/* 돌보미 성별, 돌봄 시간, 기타 */
+.petsitter_gender input[type='radio'], .caring_time input[type='radio'], .etc input[type='checkbox'] {
+  display: none;
+}
+.petsitter_gender label, .caring_time label, .etc label {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.5rem 0;
+  width: 10rem;
+  border: 1px solid #D9D9D9;
+  color: #D9D9D9;
+  text-align: center;
+  cursor: pointer;
+}
+.petsitter_gender label.active, .caring_time label.active, .etc label.active {
+  border: 1px solid #EB7D80;
+  color: #EB7D80;
+}
