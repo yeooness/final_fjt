@@ -28,8 +28,8 @@ function sample6_execDaumPostcode() {
           if (data.buildingName !== '' && data.apartment === 'Y') {
             extraAddr += (
               extraAddr !== ''
-              ? ', ' + data.buildingName
-              : data.buildingName);
+                ? ', ' + data.buildingName
+                : data.buildingName);
           }
           // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
           if (extraAddr !== '') {
