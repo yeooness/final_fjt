@@ -3,16 +3,8 @@ import secrets, requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import *
 from care.models import *
-from .models import User, Pet, AuthPhone
-from .forms import (
-    CustomUserCreationForm,
-    CustomUserChangeForm,
-    CustomAuthenticationForm,
-    CustomPasswordChangeForm,
-    CustomPetCreationForm,
-    CustomPetChangeForm,
-    AuthForm,
-)
+from .models import Pet
+from .forms import *
 from django.contrib.auth import (
     authenticate,
     update_session_auth_hash,
@@ -20,13 +12,11 @@ from django.contrib.auth import (
     login as auth_login,
     logout as auth_logout,
 )
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 
 # Create your views here.
-
 
 # 회원가입
 def signup(request):
@@ -104,18 +94,23 @@ def detail(request, user_pk):
 
 # 반려동물 등록
 def pet_register(request, user_pk):
-    print(request.POST.get("pet_species"))
-    print(request.POST.get("pet_size"))
-    print(request.POST.get("pet_gender"))
-    print(request.POST.get("pet_neutralization"))
-    print(request.POST.get("pet_vaccination"))
-    print(request.POST.getlist("feature"))
-
     if request.method == "POST":
         form = CustomPetCreationForm(request.POST, request.FILES)
         if form.is_valid():
             pet = form.save(commit=False)
             pet.user = request.user
+            pet.pet_species = request.POST.get("pet_species")
+            pet.pet_size = request.POST.get("pet_size")
+            pet.pet_weight = request.POST.get("pet_weight")
+            pet.pet_gender = request.POST.get("pet_gender")
+            pet.pet_neutralization = request.POST.get("pet_neutralization")
+            pet.pet_vaccination = request.POST.get("pet_vaccination")
+            pet.feature = request.POST.getlist("feature")
+            if pet.feature:
+                query = Q()
+                for i in pet.feature:
+                    query = query | Q(feature__icontains=i)
+                    pet = pet.filter(query)
             pet.save()
             return redirect("accounts:detail", request.user.pk)
     else:

@@ -104,6 +104,9 @@ class Pet(models.Model):
     species = models.CharField(max_length=3, choices=SPECIES_CHOICES, default="선택")
     breeds = models.CharField(max_length=100)
     birthday = models.DateField()
+    vaccination_status = models.BooleanField(default=False)
+    characteristics = models.CharField(max_length=100)
+    weight = models.IntegerField(default=0)
 
 
 # 핸드폰 인증
