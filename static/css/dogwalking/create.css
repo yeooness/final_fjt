@@ -1,0 +1,86 @@
+h1 {
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+form {
+  max-width: 50rem;
+  margin: 3rem auto;
+}
+.submit-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+
+/* 공통 적용 부분 */
+.domain {
+  margin: 1.5rem 0;
+}
+.domain h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.domain .important {
+  color: red;
+}
+
+/* 제목, 내용, 태그, 산책인원 */
+#id_title, #id_content, #id_tags, #id_members {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_title:focus, #id_content:focus, #id_tags:focus, #id_members:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+
+/* 산책인원 */
+#id_members {
+  width: 4rem;
+}
+
+/* 첨부 이미지 */
+.upload-img-wrap {
+  display: none;
+  background-color: #FFF8F5;
+  text-align: center;
+}
+.upload-img-wrap.active {
+  display: block;
+}
+.upload-img {
+  width: 30%;
+}
+.img-label {
+  padding: 0.5rem;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #F6A9A8;
+  color: #F6A9A8;
+  text-align: center;
+}
+.img-label:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+#id_image {
+  display: none;
+}
+
+/* 태그 */
+.tags-help {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
