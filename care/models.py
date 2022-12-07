@@ -66,24 +66,17 @@ class Care(models.Model):
         default="선택",
     )
 
-    pet_gender_choices = [
+    gender_choices = [
     ("남자", "남자"),
     ("여자", "여자"),
     ("상관없음", "상관없음")
     ]
 
-    pet_gender = models.CharField(
+    gender = models.CharField(
         max_length=20,
-        choices=pet_gender_choices,
+        choices=gender_choices,
         default="선택",
     )
-
-# class Care_list(models.Model):
-#     care_list = models.CharField(verbose_name='care_list', max_length=100)
-
-#     def __str__(self):
-#         return self.care_list
-
 
 class Review(models.Model):
     user = models.ForeignKey(
