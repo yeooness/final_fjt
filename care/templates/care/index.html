@@ -6,6 +6,22 @@
     {% for caring_animal in caring_animal_list %}
       <a href="?caring_animal={{ caring_animal }}">{{ caring_animal }}</a>
     {% endfor %}
+    <br>
+    {% for caring_time in caring_time_list %}
+      <a href="?caring_time={{ caring_time }}">{{ caring_time }}</a>
+    {% endfor %}
+    <br>
+    {% for etc in etc_list %}
+      <a href="?etc={{ etc }}">{{ etc }}</a>
+    {% endfor %}
+    <br>
+    {% for area in area_list %}
+      <a href="?area={{ area }}">{{ area }}</a>
+    {% endfor %}
+    <br>
+    {% for pet_gender in gender_list %}
+      <a href="?pet_gender={{ pet_gender }}">{{ pet_gender }}</a>
+    {% endfor %}
 
     <div class="me-5">
       <a class="btn btn-outline-dark" href="{% url 'care:create' %}">

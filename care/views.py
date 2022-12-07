@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Care, Comment
 from .forms import Careform, CommentForm
+from django.db.models import Q
 
 # from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
@@ -9,18 +10,12 @@ from django.http import JsonResponse
 
 def index(request):
     care = Care.objects.order_by("-pk")
-    animal = request.GET.get('caring_animal') # 돌봄가능 동물
-    time = request.GET.get('caring_time') # 돌봄가능 기간
-    pet_etc = request.GET.get('etc') # 기타
+    animal = request.GET.getlist('caring_animal') # 돌봄가능 동물
+    time = request.GET.getlist('caring_time') # 돌봄가능 기간
+    pet_etc = request.GET.getlist('etc') # 기타
     areas = request.GET.get('area') # 지역
     gender = request.GET.get('pet_gender') # 펫 성별
-
-    # DB모델
-    caring_animal = Care.objects.filter(caring_animal=animal)
-    caring_time = Care.objects.filter(caring_time=time)
-    etc = Care.objects.filter(etc=pet_etc)
-    area = Care.objects.filter(area=areas)
-    pet_gender = Care.objects.filter(pet_gender=gender)
+    print(animal)
 
     # 매칭 조건
     
@@ -36,19 +31,49 @@ def index(request):
     # 성별
     gender_list = ["남자", "여자", "상관없음"]
 
+    # DB모델
+    if animal:
+        query = Q()
+        for i in animal:
+            query = query | Q(caring_animal__icontains=i)
+            care = care.filter(query)
+    if time:
+        query = Q()
+        for i in time:
+            query = query | Q(caring_time__icontains=i)
+            care = care.filter(query)
+    if pet_etc:
+        query = Q()
+        for i in pet_etc:
+            query = query | Q(etc__icontains=i)
+            care = care.filter(query)
+    if areas:
+        query = Q()
+        for i in areas:
+            query = query | Q(area__icontains=i)
+            care = care.filter(query)
+    if gender:
+        query = Q()
+        for i in gender:
+            query = query | Q(pet_gender__icontains=i)
+            care = care.filter(query)
+        # caring_animal = Care.objects.filter(caring_animal=animal)
+        # caring_time = Care.objects.filter(caring_time=time)
+        # etc = Care.objects.filter(etc=pet_etc)
+        # area = Care.objects.filter(area=areas)
+        # pet_gender = Care.objects.filter(pet_gender=gender)
 
     context = {
         "care": care,
-        "animal": animal,
         "time": time,
         "pet_etc": pet_etc,
         "areas": areas,
         "gender": gender,
-        "caring_animal": caring_animal,
-        "caring_time": caring_time,
-        "etc": etc,
-        "area": area,
-        "pet_gender": pet_gender,
+        # "caring_animal": caring_animal,
+        # "caring_time": caring_time,
+        # "etc": etc,
+        # "area": area,
+        # "pet_gender": pet_gender,
         "caring_animal_list": caring_animal_list,
         "caring_time_list": caring_time_list,
         "etc_list": etc_list,
