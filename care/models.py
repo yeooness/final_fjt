@@ -21,8 +21,8 @@ class Care(models.Model):
     # condition = models.
     # 내 위치 주소 입력 모델로 수정 필요
     # location = models.CharField(max_length=50)
-    title = models.CharField(max_length=30)
-    content = models.TextField()
+    title = models.CharField(verbose_name='title',max_length=30)
+    content = models.TextField(verbose_name='content',)
     image = ProcessedImageField(
         upload_to="images/",
         blank=True,
@@ -36,9 +36,9 @@ class Care(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_care", blank=True
     )
 
-    caring_animal = models.CharField(max_length=300, default='') # 돌봄 가능 동물
-    caring_time = models.CharField(max_length=300) # 돌봄 가능 기간
-    etc = models.CharField(max_length=300) # 기타
+    caring_animal = models.CharField(verbose_name='caring_animal', max_length=300, default='') # 돌봄 가능 동물
+    caring_time = models.CharField(verbose_name='caring_time',max_length=300) # 돌봄 가능 기간
+    etc = models.CharField(verbose_name='etc',max_length=300) # 기타
 
     area_choices = [
         ("경기도", "경기도"),
@@ -78,6 +78,11 @@ class Care(models.Model):
         default="선택",
     )
 
+# class Care_list(models.Model):
+#     care_list = models.CharField(verbose_name='care_list', max_length=100)
+
+#     def __str__(self):
+#         return self.care_list
 
 
 class Review(models.Model):

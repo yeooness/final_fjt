@@ -62,7 +62,8 @@ class Careform(forms.ModelForm):
     # def save(self, commit=True):
     #     care = self.instance
     #     care_list = '/'.join([qs.care_list for qs in self.cleaned_data['caring_animal']])
-    #     care.list = care_list
+    #     # print(caring_animal)
+    #     care.caring_animal = care_list
     #     care.save()
     #     print(care.title, care.content, care.caring_animal)
     #     return care
