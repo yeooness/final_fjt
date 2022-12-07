@@ -12,10 +12,9 @@ def index(request):
     care = Care.objects.order_by("-pk")
     animal = request.GET.getlist('caring_animal') # 돌봄가능 동물
     time = request.GET.getlist('caring_time') # 돌봄가능 기간
-    pet_etc = request.GET.getlist('etc') # 기타
+    etc = request.GET.getlist('etc') # 기타
     areas = request.GET.get('area') # 지역
-    gender = request.GET.get('pet_gender') # 펫 성별
-    print(animal)
+    gender = request.GET.get('gender') # 돌보미 성별
 
     # 매칭 조건
     
@@ -24,7 +23,7 @@ def index(request):
     # 돌봄가능 기간별
     caring_time_list = ["4시간이하", "1일이하", "3일이하", "7일이하", "7일초과"]
     # 기타
-    etc_list = ["사전만남 가능", "반려동물 있음", "노견/노모 케어 가능", "픽업 가능", "산책 가능", "돌봄 경력 있음"]
+    etc_list = ["사전만남가능", "반려동물있음", "노견/노모케어가능", "픽업가능", "산책가능", "돌봄경력있음"]
     # 지역별
     area_list = ["경기도", "서울시", "부산광역시", "경상남도", "인천광역시", "경상북도", "대구광역시", "충청남도", "전라남도",
      "전라북도", "충청북도", "강원도", "대전광역시", "광주광역시", "울산광역시", "제주도", "세종시"]
@@ -42,38 +41,28 @@ def index(request):
         for i in time:
             query = query | Q(caring_time__icontains=i)
             care = care.filter(query)
-    if pet_etc:
+    if etc:
         query = Q()
-        for i in pet_etc:
-            query = query | Q(etc__icontains=i)
+        for i in etc:
+            query = Q(etc__icontains=i)
             care = care.filter(query)
     if areas:
         query = Q()
         for i in areas:
-            query = query | Q(area__icontains=i)
+            query = Q(area__icontains=i)
             care = care.filter(query)
     if gender:
         query = Q()
         for i in gender:
-            query = query | Q(pet_gender__icontains=i)
+            query = query | Q(gender__icontains=i)
             care = care.filter(query)
-        # caring_animal = Care.objects.filter(caring_animal=animal)
-        # caring_time = Care.objects.filter(caring_time=time)
-        # etc = Care.objects.filter(etc=pet_etc)
-        # area = Care.objects.filter(area=areas)
-        # pet_gender = Care.objects.filter(pet_gender=gender)
 
     context = {
         "care": care,
         "time": time,
-        "pet_etc": pet_etc,
+        "etc": etc,
         "areas": areas,
         "gender": gender,
-        # "caring_animal": caring_animal,
-        # "caring_time": caring_time,
-        # "etc": etc,
-        # "area": area,
-        # "pet_gender": pet_gender,
         "caring_animal_list": caring_animal_list,
         "caring_time_list": caring_time_list,
         "etc_list": etc_list,
@@ -84,20 +73,16 @@ def index(request):
 
 
 def create(request):
-    print(request.POST.get('pet_need_caring'))
-    print(request.POST.get('pet_gender'))
-    print(request.POST.get('caring_time'))
-    print(request.POST.getlist('etc'))
-
-
-
-
-
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
         care_form = Careform(request.POST, request.FILES)
         if care_form.is_valid():
             care = care_form.save(commit=False)
+            print("넘어가나?")
+            care.user_pet = request.POST.get('user_pet')
+            care.gender = request.POST.get("gender")
+            care.caring_time = request.POST.get("caring_time")
+            care.etc = request.POST.getlist("etc")
             care.user = request.user
             care.save()
             # for tag in tags:
@@ -133,7 +118,14 @@ def update(request, care_pk):
             care_form = Careform(request.POST, request.FILES, instance=care)
 
             if care_form.is_valid():
-                care_form.save()
+                care = care_form.save(commit=False)
+                print("넘어가나?22")
+                care.user_pet = request.POST.get('user_pet')
+                care.gender = request.POST.get("gender")
+                care.caring_time = request.POST.get("caring_time")
+                care.etc = request.POST.getlist("etc")
+                care.user = request.user
+                care.save()
                 return redirect("care:detail", care_pk)
         else:
             care_form = Careform(instance=care)
