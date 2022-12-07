@@ -292,8 +292,8 @@ def kakao_callback(request):
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
     else:
         kakao_login_user = get_user_model()()
-        kakao_login_user.username = kakao_nickname
-        kakao_login_user.nickname = kakao_nickname
+        kakao_login_user.username = kakao_id
+        kakao_login_user.nickname = kakao_id
         kakao_login_user.kakao_id = kakao_id
         kakao_login_user.set_password(str(state_token))
         kakao_login_user.save()
@@ -339,7 +339,7 @@ def naver_callback(request):
         naver_user = get_user_model().objects.get(naver_id=naver_id)
     else:
         naver_login_user = get_user_model()()
-        naver_login_user.username = naver_nickname
+        naver_login_user.username = naver_id
         naver_login_user.nickname = naver_nickname
         naver_login_user.naver_id = naver_id
         naver_login_user.set_password(str(state_token))
@@ -393,8 +393,8 @@ def google_callback(request):
         google_user = get_user_model().objects.get(google_id=g_id)
     else:
         google_login_user = get_user_model()()
-        google_login_user.username = g_email
-        google_login_user.nickname = g_name
+        google_login_user.username = g_id
+        google_login_user.nickname = g_email
         google_login_user.email = g_email
         google_login_user.google_id = g_id
         google_login_user.is_social = 1
@@ -422,7 +422,7 @@ class AuthSms(APIView):
                 {"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST
             )
         else:
-            m.Auth.objects.update_or_create(phone_number=p_num)
+            m.AuthSms.objects.update_or_create(phone_number=p_num)
             return Response({"message": "OK"})
 
     def get(self, request, user_pk):
