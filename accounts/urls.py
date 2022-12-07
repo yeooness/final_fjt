@@ -34,7 +34,6 @@ urlpatterns = [
         views.block_user_block,
         name="block_user_block",
     ),
-
     # 카카오 로그인
     path("login/kakao", views.kakao_request, name="kakao"),
     path("templates/accounts/login/kakao/callback", views.kakao_callback),
@@ -44,10 +43,9 @@ urlpatterns = [
     # 구글 로그인
     path("login/google", views.google_request, name="google"),
     path("templates/accounts/login/google/callback", views.google_callback),
-    # 핸드폰 인증
-    path("<int:user_pk>/phone_auth/", views.phone_auth, name="phone_auth"),
-    path("<int:user_pk>/check_auth/", views.check_auth, name="check_auth"),
-    
+    # # 핸드폰 인증
+    # path("<int:user_pk>/phone_auth/", views.phone_auth, name="phone_auth"),
+    path("<int:user_pk>/update/auth_sms/", views.AuthSms.as_view(), name="auth_sms"),
     # 알람
     path("save/", views.save, name="save"),
     path("notice/", views.notice, name="notice"),
