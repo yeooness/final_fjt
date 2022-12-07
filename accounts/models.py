@@ -122,65 +122,41 @@ class TimeStampedModel(models.Model):
 
 
 class AuthPhone(TimeStampedModel):
-    phone_number = models.CharField(
-        max_length=11,
-        validators=[RegexValidator(r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$")],
-        primary_key=True,
-        verbose_name="휴대폰 번호",
-    )
-    auth_number = models.IntegerField(verbose_name="인증 번호")
-
-    class Meta:
-        db_table = "auth"
+    phone = models.IntegerField()
+    auth_number = models.IntegerField()
 
     NAVER_CLOUD_ACCESS_KEY = os.getenv("NAVER_CLOUD_ACCESS_KEY")
     NAVER_CLOUD_SECRET_KEY = os.getenv("NAVER_CLOUD_SECRET_KEY")
     NAVER_CLOUD_SERVICE_ID = os.getenv("NAVER_CLOUD_SERVICE_ID")
 
     def save(self, *args, **kwargs):
-        self.auth_number = randint(1000, 10000)
         super().save(*args, **kwargs)
-        self.send_sms()  # 인증번호가 담긴 SMS 전송
+        self.send_sms()
 
     def send_sms(self):
         timestamp = str(int(time.time() * 1000))
         access_key = self.NAVER_CLOUD_ACCESS_KEY
         secret_key = bytes(self.NAVER_CLOUD_SECRET_KEY, "UTF-8")
         service_id = self.NAVER_CLOUD_SERVICE_ID
+        method = "POST"
         uri = f"/sms/v2/services/{service_id}/messages"
-        post_url = f"https://sens.apigw.ntruss.com{uri}"
-        message = "POST " + " " + uri + "\n" + timestamp + "\n" + access_key
+        message = method + " " + uri + "\n" + timestamp + "\n" + access_key
         message = bytes(message, "UTF-8")
-        signature = self.make_signature(message)
+        signing_key = base64.b64encode(
+            hmac.new(secret_key, message, digestmod=hashlib.sha256).digest()
+        )
+        url = f"https://sens.apigw.ntruss.com/sms/v2/services/{service_id}/messages"
         data = {
             "type": "SMS",
             "from": "01095983520",
-            "content": "[당근집사] 인증 번호 [{}] 입력해주세요.".format(self.auth_number),
-            "to": [self.phone_number],
+            "content": f"[당근집사] 인증 번호 [{self.auth_number}]를 입력해주세요.",
+            "messages": [{"to": f"{self.phone}"}],
         }
         headers = {
             "Content-Type": "application/json; charset=utf-8",
             "x-ncp-apigw-timestamp": timestamp,
             "x-ncp-iam-access-key": access_key,
-            "x-ncp-apigw-signature-v2": signature,
+            "x-ncp-apigw-signature-v2": signing_key,
         }
-        requests.post(post_url, json=data, headers=headers)
-
-    def make_signature(self, message):
-        secret_key = bytes(secret_key, "UTF-8")
-        return base64.b64encode(
-            hmac.new(secret_key, message, digestmod=hashlib.sha256).digest()
-        )
-
-    @classmethod
-    def check_auth_number(cls, p_num, c_num):
-        time_limit = timezone.now() - datetime.timedelta(minutes=5)
-        result = cls.objects.filter(
-            phone_number=p_num, auth_number=c_num, modified_gte=time_limit
-        )
-        if result:
-            return True
-        return False
-
-    def __str__(self):
-        return f"{self.phone_number}"
+        # 여기서 인증번호가 보내짐
+        requests.post(url, json=data, headers=headers)
