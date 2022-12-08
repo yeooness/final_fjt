@@ -21,6 +21,7 @@
           </label>
         </div>
         {{ form.pet_image }}
+        <input type="hidden" id='hidden-img' value='{{ pet.pet_image }}'>
       </div>
 
       {% comment %} 반려동물 분류 {% endcomment %}
@@ -29,9 +30,10 @@
           <h5><span class='important'>*</span> 반려동물 분류</h5>
         </div>
         <div class='body col-9'>
-          <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
-          <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
+          <label><input type='radio' name='pet_species' value='dog' checked/> 강아지</label>
+          <label><input type='radio' name='pet_species' value='cat'/> 고양이</label>
         </div>
+        <input type="hidden" id='hidden-pet-species' value='{{ pet.species }}'>
       </div>
 
       {% comment %} 반려동물 크기 {% endcomment %}
@@ -44,6 +46,7 @@
           <label><input type='radio' name='pet_size' value='중'/> 중</label>
           <label><input type='radio' name='pet_size' value='소'/> 소</label>
         </div>
+        <input type="hidden" id='hidden-pet-size' value='{{ pet.size }}'>
       </div>
 
       {% comment %} 이름 {% endcomment %}
@@ -62,7 +65,12 @@
           <h5><span class='important'>*</span> 종류</h5>
         </div>
         <div class='body col-9'>
-          {% comment %} {{ form.petname|attr:'placeholder:반려동물의 견종/묘종을 입력하세요 (e.g. 말티즈)' }} {% endcomment %}
+          <div class='w-100'>
+            {{ form.breeds }}
+            {% if form.breeds.errors %}
+            <span class='error-msg'>{{ form.breeds.errors }}</span>
+            {% endif %}
+          </div>
         </div>
       </div>
 
@@ -73,10 +81,11 @@
         </div>
         <div class='body col-9'>
           <label for='male' class='active'>남</label>
-          <input type='radio' id='male' name='pet_gender' value='남' checked/>
+          <input type='radio' id='male' name='pet_gender' value='M' checked/>
           <label for='female'>여</label>
-          <input type='radio' id='female' name='pet_gender' value='여'/>
+          <input type='radio' id='female' name='pet_gender' value='F'/>
         </div>
+        <input type="hidden" id='hidden-pet-gender' value='{{ pet.petgender }}'>
       </div>
 
       {% comment %} 생년월일 {% endcomment %}
@@ -85,6 +94,7 @@
           <h5><span class='important'>*</span> 생년월일</h5>
         </div>
         <div class='body col-9'>
+          {{ form.birthday }}
         </div>
       </div>
 
@@ -95,10 +105,11 @@
         </div>
         <div class='body col-9'>
           <label for='neutralization-yes' class='active'>예</label>
-          <input type='radio' id='neutralization-yes' name='pet_neutralization' value='예' checked/>
+          <input type='radio' id='neutralization-yes' name='pet_neutralization' value='Y' checked/>
           <label for='neutralization-no'>아니오</label>
-          <input type='radio' id='neutralization-no' name='pet_neutralization' value='아니오'/>
+          <input type='radio' id='neutralization-no' name='pet_neutralization' value='N'/>
         </div>
+        <input type="hidden" id='hidden-pet-neutralization' value='{{ pet.neutralization }}'>
       </div>
 
       {% comment %} 예방접종 여부 {% endcomment %}
@@ -108,10 +119,11 @@
         </div>
         <div class='body col-9'>
           <label for='vaccination-yes' class='active'>예</label>
-          <input type='radio' id='vaccination-yes' name='pet_vaccination' value='예' checked/>
+          <input type='radio' id='vaccination-yes' name='pet_vaccination' value='True' checked/>
           <label for='vaccination-no'>아니오</label>
-          <input type='radio' id='vaccination-no' name='pet_vaccination' value='아니오'/>
+          <input type='radio' id='vaccination-no' name='pet_vaccination' value='False'/>
         </div>
+        <input type="hidden" id='hidden-pet-vaccination' value='{{ pet.vaccination_status }}'>
       </div>
 
       {% comment %} 성격 및 특징 {% endcomment %}
@@ -122,23 +134,36 @@
         </div>
         <div class='body col-9'>
           {% comment %} 강아지 {% endcomment %}
-          <div class='features active'>
-            <label for="활발한"><input type="checkbox" name="feature" value='활발한' id="활발한">#활발한</label>
-            <label for="소심한"><input type="checkbox" name="feature" value='소심한' id="소심한">#소심한</label>
-            <label for="긍정적인"><input type="checkbox" name="feature" value='긍정적인' id="긍정적인">#긍정적인</label>
-            <label for="적응력높은"><input type="checkbox" name="feature" value='적응력높은' id="적응력높은">#적응력높은</label>
-            <label for="충성심높은"><input type="checkbox" name="feature" value='충성심높은' id="충성심높은">#충성심높은</label>
-            <label for="공격적인"><input type="checkbox" name="feature" value='공격적인' id="공격적인">#공격적인</label>
-            <label for="애교많은"><input type="checkbox" name="feature" value='애교많은' id="애교많은">#애교많은</label>
+          <div class='features dog active'>
+            <label for="활발한">#활발한</label>
+            <input type="checkbox" name="feature" value='활발한' id="활발한">
+            <label for="소심한">#소심한</label>
+            <input type="checkbox" name="feature" value='소심한' id="소심한">
+            <label for="긍정적인">#긍정적인</label>
+            <input type="checkbox" name="feature" value='긍정적인' id="긍정적인">
+            <label for="적응력높은">#적응력높은</label>
+            <input type="checkbox" name="feature" value='적응력높은' id="적응력높은">
+            <label for="충성심높은">#충성심높은</label>
+            <input type="checkbox" name="feature" value='충성심높은' id="충성심높은">
+            <label for="공격적인">#공격적인</label>
+            <input type="checkbox" name="feature" value='공격적인' id="공격적인">
+            <label for="애교많은">#애교많은</label>
+            <input type="checkbox" name="feature" value='애교많은' id="애교많은">
           </div>
           {% comment %} 고양이 {% endcomment %}
-          <div class='features'>
-            <label for="예민한"><input type="checkbox" name="feature" value='예민한' id="예민한">#예민한</label>
-            <label for="공격적인"><input type="checkbox" name="feature" value='공격적인' id="공격적인">#공격적인</label>
-            <label for="애교많은"><input type="checkbox" name="feature" value='애교많은' id="애교많은">#애교많은</label>
-            <label for="호기심많은"><input type="checkbox" name="feature" value='호기심많은' id="호기심많은">#호기심많은</label>
-            <label for="겁이많은"><input type="checkbox" name="feature" value='겁이많은' id="겁이많은">#겁이많은</label>
+          <div class='features cat'>
+            <label for="예민한">#예민한</label>
+            <input type="checkbox" name="feature" value='예민한' id="예민한">
+            <label for="공격적인">#공격적인</label>
+            <input type="checkbox" name="feature" value='공격적인' id="공격적인">
+            <label for="애교많은">#애교많은</label>
+            <input type="checkbox" name="feature" value='애교많은' id="애교많은">
+            <label for="호기심많은">#호기심많은</label>
+            <input type="checkbox" name="feature" value='호기심많은' id="호기심많은">
+            <label for="겁이많은">#겁이많은</label>
+            <input type="checkbox" name="feature" value='겁이많은' id="겁이많은">
           </div>
+          <input type="hidden" id='hidden-pet-feature' value='{{ pet.characteristics }}'>
         </div>
       </div>
 
@@ -151,5 +176,5 @@
 {% endblock content %}
 
 {% block js %}
-  <script src="{% static 'js/accounts/pet_register.js' %}"></script>
+  <script src="{% static 'js/accounts/pet_update.js' %}"></script>
 {% endblock js %}

@@ -101,12 +101,12 @@ class Pet(models.Model):
         ("dog", "강아지"),
         ("cat", "고양이"),
     )
-    species = models.CharField(max_length=3, choices=SPECIES_CHOICES, default="선택")
-    breeds = models.CharField(max_length=100)
-    birthday = models.DateField()
+    species = models.CharField(max_length=3, default="선택")
+    breeds = models.CharField(max_length=10)
+    birthday = models.DateField(blank=True)
     vaccination_status = models.BooleanField(default=False)
-    characteristics = models.CharField(max_length=100)
-    weight = models.IntegerField(default=0)
+    characteristics = models.CharField(max_length=100, blank=True)
+    size = models.CharField(max_length=10)
 
 
 # 핸드폰 인증

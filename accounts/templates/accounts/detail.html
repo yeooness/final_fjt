@@ -98,7 +98,13 @@
                   {% else %}
                   <img class='pet-icon' src="{% static 'img/cat.png' %}" alt="">
                   {% endif %}
-                  <span>{{ user_pet.species }}</span>
+                  <span>
+                    {% if user_pet.species == 'dog' %}
+                    강아지
+                    {% else %}
+                    고양이
+                    {% endif %}
+                  </span>
                 </div>
                 <div class='domain age-gender'>
                   <span class='age'>{{ user_pet.petage }}세 |</span>
@@ -110,7 +116,7 @@
                   <span>{{ user_pet.petgender }}</span>
                 </div>
                 <div class='domain neutralization'>
-                  {% if user_pet.neutralization %}
+                  {% if user_pet.neutralization == 'Y' %}
                   <span>중성화 O</span>
                   {% else %}
                   <span>중성화 X</span>
