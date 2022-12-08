@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Care, Comment
+from accounts.models import Pet
 from .forms import Careform, CommentForm
 from django.db.models import Q
 
@@ -10,7 +11,9 @@ from django.http import JsonResponse
 
 def index(request):
     care = Care.objects.order_by("-pk")
-    animal = request.GET.getlist('caring_animal') # 돌봄가능 동물
+    pet = Pet.objects.all()
+    pet_species = request.GET.getlist('species') # 강아지 고양이
+    # animal = request.GET.getlist('caring_animal') # 돌봄가능 동물
     time = request.GET.getlist('caring_time') # 돌봄가능 기간
     etc = request.GET.getlist('etc') # 기타
     areas = request.GET.get('area') # 지역
@@ -19,7 +22,7 @@ def index(request):
     # 매칭 조건
     
     # 돌봄가능 동물별
-    caring_animal_list = ["고양이", "강아지"]
+    species_list = ["강아지", "고양이"]
     # 돌봄가능 기간별
     caring_time_list = ["4시간이하", "1일이하", "3일이하", "7일이하", "7일초과"]
     # 기타
@@ -31,11 +34,11 @@ def index(request):
     gender_list = ["남자", "여자", "상관없음"]
 
     # DB모델
-    if animal:
+    if pet_species:
         query = Q()
-        for i in animal:
-            query = query | Q(caring_animal__icontains=i)
-            care = care.filter(query)
+        for i in pet_species:
+            query = query | Q(species__icontains=i)
+            pet = pet.filter(query)
     if time:
         query = Q()
         for i in time:
@@ -59,11 +62,12 @@ def index(request):
 
     context = {
         "care": care,
+        "pet": pet,
         "time": time,
         "etc": etc,
         "areas": areas,
         "gender": gender,
-        "caring_animal_list": caring_animal_list,
+        "species_list": species_list,
         "caring_time_list": caring_time_list,
         "etc_list": etc_list,
         "area_list": area_list,
