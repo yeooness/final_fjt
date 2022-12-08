@@ -59,7 +59,7 @@ def create(request):
                 tag = tag.strip()
                 if tag != "":
                     community.tags.add(tag)
-            return redirect("communities:index")
+            return redirect("communities:detail", community.pk)
     else:
         community_form = CommunityForm()
     
@@ -93,11 +93,10 @@ def update(request, community_pk):
             community_form = CommunityForm(
                 request.POST, request.FILES, instance=community
             )
-
             if community_form.is_valid():
                 community = community_form.save(commit=False)
-                community.community = request.POST.get('community')
                 community.pet_species = request.POST.get('pet_species')
+                community.review_board = request.POST.get('review_board', '')
                 community.save()
                 for tag in tags:
                     tag = tag.strip()
