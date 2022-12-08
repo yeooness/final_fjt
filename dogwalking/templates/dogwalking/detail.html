@@ -3,9 +3,16 @@
 {% load django_bootstrap5 %}
 {% load widget_tweaks %}
 
+
+{% block content %}
+<a class="btn btn-outline-dark" href="{% url 'dogwalking:send' dogwalking.pk%}">
+  산책신청
+</a>
+
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/dogwalking/detail.css' %}">
 {% endblock css %}
+
 
 {% block content %}
 <main class="container" style='max-width:40rem;'>
