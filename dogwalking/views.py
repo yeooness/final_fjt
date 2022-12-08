@@ -27,7 +27,7 @@ def create(request):
             #     tag = tag.strip()
             #     if tag != "":
             #         dogwalking.tags.add(tag)
-            return redirect("dogwalking:index")
+            return redirect("dogwalking:detail", dogwalking.pk)
     else:
         dogwalking_form = DogwalkingForm()
     context = {

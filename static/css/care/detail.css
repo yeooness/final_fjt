@@ -1,0 +1,204 @@
+/* 헤더 */
+#head {
+  padding: 1rem 2rem;
+  margin-top: 3rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#head .category-btns {
+  display: flex;
+  justify-content: space-between;
+}
+#head .category-btns .category {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: #5A5959;
+}
+#head .category-btns .update-delete-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#head .category-btns .update-delete-btn .update-btn {
+  margin-right: 0.5rem;
+  color: #5A5959;
+}
+#head .category-btns .update-delete-btn .delete-btn {
+  border: none;
+  background-color: white;
+  color: #5A5959;
+}
+#head .title {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+#head .pet-need-caring {
+  margin-bottom: 1.5rem;
+  color: #EB7D80;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+#head .pet-need-caring .pet-icon {
+  width: 1rem;
+}
+#head .detail-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#head .detail-info .writer-info {
+  display: flex;
+}
+#head .detail-info .writer-info > a {
+  margin-right: 1rem;
+  text-align: center;
+}
+#head .detail-info .writer-info > a .writer-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+#head .detail-info .writer-info > a .bi-person-circle {
+  font-size: 2.5rem;
+  color: #EB7D80;
+}
+#head .detail-info .writer-info .writer-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#head .detail-info .writer-info .writer-date p {
+  margin: 0;
+}
+#head .detail-info .writer-info .writer-date .date {
+  font-size: 0.8rem;
+  color: #5A5959;
+}
+#head .detail-info .like-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#head .detail-info .like-wrap .like-btn {
+  color: red;
+}
+
+/* 내용 */
+#article-content {
+  padding: 1rem 2rem;
+}
+#article-content img {
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+#article-content .tags {
+  display: flex;
+}
+#article-content .tags .tag {
+  display: block;
+  margin-right: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  background-color: #F6A9A8;
+  border-radius: 1rem;
+  color: white;
+}
+/* 돌보미 요구조건 */
+#article-content .requirements {
+  background-color: rgb(250, 245, 247);
+  border-radius: 2rem;
+  padding: 1rem 3rem;
+}
+#article-content .requirements table th, 
+#article-content .requirements table td {
+  padding: 0.5rem;
+}
+#article-content .requirements table th {
+  color: rgb(208, 172, 191);
+}
+#article-content .requirements table .pet-icon {
+  margin: 0;
+  width: 1.3rem;
+}
+
+/* 댓글 */
+#article-comment {
+  margin: 1rem 0 3rem 0;
+}
+#article-comment .head {
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#article-comment .body {
+  padding: 0.5rem 2rem;
+}
+#article-comment .body .comment-form {
+  margin: 1rem 0;
+}
+#article-comment .body .comment-form #id_content {
+  width: 100%;
+  padding-left: 0.5rem;
+  border: 1px solid #F6A9A8;
+}
+#article-comment .body .comment-form input[type='submit'] {
+  width: 100%;
+  height: 30px;
+  background-color: #F6A9A8;
+  color: white;
+  border: 1px solid #F6A9A8;
+}
+#article-comment .body article {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#article-comment .body article .writer-info {
+  display: flex;
+}
+#article-comment .body article .writer-info > a {
+  margin-right: 1rem;
+  text-align: center;
+}
+#article-comment .body article .writer-info > a .writer-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+#article-comment .body article .writer-info > a .bi-person-circle {
+  font-size: 2.5rem;
+  color: #EB7D80;
+}
+#article-comment .body article .writer-info .detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#article-comment .body article .writer-info .detail p {
+  margin: 0;
+}
+#article-comment .body article .writer-info .detail .date {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: #5A5959;
+}
+#article-comment .body article .delete-btn {
+  border: none;
+  background-color: white;
+  color: #5A5959;
+}
+#article-comment .body .no-comment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  border: 1px solid #D9D9D9;
+}
+#article-comment .body .no-comment .bi-chat-square-text-fill {
+  margin: 0;
+  font-size: 2rem;
+  color: #F6A9A8;
+}
+#article-comment .body .no-comment .text {
+  margin: 0;
+  color: #D9D9D9;
+}

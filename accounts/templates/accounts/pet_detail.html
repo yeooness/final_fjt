@@ -30,10 +30,11 @@
       <div class='body col-9'>
         {% if pet.species == 'dog' %}
         <img class='pet-icon' src="{% static 'img/dog.png' %}" alt="">
+        강아지
         {% else %}
         <img class='pet-icon' src="{% static 'img/cat.png' %}" alt="">
+        고양이
         {% endif %}
-        <span>{{ pet.species }}</span>
       </div>
     </div>
 
