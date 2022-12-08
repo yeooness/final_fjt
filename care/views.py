@@ -3,6 +3,7 @@ from .models import Care, Comment
 from accounts.models import Pet
 from .forms import Careform, CommentForm
 from django.db.models import Q
+import re
 
 # from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
@@ -80,10 +81,12 @@ def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
         care_form = Careform(request.POST, request.FILES)
+        pet = Pet.objects.get(pk=request.POST.get('pet_need_caring'))
         if care_form.is_valid():
             care = care_form.save(commit=False)
             print("넘어가나?")
-            care.user_pet = request.POST.get('user_pet')
+            care.pet = pet
+            care.caring_animal = pet.species
             care.gender = request.POST.get("gender")
             care.caring_time = request.POST.get("caring_time")
             care.etc = request.POST.getlist("etc")
@@ -93,7 +96,7 @@ def create(request):
             #     tag = tag.strip()
             #     if tag != "":
             #         dogwalking.tags.add(tag)
-            return redirect("care:index")
+            return redirect("care:detail", care.pk)
     else:
         care_form = Careform()
     context = {
@@ -107,10 +110,15 @@ def detail(request, care_pk):
     comments = care.comment_set.all()
     form = CommentForm()
     care.save()
+    
+    p = re.compile('[가-힣]+')
+    etcs = p.findall(care.etc)
+    
     context = {
         "care": care,
         "comments": comments,
         "form": form,
+        'etcs': etcs,
     }
     return render(request, "care/detail.html", context)
 
