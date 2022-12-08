@@ -15,6 +15,8 @@ from django.contrib.auth import (
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from datetime import date, datetime
+import re
 
 # Create your views here.
 
@@ -99,18 +101,22 @@ def pet_register(request, user_pk):
         if form.is_valid():
             pet = form.save(commit=False)
             pet.user = request.user
-            pet.pet_species = request.POST.get("pet_species")
-            pet.pet_size = request.POST.get("pet_size")
-            pet.pet_weight = request.POST.get("pet_weight")
-            pet.pet_gender = request.POST.get("pet_gender")
-            pet.pet_neutralization = request.POST.get("pet_neutralization")
-            pet.pet_vaccination = request.POST.get("pet_vaccination")
-            pet.feature = request.POST.getlist("feature")
-            if pet.feature:
-                query = Q()
-                for i in pet.feature:
-                    query = query | Q(feature__icontains=i)
-                    pet = pet.filter(query)
+            pet.species = request.POST.get("pet_species")
+            pet.size = request.POST.get("pet_size")
+            # pet.pet_weight = request.POST.get("pet_weight")
+            pet.petgender = request.POST.get("pet_gender")
+            pet.neutralization = request.POST.get("pet_neutralization")
+            pet.vaccination_status = request.POST.get("pet_vaccination")
+            pet.characteristics = request.POST.getlist("feature")
+
+            today = datetime.datetime.now().date()
+            birthday = date.fromisoformat(request.POST.get("birthday"))
+            pet.petage = int((today-birthday).days / 365.25)
+            # if pet.feature:
+            #     query = Q()
+            #     for i in pet.feature:
+            #         query = query | Q(feature__icontains=i)
+            #         pet = pet.filter(query)
             pet.save()
             return redirect("accounts:detail", request.user.pk)
     else:
@@ -122,8 +128,11 @@ def pet_register(request, user_pk):
 # 반려동물 정보 페이지
 def pet_detail(request, user_pk, pet_pk):
     pet = get_object_or_404(Pet, pk=pet_pk)
+    p = re.compile('[가-힣]+')
+    features = p.findall(pet.characteristics)
     context = {
         "pet": pet,
+        'features': features,
     }
     return render(request, "accounts/pet_detail.html", context)
 
@@ -134,17 +143,36 @@ def pet_update(request, user_pk, pet_pk):
     if request.method == "POST":
         form = CustomPetChangeForm(request.POST, request.FILES, instance=pet)
         if form.is_valid():
+            print(request.POST.getlist("feature"))
             pet = form.save(commit=False)
             pet.user = request.user
+            pet.species = request.POST.get("pet_species")
+            pet.size = request.POST.get("pet_size")
+            # pet.pet_weight = request.POST.get("pet_weight")
+            pet.petgender = request.POST.get("pet_gender")
+            pet.neutralization = request.POST.get("pet_neutralization")
+            pet.vaccination_status = request.POST.get("pet_vaccination")
+            pet.characteristics = request.POST.getlist("feature")
+
+            today = datetime.datetime.now().date()
+            birthday = date.fromisoformat(request.POST.get("birthday"))
+            pet.petage = int((today-birthday).days / 365.25)
             pet.save()
             return redirect("accounts:pet_detail", request.user.pk, pet.pk)
     else:
         form = CustomPetChangeForm(instance=pet)
+
     context = {
         "form": form,
+        'pet': pet,
     }
     return render(request, "accounts/pet_update.html", context)
 
+# 반려동물 등록 삭제
+def pet_delete(request, user_pk, pet_pk):
+    pet = get_object_or_404(Pet, pk=pet_pk)
+    pet.delete()
+    return redirect("accounts:detail", user_pk)
 
 # 회원 정보 수정
 @login_required

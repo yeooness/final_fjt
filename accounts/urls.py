@@ -24,6 +24,8 @@ urlpatterns = [
     path("<int:user_pk>/<int:pet_pk>/pet_detail/", views.pet_detail, name="pet_detail"),
     # 반려동물 정보 수정
     path("<int:user_pk>/<int:pet_pk>/pet_update/", views.pet_update, name="pet_update"),
+    # 반려동물 등록 삭제
+    path("<int:user_pk>/<int:pet_pk>/pet_delete/", views.pet_delete, name="pet_delete"),
     # 팔로우
     path("<int:user_pk>/follow/", views.follow, name="follow"),
     # 차단

@@ -23,14 +23,26 @@
         {{ form.pet_image }}
       </div>
 
+      {% comment %} 에러메세지 {% endcomment %}
+      {% comment %} {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %} 
+            <div class="alert alert-danger">
+              <strong class='error-msg'>{{ field.name }} - {{ error|escape }}</strong>
+              <span >{{ form.species.errors }}</span>
+            </div>
+            {% endfor %}
+        {% endfor %}
+      {% endif %} {% endcomment %}
+
       {% comment %} 반려동물 분류 {% endcomment %}
       <div class='domain pet_species row'>
         <div class='head col-3'>
           <h5><span class='important'>*</span> 반려동물 분류</h5>
         </div>
         <div class='body col-9'>
-          <label><input type='radio' name='pet_species' value='강아지' checked/> 강아지</label>
-          <label><input type='radio' name='pet_species' value='고양이'/> 고양이</label>
+          <label><input type='radio' name='pet_species' value='dog' checked/> 강아지</label>
+          <label><input type='radio' name='pet_species' value='cat'/> 고양이</label>
         </div>
       </div>
 
@@ -52,7 +64,12 @@
           <h5><span class='important'>*</span> 이름</h5>
         </div>
         <div class='body col-9'>
-          {{ form.petname|attr:'placeholder:반려동물의 이름을 입력하세요' }}
+          <div class='w-100'>
+            {{ form.petname|attr:'placeholder:반려동물의 이름을 입력하세요' }}
+            {% if form.petname.errors %}
+            <span class='error-msg'>{{ form.petname.errors }}</span>
+            {% endif %}
+          </div>
         </div>
       </div>
 
@@ -62,7 +79,12 @@
           <h5><span class='important'>*</span> 종류</h5>
         </div>
         <div class='body col-9'>
-          {% comment %} {{ form.petname|attr:'placeholder:반려동물의 견종/묘종을 입력하세요 (e.g. 말티즈)' }} {% endcomment %}
+          <div class='w-100'>
+            {{ form.breeds|attr:'placeholder:반려동물의 견종/묘종을 입력하세요' }}
+            {% if form.breeds.errors %}
+            <span class='error-msg'>{{ form.breeds.errors }}</span>
+            {% endif %}
+          </div>
         </div>
       </div>
 
@@ -73,9 +95,9 @@
         </div>
         <div class='body col-9'>
           <label for='male' class='active'>남</label>
-          <input type='radio' id='male' name='pet_gender' value='남' checked/>
+          <input type='radio' id='male' name='pet_gender' value='M' checked/>
           <label for='female'>여</label>
-          <input type='radio' id='female' name='pet_gender' value='여'/>
+          <input type='radio' id='female' name='pet_gender' value='F'/>
         </div>
       </div>
 
@@ -85,6 +107,7 @@
           <h5><span class='important'>*</span> 생년월일</h5>
         </div>
         <div class='body col-9'>
+          {{ form.birthday }}
         </div>
       </div>
 
@@ -95,9 +118,9 @@
         </div>
         <div class='body col-9'>
           <label for='neutralization-yes' class='active'>예</label>
-          <input type='radio' id='neutralization-yes' name='pet_neutralization' value='예' checked/>
+          <input type='radio' id='neutralization-yes' name='pet_neutralization' value='Y' checked/>
           <label for='neutralization-no'>아니오</label>
-          <input type='radio' id='neutralization-no' name='pet_neutralization' value='아니오'/>
+          <input type='radio' id='neutralization-no' name='pet_neutralization' value='N'/>
         </div>
       </div>
 
@@ -108,9 +131,9 @@
         </div>
         <div class='body col-9'>
           <label for='vaccination-yes' class='active'>예</label>
-          <input type='radio' id='vaccination-yes' name='pet_vaccination' value='예' checked/>
+          <input type='radio' id='vaccination-yes' name='pet_vaccination' value='True' checked/>
           <label for='vaccination-no'>아니오</label>
-          <input type='radio' id='vaccination-no' name='pet_vaccination' value='아니오'/>
+          <input type='radio' id='vaccination-no' name='pet_vaccination' value='False'/>
         </div>
       </div>
 
