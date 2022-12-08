@@ -8,6 +8,7 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
 )
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.forms.widgets import NumberInput
 
 # 로그인
 class CustomAuthenticationForm(AuthenticationForm):
@@ -69,42 +70,39 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
 # 반려동물 등록
 class CustomPetCreationForm(forms.ModelForm):
+    birthday = forms.DateTimeField(widget=NumberInput(attrs={'type': 'date'}))
     class Meta:
         model = Pet
         fields = [
             "pet_image",
             "petname",
-            "species",
             "birthday",
+            'breeds',
         ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",
-            "species": "종",
             "birthday": "생년월일",
+            'breeds': '종류',
         }
 
 
 # 반려동물 정보 수정
 class CustomPetChangeForm(forms.ModelForm):
+    birthday = forms.DateTimeField(widget=NumberInput(attrs={'type': 'date'}))
     class Meta:
         model = Pet
         fields = [
             "pet_image",
             "petname",
-            "petage",
-            "petgender",
-            "neutralization",
-            "breeds",
             "birthday",
+            'breeds',
         ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",
-            "petage": "나이",
-            "petgender": "성별",
-            "neutralization": "중성화 여부",
-            "species": "종",
+            "birthday": "생년월일",
+            'breeds': '종류',
         }
 
 

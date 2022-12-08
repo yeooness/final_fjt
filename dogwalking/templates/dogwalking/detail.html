@@ -1,149 +1,171 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
 {% load static %}
+{% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
 
 {% block content %}
 <a class="btn btn-outline-dark" href="{% url 'dogwalking:send' dogwalking.pk%}">
   산책신청
 </a>
 
-<!-- 글 상세 내용 -->
-<div class="container">
-  <div>
-    {{ dogwalking.title }}
-  </div>
-  <div>
-    {{ dogwalking.members}}
-  </div>
-  <div>
-    {{ dogwalking.content}}
-  </div>
-  <div>
-    {{ dogwalking.updated_at }}
-  </div>
-  {% if dogwalking.image %}
-  <div class="d-flex justify-content-center">
-    <img src="{{ dogwalking.image.url }}" alt="{{ dogwalking.image }}" class="container px-0">
-  </div>
-  {% else %}
-  <div class="d-flex justify-content-center">
-    <img src="" alt="">
-  </div>
-  {% endif %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/dogwalking/detail.css' %}">
+{% endblock css %}
 
 
-  <!-- tag -->
-  {% if dogwalking.tags.all %}
-  {% for tag in dogwalking.tags.all %}
-  <h4><a style="text-decoration: none" href="">
-      <span class="badge rounded-pill bg-primary">
-        #{{ tag.name }}
-      </span>
-    </a>
-  </h4>
-  {% endfor %}
-  {% endif %}
-</div>
-
-<!-- 수정/삭제 버튼 -->
-<div class="text-end me-5">
-  <a class="btn btn-outline-dark" href="{% url 'dogwalking:update' dogwalking.pk %}">
-    수정
-  </a>
-  <a class="btn btn-outline-dark" href="{% url 'dogwalking:delete' dogwalking.pk %}">
-    삭제
-  </a>
-</div>
-
-<!-- like -->
-<div>
-  {% if request.user.is_authenticated %}
-  {% if request.user in dogwalking.like_user.all %}
-  <i id="" data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-hand-thumbs-up-fill like-btn"></i>
-  {% else %}
-  <i id="" data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-hand-thumbs-up like-btn"></i>
-  {% endif %}
-  {% endif %}
-  <span id="like-count">{{ dogwalking.like_user.count }}</span>
-</div>
-
-  {% comment %} 댓글 {% endcomment %}
-  {% if request.user.is_authenticated %}
-  <form action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button class="float-end btn btn-primary ">등록</button>
-  </form>
-{% endif %}
-
-{% for comment in comments %}
-  <div>
-    <div class='writer-info'>
-      <a href="{% url 'accounts:detail' comment.user.pk %}">
-        {% if comment.user.profile_image %}
-          <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
-        {% else %}
+{% block content %}
+<main class="container" style='max-width:40rem;'>
+  {% comment %} 헤더 {% endcomment %}
+  <section id='head'>
+    <div class='category-btns'>
+      <p class='category'>산책메이트를 찾습니다</p>
+      <!-- 수정/삭제 버튼 -->
+      {% if request.user == dogwalking.user %}
+      <div class='update-delete-btn'>
+        <a class='update-btn' href="{% url 'dogwalking:update' dogwalking.pk %}">수정</a>
+        |
+        <!-- Button trigger modal -->
+        <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          삭제
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">정말로 삭제하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                해당 게시물을 삭제하면 관련 댓글도 전부 지워집니다.<br>
+                정말로 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'dogwalking:delete' dogwalking.pk %}" method='POST'>
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">삭제</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <h3 class='title'>{{ dogwalking.title }}</h3>
+    <div class='detail-info'>
+      <div class='writer-info'>
+        <a href="{% url 'accounts:detail' dogwalking.user.pk %}">
+          {% if dogwalking.user.profile_image %}
+          <img class='writer-img' src="{{ dogwalking.user.profile_image.url }}" alt="">
+          {% else %}
           <i class="bi bi-person-circle"></i>
-        {% endif %}
-      </a>
-      <div class='detail'>
-        <p>{{ comment.user.username }}</p>
-        <p class='date'>
-          {{ comment.created_at|date:"Y.m.d" }}
-          {{ comment.created_at|time:"H:i" }}
-        </p>
-        <p>{{ comment.content }}</p>
+          {% endif %}
+        </a>
+        <div class='writer-date'>
+          <p>{{ dogwalking.user.username }}</p>
+          <p class='date'>{{ dogwalking.updated_at|date:"Y.m.d" }}</p>
+        </div>
+      </div>
+      <div class='member-like-wrap'>
+        {% comment %} 최대 산책 인원 / 매칭 인원 {% endcomment %}
+        <div class='member'>
+          <span>최대 <span class='strong'>{{ dogwalking.members}}</span>명</span>
+          <span>매칭 <span class='strong'></span>명</span>
+        </div>
+        <!-- 좋아요 -->
+        <div>
+          {% if request.user.is_authenticated %}
+          {% if request.user in dogwalking.like_user.all %}
+          <i data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-heart-fill like-btn"></i>
+          {% else %}
+          <i data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-heart like-btn"></i>
+          {% endif %}
+          {% endif %}
+          <span id="like-count">{{ dogwalking.like_user.count }}</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    {% if request.user == comment.user %}
-      <form action="{% url "dogwalking:comment_delete" dogwalking.pk comment.pk %}" method="POST">
-        {% csrf_token %}
-        <input class='delete-btn' type="submit" value="삭제">
-      </form>
+  {% comment %} 내용 {% endcomment %}
+  <section id='article-content'>
+    <p>{{ dogwalking.content}}</p>
+    {% if dogwalking.image %}
+    <img src="{{ dogwalking.image.url }}" alt="">
     {% endif %}
-  </div>
-  {% empty %}
-  <div class='no-comment'>
-    <p>
-      <i class="bi bi-chat-square-text-fill"></i>
-    </p>
-    <p class='text'>첫 댓글을 남겨주세요.</p>
-  </div>
-{% endfor %}
+    <!-- tag -->
+    {% if dogwalking.tags.all %}
+    <div class='tags'>
+      {% for tag in dogwalking.tags.all %}
+      <a class='tag' href="">#{{ tag.name }}</a>
+      {% endfor %}
+      {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
+    </div>
+    {% endif %}
+  </section>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  const likeBtn = document.querySelector('.like-btn')
-  likeBtn.addEventListener('click', function (event) {
-    console.log(event.target.dataset)
-    axios({ method: 'get', url: `/dogwalking/${event.target.dataset.dogwalkingId}/like/` }).then(response => {
-      console.log(response)
-      console.log(response.data)
-      console.log(response.data.is_liked)
-      if (response.data.is_liked === true) {
-        event
-          .target
-          .classList
-          .add('bi-hand-thumbs-up-fill')
-        event
-          .target
-          .classList
-          .remove('bi-hand-thumbs-up')
-      } else {
-        event
-          .target
-          .classList
-          .add('bi-hand-thumbs-up')
-        event
-          .target
-          .classList
-          .remove('bi-hand-thumbs-up-fill')
-      }
-      const likeCount = document.querySelector('#like-count')
-      likeCount.innerText = response.data.likeCount
-    })
-  })
-</script>
-
+  {% comment %} 댓글 {% endcomment %}
+  <section id='article-comment'>
+    <div class='head'>
+      <i class="bi bi-chat-square"></i>
+      <span>{{ dogwalking.comment_set.count }}</span>
+    </div>
+    <div class='body'>
+      <!-- 댓글 작성 폼 -->
+      {% if request.user.is_authenticated %}
+      <form class='comment-form' action="{% url 'dogwalking:comment_create' dogwalking.pk %}" method="POST">
+        {% csrf_token %}
+        <div class='row g-0'>
+          <div class='col-11'>
+            {{ form.content|attr:'rows:1'|attr:'placeholder:댓글을 남겨보세요.' }}
+          </div>
+          <div class='col-1'>
+            <input type="submit" value="저장">
+          </div>
+        </div>
+      </form>
+      {% endif %}
+      <!-- 작성된 댓글 -->
+      {% for comment in comments %}
+      <article>
+        <div class='writer-info'>
+          <a href="{% url 'accounts:detail' comment.user.pk %}">
+            {% if comment.user.profile_image %}
+            <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
+            {% else %}
+            <i class="bi bi-person-circle"></i>
+            {% endif %}
+          </a>
+          <div class='detail'>
+            <p>{{ comment.user.username }}</p>
+            <p class='date'>
+              {{ comment.created_at|date:"Y.m.d" }} 
+              {{ comment.created_at|time:"H:i" }}
+            </p>
+            <p>{{ comment.content }}</p>
+          </div>
+        </div>
+        {% if request.user == comment.user %}
+        <form action="{% url "dogwalking:comment_delete" dogwalking.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input class='delete-btn' type="submit" value="삭제">
+        </form>
+        {% endif %}
+      </article>
+    {% empty %}
+      <div class='no-comment'>
+        <p><i class="bi bi-chat-square-text-fill"></i></p>
+        <p class='text'>첫 댓글을 남겨주세요.</p>
+      </div>
+    {% endfor %}
+  </section>
+</main>
 {% endblock content %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/dogwalking/detail.js' %}"></script>
+{% endblock js %}

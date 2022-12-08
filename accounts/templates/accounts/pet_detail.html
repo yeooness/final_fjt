@@ -43,6 +43,7 @@
         <h5>반려동물 크기</h5>
       </div>
       <div class='body col-9'>
+        {{ pet.size }}
       </div>
     </div>
 
@@ -62,6 +63,7 @@
         <h5>종류</h5>
       </div>
       <div class='body col-9'>
+        {{ pet.breeds }}
       </div>
     </div>
 
@@ -85,6 +87,7 @@
         <h5>생년월일</h5>
       </div>
       <div class='body col-9'>
+        {{ pet.birthday }}
       </div>
     </div>
 
@@ -104,7 +107,7 @@
         <h5>중성화 여부</h5>
       </div>
       <div class='body col-9'>
-        {% if pet.neutralization %}
+        {% if pet.neutralization == 'Y' %}
         <span>중성화 O</span>
         {% else %}
         <span>중성화 X</span>
@@ -118,6 +121,11 @@
         <h5>예방접종 여부</h5>
       </div>
       <div class='body col-9'>
+        {% if pet.vaccination_status == True %}
+        예방접종 O
+        {% else %}
+        예방접종 X
+        {% endif %}
       </div>
     </div>
 
@@ -127,13 +135,16 @@
         <h5>성격 및 특징</h5>
       </div>
       <div class='body col-9'>
-        <div class='feature'>#활발한</div>
+        {% for feature in features %}
+        <div class='feature'>#{{ feature }}</div>
+        {% endfor %}
       </div>
     </div>
 
-    {% comment %} 반려동물 정보 수정페이지 이동 버튼 {% endcomment %}
-    <div class='go-to-update-btn-wrap'>
-      <a class="go-to-update-btn" href="{% url 'accounts:pet_update' user.pk pet.pk %}">반려동물 정보 수정하기</a>
+    {% comment %} 반려동물 수정페이지 이동 버튼/삭제 버튼 {% endcomment %}
+    <div class='btn-wrap'>
+      <a class="update-btn" href="{% url 'accounts:pet_update' user.pk pet.pk %}">반려동물 정보 수정하기</a>
+      <a class="delete-btn" href="{% url 'accounts:pet_delete' user.pk pet.pk %}">반려동물 등록 삭제</a>
     </div>
   </div>
 </main>

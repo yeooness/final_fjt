@@ -52,6 +52,7 @@ def create(request):
             community = community_form.save(commit=False)
             community.community = request.POST.get('community')
             community.pet_species = request.POST.get('pet_species')
+            community.review_board = request.POST.get('review_board', '')
             community.user = request.user
             community.save()
             for tag in tags:

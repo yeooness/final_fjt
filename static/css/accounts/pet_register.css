@@ -20,6 +20,10 @@ input[type='submit'] {
   background-color: #EB7D80;
   color: white;
 }
+.error-msg {
+  font-size: 0.7rem;
+  color: red;
+}
 
 /* 공통 적용 부분 */
 .domain {
@@ -114,16 +118,22 @@ input[type='submit'] {
 }
 
 /* 이름, 종류 */
-#id_petname {
-  width: 100%;
+#id_petname, #id_breeds, #id_birthday {
+  width: 22rem;
   padding: 6px 12px;
   border: 1px solid #F6A9A8;
   border-radius: 0.5rem;
 }
-#id_petname:focus {
+#id_petname:focus, #id_breeds:focus {
   border: 1px solid #F6A9A8;
   box-shadow: 2px 2px 5px 5px #f6a9a82c;
   outline: none;
+}
+
+/* 생년월일 */
+#id_birthday {
+  width: 10rem;
+  color: rgb(117, 117, 117);
 }
 
 /* 성별, 중성화 여부, 예방접종 여부 */
