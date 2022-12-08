@@ -25,4 +25,9 @@ urlpatterns = [
     ),
     # like
     path("<int:dogwalking_pk>/like/", views.like, name="like"),
+    # 산책요청
+    path("alarm/", views.alarm, name="alarm"),
+    path("<int:pk>/send/", views.send, name="send"),
+    path("alarm/<int:pk>/", views.a_detail, name="a_detail"),
+    path("alarm/<int:pk>/a_delete/", views.a_delete, name="a_delete"),
 ]

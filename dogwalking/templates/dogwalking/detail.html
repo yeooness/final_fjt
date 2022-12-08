@@ -3,6 +3,10 @@
 {% load static %}
 
 {% block content %}
+<a class="btn btn-outline-dark" href="{% url 'dogwalking:send' dogwalking.pk%}">
+  산책신청
+</a>
+
 <!-- 글 상세 내용 -->
 <div class="container">
   <div>
