@@ -86,9 +86,9 @@
             견종
           </button>
           <ul class="dropdown-menu" data-pet-filter='{{ pet_filter }}'>
-            <li><a class="dropdown-item active" href="/communities/?pet=전부">전부</a></li>
-            <li><a class="dropdown-item" href="/communities/?pet=강아지">강아지</a></li>
-            <li><a class="dropdown-item" href="/communities/?pet=고양이">고양이</a></li>
+            <li><a class="dropdown-item active" href="/communities/?board={{ name }}&pet=전부">전부</a></li>
+            <li><a class="dropdown-item" href="/communities/?board={{ name }}&pet=강아지">강아지</a></li>
+            <li><a class="dropdown-item" href="/communities/?board={{ name }}&pet=고양이">고양이</a></li>
           </ul>
         </div>
         <a class='writing-btn active' href="/communities/create/?category={{ name }}">글 작성</a>

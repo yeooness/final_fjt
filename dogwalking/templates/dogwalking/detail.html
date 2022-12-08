@@ -3,11 +3,18 @@
 {% load django_bootstrap5 %}
 {% load widget_tweaks %}
 
+
+
+
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/dogwalking/detail.css' %}">
 {% endblock css %}
 
+
 {% block content %}
+<a class="btn btn-outline-dark" href="{% url 'dogwalking:send' dogwalking.pk%}">
+  산책신청
+</a>
 <main class="container" style='max-width:40rem;'>
   {% comment %} 헤더 {% endcomment %}
   <section id='head'>

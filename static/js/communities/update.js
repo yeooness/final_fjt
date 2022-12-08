@@ -38,8 +38,12 @@ imgInputTag.addEventListener('change', function(event) {
   
   uploadImgTag.src = image
   uploadImgWrapTag.classList.add('active')
-  imgLabelTag.nextSibling.data = '' 
-  imgLabelTag.nextElementSibling.remove()
-  imgLabelTag.nextElementSibling.remove()
-  imgLabelTag.nextElementSibling.remove()
+  // 기존에 새로 첨부한 파일이 있었던 경우, 뒤에 '변경'글자 등 지우기
+  const hiddenImgTag = document.querySelector('#hidden-img')
+  if ( hiddenImgTag.value ) {
+    imgLabelTag.nextSibling.data = '' 
+    imgLabelTag.nextElementSibling.remove()
+    imgLabelTag.nextElementSibling.remove()
+    imgLabelTag.nextElementSibling.remove()
+  }
 })

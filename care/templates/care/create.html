@@ -18,7 +18,13 @@
         <select name="pet_need_caring" id="pet_need_caring">
           <option value=""> -------- 반려동물 선택 -------- </option>
           {% for user_pet in request.user.pet.all %}
-          <option value="{{ user_pet.pk }}">{{ user_pet.species }}-{{ user_pet.petname }}</option>
+          <option value="{{ user_pet.pk }}">
+            {% if user_pet.species == 'dog' %}
+            강아지
+            {% else %}
+            고양이
+            {% endif %}
+            - {{ user_pet.petname }}</option>
           {% endfor %}
         </select>
       </div>
