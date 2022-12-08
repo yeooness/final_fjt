@@ -3,8 +3,8 @@
 {% block content %}
 
   <div>
-    {% for caring_animal in caring_animal_list %}
-      <a href="?caring_animal={{ caring_animal }}">{{ caring_animal }}</a>
+    {% for species in species_list %}
+      <a href="?species={{ species }}">{{ species }}</a>
     {% endfor %}
     <br>
     {% for caring_time in caring_time_list %}
