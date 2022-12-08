@@ -63,13 +63,12 @@ def update(request, dogwakling_pk):
         else:
             dogwalking_form = DogwalkingForm(instance=dogwalking)
 
-        return render(
-            request,
-            "dogwalking/update.html",
-            {
-                "dogwalking_form": dogwalking_form,
-            },
-        )
+        context = {
+            "dogwalking_form": dogwalking_form,
+            'dogwalking': dogwalking,
+        }
+
+        return render(request, "dogwalking/update.html", context)
     else:
         return redirect(request, "dogwalking/update.html", dogwakling_pk)
 
