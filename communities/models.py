@@ -44,6 +44,7 @@ class Community(models.Model):
         max_length=20,
         choices=review_board_choices,
         default="선택",
+        blank=True,
     )
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True)

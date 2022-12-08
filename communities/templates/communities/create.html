@@ -28,7 +28,12 @@
       {% if category == '후기게시판' %}
       <div class='domain'>
         <h5><span class='important'>*</span> 어떤 후기를 남기실 건가요?</h5>
-        {{ community_form.review_board }}
+        {% comment %} {{ community_form.review_board }} {% endcomment %}
+        <select name="review_board" id="id_review_board">
+          <option value="용품 후기">용품 후기</option>
+          <option value="박람회 후기">박람회 후기</option>
+          <option value="병원 후기">병원 후기</option>
+        </select>
       </div>
       {% endif %}
 
