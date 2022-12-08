@@ -111,7 +111,7 @@ def detail(request, care_pk):
     form = CommentForm()
     care.save()
     
-    p = re.compile('[가-힣]+')
+    p = re.compile('[가-힣//]+')
     etcs = p.findall(care.etc)
     
     context = {
