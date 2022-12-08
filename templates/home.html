@@ -31,7 +31,7 @@
         <div>
           <p class='title'>이웃과 함께 하는<br>반려생활</p>
           <p class='content'>내 반려동물을 자랑하고, 각종 정보를 이웃과 나눠보세요.</p>
-          <a href="" class='button'>커뮤니티로 이동</a>
+          <a href="{% url 'communities:index' %}" class='button'>커뮤니티로 이동</a>
         </div>
       </div>
       <div class='col'>
@@ -53,7 +53,7 @@
         <div>
           <p class='title'>산책 친구를<br>만들고 싶을땐?</p>
           <p class='content'>반려동물과 함께 산책할 이웃을 찾아보세요!</p>
-          <a href="" class='button'>산책메이트로 이동</a>
+          <a href="{% url 'dogwalking:index' %}" class='button'>산책메이트로 이동</a>
         </div>
       </div>
     </section>
@@ -63,7 +63,7 @@
         <div>
           <p class='title'>고양이, 강아지<br>돌봄이 필요할땐?</p>
           <p class='content'>우리동네 이웃 집사님께 반려동물의 돌봄을 맡겨보세요!</p>
-          <a href="" class='button'>돌봄으로 이동</a>
+          <a href="{% url 'care:index' %}" class='button'>돌봄으로 이동</a>
         </div>
       </div>
       <div class='col'>
