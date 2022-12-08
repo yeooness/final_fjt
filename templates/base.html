@@ -74,7 +74,7 @@
         <li><a href="{% url 'accounts:detail' request.user.pk %}">{{ request.user.username }}</a>님</li>
         <li><a class='active' href="{% url 'accounts:logout' %}">로그아웃</a></li>
         
-        <li>
+        <li class='alarm'>
           {% if request.user.notice_note %}
           <div class="dropdown">
             <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
