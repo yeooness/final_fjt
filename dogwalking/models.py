@@ -44,6 +44,14 @@ class Dogwalking(models.Model):
 
 
 class Review(models.Model):
+    grade_choices = (
+        ("1", "⭐"),
+        ("2", "⭐⭐"),
+        ("3", "⭐⭐⭐"),
+        ("4", "⭐⭐⭐⭐"),
+        ("5", "⭐⭐⭐⭐⭐"),
+    )
+    grade = models.CharField(max_length=2, choices=grade_choices)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -51,7 +59,19 @@ class Review(models.Model):
         related_name="review_user",
     )
     content = models.TextField()
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    review_image = ProcessedImageField(
+        null=True,
+        upload_to="images/",
+        blank=True,
+        processors=[ResizeToFill(1200, 960)],
+        format="JPEG",
+        options={"quality": 90},
+    )
+    # 산책날짜
+    dogwalking_date = models.DateField(blank=True)
+    # 산책장소
+    place = models.CharField(max_length=50)
 
 
 class Comment(models.Model):
