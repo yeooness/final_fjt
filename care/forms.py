@@ -1,8 +1,8 @@
 from django import forms
 from .models import Care, Review, Comment
 
-# CARING_ANIMAL = [ 
-#     ('고양이', '고양이'), 
+# CARING_ANIMAL = [
+#     ('고양이', '고양이'),
 #     ('강아지', '강아지'),
 #     ]
 
@@ -22,6 +22,7 @@ from .models import Care, Review, Comment
 #     ('산책 가능', '산책 가능'),
 #     ('돌봄 경력 있음', '돌봄 경력 있음'),
 # ]
+
 
 class Careform(forms.ModelForm):
     # caring_animal = forms.MultipleChoiceField(
@@ -54,10 +55,20 @@ class Careform(forms.ModelForm):
             "image": "이미지",
         }
 
+
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = "__all__"
+        fields = [
+            "content",
+            "caring_date",
+            "grade",
+        ]
+        labels = {
+            "caring_date": "돌봄 기간",
+            "content": "돌봄 후기",
+            "grade": "돌봄에 대한 평점",
+        }
 
 
 class CommentForm(forms.ModelForm):
