@@ -14,7 +14,8 @@ def index(request):
     dogwalking = Dogwalking.objects.order_by("-pk")
     pet = Pet.objects.all()
     pet_species = request.GET.getlist('pet_species') # 견종
-    pet_characteristics = request.Get.getlist('characteristics') # 반려동물 성격
+    pet_characteristics = request.GET.getlist('characteristics') # 반려동물 성격
+    print(pet_characteristics)
     area = request.GET.get('area') # 지역
 
     # 매칭
@@ -51,6 +52,7 @@ def index(request):
             query = query | Q(pet_species__icontains=i)
             pet = pet.filter(query)
     if pet_characteristics:
+        query = Q()
         for i in pet_characteristics:
             query = query | Q(pet_characteristics__icontains=i)
             pet = pet.filter(query)
