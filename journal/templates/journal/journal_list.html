@@ -3,39 +3,56 @@
 
 {% block content %}
   <div class="container">
-    <!-- 일기 목록 -->
-    <h1>일기</h1>
-    <div>
-      {% for daily in daily_journal %}
-        <div>
-          <a href="{% url 'journal:daily_detail' daily.pk %}">
-            <p>{{ daily.content }}</p>
-          </a>
+    <div id='my-articles'>
+      <h3>일기 목록</h3>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">커뮤니티 글
+            <span class='strong'>{{ user.community_set.count }}</span>
+          </button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">산책메이트 글
+            <span class='strong'>{{ user.dogwalking_set.count }}</span>
+          </button>
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">돌봄 글
+            <span class='strong'>{{ user.care.count }}</span>
+          </button>
         </div>
-      {% endfor %}
-    </div>
-    <!-- 산책일기 목록 -->
-    <h1>산책일기</h1>
-    <div>
-      {% for dw in dw_journal %}
-        <div>
-          <a href="{% url 'journal:dwj_detail' dw.pk %}">
-            <p>{{ dw.route }}</p>
-          </a>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <!-- 일기 -->
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          {% for daily in daily_journal %}
+            <div>
+              <a href="{% url 'journal:daily_detail' daily.pk %}">
+                <p>{{ daily.content }}</p>
+              </a>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-    <!-- 건강일기 목록 -->
-    <h1>건강일기</h1>
-    <div>
-      {% for health in health_journal %}
-        <div>
-          <a href="{% url 'journal:health_detail' health.pk %}">
-            <p>{{ health.meals }}</p>
-          </a>
+        <!-- 산책일기 -->
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+          {% for dw in dw_journal %}
+            <div>
+              <a href="{% url 'journal:dwj_detail' dw.pk %}">
+                <p>{{ dw.route }}</p>
+              </a>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
+        <!-- 건강일기 -->
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+          {% for health in health_journal %}
+            <div>
+              <a href="{% url 'journal:health_detail' health.pk %}">
+                <p>{{ health.meals }}</p>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <a href="{% url 'accounts:detail' user.pk %}" class="btn btn-primary">마이페이지</a>
+    <div class="d-flex justify-content-end mt-5">
+      <a href="{% url 'accounts:detail' user.pk %}" class="btn btn-primary">마이페이지</a>
+    </div>
   </div>
 {% endblock content %}
