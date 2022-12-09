@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dogwalking, Comment, Alarm
-from .forms import DogwalkingForm, CommentForm, AlarmForm
+from .models import Dogwalking, Comment, Alarm, Review
+from .forms import DogwalkingForm, CommentForm, AlarmForm, ReviewForm
 from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from datetime import date
 
 # Create your views here.
 def index(request):
@@ -36,8 +37,9 @@ def create(request):
     return render(request, "dogwalking/create.html", context)
 
 
-def detail(request, dogwakling_pk):
-    dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
+def detail(request, dogwalking_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
+    reviews = Review.objects.filter(id=dogwalking_pk)
     comments = dogwalking.comment_set.all()
     form = CommentForm()
     dogwalking.save()
@@ -45,12 +47,13 @@ def detail(request, dogwakling_pk):
         "dogwalking": dogwalking,
         "comments": comments,
         "form": form,
+        "reviews": reviews,
     }
     return render(request, "dogwalking/detail.html", context)
 
 
-def update(request, dogwakling_pk):
-    dogwalking = Dogwalking.objects.get(pk=dogwakling_pk)
+def update(request, dogwalking_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
     if request.user == dogwalking.user:
         if request.method == "POST":
             dogwalking_form = DogwalkingForm(
@@ -59,22 +62,22 @@ def update(request, dogwakling_pk):
 
             if dogwalking_form.is_valid():
                 dogwalking_form.save()
-                return redirect("dogwalking:detail", dogwakling_pk)
+                return redirect("dogwalking:detail", dogwalking_pk)
         else:
             dogwalking_form = DogwalkingForm(instance=dogwalking)
 
         context = {
             "dogwalking_form": dogwalking_form,
-            'dogwalking': dogwalking,
+            "dogwalking": dogwalking,
         }
 
         return render(request, "dogwalking/update.html", context)
     else:
-        return redirect(request, "dogwalking/update.html", dogwakling_pk)
+        return redirect(request, "dogwalking/update.html", dogwalking_pk)
 
 
-def delete(request, dogwakling_pk):
-    Dogwalking.objects.get(pk=dogwakling_pk).delete()
+def delete(request, dogwalking_pk):
+    Dogwalking.objects.get(pk=dogwalking_pk).delete()
     return redirect("dogwalking:index")
 
 
@@ -95,8 +98,8 @@ class TaggedObjectLV(ListView):
         return context
 
 
-def comment_create(request, dogwakling_pk):
-    dogwalking_data = Dogwalking.objects.get(pk=dogwakling_pk)
+def comment_create(request, dogwalking_pk):
+    dogwalking_data = Dogwalking.objects.get(pk=dogwalking_pk)
 
     if request.user.is_authenticated:
         form = CommentForm(request.POST)
@@ -106,15 +109,15 @@ def comment_create(request, dogwakling_pk):
             comment.dogwalking = dogwalking_data
             comment.user = request.user
             comment.save()
-    return redirect("dogwalking:detail", dogwakling_pk)
+    return redirect("dogwalking:detail", dogwalking_pk)
 
 
-def comment_delete(request, dogwakling_pk, comment_pk):
+def comment_delete(request, dogwalking_pk, comment_pk):
     comment_data = Comment.objects.get(pk=comment_pk)
 
     if request.user == comment_data.user:
         comment_data.delete()
-    return redirect("dogwalking:detail", dogwakling_pk)
+    return redirect("dogwalking:detail", dogwalking_pk)
 
 
 def like(request, dogwalking_pk):
@@ -129,63 +132,47 @@ def like(request, dogwalking_pk):
     return JsonResponse(context)
 
 
-# 산책요청
+# 리뷰
 @login_required
-def alarm(request):
-    alarm = request.user.user_to_dw.order_by("-created_at")
-    to_alarm = request.user.user_from_dw.order_by("-created_at")
-
-    return render(
-        request,
-        "dogwalking/alarm.html",
-        {"alarm": alarm, "to_alarm": to_alarm},
-    )
-
-
-@login_required
-def send(request, pk):
-    alarm = request.user.user_to_dw.order_by("-created_at")
-    to_user = get_object_or_404(get_user_model(), pk=pk)
-    form = AlarmForm(request.POST or None)
-    if form.is_valid():
-        temp = form.save(commit=False)
-        temp.from_user = request.user
-        temp.to_user = to_user
-        temp.save()
-        if to_user.note_notice:
-            to_user.notice_note = False
-            to_user.save()
-        return redirect("dogwalking:alarm")
+def review(request, pk):
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, request.FILES)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.dogwalking_id = pk
+            review.save()
+            return redirect("dogwalking:detail", pk)
+    else:
+        review_form = ReviewForm()
     context = {
-        "alarm": alarm,
-        "form": form,
-        "to_user": to_user,
+        "review_form": review_form,
     }
-    return render(request, "dogwalking/send.html", context)
+    return render(request, "dogwalking/review.html", context)
 
 
-def a_detail(request, pk):
-    alarm = get_object_or_404(Alarm, pk=pk)
-
-    if request.user == alarm.to_user:
-        if not alarm.read:
-            alarm.read = True
-            alarm.save()
-        if not request.user.user_to.filter(read=False).exists():
-            request.user.notice_note = True
-            request.user.save()
-        return render(request, "dogwalking/a_detail.html", {"alarm": alarm})
-    elif request.user == alarm.from_user:
-        return render(request, "dogwalking/a_detail.html", {"alarm": alarm})
+def review_update(request, dogwalking_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, instance=review)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.dogwalking_id = dogwalking_pk
+            review.save()
+            return redirect("bars:detail", dogwalking_pk)
     else:
-        return redirect("dogwalking:alarm")
+        review_form = ReviewForm(instance=review)
+    context = {
+        "review_form": review_form,
+    }
+    return render(request, "dogwalking/review_update.html", context)
 
 
-def a_delete(request, pk):
-    alarm = get_object_or_404(Alarm, pk=pk)
-    print(request.POST)
-    if request.user == alarm.to_user and request.method == "POST":
-        alarm.delete()
-        return JsonResponse({"pk": pk})
-    else:
-        return redirect("dogwalking:index")
+def review_delete(request, dogwalking_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.user == review.user:
+        review.delete()
+        return redirect("dogwalking:detail", dogwalking_pk)
+    # else:
+    #     return HttpResponseForbidden
