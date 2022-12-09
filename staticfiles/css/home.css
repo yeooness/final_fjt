@@ -1,0 +1,144 @@
+/* 비디오 배경 */
+.home-video {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+.home-video > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.637), transparent);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 1s;
+}
+.video-overlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+.video-overlay > .title-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 3rem;
+  height: 100%;
+  color: white;
+}
+.video-overlay > .title-wrap > .title {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+/* 4가지 카테고리 공통 적용 */
+.domain {
+  margin: 9rem 0;
+  padding: 8rem 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 1s, margin 1s;
+}
+.community.active, .dogwalking.active, .care.active, .dating.active {
+  margin: 7rem 0;
+  visibility: visible;
+  opacity: 1;
+}
+.domain:last-of-type {
+  margin-bottom: 0;
+}
+.domain .paragraph {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.domain .paragraph .title {
+  font-size: 3rem;
+  font-weight: 900;
+}
+.domain .paragraph .content {
+  color: #5a5959;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+.domain .paragraph .button {
+  display: block;
+  padding: 0.5rem 1rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+.domain .image {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.domain .image img:nth-of-type(1) {
+  display: block;
+  width: 80%;
+  box-shadow: 0.5rem 0.5rem 1rem 1rem rgba(0, 0, 0, 0.075);
+  border-radius: 0.5rem;
+}
+.domain .image img:nth-of-type(2) {
+  display: block;
+  position: absolute;
+  top: 5%;
+  width: 80%;
+  height: 95%;
+  object-fit: fill;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+/* 산책메이트 */
+.dogwalking {
+  background-color: rgba(240, 227, 233, 0.35);
+}
+
+/* 데이트 */
+.dating {
+  background-image: url('/static/img/bg-img1.jpg');
+  background-size: 20%;
+}
+.dating .paragraph p {
+  background-color: rgba(255, 255, 255);
+  box-shadow: 1rem 1rem 2rem 2rem rgba(255, 255, 255);
+}
+
+/* 푸터 */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  background-color: #FFF8F5;
+}
+footer .left {
+  padding-right: 1rem;
+  width: 50%;
+  text-align: end;
+}
+footer .left img {
+  width: 2rem;
+  height: 2rem;
+}
+footer .right {
+  width: 50%;
+}
+footer .right p {
+  margin: 0;
+  font-size: 0.5rem;
+}
+footer .right p:first-of-type {
+  color: #EB7D80;
+}
