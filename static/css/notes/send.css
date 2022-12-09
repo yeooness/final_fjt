@@ -39,7 +39,6 @@ section#super-wrap #id_title, section#super-wrap #id_content {
 section#send-btn-wrap {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 3rem;
 }
 section#send-btn-wrap .send-btn {
   padding: 0.3rem 0.8rem;

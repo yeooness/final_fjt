@@ -15,7 +15,7 @@
   <div class='section-wrap row g-5'>
 
     {% comment %} 집사에 대한 정보 {% endcomment %}
-    <section class='col col-12 col-md-4' id='person'>
+    <section class='col col-12 col-md-3' id='person'>
       <!-- 프로필 이미지 -->
       <div class='img-wrap'>
         {% if user.profile_image %}
@@ -23,7 +23,13 @@
         {% else %}
           <i class="bi bi-person-circle"></i>
         {% endif %}
-        <p class='name'>{{ user.username }}</p>
+        <p class='name'>
+          {% if user.nickname %}
+          {{ user.nickname }}
+          {% else %}
+          {{ user.username }}
+          {% endif %}
+        </p>
       </div>
 
       <!-- 팔로워 박스 누르면 팔로워 목록 모달로 이동 -->
@@ -62,10 +68,45 @@
         </form>
       </div>
       {% endif %}
+
+      <!-- 쪽지함 / 내가 쓴 글 + 댓글 -->
+      <div class='notes-article-wrap'>
+        <div class='notes'>
+          <div>
+            <i class="bi bi-send"></i>
+            보낸 쪽지 
+            <span class='strong'>{{ user.user_from.count }}</span>
+          </div>
+          <div>
+            <i class="bi bi-send"></i>
+            받은 쪽지 
+            <span class='strong'>{{ user.user_to.count }}</span>
+          </div>
+          <a href="{% url 'notes:index' %}" class='go-to-notes'>내 쪽지함</a>
+        </div>
+        <div class='articles'>
+          <div>
+            <i class="bi bi-pencil"></i>
+            커뮤니티 글
+            <span class='strong'>{{ user.community_set.count }}</span>
+          </div>
+          <div>
+            <i class="bi bi-pencil"></i>
+            산책메이트 글
+            <span class='strong'>{{ user.dogwalking_set.count }}</span>
+          </div>
+          <div>
+            <i class="bi bi-pencil"></i>
+            돌봄 글
+            <span class='strong'>{{ user.care.count }}</span>
+          </div>
+          <a href="#my-articles" class='go-to-my-article'>내가 쓴 글</a>
+        </div>
+      </div>
     </section>
 
-    {% comment %} 반려동물에 대한 정보 {% endcomment %}
-    <section class='col col-12 col-md-8' id='pets'>  
+    {% comment %} 반려동물에 대한 정보 / 일지 달력 / 내가 쓴 글 {% endcomment %}
+    <section class='col col-12 col-md-9' id='pets'>  
       <!-- 반려동물 목록 -->
       <div class='pet-register'>
         <div class='register-btn-wrap'>
@@ -194,8 +235,109 @@
       </div>
 
       <!-- 지도 -->
-      <div>
+      <div class='my-friends'>
+        <h3>내 주변 친구들</h3>
         <a href="{% url 'information:friends' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+        {% comment %} 프로필 user의 이미지 {% endcomment %}
+        <input type="hidden" id='profile-img' value='{% if user.profile_image %} {{ user.profile_image.url }} {% endif %}'>
+        {% comment %} 모든 Pet 데이터 (pet 이름, user의 주소, species) {% endcomment %}
+        {% for pet in all_pet %}
+        <input type="hidden" class='all-pet-info' value='{{ pet.petname }}--{{ pet.user.address }}--{{ pet.species }}'>
+        {% endfor %}
+        <div id="map" style="width:550px;height:350px;"></div>
+      </div>
+
+      <!-- 내가 쓴 글 -->
+      <div id='my-articles'>
+        <h3>내가 쓴 글</h3>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">커뮤니티 글 
+              <span class='strong'>{{ user.community_set.count }}</span>
+            </button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">산책메이트 글 
+              <span class='strong'>{{ user.dogwalking_set.count }}</span>
+            </button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">돌봄 글
+              <span class='strong'>{{ user.care.count }}</span>
+            </button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <!-- 커뮤니티 글 -->
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            {% for article in user.community_set.all %}
+            <article>
+              <span class='community'>{{ article.community }}</span>
+              <p class="title">
+                <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+              </p>
+              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <div class='foot'>
+                <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+                <div class='like-comment'>
+                  <span>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ article.like_users.count }}
+                  </span>
+                  <span>
+                    <i class="bi bi-chat-square"></i>
+                    {{ article.comment_set.count }}
+                  </span>
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+          <!-- 산책메이트 글 -->
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+            {% for article in user.dogwalking_set.all %}
+            <article>
+              <p class="title">
+                <a href="{% url "dogwalking:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+              </p>
+              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <div class='foot'>
+                <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+                <div class='like-comment'>
+                  <span>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ article.like_user.count }}
+                  </span>
+                  <span>
+                    <i class="bi bi-chat-square"></i>
+                    {{ article.comment_set.count }}
+                  </span>
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+          <!-- 돌봄 글 -->
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+            {% for article in user.care.all %}
+            <article>
+              <p class="title">
+                <a href="{% url "care:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
+              </p>
+              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <div class='foot'>
+                <span>{{ article.updated_at|date:"Y.m.d" }}</span>
+                <div class='like-comment'>
+                  <span>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ article.like_user.count }}
+                  </span>
+                  <span>
+                    <i class="bi bi-chat-square"></i>
+                    {{ article.comment_set.count }}
+                  </span>
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -289,5 +431,6 @@
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df813f9bb6ba7a829754c605433c9041&libraries=services"></script>
 <script src="{% static 'js/accounts/detail.js' %}"></script>
 {% endblock js %}

@@ -90,6 +90,7 @@ def detail(request, user_pk):
         "user_followers": user_followers,
         "user_followings": user_followings,
         "user_blocks": user_blocks,
+        "all_pet": Pet.objects.all(),
     }
     return render(request, "accounts/detail.html", context)
 
