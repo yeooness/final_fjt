@@ -11,7 +11,7 @@ class Care(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=True,
-        related_name="care"
+        related_name="care",
     )
     pet = models.ForeignKey(
         Pet,
@@ -22,8 +22,10 @@ class Care(models.Model):
     # condition = models.
     # 내 위치 주소 입력 모델로 수정 필요
     # location = models.CharField(max_length=50)
-    title = models.CharField(verbose_name='title',max_length=30)
-    content = models.TextField(verbose_name='content',)
+    title = models.CharField(verbose_name="title", max_length=30)
+    content = models.TextField(
+        verbose_name="content",
+    )
     image = ProcessedImageField(
         upload_to="images/",
         blank=True,
@@ -37,9 +39,13 @@ class Care(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_care", blank=True
     )
 
-    caring_animal = models.CharField(verbose_name='caring_animal', max_length=300, default='') # 돌봄 가능 동물
-    caring_time = models.CharField(verbose_name='caring_time',max_length=300) # 돌봄 가능 기간
-    etc = models.CharField(verbose_name='etc',max_length=300) # 기타
+    caring_animal = models.CharField(
+        verbose_name="caring_animal", max_length=300, default=""
+    )  # 돌봄 가능 동물
+    caring_time = models.CharField(
+        verbose_name="caring_time", max_length=300
+    )  # 돌봄 가능 기간
+    etc = models.CharField(verbose_name="etc", max_length=300)  # 기타
 
     area_choices = [
         ("경기도", "경기도"),
@@ -67,17 +73,14 @@ class Care(models.Model):
         default="선택",
     )
 
-    gender_choices = [
-    ("남자", "남자"),
-    ("여자", "여자"),
-    ("상관없음", "상관없음")
-    ]
+    gender_choices = [("남자", "남자"), ("여자", "여자"), ("상관없음", "상관없음")]
 
     gender = models.CharField(
         max_length=20,
         choices=gender_choices,
         default="선택",
     )
+
 
 class Review(models.Model):
     user = models.ForeignKey(
@@ -86,8 +89,25 @@ class Review(models.Model):
         null=True,
         related_name="care_review_user",
     )
+    grade_choices = (
+        ("1", "⭐"),
+        ("2", "⭐⭐"),
+        ("3", "⭐⭐⭐"),
+        ("4", "⭐⭐⭐⭐"),
+        ("5", "⭐⭐⭐⭐⭐"),
+    )
+    grade = models.CharField(max_length=2, choices=grade_choices)
     content = models.TextField()
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    review_image = ProcessedImageField(
+        null=True,
+        upload_to="images/",
+        blank=True,
+        processors=[ResizeToFill(1200, 960)],
+        format="JPEG",
+        options={"quality": 90},
+    )
+    # 돌봄기간
+    caring_date = models.DateField(blank=True)
 
 
 class Comment(models.Model):
