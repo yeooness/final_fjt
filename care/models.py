@@ -11,6 +11,7 @@ class Care(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=True,
+        related_name="care"
     )
     pet = models.ForeignKey(
         Pet,
