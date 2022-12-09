@@ -1,20 +1,147 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/care/create.css' %}">
+{% endblock css %}
 
 {% block content %}
+  <main class="containter">
+    <h1>
+      <span class='large'>'돌보미를 찾습니다'</span>
+      글 수정
+    </h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} {% bootstrap_form care_form %} {% endcomment %}
 
-  <div class="containter mx-5">
-    <div class="row mx-5">
-      <div class="col mx-5">
-        <h1 class="my-4">✏️수정하기</h1>
-        <form action="" method="POST">
-          {% csrf_token %}
-          {% bootstrap_form care_form %}
-          {% bootstrap_button content="수정완료" button_type="submit" button_class="btn-outline-dark col-12" %}
-        </form>
+      {% comment %} 돌봄이 필요한 반려동물 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 돌봄이 필요한 반려동물</h5>
+        <select name="pet_need_caring" id="pet_need_caring">
+          {% for user_pet in request.user.pet.all %}
+          <option value="{{ user_pet.pk }}" data-pet-pk='{{ user_pet.pk }}'>
+            {% if user_pet.species == 'dog' %}
+            강아지
+            {% else %}
+            고양이
+            {% endif %}
+            - {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+        <input type="hidden" id='hidden-pet-need-caring' value='{{ care.pet.pk }}'>
       </div>
-    </div>
-  </div>
 
+      {% comment %} 반려동물과 함께 지내는 지역 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 반려동물과 함께 지내는 지역</h5>
+        {{ care_form.area }}
+      </div>
+
+      {% comment %} 요구하는 조건 {% endcomment %}
+      <div class="domain">
+        <h5><span class='important'>*</span> 요구하는 조건</h5>
+        <div>
+          {% comment %} 돌보미 성별 {% endcomment %}
+          <div class='section petsitter_gender row'>
+            <div class='head col-3'>
+              <h5>돌보미 성별</h5>
+              <span class='text'>하나만 선택 가능</span>
+            </div>
+            <div class='body col-9'>
+              <label for='male' class='active'>남</label>
+              <input type='radio' id='male' name='gender' value='남' checked/>
+              <label for='female'>여</label>
+              <input type='radio' id='female' name='gender' value='여'/>
+              <label for='no-gender'>상관없음</label>
+              <input type='radio' id='no-gender' name='gender' value='상관없음'/>
+            </div>
+            <input type="hidden" id='hidden-petsitter-gender' value='{{ care.gender }}'>
+          </div>
+          {% comment %} 돌봄기간 {% endcomment %}
+          <div class='section caring_time row'>
+            <div class='head col-3'>
+              <h5>돌봄기간</h5>
+              <span class='text'>하나만 선택 가능</span>
+            </div>
+            <div class='body col-9'>
+              <label for='4시간이하' class='active'>4시간이하</label>
+              <input type='radio' id='4시간이하' name='caring_time' value='4시간이하' checked/>
+              <label for='1일이하'>1일이하</label>
+              <input type='radio' id='1일이하' name='caring_time' value='1일이하'/>
+              <label for='3일이하'>3일이하</label>
+              <input type='radio' id='3일이하' name='caring_time' value='3일이하'/>
+              <label for='7일이하'>7일이하</label>
+              <input type='radio' id='7일이하' name='caring_time' value='7일이하'/>
+              <label for='7일초과'>7일초과</label>
+              <input type='radio' id='7일초과' name='caring_time' value='7일초과'/>
+            </div>
+            <input type="hidden" id='hidden-caring-time' value='{{ care.caring_time }}'>
+          </div>
+          {% comment %} 기타 {% endcomment %}
+          <div class='section etc row'>
+            <div class='head col-3'>
+              <h5>기타</h5>
+              <span class='text'>다중 선택 가능</span>
+            </div>
+            <div class='col-9'>
+              <div class='body mb-2'>
+                <label for='사전만남가능' class='active'>사전만남가능</label>
+                <input type='checkbox' id='사전만남가능' name='etc' value='사전만남가능' checked/>
+                <label for='반려동물있음'>반려동물있음</label>
+                <input type='checkbox' id='반려동물있음' name='etc' value='반려동물있음'/>
+                <label for='돌봄경력있음'>돌봄경력있음</label>
+                <input type='checkbox' id='돌봄경력있음' name='etc' value='돌봄경력있음'/>
+              </div>
+              <div class='body'>
+                <label for='픽업가능'>픽업가능</label>
+                <input type='checkbox' id='픽업가능' name='etc' value='픽업가능'/>
+                <label for='산책가능'>산책가능</label>
+                <input type='checkbox' id='산책가능' name='etc' value='산책가능'/>
+                <label for='노견/노묘케어가능'>노견/노묘케어가능</label>
+                <input type='checkbox' id='노견/노묘케어가능' name='etc' value='노견/노묘케어가능'/>
+              </div>
+            </div>
+            <input type="hidden" id='hidden-etc' value='{{ care.etc }}'>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} 제목 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 제목</h5>
+        {{ care_form.title|attr:'placeholder:제목을 입력하세요' }}
+      </div>
+
+      {% comment %} 내용 {% endcomment %}
+      <div class="domain">
+        <h5><span class='important'>*</span> 내용</h5>
+        {{ care_form.content|attr:'placeholder:내용을 입력하세요' }}
+      </div>
+
+      {% comment %} 첨부 이미지 {% endcomment %}
+      <div class="domain">
+        <h5>첨부할 이미지</h5>
+        <div class='upload-img-wrap'>
+          <img class='upload-img' src="" alt="">
+        </div>
+        <label for="id_image" class='img-label'>
+          <i class="bi bi-image"></i> 사진 첨부하기
+        </label>
+        {{ care_form.image }}
+        <input type="hidden" id='hidden-img' value='{{ care.image }}'>
+      </div>
+
+      {% comment %} 제출버튼 {% endcomment %}
+      <div class='submit-btn-wrap'>
+        <input type="submit" value="수정">
+      </div>
+    </form>
+  </main>
 {% endblock content %}
+
+{% block js %}
+  <script src="{% static 'js/care/update.js' %}"></script>
+{% endblock js %}

@@ -4,7 +4,7 @@ const petsitterGenderLabels = document.querySelectorAll('.petsitter_gender label
 const caringPetLabels = document.querySelectorAll('.caring-pet label')
 const caringTimeLabels = document.querySelectorAll('.caring-time label')
 const etcLabels = document.querySelectorAll('.etc label')
-const select = document.querySelector('#area')
+const areaSelectTag = document.querySelector('#area')
 const areaOptions = document.querySelectorAll('#area option')
 
 const match = {
@@ -23,6 +23,23 @@ const match = {
   '픽업가능': 3,
   '산책가능': 4,
   '노견%2F노묘케어가능': 5,
+  "경기도": 0,
+  "서울시": 1,
+  "부산광역시": 2,
+  "경상남도": 3,
+  "인천광역시": 4,
+  "경상북도": 5,
+  "대구광역시": 6,
+  "충청남도": 7,
+  "전라남도": 8,
+  "전라북도": 9,
+  "충청북도": 10,
+  "강원도": 11,
+  "대전광역시": 12,
+  "광주광역시": 13,
+  "울산광역시": 14,
+  "제주도": 15,
+  "세종시": 16,
 }
 
 const removeAllActive = function (elements) {
@@ -59,9 +76,10 @@ if (parameters) {
     } else if (name === 'etc') {
       etcLabels[match[decodeURI(value)]].classList.add('active')
       etcLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
-    } else if (name === 'area') {
-      console.log(areaOptions[3])
-      // select.options[select.selectedIndex].innerText = decodeURI(value)
+    } else if (name === 'area') {  
+      areaOrder = match[decodeURI(value)]
+      areaSelectTag.options[areaOrder].selected = true;
+
     }
   }
 }
