@@ -7,46 +7,49 @@
 {% endblock css %}
 
 {% block content %}
-<main id='super-wrap' class="container" style="max-width:500px;">
+<main class="container" style="max-width:500px;">
   <!-- <div class="d-flex justify-content-center mb-2" id="profile"> <img id="profileimage" src="{{to_user.profileimage}}" alt="프로필 이미지" style="width: 25%; height:25%;" class="rounded-circle"> </div> -->
-  
-  {% comment %} 받는 사람 {% endcomment %}
-  <p class='to-user'>
-    <span class='large'>To.</span>
-    {% if to_user.nickname %}
-      {{ to_user.nickname }}
-    {% else %}
-      {{ to_user.username }}
-    {% endif %}
-  </p>
 
-  <form action="" method="POST" id='send-form'>
-    {% csrf_token %}
-    {% comment %} {% bootstrap_form form %} {% endcomment %}
-    {% comment %} 제목 {% endcomment %}
-    <p>Title</p>
-    {{ form.title }}
-    {% comment %} 내용 {% endcomment %}
-    <p>Content</p>
-    {{ form.content }}
-  </form>
+  {% comment %} 쪽지 {% endcomment %}
+  <section id='super-wrap'>
+    {% comment %} 받는 사람 {% endcomment %}
+    <p class='to-user'>
+      <span class='large'>To.</span>
+      {% if to_user.nickname %}
+        {{ to_user.nickname }}
+      {% else %}
+        {{ to_user.username }}
+      {% endif %}
+    </p>
   
-  {% comment %} 보내는 사람 {% endcomment %}
-  <p class='from-user'>
-    <span class='large'>From.</span>
-    {% if request.user.nickname %}
-      {{ request.user.nickname }}
-    {% else %}
-      {{ request.user.username }}
-    {% endif %}
-  </p>
+    <form action="" method="POST" id='send-form'>
+      {% csrf_token %}
+      {% comment %} {% bootstrap_form form %} {% endcomment %}
+      {% comment %} 제목 {% endcomment %}
+      <p>Title</p>
+      {{ form.title }}
+      {% comment %} 내용 {% endcomment %}
+      <p>Content</p>
+      {{ form.content }}
+    </form>
+    
+    {% comment %} 보내는 사람 {% endcomment %}
+    <p class='from-user'>
+      <span class='large'>From.</span>
+      {% if request.user.nickname %}
+        {{ request.user.nickname }}
+      {% else %}
+        {{ request.user.username }}
+      {% endif %}
+    </p>
+  </section>
 
   {% comment %} 전송버튼 {% endcomment %}
-  <div class="text-end">
+  <section id="send-btn-wrap">
     <button class='send-btn' type="submit" form='send-form'>
       <i class="bi bi-envelope-heart"></i>
       전송
     </button>
-  </div>
+  </section>
 </main>
 {% endblock %}
