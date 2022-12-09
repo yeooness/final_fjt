@@ -11,54 +11,49 @@ from django.db.models import Q
 
 # Create your views here.
 def index(request):
-    pet = Pet.objects.all()
     dogwalking = Dogwalking.objects.order_by("-pk")
+    pet = Pet.objects.all()
     pet_species = request.GET.getlist('pet_species') # 견종
-    dog_size = request.GET.getlist('dog_size') # 강아지 크기
-    dog_personality = request.GET.getlist('dog_personality') # 강아지 성격
-    cat_size = request.GET.getlist('cat_size') # 고양이 크기
-    cat_personality = request.GET.getlist('cat_personality') # 고양이 성격
-    area = request.GET.get('area')
+    pet_characteristics = request.Get.getlist('characteristics') # 반려동물 성격
+    area = request.GET.get('area') # 지역
 
     # 매칭
 
     # 견종
     pet_species_list = ['강아지', '고양이']
-    #강아지 크기별
-    dog_size_list = ['대형견', '중형견', '소형견']
-    # 강아지 성격별
-    dog_personality_list = ['활발한', '소심한', '긍정적인', '적응력높은', '충성심높은', '공격적인', '애교많은']
-    # 고양이 크기별
-    cat_size_list = ['대형묘', '중형묘', '소형묘']
-    # 고양이 성격별
-    cat_personality_list = ['예민한', '공격적인', '애교많은', '호기심많은', '겁이많은']
+    # 반려동물 성격
+    pet_characteristics_list = ['활발한', '소심한', '긍정적인', '적응력높은', '충성심높은', '공격적인', '애교많은']
+     # 지역별
+    area_list = [
+        "경기도",
+        "서울시",
+        "부산광역시",
+        "경상남도",
+        "인천광역시",
+        "경상북도",
+        "대구광역시",
+        "충청남도",
+        "전라남도",
+        "전라북도",
+        "충청북도",
+        "강원도",
+        "대전광역시",
+        "광주광역시",
+        "울산광역시",
+        "제주도",
+        "세종시",
+    ]    
 
     # DB모델
     if pet_species:
         query = Q()
         for i in pet_species:
             query = query | Q(pet_species__icontains=i)
-            dogwalking = dogwalking.filter(query)
-    if dog_size:
-        query = Q()
-        for i in dog_size:
-            query = query | Q(dog_size__icontains=i)
-            dogwalking = dogwalking.filter(query)
-    if dog_personality:
-        query = Q()
-        for i in  dog_personality:
-            query = query | Q(dog_personality__icontains=i)
-            dogwalking = dogwalking.filter(query)
-    if cat_size:
-        query = Q()
-        for i in cat_size:
-            query = query | Q(cat_size__icontains=i)
-            dogwalking = dogwalking.filter(query)
-    if cat_personality:
-        query = Q()
-        for i in cat_personality:
-            query = query | Q(cat_personality__icontains=i)
-            dogwalking = dogwalking.filter(query)
+            pet = pet.filter(query)
+    if pet_characteristics:
+        for i in pet_characteristics:
+            query = query | Q(pet_characteristics__icontains=i)
+            pet = pet.filter(query)
     if area:
         query = Q()
         for i in area:
@@ -67,18 +62,14 @@ def index(request):
 
 
     context = {
-        "pet":pet,
         "dogwalking": dogwalking,
-        "dog_size": dog_size,
-        "dog_personality": dog_personality,
-        "cat_size": cat_size,
-        "cat_personality": cat_personality,
+        "pet": pet,
+        "pet_species": pet_species,
+        "pet_characteristics": pet_characteristics,
         "area": area,
         "pet_species_list": pet_species_list,
-        "dog_size_list": dog_size_list,
-        "dog_personality_list": dog_personality_list,
-        "cat_size_list": cat_size_list,
-        "cat_personality_list": cat_personality_list,
+        "pet_characteristics_list": pet_characteristics_list,
+        "area_list":area_list,
     }
     return render(request, "dogwalking/index.html", context)
 

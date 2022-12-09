@@ -17,10 +17,11 @@ def index(request):
     pet = Pet.objects.all()
     pet_species = request.GET.getlist("species")  # 강아지 고양이
     # animal = request.GET.getlist('caring_animal') # 돌봄가능 동물
-    time = request.GET.getlist("caring_time")  # 돌봄가능 기간
+    time = request.GET.getlist("caring_time")  # 돌봄가능 시간
     etc = request.GET.getlist("etc")  # 기타
     areas = request.GET.get("area")  # 지역
     gender = request.GET.get("gender")  # 돌보미 성별
+    # print(pet_species)
 
     # 매칭 조건
 
@@ -59,6 +60,7 @@ def index(request):
         for i in pet_species:
             query = query | Q(species__icontains=i)
             pet = pet.filter(query)
+            # print(query)
     if time:
         query = Q()
         for i in time:

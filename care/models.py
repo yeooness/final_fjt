@@ -7,6 +7,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Care(models.Model):
+    pet = models.ForeignKey(Pet,
+    on_delete=models.CASCADE,
+    null=True,
+    )
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -120,3 +125,5 @@ class Comment(models.Model):
         null=True,
         related_name="care_comment_user",
     )
+
+

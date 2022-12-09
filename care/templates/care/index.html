@@ -46,17 +46,19 @@
           {% comment %} 2) 나의 돌봄 조건 {% endcomment %}
           <div class='{% if request.user.is_authenticated %}col-9{% else %}col-12{% endif %}'>
             <form id='filter-form' action="{% url 'care:index' %}" method='get'>
-              {% comment %} 나의 성별 {% endcomment %}
+              {% comment %} 돌보미 성별 {% endcomment %}
               <div class='section petsitter_gender row'>
                 <div class='head col-3'>
-                  <h5>나의 성별</h5>
+                  <h5>돌보미 성별</h5>
                   <span class='text'>하나만 선택 가능</span>
                 </div>
                 <div class='body col-9'>
                   <label for='male' class='active'>남</label>
-                  <input type='radio' id='male' name='pet_gender' value='남' checked/>
+                  <input type='radio' id='male' name='gender' value='남' checked/>
                   <label for='female'>여</label>
-                  <input type='radio' id='female' name='pet_gender' value='여'/>
+                  <input type='radio' id='female' name='gender' value='여'/>
+                  <label for='none'>상관없음</label>
+                  <input type='radio' id='none' name='gender' value='상관없음'/>
                 </div>
               </div>
   
@@ -68,9 +70,9 @@
                 </div>
                 <div class='body col-9'>
                   <label for='dog' class='active'>강아지</label>
-                  <input type='radio' id='dog' name='caring-pet' value='강아지' checked/>
+                  <input type='radio' id='dog' name='species' value='강아지' checked/>
                   <label for='cat'>고양이</label>
-                  <input type='radio' id='cat' name='caring-pet' value='고양이'/>
+                  <input type='radio' id='cat' name='species' value='고양이'/>
                 </div>
               </div>
   
