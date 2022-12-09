@@ -22,4 +22,16 @@ urlpatterns = [
         views.comment_delete,
         name="comment_delete",
     ),
+    # 리뷰
+    path("<int:pk>/review/", views.review, name="review"),
+    path(
+        "<int:care_pk>/review/<int:review_pk>/update/",
+        views.review_update,
+        name="review_update",
+    ),
+    path(
+        "<int:care_pk>/review/<int:review_pk>/delete/",
+        views.review_delete,
+        name="review_delete",
+    ),
 ]
