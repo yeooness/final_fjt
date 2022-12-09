@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dogwalking, Comment, Alarm, Review
-from .forms import DogwalkingForm, CommentForm, AlarmForm, ReviewForm
+from .models import Dogwalking, Comment, Review
+from .forms import DogwalkingForm, CommentForm, ReviewForm
 from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
