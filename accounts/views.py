@@ -26,12 +26,10 @@ def signup(request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.address = (
-                request.POST.get("postcode")
-                + request.POST.get("address")
-                + request.POST.get("detailAddress")
-                + request.POST.get("extraAddress")
-            )
+            user.postcode = request.POST.get("postcode")
+            user.address = request.POST.get("address")
+            user.detailAddress = request.POST.get("detailAddress")
+            user.extraAddress = request.POST.get("extraAddress")
             user.save()
             # 자동 로그인
             username = form.cleaned_data.get("username")
@@ -189,12 +187,10 @@ def update(request, user_pk):
             auth_form = AuthForm(request.POST, instance=user)
             if update_form.is_valid() and auth_form.is_valid():
                 user = update_form.save(commit=False)
-                user.address = (
-                    request.POST.get("postcode")
-                    + request.POST.get("address")
-                    + request.POST.get("detailAddress")
-                    + request.POST.get("extraAddress")
-                )
+                user.postcode = request.POST.get("postcode")
+                user.address = request.POST.get("address")
+                user.detailAddress = request.POST.get("detailAddress")
+                user.extraAddress = request.POST.get("extraAddress")
                 auth_form.save()
                 user.save()
                 return redirect("accounts:detail", user_pk)

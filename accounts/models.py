@@ -31,7 +31,10 @@ class User(AbstractUser):
     GENDER_CHOICES = ((None, "선택"), ("M", "남자"), ("W", "여자"))
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default="선택")
     # 주소
+    postcode = models.CharField(max_length=250)
     address = models.CharField(max_length=250)
+    detailAddress = models.CharField(max_length=250)
+    extraAddress = models.CharField(max_length=250)
     # 연락처
     phone_numRegex = RegexValidator(
         regex=r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$"
