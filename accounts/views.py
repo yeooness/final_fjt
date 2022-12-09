@@ -111,7 +111,7 @@ def pet_register(request, user_pk):
 
             today = datetime.datetime.now().date()
             birthday = date.fromisoformat(request.POST.get("birthday"))
-            pet.petage = int((today-birthday).days / 365.25)
+            pet.petage = int((today - birthday).days / 365.25)
             # if pet.feature:
             #     query = Q()
             #     for i in pet.feature:
@@ -128,11 +128,11 @@ def pet_register(request, user_pk):
 # 반려동물 정보 페이지
 def pet_detail(request, user_pk, pet_pk):
     pet = get_object_or_404(Pet, pk=pet_pk)
-    p = re.compile('[가-힣]+')
+    p = re.compile("[가-힣]+")
     features = p.findall(pet.characteristics)
     context = {
         "pet": pet,
-        'features': features,
+        "features": features,
     }
     return render(request, "accounts/pet_detail.html", context)
 
@@ -156,7 +156,7 @@ def pet_update(request, user_pk, pet_pk):
 
             today = datetime.datetime.now().date()
             birthday = date.fromisoformat(request.POST.get("birthday"))
-            pet.petage = int((today-birthday).days / 365.25)
+            pet.petage = int((today - birthday).days / 365.25)
             pet.save()
             return redirect("accounts:pet_detail", request.user.pk, pet.pk)
     else:
@@ -164,15 +164,17 @@ def pet_update(request, user_pk, pet_pk):
 
     context = {
         "form": form,
-        'pet': pet,
+        "pet": pet,
     }
     return render(request, "accounts/pet_update.html", context)
+
 
 # 반려동물 등록 삭제
 def pet_delete(request, user_pk, pet_pk):
     pet = get_object_or_404(Pet, pk=pet_pk)
     pet.delete()
     return redirect("accounts:detail", user_pk)
+
 
 # 회원 정보 수정
 @login_required
@@ -292,9 +294,7 @@ state_token = secrets.token_urlsafe(16)
 # 카카오 로그인
 def kakao_request(request):
     kakao_api = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-    redirect_uri = (
-        "http://localhost:8000/accounts/templates/accounts/login/kakao/callback"
-    )
+    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback"
     client_id = "3044dd3e42caed2e8e6ed2f4650c22f7"  # 배포시 보안적용 해야함
     return redirect(f"{kakao_api}&client_id={client_id}&redirect_uri={redirect_uri}")
 
@@ -303,7 +303,7 @@ def kakao_callback(request):
     data = {
         "grant_type": "authorization_code",
         "client_id": "3044dd3e42caed2e8e6ed2f4650c22f7",  # 배포시 보안적용 해야함
-        "redirect_uri": "http://localhost:8000/accounts/templates/accounts/login/kakao/callback",
+        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback",
         "code": request.GET.get("code"),
     }
     kakao_token_api = "https://kauth.kakao.com/oauth/token"
@@ -334,9 +334,7 @@ def kakao_callback(request):
 def naver_request(request):
     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
     client_id = "rbVOoAEithFIkqeqIciW"  # 배포시 보안적용 해야함
-    redirect_uri = (
-        "http://localhost:8000/accounts/templates/accounts/login/naver/callback"
-    )
+    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback"
     state_token = secrets.token_urlsafe(16)
     return redirect(
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
@@ -350,7 +348,7 @@ def naver_callback(request):
         "client_secret": "nq9LZrYX2Y",
         "code": request.GET.get("code"),
         "state": request.GET.get("state"),
-        "redirect_uri": "http://localhost:8000/accounts/templates/accounts/login/naver/callback",
+        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback",
     }
     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
     access_token = requests.post(naver_token_request_url, data=data).json()[
@@ -382,9 +380,7 @@ def naver_callback(request):
 def google_request(request):
     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
     client_id = "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-    redirect_uri = (
-        "http://localhost:8000/accounts/templates/accounts/login/google/callback"
-    )
+    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback"
     google_base_url = "https://www.googleapis.com/auth"
     google_email = "/userinfo.email"
     google_myinfo = "/userinfo.profile"
@@ -401,7 +397,7 @@ def google_callback(request):
         "grant_type": "authorization_code",
         "client_id": "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com",  # 배포시 보안적용 해야함
         "client_secret": "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",
-        "redirect_uri": "http://localhost:8000/accounts/templates/accounts/login/google/callback",
+        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback",
     }
     google_token_request_url = "https://oauth2.googleapis.com/token"
     access_token = requests.post(google_token_request_url, data=data).json()[
@@ -509,33 +505,34 @@ def check_auth(request, user_pk):
     }
     return JsonResponse(context)
 
+
 # 알람
 def notice(request):
     if request.method == "POST":
         dic = {}
-    #     if request.user.pet_notice:
-    #         if Care.objects.filter(user=request.user).exists():
-    #             care = request.user.care
-    #             false_comments = care.comment_set.filter(read=False)
-    #             for i in false_comments:
-    #                 if i.created_at not in dic:
-    #                     dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
-    #                         i.content,
-    #                         i.user.nickname,
-    #                         "care",
-    #                         care.pk,
-    #                     )
-    #                 else:
-    #                     dic[
-    #                         (i.created_at + datetime.timedelta(minutes=1)).strftime(
-    #                             "%Y-%m-%dT%H:%M:%S"
-    #                         )
-    #                     ] = (
-    #                         i.content,
-    #                         i.user.nickname,
-    #                         "care",
-    #                         care.pk,
-    #                     )
+        #     if request.user.pet_notice:
+        #         if Care.objects.filter(user=request.user).exists():
+        #             care = request.user.care
+        #             false_comments = care.comment_set.filter(read=False)
+        #             for i in false_comments:
+        #                 if i.created_at not in dic:
+        #                     dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+        #                         i.content,
+        #                         i.user.nickname,
+        #                         "care",
+        #                         care.pk,
+        #                     )
+        #                 else:
+        #                     dic[
+        #                         (i.created_at + datetime.timedelta(minutes=1)).strftime(
+        #                             "%Y-%m-%dT%H:%M:%S"
+        #                         )
+        #                     ] = (
+        #                         i.content,
+        #                         i.user.nickname,
+        #                         "care",
+        #                         care.pk,
+        #                     )
         if request.user.note_notice:
             if request.user.user_to.filter(read=False).exists():
                 false_notes = request.user.user_to.filter(read=False)
