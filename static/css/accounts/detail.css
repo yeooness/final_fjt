@@ -384,6 +384,11 @@
 #pets #my-articles article .foot .like-comment span:nth-of-type(1) {
   margin-right: 0.5rem;
 }
+#pets #my-articles .no-article {
+  margin-top: 1rem;
+  text-align: center;
+  color: #888;
+}
 
 
 /* 모달 */

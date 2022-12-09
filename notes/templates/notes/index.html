@@ -44,11 +44,13 @@
           <tr class="{% if note.read == 1 %} text-muted {% endif %}">
             <!---보낸 사람 -->
             <td>
+              <a href="{% url 'accounts:detail' note.from_user.pk %}" class="person {% if note.read == 1 %} text-muted {% endif %}">
               {% if note.from_user.nickname %}
                 {{ note.from_user.nickname }}
               {% else %}
                 {{ note.from_user.username }}
               {% endif %}
+              </a>
             </td>
             <!---제목 -->
             <td>
@@ -100,11 +102,13 @@
           <tr class="{% if note.read == 1 %} text-muted {% endif %}">
             <!---받는 사람 -->
             <td>
+              <a href="{% url 'accounts:detail' note.to_user.pk %}" class="person {% if note.read == 1 %} text-muted {% endif %}">
               {% if note.to_user.nickname %}
                 {{note.to_user.nickname}}
               {% else %}
                 {{note.to_user.username}}
               {% endif %}
+              </a>
             </td>
             <!---제목 -->
             <td>

@@ -140,8 +140,10 @@ window.addEventListener("resize", function() {
 const pets = document.querySelectorAll('.pet')
 const activePetName = document.querySelector('.active-pet-name')
 
-pets[0].classList.add('active')
-activePetName.innerText = pets[0].dataset.petName
+if (pets == true) {
+  pets[0].classList.add('active')
+  activePetName.innerText = pets[0].dataset.petName
+}
 
 
 
@@ -259,27 +261,32 @@ function displayMarker(locPosition, message) {
 const allPetInfo = document.querySelectorAll('.all-pet-info')
 
 // 이 부분은 임시로 작성한 코드입니다.
-// var positions = [];
-// for (let info of allPetInfo) {
-//   console.log(info.value)
-//   console.log(info.value.split('--'))
-//   positions.push()
-// }
-
 var positions = [
   {
-  address:'서울시 가로공원로 228',
-    text: '무강이'
+    address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
+      text: '무강이'
   },
-  {
-    address:'서울시 가로공원로 223',
-    text: '해로'
-  },
-  {
-    address:'서울시 가로공원로 218',
-    text: '노을'
-  }
-  ];
+];
+for (let info of allPetInfo) {
+  console.log(info.value)
+  console.log(info.value.split('--'))
+  positions.push()
+}
+
+// var positions = [
+//   {
+//   address:'서울시 가로공원로 228',
+//     text: '무강이'
+//   },
+//   {
+//     address:'서울시 가로공원로 223',
+//     text: '해로'
+//   },
+//   {
+//     address:'서울시 가로공원로 218',
+//     text: '노을'
+//   }
+//   ];
 
 for (let i = 0; i < positions.length; i ++) {
 // 주소-좌표 변환 객체를 생성합니다

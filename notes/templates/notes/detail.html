@@ -48,12 +48,14 @@
   </section>
 
   {% comment %} 답장 버튼 {% endcomment %}
+  {% if note.from_user != request.user %}
   <section id="send-btn-wrap">
     <a class='send-btn' href="{% url 'notes:send' note.from_user.pk %}">
       <i class="bi bi-envelope-heart"></i>
       답장하기
     </a>
   </section>
+  {% endif %}
 
   {% comment %} 모달 {% endcomment %}
   {% comment %} <div id="modal" class="modal-overlay">
