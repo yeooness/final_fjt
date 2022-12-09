@@ -64,10 +64,10 @@ if (parameters) {
     [name, value] = para.split('=')
     console.log(name, value)
     console.log(decodeURI(value))
-    if (name === 'pet_gender') {
+    if (name === 'gender') {
       petsitterGenderLabels[match[decodeURI(value)]].classList.add('active')
       petsitterGenderLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
-    } else if (name === 'caring-pet') {
+    } else if (name === 'species') {
       caringPetLabels[match[decodeURI(value)]].classList.add('active')
       caringPetLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
     } else if (name === 'caring_time') {
