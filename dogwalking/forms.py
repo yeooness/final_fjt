@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dogwalking, Review, Comment, Alarm
+from .models import Dogwalking, Review, Comment
 from django.forms.widgets import NumberInput
 
 
@@ -45,10 +45,3 @@ class CommentForm(forms.ModelForm):
         fields = [
             "content",
         ]
-
-
-class AlarmForm(forms.ModelForm):
-    class Meta:
-        model = Alarm
-        fields = ("title", "content")
-        labels = {}
