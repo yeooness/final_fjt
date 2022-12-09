@@ -393,7 +393,7 @@
 }
 #pet-articles article {
   padding: 1.5rem 1rem;
-  border-bottom: 1px solid #EB7D80;
+  /* border-bottom: 1px solid #EB7D80; */
 }
 #pet-articles article .article-image img {
   display: block;
@@ -415,4 +415,10 @@
   font-size: 0.9rem;
   color: #5A5959;
   text-align: left;
+}
+
+.dc-hr {
+  border: 0;
+  height: 2px;
+  background: #EB7D80;
 }
