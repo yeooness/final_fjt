@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "Dangguenjibsa-env.eba-yyhm2jgu.ap-northeast-2.elasticbeanstalk.com",
+    "Dangguenjibsabean-env.eba-aqjs7rfb.ap-northeast-2.elasticbeanstalk.com",
 ]
 
 
