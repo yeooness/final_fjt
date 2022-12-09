@@ -1,5 +1,6 @@
 from django import forms
-from .models import Dogwalking, Review, Comment, Alarm
+from .models import Dogwalking, Review, Comment
+from django.forms.widgets import NumberInput
 
 
 class DogwalkingForm(forms.ModelForm):
@@ -24,7 +25,18 @@ class DogwalkingForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = "__all__"
+        fields = [
+            "content",
+            "dogwalking_date",
+            "place",
+            "grade",
+        ]
+        labels = {
+            "dogwalking_date": "산책 날짜",
+            "place": "산책 장소",
+            "content": "산책 후기",
+            "grade": "산책에 대한 평점",
+        }
 
 
 class CommentForm(forms.ModelForm):
@@ -33,13 +45,3 @@ class CommentForm(forms.ModelForm):
         fields = [
             "content",
         ]
-
-
-class AlarmForm(forms.ModelForm):
-    class Meta:
-        model = Alarm
-        fields = ("title", "content")
-        labels = {
-            "title": "제목",
-            "content": "내용",
-        }

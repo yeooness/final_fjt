@@ -84,7 +84,6 @@ def create(request):
         pet = Pet.objects.get(pk=request.POST.get('pet_need_caring'))
         if care_form.is_valid():
             care = care_form.save(commit=False)
-            print("넘어가나?")
             care.pet = pet
             care.caring_animal = pet.species
             care.gender = request.POST.get("gender")

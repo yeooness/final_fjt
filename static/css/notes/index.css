@@ -1,0 +1,87 @@
+main#super-wrap {
+  margin-top: 3rem;
+  min-height: 70vh;
+}
+
+/* 목록 */
+#left {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+#left ul.list-group li.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 10rem;
+  border: 1px solid #F6A9A8;
+  color: #595858;
+  cursor: pointer;
+}
+#left ul.list-group li.list-group-item:first-of-type {
+  border-bottom: none;
+}
+#left ul.list-group li.list-group-item.active {
+  font-weight: 700;
+  color: #F6A9A8;
+  background-color: white;
+}
+#left ul.list-group li.list-group-item .reverse {
+  transform: rotate(180deg);
+}
+#left ul.list-group li.list-group-item .badge {
+  border-radius: 2rem;
+  background-color: #F6A9A8;
+  color: white;
+  font-weight: 700;
+}
+
+/* 쪽지함 */
+#right {
+  display: none;
+  padding-right: 5rem;
+}
+#right.active {
+  display: block;
+}
+#right .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+#right .head h3 {
+  font-weight: 900;
+}
+#right .head .text {
+  color: #595858;
+  font-weight: 600;
+}
+#right table.list-table {
+  width: 100%;
+  text-align: center;
+}
+#right table.list-table thead {
+  border-bottom: 1px solid #595858;
+}
+#right table.list-table th, #right table.list-table td {
+  padding: 0.5rem 1rem;
+}
+#right table.list-table td {
+  font-size: 0.9rem;
+}
+#right table.list-table td .title:hover {
+  text-decoration: underline;
+  color: black;
+}
+#right table.list-table td.not-opened {
+  color: #F6A9A8;
+  font-weight: 700;
+}
+#right table.list-table td #custom-btn {
+  padding: 0.3rem 0.7rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: rgb(214, 2, 2);
+  color: white;
+}
