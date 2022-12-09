@@ -15,7 +15,7 @@
   <div class='section-wrap row g-5'>
 
     {% comment %} 집사에 대한 정보 {% endcomment %}
-    <section class='col col-12 col-md-3' id='person'>
+    <section class='col col-12 col-md-3' id='person' style="{% if request.user != user %} max-height: 44rem; {% endif %}">
       <!-- 프로필 이미지 -->
       <div class='img-wrap'>
         {% if user.profile_image %}
@@ -82,7 +82,9 @@
             받은 쪽지 
             <span class='strong'>{{ user.user_to.count }}</span>
           </div>
+          {% if request.user.pk == user.pk %}
           <a href="{% url 'notes:index' %}" class='go-to-notes'>내 쪽지함</a>
+          {% endif %}
         </div>
         <div class='articles'>
           <div>
@@ -100,7 +102,9 @@
             돌봄 글
             <span class='strong'>{{ user.care.count }}</span>
           </div>
+          {% if request.user.pk == user.pk %}
           <a href="#my-articles" class='go-to-my-article'>내가 쓴 글</a>
+          {% endif %}
         </div>
       </div>
     </section>
@@ -219,6 +223,7 @@
           <h3>'<span class='active-pet-name'></span>'의 일기</h3>
           <span class='text'>일기를 작성하고자 하는 반려동물을 선택해주세요</span>
         </div>
+        {% if request.user == user %}
         <div>
           <!-- 일기 작성 버튼 -->
           <a href="{% url 'journal:journal_list' %}" class="btn btn-success">일기 목록</a>
@@ -226,6 +231,7 @@
           <a href="{% url 'journal:dwj_create' %}" class="btn btn-success">산책일기 작성하기</a>
           <a href="{% url 'journal:health_create' %}" class="btn btn-success">건강일기 작성하기</a>
         </div>
+        {% endif %}
         {% else %}
         <div class='no-registered-pets'>
           <h3>일기</h3>
@@ -235,6 +241,7 @@
       </div>
 
       <!-- 지도 -->
+      {% if request.user == user %}
       <div class='my-friends'>
         <h3>내 주변 친구들</h3>
         <a href="{% url 'information:friends' %}" class="btn btn-primary">내 주변 친구 찾기</a>
@@ -246,6 +253,7 @@
         {% endfor %}
         <div id="map" style="width:550px;height:350px;"></div>
       </div>
+      {% endif %}
 
       <!-- 내가 쓴 글 -->
       <div id='my-articles'>
@@ -287,6 +295,8 @@
                 </div>
               </div>
             </article>
+            {% empty %}
+            <p class='no-article'>작성된 글이 없습니다.</p>
             {% endfor %}
           </div>
           <!-- 산책메이트 글 -->
@@ -311,6 +321,8 @@
                 </div>
               </div>
             </article>
+            {% empty %}
+            <p class='no-article'>작성된 글이 없습니다.</p>
             {% endfor %}
           </div>
           <!-- 돌봄 글 -->
@@ -335,6 +347,8 @@
                 </div>
               </div>
             </article>
+            {% empty %}
+            <p class='no-article'>작성된 글이 없습니다.</p>
             {% endfor %}
           </div>
         </div>
