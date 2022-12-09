@@ -84,7 +84,6 @@ def create(request):
         pet = Pet.objects.get(pk=request.POST.get('pet_need_caring'))
         if care_form.is_valid():
             care = care_form.save(commit=False)
-            print("넘어가나?")
             care.pet = pet
             care.caring_animal = pet.species
             care.gender = request.POST.get("gender")
@@ -131,7 +130,6 @@ def update(request, care_pk):
 
             if care_form.is_valid():
                 care = care_form.save(commit=False)
-                print("넘어가나?22")
                 care.user_pet = request.POST.get('user_pet')
                 care.gender = request.POST.get("gender")
                 care.caring_time = request.POST.get("caring_time")

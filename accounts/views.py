@@ -509,53 +509,33 @@ def check_auth(request, user_pk):
     }
     return JsonResponse(context)
 
-
-# 알람
-def save(request):
-    if request.method == "POST":
-        pet_notice = request.GET.get("p")
-        note_notice = request.GET.get("h6")
-        if pet_notice == "ON":
-            request.user.pet_notice = True
-        else:
-            request.user.pet_notice = False
-        if note_notice == "ON":
-            request.user.note_notice = True
-        else:
-            request.user.note_notice = False
-        request.user.save()
-        return JsonResponse({1: 1})
-    else:
-        return redirect("accounts:detail")
-
-
 # 알람
 def notice(request):
     if request.method == "POST":
         dic = {}
-        # if request.user.pet_notice:
-        #     if Care.objects.filter(user=request.user).exists():
-        #         card = request.user.usercard
-        #         false_comments = card.usercomment_set.filter(read=False)
-        #         for i in false_comments:
-        #             if i.created_at not in dic:
-        #                 dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
-        #                     i.content,
-        #                     i.user.nickname,
-        #                     "card",
-        #                     card.pk,
-        #                 )
-        #             else:
-        #                 dic[
-        #                     (i.created_at + datetime.timedelta(minutes=1)).strftime(
-        #                         "%Y-%m-%dT%H:%M:%S"
-        #                     )
-        #                 ] = (
-        #                     i.content,
-        #                     i.user.nickname,
-        #                     "card",
-        #                     card.pk,
-        #                 )
+    #     if request.user.pet_notice:
+    #         if Care.objects.filter(user=request.user).exists():
+    #             care = request.user.care
+    #             false_comments = care.comment_set.filter(read=False)
+    #             for i in false_comments:
+    #                 if i.created_at not in dic:
+    #                     dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
+    #                         i.content,
+    #                         i.user.nickname,
+    #                         "care",
+    #                         care.pk,
+    #                     )
+    #                 else:
+    #                     dic[
+    #                         (i.created_at + datetime.timedelta(minutes=1)).strftime(
+    #                             "%Y-%m-%dT%H:%M:%S"
+    #                         )
+    #                     ] = (
+    #                         i.content,
+    #                         i.user.nickname,
+    #                         "care",
+    #                         care.pk,
+    #                     )
         if request.user.note_notice:
             if request.user.user_to.filter(read=False).exists():
                 false_notes = request.user.user_to.filter(read=False)
