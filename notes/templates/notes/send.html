@@ -1,28 +1,52 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
-{% block content %}
 
-<div class="container my-5" style="max-width:500px;">
-  <!-- <div class="d-flex justify-content-center mb-2" id="profile">
-    <img id="profileimage" src="{{to_user.profileimage}}" alt="프로필 이미지" style="width: 25%; height:25%;" class="rounded-circle">
-  </div> -->
-  <fieldset disabled>
-    <div class="mb-3">
-      <label for="disabledTextInput" class="form-label text-white">받는 사람</label>
-      {% if to_user.nickname %}
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="{{to_user.nickname}}">
-      {% else %}
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="{{to_user.username}}">
-      {% endif %}
-    </div>
-  </fieldset>
-  <form action="" method="POST" class="text-white">
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/notes/send.css' %}">
+{% endblock css %}
+
+{% block content %}
+<main id='super-wrap' class="container" style="max-width:500px;">
+  <!-- <div class="d-flex justify-content-center mb-2" id="profile"> <img id="profileimage" src="{{to_user.profileimage}}" alt="프로필 이미지" style="width: 25%; height:25%;" class="rounded-circle"> </div> -->
+  
+  {% comment %} 받는 사람 {% endcomment %}
+  <p class='to-user'>
+    <span class='large'>To.</span>
+    {% if to_user.nickname %}
+      {{ to_user.nickname }}
+    {% else %}
+      {{ to_user.username }}
+    {% endif %}
+  </p>
+
+  <form action="" method="POST" id='send-form'>
     {% csrf_token %}
-    {% bootstrap_form form %}
-    <div class="text-end">
-      {% bootstrap_button button_type='submit' content='전송' %}
-    </div>
+    {% comment %} {% bootstrap_form form %} {% endcomment %}
+    {% comment %} 제목 {% endcomment %}
+    <p>Title</p>
+    {{ form.title }}
+    {% comment %} 내용 {% endcomment %}
+    <p>Content</p>
+    {{ form.content }}
   </form>
-</div>
+  
+  {% comment %} 보내는 사람 {% endcomment %}
+  <p class='from-user'>
+    <span class='large'>From.</span>
+    {% if request.user.nickname %}
+      {{ request.user.nickname }}
+    {% else %}
+      {{ request.user.username }}
+    {% endif %}
+  </p>
+
+  {% comment %} 전송버튼 {% endcomment %}
+  <div class="text-end">
+    <button class='send-btn' type="submit" form='send-form'>
+      <i class="bi bi-envelope-heart"></i>
+      전송
+    </button>
+  </div>
+</main>
 {% endblock %}
