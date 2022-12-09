@@ -12,6 +12,22 @@
     <h1>산책메이트 찾기</h1>
     <form action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {% comment %} 돌봄이 필요한 반려동물 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 산책을 같이 하고싶은 반려동물</h5>
+        <select name="pet_need_caring" id="pet_need_caring" required>
+          <option value=""> -------- 반려동물 선택 -------- </option>
+          {% for user_pet in request.user.pet.all %}
+          <option value="{{ user_pet.pk }}">
+            {% if user_pet.species == 'dog' %}
+            강아지
+            {% else %}
+            고양이
+            {% endif %}
+            - {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+      </div>
       {% comment %} 제목 {% endcomment %}
       <div class='domain'>
         <h5><span class='important'>*</span> 제목</h5>

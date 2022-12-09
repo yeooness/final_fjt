@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from accounts.models import Pet
 from .models import Dogwalking, Comment, Review
 from .forms import DogwalkingForm, CommentForm, ReviewForm
 from django.views.generic import ListView, TemplateView
@@ -6,12 +7,78 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from datetime import date
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
+    pet = Pet.objects.all()
     dogwalking = Dogwalking.objects.order_by("-pk")
+    pet_species = request.GET.getlist('pet_species') # 견종
+    dog_size = request.GET.getlist('dog_size') # 강아지 크기
+    dog_personality = request.GET.getlist('dog_personality') # 강아지 성격
+    cat_size = request.GET.getlist('cat_size') # 고양이 크기
+    cat_personality = request.GET.getlist('cat_personality') # 고양이 성격
+    area = request.GET.get('area')
+
+    # 매칭
+
+    # 견종
+    pet_species_list = ['강아지', '고양이']
+    #강아지 크기별
+    dog_size_list = ['대형견', '중형견', '소형견']
+    # 강아지 성격별
+    dog_personality_list = ['활발한', '소심한', '긍정적인', '적응력높은', '충성심높은', '공격적인', '애교많은']
+    # 고양이 크기별
+    cat_size_list = ['대형묘', '중형묘', '소형묘']
+    # 고양이 성격별
+    cat_personality_list = ['예민한', '공격적인', '애교많은', '호기심많은', '겁이많은']
+
+    # DB모델
+    if pet_species:
+        query = Q()
+        for i in pet_species:
+            query = query | Q(pet_species__icontains=i)
+            dogwalking = dogwalking.filter(query)
+    if dog_size:
+        query = Q()
+        for i in dog_size:
+            query = query | Q(dog_size__icontains=i)
+            dogwalking = dogwalking.filter(query)
+    if dog_personality:
+        query = Q()
+        for i in  dog_personality:
+            query = query | Q(dog_personality__icontains=i)
+            dogwalking = dogwalking.filter(query)
+    if cat_size:
+        query = Q()
+        for i in cat_size:
+            query = query | Q(cat_size__icontains=i)
+            dogwalking = dogwalking.filter(query)
+    if cat_personality:
+        query = Q()
+        for i in cat_personality:
+            query = query | Q(cat_personality__icontains=i)
+            dogwalking = dogwalking.filter(query)
+    if area:
+        query = Q()
+        for i in area:
+            query = query | Q(area__icontains=i)
+            dogwalking = dogwalking.filter(query)
+
+
     context = {
+        "pet":pet,
         "dogwalking": dogwalking,
+        "dog_size": dog_size,
+        "dog_personality": dog_personality,
+        "cat_size": cat_size,
+        "cat_personality": cat_personality,
+        "area": area,
+        "pet_species_list": pet_species_list,
+        "dog_size_list": dog_size_list,
+        "dog_personality_list": dog_personality_list,
+        "cat_size_list": cat_size_list,
+        "cat_personality_list": cat_personality_list,
     }
     return render(request, "dogwalking/index.html", context)
 
@@ -20,8 +87,10 @@ def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
         dogwalking_form = DogwalkingForm(request.POST, request.FILES)
+        pet = Pet.objects.get(pk=request.POST.get('pet_need_caring'))
         if dogwalking_form.is_valid():
             dogwalking = dogwalking_form.save(commit=False)
+            dogwalking.pet = pet
             dogwalking.user = request.user
             dogwalking.save()
             # for tag in tags:

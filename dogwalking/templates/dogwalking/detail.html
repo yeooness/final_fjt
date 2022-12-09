@@ -105,7 +105,11 @@
       {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
     </div>
     {% endif %}
+    <h3>
+      <a href="{% url 'notes:send' dogwalking.user.pk %}" class="text-decoration-none">쪽지</a>
+    </h3>
   </section>
+
 
   {% comment %} 댓글 {% endcomment %}
   <section id='article-comment'>
