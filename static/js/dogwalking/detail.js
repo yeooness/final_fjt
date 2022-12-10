@@ -28,3 +28,10 @@ likeBtn.addEventListener('click', function (event) {
     likeCount.innerText = response.data.likeCount
   })
 })
+
+
+
+
+// 쪽지 보내기 tooltip
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip-note"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
