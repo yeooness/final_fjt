@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block css %}
 <script src="https://kit.fontawesome.com/a261e34fb9.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -307,4 +306,17 @@
 {% block js %}
 <script defer src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script defer src="{% static 'js/dogwalking/index.js' %}"></script>
+
+<!-- 기존파일 -->
+{% comment %} {% for dw in dogwalking %}
+<a href="{% url 'dogwalking:detail' dw.pk %}">
+      <h3>{{ dw.title }}</h3>
+    </a> 
+    <!-- 글 이미지 노출 사이즈 조절 필요 -->
+{% if dw.image %} <div class="d-flex justify-content-center"> <img src="{{ dw.image.url }}" alt="{{ dw.image }}" class="container px-0"> </div> 
+{% else %} <div class="d-flex justify-content-center"> <img src="" alt=""> </div> 
+{% endif %} 
+{% endfor %}  {% endcomment %}
+
 {% endblock js%}
+
