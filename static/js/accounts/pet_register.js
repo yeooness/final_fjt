@@ -72,20 +72,20 @@ petVaccinationLabels.forEach(function(label) {
 
 
 // 선택한 '반려동물 종류'에 따라 '반려동물 성격 및 특징' features 클래스에 active 추가
-const petSpeciesRadioTags = document.querySelectorAll('input[name="pet_species"]')
-const featuresTags = document.querySelectorAll('.features')
+// const petSpeciesRadioTags = document.querySelectorAll('input[name="pet_species"]')
+// const featuresTags = document.querySelectorAll('.features')
 
-petSpeciesRadioTags.forEach(function(radioTag) {
-  radioTag.addEventListener('change', function(event) {
-    if (event.target.value === '강아지') {
-      featuresTags[0].classList.add('active')
-      featuresTags[1].classList.remove('active')
-    } else {
-      featuresTags[1].classList.add('active')
-      featuresTags[0].classList.remove('active')
-    }
-  })
-})
+// petSpeciesRadioTags.forEach(function(radioTag) {
+//   radioTag.addEventListener('change', function(event) {
+//     if (event.target.value === '강아지') {
+//       featuresTags[0].classList.add('active')
+//       featuresTags[1].classList.remove('active')
+//     } else {
+//       featuresTags[1].classList.add('active')
+//       featuresTags[0].classList.remove('active')
+//     }
+//   })
+// })
 
 
 
