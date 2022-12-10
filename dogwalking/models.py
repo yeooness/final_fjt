@@ -42,6 +42,32 @@ class Dogwalking(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_dogwalking", blank=True
     )
 
+    area_choices = [
+        ("경기도", "경기도"),
+        ("서울시", "서울시"),
+        ("부산광역시", "부산광역시"),
+        ("경상남도", "경상남도"),
+        ("인천광역시", "인천광역시"),
+        ("경상북도", "경상북도"),
+        ("대구광역시", "대구광역시"),
+        ("충청남도", "충청남도"),
+        ("전라남도", "전라남도"),
+        ("전라북도", "전라북도"),
+        ("충청북도", "충청북도"),
+        ("강원도", "강원도"),
+        ("대전광역시", "대전광역시"),
+        ("광주광역시", "광주광역시"),
+        ("울산광역시", "울산광역시"),
+        ("제주도", "제주도"),
+        ("세종시", "세종시"),
+    ]
+
+    area = models.CharField(
+        max_length=100,
+        choices=area_choices,
+        default="선택",
+    )
+
 
 class Review(models.Model):
     grade_choices = (
@@ -72,6 +98,11 @@ class Review(models.Model):
     dogwalking_date = models.DateField(blank=True)
     # 산책장소
     place = models.CharField(max_length=50)
+    dogwalking = models.ForeignKey(
+        Dogwalking,
+        on_delete=models.CASCADE,
+        null=True,
+    )
 
 
 class Comment(models.Model):

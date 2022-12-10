@@ -197,12 +197,13 @@ def like(request, dogwalking_pk):
 # 리뷰
 @login_required
 def review(request, pk):
+    dogwalking = Dogwalking.objects.get(pk=pk)
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.user = request.user
-            review.dogwalking_id = pk
+            review.dogwalking = dogwalking
             review.save()
             return redirect("dogwalking:detail", pk)
     else:

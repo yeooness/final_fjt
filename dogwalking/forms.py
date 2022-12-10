@@ -8,14 +8,14 @@ class DogwalkingForm(forms.ModelForm):
         model = Dogwalking
         fields = [
             "title",
-            "members",
+            "area",
             "content",
             "image",
             "tags",
         ]
         labels = {
             "title": "제목",
-            "members": "산책 인원",
+            "area": "지역",
             "content": "내용",
             "image": "이미지",
             "tags": "태그",
