@@ -16,7 +16,6 @@ def index(request):
     pet = Pet.objects.all()
     pet_species = request.GET.getlist('pet_species') # 견종
     pet_characteristics = request.GET.getlist('characteristics') # 반려동물 성격
-    print(pet_characteristics)
     area = request.GET.get('area') # 지역
 
     # 매칭
@@ -44,7 +43,9 @@ def index(request):
         "울산광역시",
         "제주도",
         "세종시",
-    ]    
+    ]
+    # 글 내림
+
 
     # DB모델
     if pet_species:
@@ -148,6 +149,15 @@ def delete(request, dogwalking_pk):
     Dogwalking.objects.get(pk=dogwalking_pk).delete()
     return redirect("dogwalking:index")
 
+def writing(request, dogwalking_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
+    if request.user == dogwalking.user:
+        if dogwalking.writing_down:
+            dogwalking.writing_down = False
+        else:
+            dogwalking.writing_down = True
+        dogwalking.save()
+    return redirect('dogwalking:detail', dogwalking_pk)
 
 class TagCloudTV(TemplateView):
     template_name = "taggit/taggit_cloud.html"

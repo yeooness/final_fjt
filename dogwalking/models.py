@@ -41,6 +41,8 @@ class Dogwalking(models.Model):
     like_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_dogwalking", blank=True
     )
+    # 글 내림 판단 여부
+    writing_down = models.BooleanField(default=False)
 
     area_choices = [
         ("경기도", "경기도"),

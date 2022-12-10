@@ -1,8 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
-{% load django_bootstrap5 %}
-
-
 {% block css %}
 <script src="https://kit.fontawesome.com/a261e34fb9.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -519,6 +515,4 @@
 {% endif %} 
 {% endfor %}  {% endcomment %}
 
-
-  {% comment %} {% for dw in dogwalking %} {% endcomment %}
-  {% comment %} {% for tag in dogwalking.tags.all %} <h4><a style="text-decoration: none" href="{% url 'dogwalking:tagged_object_list' tag.name %}"> <span class="badge rounded-pill bg-primary"> #{{ tag.name }} </span> </a> </h4> {% endfor %}  {% endcomment %}
+{% endblock %}

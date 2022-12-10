@@ -261,12 +261,12 @@ function displayMarker(locPosition, message) {
 const allPetInfo = document.querySelectorAll('.all-pet-info')
 
 // 이 부분은 임시로 작성한 코드입니다.
-var positions = [
-  {
-    address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
-      text: '무강이'
-  },
-];
+// var positions = [
+//   {
+//     address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
+//       text: '무강이'
+//   },
+// ];
 for (let info of allPetInfo) {
   console.log(info.value)
   console.log(info.value.split('--'))

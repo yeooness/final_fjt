@@ -9,6 +9,7 @@ urlpatterns = [
     path("<int:dogwalking_pk>/", views.detail, name="detail"),
     path("<int:dogwalking_pk>/update/", views.update, name="update"),
     path("<int:dogwalking_pk>/delete/", views.delete, name="delete"),
+    path("<int:dogwalking_pk>writing/", views.writing, name="writing"),
     # tag
     path("tag/", views.TagCloudTV.as_view(), name="tag_cloud"),
     path("tag/<str:tag>/", views.TaggedObjectLV.as_view(), name="tagged_object_list"),
