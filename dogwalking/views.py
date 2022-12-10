@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from datetime import date
 from django.db.models import Q
+import re
 
 # Create your views here.
 def index(request):
@@ -105,11 +106,16 @@ def detail(request, dogwalking_pk):
     comments = dogwalking.comment_set.all()
     form = CommentForm()
     dogwalking.save()
+
+    p = re.compile("[가-힣//]+")
+    characteristics = p.findall(dogwalking.pet.characteristics)
+
     context = {
         "dogwalking": dogwalking,
         "comments": comments,
         "form": form,
         "reviews": reviews,
+         "characteristics": characteristics,
     }
     return render(request, "dogwalking/detail.html", context)
 

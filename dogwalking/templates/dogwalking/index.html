@@ -91,6 +91,14 @@
                     <i class="fa-regular fa-heart fa-xl"></i>
                     <p>평점</p>
                   </div> {% endcomment %}
+                  <!-- 분류 뱃지 -->
+                  <div class='badge'>
+                    {% if article.pet.species == 'dog' %}
+                    강아지
+                    {% else %}
+                    고양이
+                    {% endif %}
+                  </div>
                 </div>
             
                 <!-- card-item-image -->
@@ -105,6 +113,7 @@
                 <!-- card-item-bottom -->
                 <div class="card__item-bottom">
                   <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
+                  <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
                 </div>
               </article>
             </a>
