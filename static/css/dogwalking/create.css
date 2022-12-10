@@ -33,6 +33,27 @@ input[type='submit'] {
   color: red;
 }
 
+/* 돌봄이 필요한 반려동물, 반려동물과 함께 지내는 지역 */
+#pet_need_caring, #id_area {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 250px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid #F6A9A8;
+  border-radius: 4px;
+  color: #6c757d;
+}
+#pet_need_caring option, #id_area option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#pet_need_caring option:hover, #id_area option:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+
 /* 제목, 내용, 태그, 산책인원 */
 #id_title, #id_content, #id_tags, #id_members {
   width: 100%;

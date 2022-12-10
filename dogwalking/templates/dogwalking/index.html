@@ -69,43 +69,45 @@
           {% for article in dogwalking %}
           <div class="swiper-slide">
             <!-- card-item -->
-            <article class="card__item">
-              <!-- card-item-top -->
-              <div class="card__item-top">
-                <!-- card-item-user -->
-                <div class="card__item__user">
-                  {% if article.user.profile_image %}
-                  <img src="{{ article.user.profile_image.url }}" alt="card-user-image">
+            <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move'>
+              <article class="card__item">
+                <!-- card-item-top -->
+                <div class="card__item-top">
+                  <!-- card-item-user -->
+                  <div class="card__item__user">
+                    {% if article.user.profile_image %}
+                    <img src="{{ article.user.profile_image.url }}" alt="card-user-image">
+                    {% else %}
+                    <i class="bi bi-person-circle"></i>
+                    {% endif %}
+                    {% if article.user.nickname %}
+                    <p>{{ article.user.nickname }}</p>
+                    {% else %}
+                    <p>{{ article.user.username }}</p>
+                    {% endif %}
+                  </div>
+                  <!-- card-item-avg -->
+                  {% comment %} <div class="card__item__avg">
+                    <i class="fa-regular fa-heart fa-xl"></i>
+                    <p>평점</p>
+                  </div> {% endcomment %}
+                </div>
+            
+                <!-- card-item-image -->
+                <div class="card__item__image">
+                  {% if article.image %}
+                  <img src="{{ article.image.url }}" alt="card-image">
                   {% else %}
-                  <i class="bi bi-person-circle"></i>
-                  {% endif %}
-                  {% if article.user.nickname %}
-                  <p>{{ article.user.nickname }}</p>
-                  {% else %}
-                  <p>{{ article.user.username }}</p>
+                  <img src="{% static 'img/dog-walking-icon.png' %}" alt="card-image">
                   {% endif %}
                 </div>
-                <!-- card-item-avg -->
-                {% comment %} <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
-                </div> {% endcomment %}
-              </div>
-          
-              <!-- card-item-image -->
-              <div class="card__item__image">
-                {% if article.image %}
-                <img src="{{ article.image.url }}" alt="card-image">
-                {% else %}
-                <img src="{% static 'img/dog-walking-icon.png' %}" alt="card-image">
-                {% endif %}
-              </div>
-          
-              <!-- card-item-bottom -->
-              <div class="card__item-bottom">
-                <p class="card__item__title">{{ article.title }}</p>
-              </div>
-            </article>
+            
+                <!-- card-item-bottom -->
+                <div class="card__item-bottom">
+                  <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
+                </div>
+              </article>
+            </a>
           </div>
           {% endfor %}
         </div>

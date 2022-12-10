@@ -45,6 +45,10 @@ button {
 }
 
 /* Card-item */
+a.detail-move:hover .card__item {
+  color: black;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgba(0, 0, 0, 0.123);
+}
 .card__item {
   margin: 0.5rem auto;
   position: relative;
@@ -118,12 +122,12 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 1rem;
 }
 
 .card__item__user {
   display: flex;
   align-items: center;
+  padding: 0.5rem 1rem;
 }
 
 .card__item__user img {
@@ -136,6 +140,8 @@ button {
 .card__item__user .bi-person-circle {
   font-size: 35px;
   margin-right: 8px;
+  line-height: 35px;
+  color: #eb7d80;
 }
 
 .card__item__avg {
