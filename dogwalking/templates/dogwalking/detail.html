@@ -62,9 +62,19 @@
           </div>
         </div>
       </div>
+      {% else %}
+      <a href="{% url 'notes:send' dogwalking.user.pk %}" class='send-note' data-bs-toggle="tooltip-note" data-bs-placement="bottom" data-bs-title="쪽지를 보내 산책메이트가 되어 보세요"><i class="bi bi-send"></i> 쪽지 보내기</a>
       {% endif %}
     </div>
     <h3 class='title'>{{ dogwalking.title }}</h3>
+    <p class='dogwalking-pet'>같이 산책할 반려동물: 
+      {% if dogwalking.pet.species == 'dog' %}
+      <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
+      {% else %}	
+      <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
+      {% endif %}
+      - {{ dogwalking.pet.petname }}
+    </p>
     <div class='detail-info'>
       <div class='writer-info'>
         <a href="{% url 'accounts:detail' dogwalking.user.pk %}">
@@ -81,10 +91,10 @@
       </div>
       <div class='member-like-wrap'>
         {% comment %} 최대 산책 인원 / 매칭 인원 {% endcomment %}
-        <div class='member'>
+        {% comment %} <div class='member'>
           <span>최대 <span class='strong'>{{ dogwalking.members}}</span>명</span>
           <span>매칭 <span class='strong'></span>명</span>
-        </div>
+        </div> {% endcomment %}
         <!-- 좋아요 -->
         <div>
           {% if request.user.is_authenticated %}
@@ -106,6 +116,34 @@
     {% if dogwalking.image %}
     <img src="{{ dogwalking.image.url }}" alt="">
     {% endif %}
+    {% comment %} 같이 산책할 반려동물에 대한 정보 {% endcomment %}
+    <div class='pet-info'>
+      <table>
+        <tr>
+          <th>✔ 같이 산책할 반려동물</th>
+          <td>
+            {% if dogwalking.pet.species == 'dog' %}
+            <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
+            {% else %}
+            <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
+            {% endif %}
+            - {{ dogwalking.pet.petname }}
+          </td>
+        </tr>
+        <tr>
+          <th>✔ 반려동물과 함께 지내는 지역</th>
+          <td>{{ dogwalking.area }}</td>
+        </tr>
+        <tr>
+          <th>✔ 반려동물의 성격</th>
+          <td>
+            {% for characteristic in characteristics %}
+            <div>#{{ characteristic }}</div>
+            {% endfor %}
+          </td>
+        </tr>
+      </table>
+    </div>
     <!-- tag -->
     {% if dogwalking.tags.all %}
     <div class='tags'>
@@ -115,9 +153,6 @@
       {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
     </div>
     {% endif %}
-    <h3>
-      <a href="{% url 'notes:send' dogwalking.user.pk %}" class="text-decoration-none">쪽지</a>
-    </h3>
   </section>
 
 
@@ -175,39 +210,40 @@
         <p class='text'>첫 댓글을 남겨주세요.</p>
       </div>
     {% endfor %}
-
-    <!-- 리뷰 -->
-    <div class="d-flex justify-content-between align-items-center container">
-      <!-- 리뷰 쓰기 버튼 -->
-      <a href="{% url 'dogwalking:review' dogwalking.pk %}" class="btn btn-outline-dark rounded-0 w-50 font-space">
-        리뷰 쓰기
-      </a>
-    </div>
-    <div class="container my-3">
-      {% for review in reviews %}
-        <div class="my-3">
-          <a href="{% url 'accounts:detail' review.user.pk %}" class="text-decoration-none text-dark">
-            <div class="d-flex justify-content-end align-items-center rounded-0 border border-dark align-middle card-title p-2 font-space fw-bold">
-              {% if review.user.profile_image %}
-                <img src="{{ review.user.profile_image.url }}" alt="" style="width:32px; height:32px; border-radius: 50%;">
-              {% else %}
-                <img src="{% static 'img/profile_dogcat.png' %}" alt="" style="width:32px; height:32px;">
-              {% endif %}
-              &nbsp;
-              {{ review.user.username }}
-            </a>
-            </div>
-
-            <div class="card-body d-flex justify-content-between align-items-center rounded-0 border border-top-0 border-dark" style="overflow: hidden;">
-                  <p> 산책 후기: {{ review.content }}</p>
-                  <p> 평점: {{ review.grade }}</p>
-                  <p> 산책 날짜 : {{ review.dogwalking_date }}</p>
-                  <p> 산책 장소 : {{ review.place }}</p>
-                </div>
-        </div>
-      {% endfor %}
-    </div>
   </section>
+
+  {% comment %} 리뷰 {% endcomment %}
+  <div class="d-flex justify-content-between align-items-center container">
+    <!-- 리뷰 쓰기 버튼 -->
+    <a href="{% url 'dogwalking:review' dogwalking.pk %}" class="btn btn-outline-dark rounded-0 w-50 font-space">
+      리뷰 쓰기
+    </a>
+  </div>
+
+  <div class="container my-3">
+    {% for review in reviews %}
+      <div class="my-3">
+        <a href="{% url 'accounts:detail' review.user.pk %}" class="text-decoration-none text-dark">
+          <div class="d-flex justify-content-end align-items-center rounded-0 border border-dark align-middle card-title p-2 font-space fw-bold">
+            {% if review.user.profile_image %}
+              <img src="{{ review.user.profile_image.url }}" alt="" style="width:32px; height:32px; border-radius: 50%;">
+            {% else %}
+              <img src="{% static 'img/profile_dogcat.png' %}" alt="" style="width:32px; height:32px;">
+            {% endif %}
+            &nbsp;
+            {{ review.user.username }}
+          </a>
+          </div>
+
+          <div class="card-body d-flex justify-content-between align-items-center rounded-0 border border-top-0 border-dark" style="overflow: hidden;">
+                <p> 산책 후기: {{ review.content }}</p>
+                <p> 평점: {{ review.grade }}</p>
+                <p> 산책 날짜 : {{ review.dogwalking_date }}</p>
+                <p> 산책 장소 : {{ review.place }}</p>
+              </div>
+      </div>
+    {% endfor %}
+  </div>
 </main>
 
 

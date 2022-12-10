@@ -27,9 +27,23 @@
   background-color: white;
   color: #5A5959;
 }
+#head .send-note {
+  color: rgb(208, 172, 191);
+  font-weight: 800;
+  text-decoration: underline;
+}
 #head .title {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   font-weight: 700;
+}
+#head .dogwalking-pet {
+  margin-bottom: 1.5rem;
+  color: #EB7D80;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+#head .dogwalking-pet .pet-icon {
+  width: 1rem;
 }
 #head .detail-info {
   display: flex;
@@ -106,6 +120,23 @@
   background-color: #F6A9A8;
   border-radius: 1rem;
   color: white;
+}
+/* 같이 산책할 반려동물 정보 */
+#article-content .pet-info {
+  background-color: rgb(250, 245, 247);
+  border-radius: 2rem;
+  padding: 1rem 3rem;
+}
+#article-content .pet-info table th, 
+#article-content .pet-info table td {
+  padding: 0.5rem;
+}
+#article-content .pet-info table th {
+  color: rgb(208, 172, 191);
+}
+#article-content .pet-info table .pet-icon {
+  margin: 0;
+  width: 1.3rem;
 }
 
 /* 댓글 */

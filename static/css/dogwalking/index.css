@@ -14,36 +14,48 @@ button {
   background: none;
 }
 
-.card-top-wrap {
-  display: flex;
+#super-container {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 
 /* Card-wrap */
 .card-wrap {
-  width: 100%;
+  margin-bottom: 3rem;
   padding: 0 30px;
+  width: 100%;
   text-align: center;
 }
 
 .card-wrap h3 {
-  margin: 30px 0;
+  margin: 0;
+  font-weight: 600;
 }
 
 .card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-top a:hover {
+  color: #595858;
 }
 
 /* Card-item */
+a.detail-move:hover .card__item {
+  color: black;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgba(0, 0, 0, 0.123);
+}
 .card__item {
-  width: 240px;
-  background-color: #fff;
-  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .1);
-  border-radius: 20px;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   position: relative;
+  width: 90%;
+  background-color: #fff;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgb(0 0 0 / 8%);
+  border-radius: 20px;
 }
 
 .card__item-back {
@@ -110,12 +122,12 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
 }
 
 .card__item__user {
   display: flex;
   align-items: center;
+  padding: 0.5rem 1rem;
 }
 
 .card__item__user img {
@@ -123,6 +135,13 @@ button {
   height: 35px;
   border-radius: 50%;
   margin-right: 8px;
+}
+
+.card__item__user .bi-person-circle {
+  font-size: 35px;
+  margin-right: 8px;
+  line-height: 35px;
+  color: #eb7d80;
 }
 
 .card__item__avg {
@@ -133,12 +152,20 @@ button {
 .card__item__avg i {
   margin-right: 8px;
 }
+.card__item-top .badge {
+  margin-right: 0.5rem;
+  color: white;
+  background-color: rgb(246, 169, 168);
+  border-radius: 1rem;
+}
 
 
 /* Card-item-image */
 .card__item__image {
   width: 100%;
   height: 200px;
+  border-top: 1px solid #d9d9d923;
+  border-bottom: 1px solid #d9d9d923;
 }
 
 .card__item__image img {
@@ -150,7 +177,7 @@ button {
 /* Card-item-bottom */
 .card__item-bottom {
   text-align: center;
-  height: 123px;
+  padding: 12px 1rem;
 }
 
 .card__item__title {
