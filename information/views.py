@@ -6,4 +6,5 @@ def index(request):
 
 
 def friends(request):
+
     return render(request, "information/friends.html")

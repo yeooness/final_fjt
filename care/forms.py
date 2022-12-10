@@ -1,5 +1,6 @@
 from django import forms
 from .models import Care, Review, Comment
+from django.forms.widgets import NumberInput
 
 # CARING_ANIMAL = [
 #     ('고양이', '고양이'),
@@ -57,6 +58,8 @@ class Careform(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    caring_date = forms.DateTimeField(widget=NumberInput(attrs={"type": "date"}))
+
     class Meta:
         model = Review
         fields = [
