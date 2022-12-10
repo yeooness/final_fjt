@@ -3,10 +3,20 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
+  <link rel="stylesheet" href="{% static 'css/information/index.css' %}">
   <link rel="stylesheet" href="{% static 'css/information.css' %}">
 {% endblock css %}
 
 {% block content %}
+<ul class='board-tab justify-content-center mt-5'>
+  <input type="hidden" id='current-board' value='{{ name }}'>
+  {% for board in information_list %}
+  <li>
+    <a href="?board={{ board }}" class='board {{ board }}'>{{ board }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
   <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -25,10 +35,11 @@
       <div id="pagination"></div>
     </div>
   </div>
-
+{% comment %} {% endif %} {% endcomment %}
 {% endblock content %}
 
 {% block js %}
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df813f9bb6ba7a829754c605433c9041&libraries=services"></script>
   <script src="{% static 'js/information.js' %}"></script>
+  <script src="{% static 'js/information/index.js' %}"></script>
 {% endblock js %}
