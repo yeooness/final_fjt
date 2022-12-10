@@ -131,7 +131,7 @@
 }
 
 
-
+/* card-container */
 :root {
   /* Color */
   --main-color: #eb7d80;
@@ -165,7 +165,7 @@ button {
   background-color: #fff8f5;
 }
 
-.card-wrap h3 {
+.card-top h3 {
   margin: 0;
   font-weight: 600;
   font-size: 1.5rem;
@@ -373,4 +373,26 @@ a.detail-move:hover .card__item {
   .card__item {
     width: 90%;
   }
+}
+
+
+/* 글작성 버튼 */
+.writing-btn-round {
+  display: none;
+  position: fixed;
+  bottom: 2rem;
+  right: 3rem;
+  padding: 1rem 1.2rem;
+  border-radius: 50%;
+  background-color: #EB7D80;
+  color: white;
+  font-size: 1.3rem;
+  box-shadow: 0.2rem 0.2rem 0.5rem 0.5rem #95959525;
+}
+.writing-btn-round.active {
+  display: inline-block;
+}
+.writing-btn-round:hover {
+  background-color: #f07478;
+  color: white;
 }

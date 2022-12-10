@@ -45,17 +45,19 @@ const removeAllActive = function (elements) {
 
 if (parameters) {
   parameters = document.location.search.slice(1).split('&');
-  console.log(parameters);
-  removeAllActive(petSpeciesLabels)
-  removeAllActive(characteristicsLabels)
+  // console.log(parameters);
+  if (parameters.length > 1) {
+    removeAllActive(petSpeciesLabels)
+    removeAllActive(characteristicsLabels)
+  }
   for (let para of parameters) {
-    console.log(para)
-    console.log(para.split('='))
+    // console.log(para)
+    // console.log(para.split('='))
     let name;
     let value;
     [name, value] = para.split('=')
-    console.log(name, value)
-    console.log(decodeURI(value))
+    // console.log(name, value)
+    // console.log(decodeURI(value))
     if (name === 'pet_species') {
       petSpeciesLabels[match[decodeURI(value)]].classList.add('active')
       petSpeciesLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
@@ -98,6 +100,22 @@ characteristicsLabels.forEach(function(label) {
     event.target.classList.toggle('active')
   })
 })
+
+
+
+
+
+// 스크롤 내려가면 글 작성 버튼(동그란거) 나타나게
+document.addEventListener('scroll', function() {
+  console.log(document.documentElement.scrollTop)
+  const writingBtnRound = document.querySelector('.writing-btn-round')
+  if (document.documentElement.scrollTop < 340) {
+    writingBtnRound.classList.remove('active')
+  } else {
+    writingBtnRound.classList.add('active')
+  }
+})
+
 
 
 
