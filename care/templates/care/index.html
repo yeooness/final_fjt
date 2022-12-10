@@ -17,7 +17,10 @@
             <span class='sub-text'>나의 돌봄 조건에 따라 클릭하세요</span>
           </div>
           {% comment %} 제출버튼 {% endcomment %}
-          <input form='filter-form' type="submit" value="적용">
+          <div>
+            <input form='filter-form' type="submit" value="적용">
+            <a href="{% url 'care:index' %}" class='filter-cancel'>취소</a>
+          </div>
         </div> 
         <div class='row'>
           {% comment %} 1) 로그인한 사람(자신)의 프로필 {% endcomment %}
