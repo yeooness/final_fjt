@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <script src="https://kit.fontawesome.com/a261e34fb9.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'css/dogwalking/index.css' %}">
+{% endblock css %}
+
+{% block content %}
+<main>
+  {% comment %} 산책 친구가 되어주세요 {% endcomment %}
+  {% if more_what == 'find-friends' %}
+  <section id='dogwalking-filter'>
+    <div class='container'>
+      <div class='super-head'>
+        <div>
+          <h1>산책 친구가 되어주세요</h1>
+          <span class='sub-text'>같이 산책하고 싶은 친구를 선택해 보세요</span>
+        </div>
+        {% comment %} 취소 / 제출버튼 {% endcomment %}
+        <div>
+          <input form='filter-form' type="submit" value="적용">
+          <a href="/dogwalking/more?more=find-friends" class='filter-cancel'>취소</a>
+        </div>
+      </div> 
+      <div class='row'>
+        {% comment %} 1) 로그인한 사람(자신)의 프로필 {% endcomment %}
+        {% if request.user.is_authenticated %}
+        <div class='col-3' id='person'>
+          <div class='img-wrap'>
+            {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" alt="">
+            {% else %}
+            <i class="bi bi-person-circle"></i>
+            {% endif %}
+            <span class='name'>{{ user.nickname }}</span>
+            <span>
+              {% if user.gender == 'M' %}
+              남자
+              {% else %}
+              여자
+              {% endif %}
+                | 
+              {{ user.age }}세
+            </span>
+          </div>
+        </div>
+        {% endif %}
+
+        {% comment %} 2) 같이 산책하고 싶은 친구 찾기 {% endcomment %}
+        <div class='{% if request.user.is_authenticated %}col-9{% else %}col-12{% endif %}'>
+          <form id='filter-form' action="{% url 'dogwalking:more' %}" method='get'>
+            <input type="hidden" name="more" value='find-friends'>
+            {% comment %} 산책 친구의 반려동물 {% endcomment %}
+            <div class='section pet_species row'>
+              <div class='head col-3'>
+                <h5>산책 친구의 반려동물</h5>
+                <span class='text'>하나만 선택 가능</span>
+              </div>
+              <div class='body col-9'>
+                <label for='dog' class='active'>강아지</label>
+                <input type='radio' id='dog' name='pet_species' value='dog' checked/>
+                <label for='cat'>고양이</label>
+                <input type='radio' id='cat' name='pet_species' value='cat'/>
+              </div>
+            </div>
+
+            {% comment %} 반려동물의 성격 {% endcomment %}
+            <div class='section characteristics row'>
+              <div class='head col-3'>
+                <h5>반려동물의 성격</h5>
+                <span class='text'>다중 선택 가능</span>
+              </div>
+              <div class='col-9'>
+                <div class='body mb-2'>
+                  <label for='활발한' class='active'>활발한</label>
+                  <input type='checkbox' id='활발한' name='characteristics' value='활발한' checked/>
+                  <label for='소심한'>소심한</label>
+                  <input type='checkbox' id='소심한' name='characteristics' value='소심한'/>
+                  <label for='긍정적인'>긍정적인</label>
+                  <input type='checkbox' id='긍정적인' name='characteristics' value='긍정적인'/>
+                </div>
+                <div class='body mb-2'>
+                  <label for='적응력높은'>적응력높은</label>
+                  <input type='checkbox' id='적응력높은' name='characteristics' value='적응력높은'/>
+                  <label for='충성심높은'>충성심높은</label>
+                  <input type='checkbox' id='충성심높은' name='characteristics' value='충성심높은'/>
+                  <label for='애교많은'>애교많은</label>
+                  <input type='checkbox' id='애교많은' name='characteristics' value='애교많은'/>
+                </div>
+                <div class='body'>
+                  <label for='예민한'>예민한</label>
+                  <input type='checkbox' id='예민한' name='characteristics' value='예민한'/>
+                  <label for='호기심많은'>호기심많은</label>
+                  <input type='checkbox' id='호기심많은' name='characteristics' value='호기심많은'/>
+                  <label for='겁이많은'>겁이많은</label>
+                  <input type='checkbox' id='겁이많은' name='characteristics' value='겁이많은'/>
+                </div>
+              </div>
+            </div>
+
+            {% comment %} 산책 친구의 지역 {% endcomment %}
+            <div class='section possible-area row'>
+              <div class='head col-3'>
+                <h5>산책 친구의 지역</h5>
+              </div>
+              <div class='body col-9'>
+                <select name="area" id='area'>
+                  {% for area in area_list %}
+                  <option value="{{ area }}">{{ area }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  
+  <!-- card-container -->
+  <section class='container main-cards'>
+    <div class="card-top">
+      <h3>
+        {% if more_what == 'find-friends' %}
+        산책 친구를 찾습니다
+        {% else %}
+        최근 산책 매칭
+        {% endif %}
+      </h3>
+    </div>
+    <div class='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 gy-3'>
+      <!-- 산책친구 아이템 -->
+      {% for article in dogwalking %}
+      <!-- card-item -->
+      <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move col'>
+        <article class="card__item">
+          <!-- card-item-top -->
+          <div class="card__item-top">
+            <!-- card-item-user -->
+            <div class="card__item__user">
+              {% if article.user.profile_image %}
+              <img src="{{ article.user.profile_image.url }}" alt="card-user-image">
+              {% else %}
+              <i class="bi bi-person-circle"></i>
+              {% endif %}
+              {% if article.user.nickname %}
+              <p>{{ article.user.nickname }}</p>
+              {% else %}
+              <p>{{ article.user.username }}</p>
+              {% endif %}
+            </div>
+            <!-- card-item-avg -->
+            {% comment %} <div class="card__item__avg">
+              <i class="fa-regular fa-heart fa-xl"></i>
+              <p>평점</p>
+            </div> {% endcomment %}
+            <!-- 분류 뱃지 -->
+            <div class='badge'>
+              {% if article.pet.species == 'dog' %}
+              강아지
+              {% else %}
+              고양이
+              {% endif %}
+            </div>
+          </div>
+      
+          <!-- card-item-image -->
+          <div class="card__item__image">
+            {% if article.image %}
+            <img src="{{ article.image.url }}" alt="card-image">
+            {% else %}
+            <img src="{% static 'img/dog-walking-icon.png' %}" alt="card-image">
+            {% endif %}
+          </div>
+      
+          <!-- card-item-bottom -->
+          <div class="card__item-bottom">
+            <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
+            <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
+          </div>
+        </article>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% comment %} 글작성 버튼 {% endcomment %}
+  {% if more_what == 'find-friends' %}
+  <a class='writing-btn-round' href="{% url 'dogwalking:create' %}" title='산책메이트 찾는 글 작성하기'><i class="bi bi-pencil"></i></a>
+  {% endif %}
+</main>
+{% endblock %}
+
+{% block js %}
+<script defer src="{% static 'js/dogwalking/index.js' %}"></script>
+{% endblock js%}

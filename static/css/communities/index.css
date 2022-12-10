@@ -203,13 +203,14 @@
   background-color: #EB7D80;
   color: white;
   font-size: 1.3rem;
+  box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem #95959525;
 }
 #total-articles .head-wrap .filter-wrap .writing-btn-round.active {
   display: inline-block;
 }
 #total-articles .head-wrap .filter-wrap .writing-btn:hover,
 #total-articles .head-wrap .filter-wrap .writing-btn-round:hover {
-  background-color: #C0686A;
+  background-color: #f07478;
 }
 #total-articles article {
   padding: 1.5rem 1rem;

@@ -17,6 +17,29 @@
       {% csrf_token %}
       {% comment %} {% bootstrap_form dogwalking_form %} {% endcomment %}
 
+      {% comment %} 같이 산책하고 싶은 반려동물 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span>같이 산책하고 싶은 반려동물</h5>
+        <select name="pet" id="pet" required>
+          {% for user_pet in request.user.pet.all %}
+          <option value="{{ user_pet.pk }}">
+            {% if user_pet.species == 'dog' %}
+            강아지
+            {% else %}
+            고양이
+            {% endif %}
+            - {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+        <input type="hidden" id='hidden-pet' value='{{ dogwalking.pet.pk }}'>
+      </div>
+
+      {% comment %} 반려동물과 함께 지내는 지역 {% endcomment %}
+      <div class='domain'>
+        <h5><span class='important'>*</span> 반려동물과 함께 지내는 지역</h5>
+        {{ dogwalking_form.area }}
+      </div>
+
       {% comment %} 제목 {% endcomment %}
       <div class='domain'>
         <h5><span class='important'>*</span> 제목</h5>
@@ -24,10 +47,10 @@
       </div>
 
       {% comment %} 산책 인원 {% endcomment %}
-      <div class='domain'>
+      {% comment %} <div class='domain'>
         <h5><span class='important'>*</span> 산책 인원</h5>
         {{ dogwalking_form.members }}
-      </div>
+      </div> {% endcomment %}
 
       {% comment %} 내용 {% endcomment %}
       <div class="domain">
