@@ -64,7 +64,7 @@ def index(request):
 
 
     context = {
-        "dogwalking": dogwalking,
+        "dogwalking": dogwalking[:8],
         "pet": pet,
         "pet_species": pet_species,
         "pet_characteristics": pet_characteristics,
