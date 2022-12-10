@@ -20,7 +20,7 @@
   <section id='head'>
     <div class='category-btns'>
       <p class='category'>산책메이트를 찾습니다</p>
-      <!-- 수정/삭제 버튼 -->
+      <!-- 수정/삭제/글내림 버튼 -->
       {% if request.user == dogwalking.user %}
       <div class='update-delete-btn'>
         <a class='update-btn' href="{% url 'dogwalking:update' dogwalking.pk %}">수정</a>
@@ -29,6 +29,16 @@
         <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
           삭제
         </button>
+        |
+        <a href="{% url 'dogwalking:writing' dogwalking.pk %}" class='update-btn'>
+          {% if dogwalking.writing_down %}
+          {% comment %} 글이 내려간 상태 writing_down == 1 {% endcomment %}
+            <button class='update-btn btn btn-link text-decoration-none'>글 올리기</button>
+          {% else %}
+          {% comment %} 글이 올라가 진 상태 writing_down == 0 {% endcomment %}
+            <button class='update-btn btn btn-link text-decoration-none'>글 내리기</button> 
+          {% endif %}
+        </a>
         <!-- Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog">

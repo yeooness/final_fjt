@@ -507,29 +507,6 @@ def check_auth(request, user_pk):
 def notice(request):
     if request.method == "POST":
         dic = {}
-        #     if request.user.pet_notice:
-        #         if Care.objects.filter(user=request.user).exists():
-        #             care = request.user.care
-        #             false_comments = care.comment_set.filter(read=False)
-        #             for i in false_comments:
-        #                 if i.created_at not in dic:
-        #                     dic[i.created_at.strftime("%Y-%m-%dT%H:%M:%S")] = (
-        #                         i.content,
-        #                         i.user.nickname,
-        #                         "care",
-        #                         care.pk,
-        #                     )
-        #                 else:
-        #                     dic[
-        #                         (i.created_at + datetime.timedelta(minutes=1)).strftime(
-        #                             "%Y-%m-%dT%H:%M:%S"
-        #                         )
-        #                     ] = (
-        #                         i.content,
-        #                         i.user.nickname,
-        #                         "care",
-        #                         care.pk,
-        #                     )
         if request.user.note_notice:
             if request.user.user_to.filter(read=False).exists():
                 false_notes = request.user.user_to.filter(read=False)

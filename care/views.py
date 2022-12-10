@@ -21,6 +21,7 @@ def index(request):
     etc = request.GET.getlist("etc")  # 기타
     areas = request.GET.get("area")  # 지역
     gender = request.GET.get("gender")  # 돌보미 성별
+    print(gender)
     # print(pet_species)
 
     # 매칭 조건
@@ -52,7 +53,7 @@ def index(request):
         "세종시",
     ]
     # 성별
-    gender_list = ["남자", "여자", "상관없음"]
+    gender_list = ["남자", "여자"]
 
     # DB모델
     if pet_species:
@@ -81,6 +82,7 @@ def index(request):
         for i in gender:
             query = query | Q(gender__icontains=i)
             care = care.filter(query)
+        
 
     context = {
         "care": care,
