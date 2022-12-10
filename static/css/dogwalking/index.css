@@ -1,3 +1,25 @@
+/* 산책친구가 되어주세요 */
+#dogwalking-filter {
+  background: url(http://fiximage.10x10.co.kr/web2018/main/bg_pattern_slash.png) 0 0 repeat;
+}
+#dogwalking-filter .super-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 1rem 2rem;
+}
+#dogwalking-filter .super-head h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+#dogwalking-filter .super-head .sub-text {
+  color: #959595;
+  font-size: 0.8rem;
+}
+
+
+
 :root {
   /* Color */
   --main-color: #eb7d80;
@@ -14,13 +36,12 @@ button {
   background: none;
 }
 
-#super-container {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
 
 /* Card-wrap */
+.main-cards {
+  margin: 3rem auto;
+}
+
 .card-wrap {
   margin-bottom: 3rem;
   padding: 0 30px;
@@ -28,9 +49,14 @@ button {
   text-align: center;
 }
 
+.card-wrap.around {
+  background-color: #fff8f5;
+}
+
 .card-wrap h3 {
   margin: 0;
   font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .card-top {
@@ -153,7 +179,7 @@ a.detail-move:hover .card__item {
   margin-right: 8px;
 }
 .card__item-top .badge {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   color: white;
   background-color: rgb(246, 169, 168);
   border-radius: 1rem;
@@ -177,11 +203,10 @@ a.detail-move:hover .card__item {
 /* Card-item-bottom */
 .card__item-bottom {
   text-align: center;
-  padding: 12px 1rem;
+  padding: 1rem;
 }
 
 .card__item__title {
-  margin: 8px 0;
   font-size: 18px;
   font-weight: bold;
 }
