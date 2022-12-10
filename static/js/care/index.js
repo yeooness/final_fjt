@@ -149,6 +149,8 @@ etcLabels.forEach(function(label) {
 
 
 
+
+// 카드들 Swiper
 var swiper = new Swiper(".mySwiper", {
   slidesPerView: 1,
   spaceBetween: 10,

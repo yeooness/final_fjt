@@ -23,7 +23,7 @@ def index(request):
     # 견종
     pet_species_list = ['강아지', '고양이']
     # 반려동물 성격
-    pet_characteristics_list = ['활발한', '소심한', '긍정적인', '적응력높은', '충성심높은', '공격적인', '애교많은']
+    pet_characteristics_list = ['활발한', '소심한', '긍정적인', '적응력높은', '충성심높은', '애교많은', '예민한', '호기심많은', '겁이많은']
      # 지역별
     area_list = [
         "경기도",
@@ -51,12 +51,12 @@ def index(request):
     if pet_species:
         query = Q()
         for i in pet_species:
-            query = query | Q(pet_species__icontains=i)
+            query = query | Q(species__icontains=i)
             pet = pet.filter(query)
     if pet_characteristics:
         query = Q()
         for i in pet_characteristics:
-            query = query | Q(pet_characteristics__icontains=i)
+            query = query | Q(characteristics__icontains=i)
             pet = pet.filter(query)
     if area:
         query = Q()
@@ -66,7 +66,7 @@ def index(request):
 
 
     context = {
-        "dogwalking": dogwalking[:8],
+        "dogwalking": dogwalking,
         "pet": pet,
         "pet_species": pet_species,
         "pet_characteristics": pet_characteristics,
@@ -82,7 +82,7 @@ def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
         dogwalking_form = DogwalkingForm(request.POST, request.FILES)
-        pet = Pet.objects.get(pk=request.POST.get('pet_need_caring'))
+        pet = Pet.objects.get(pk=request.POST.get('pet'))
         if dogwalking_form.is_valid():
             dogwalking = dogwalking_form.save(commit=False)
             dogwalking.pet = pet

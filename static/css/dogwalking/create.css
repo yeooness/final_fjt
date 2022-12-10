@@ -33,8 +33,8 @@ input[type='submit'] {
   color: red;
 }
 
-/* 돌봄이 필요한 반려동물, 반려동물과 함께 지내는 지역 */
-#pet_need_caring, #id_area {
+/* 같이 산책하고 싶은 반려동물, 반려동물과 함께 지내는 지역 */
+#pet, #id_area {
   display: grid;
   padding: 5px 30px 5px 10px;
   width: 250px;
@@ -45,11 +45,11 @@ input[type='submit'] {
   border-radius: 4px;
   color: #6c757d;
 }
-#pet_need_caring option, #id_area option {
+#pet option, #id_area option {
   color: #6c757d;
   padding: 3px 0;
 }
-#pet_need_caring option:hover, #id_area option:hover {
+#pet option:hover, #id_area option:hover {
   background-color: #F6A9A8;
   color: white;
 }

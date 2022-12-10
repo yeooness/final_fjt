@@ -15,10 +15,13 @@
       <div class='super-head'>
         <div>
           <h1>산책 친구가 되어주세요</h1>
-          <span class='sub-text'>같이 산책하고 싶은 친구를 선택하세요</span>
+          <span class='sub-text'>같이 산책하고 싶은 친구를 선택해 보세요</span>
         </div>
-        {% comment %} 제출버튼 {% endcomment %}
-        <input form='filter-form' type="submit" value="적용">
+        {% comment %} 취소 / 제출버튼 {% endcomment %}
+        <div>
+          <input form='filter-form' type="submit" value="적용">
+          <a href="{% url 'dogwalking:index' %}" class='filter-cancel'>취소</a>
+        </div>
       </div> 
       <div class='row'>
         {% comment %} 1) 로그인한 사람(자신)의 프로필 {% endcomment %}
@@ -44,89 +47,61 @@
         </div>
         {% endif %}
 
-        {% comment %} 2) 나의 돌봄 조건 {% endcomment %}
+        {% comment %} 2) 같이 산책하고 싶은 친구 찾기 {% endcomment %}
         <div class='{% if request.user.is_authenticated %}col-9{% else %}col-12{% endif %}'>
-          <form id='filter-form' action="{% url 'care:index' %}" method='get'>
-            {% comment %} 돌보미 성별 {% endcomment %}
-            <div class='section petsitter_gender row'>
+          <form id='filter-form' action="{% url 'dogwalking:index' %}" method='get'>
+            {% comment %} 산책 친구의 반려동물 {% endcomment %}
+            <div class='section pet_species row'>
               <div class='head col-3'>
-                <h5>돌보미 성별</h5>
-                <span class='text'>하나만 선택 가능</span>
-              </div>
-              <div class='body col-9'>
-                <label for='male' class='active'>남</label>
-                <input type='radio' id='male' name='gender' value='남' checked/>
-                <label for='female'>여</label>
-                <input type='radio' id='female' name='gender' value='여'/>
-                <label for='none'>상관없음</label>
-                <input type='radio' id='none' name='gender' value='상관없음'/>
-              </div>
-            </div>
-
-            {% comment %} 돌봄 가능 동물 {% endcomment %}
-            <div class='section caring-pet row'>
-              <div class='head col-3'>
-                <h5>돌봄 가능 동물</h5>
+                <h5>산책 친구의 반려동물</h5>
                 <span class='text'>하나만 선택 가능</span>
               </div>
               <div class='body col-9'>
                 <label for='dog' class='active'>강아지</label>
-                <input type='radio' id='dog' name='species' value='강아지' checked/>
+                <input type='radio' id='dog' name='pet_species' value='dog' checked/>
                 <label for='cat'>고양이</label>
-                <input type='radio' id='cat' name='species' value='고양이'/>
+                <input type='radio' id='cat' name='pet_species' value='cat'/>
               </div>
             </div>
 
-            {% comment %} 돌봄 가능 시간 {% endcomment %}
-            <div class='section caring-time row'>
+            {% comment %} 반려동물의 성격 {% endcomment %}
+            <div class='section characteristics row'>
               <div class='head col-3'>
-                <h5>돌봄 가능 시간</h5>
-                <span class='text'>하나만 선택 가능</span>
-              </div>
-              <div class='body col-9'>
-                <label for='4시간이하' class='active'>4시간이하</label>
-                <input type='radio' id='4시간이하' name='caring_time' value='4시간이하' checked/>
-                <label for='1일이하'>1일이하</label>
-                <input type='radio' id='1일이하' name='caring_time' value='1일이하'/>
-                <label for='3일이하'>3일이하</label>
-                <input type='radio' id='3일이하' name='caring_time' value='3일이하'/>
-                <label for='7일이하'>7일이하</label>
-                <input type='radio' id='7일이하' name='caring_time' value='7일이하'/>
-                <label for='7일초과'>7일초과</label>
-                <input type='radio' id='7일초과' name='caring_time' value='7일초과'/>
-              </div>
-            </div>
-
-            {% comment %} 기타 {% endcomment %}
-            <div class='section etc row'>
-              <div class='head col-3'>
-                <h5>기타</h5>
+                <h5>반려동물의 성격</h5>
                 <span class='text'>다중 선택 가능</span>
               </div>
               <div class='col-9'>
                 <div class='body mb-2'>
-                  <label for='사전만남가능' class='active'>사전만남가능</label>
-                  <input type='checkbox' id='사전만남가능' name='etc' value='사전만남가능' checked/>
-                  <label for='반려동물있음'>반려동물있음</label>
-                  <input type='checkbox' id='반려동물있음' name='etc' value='반려동물있음'/>
-                  <label for='돌봄경력있음'>돌봄경력있음</label>
-                  <input type='checkbox' id='돌봄경력있음' name='etc' value='돌봄경력있음'/>
+                  <label for='활발한' class='active'>활발한</label>
+                  <input type='checkbox' id='활발한' name='characteristics' value='활발한' checked/>
+                  <label for='소심한'>소심한</label>
+                  <input type='checkbox' id='소심한' name='characteristics' value='소심한'/>
+                  <label for='긍정적인'>긍정적인</label>
+                  <input type='checkbox' id='긍정적인' name='characteristics' value='긍정적인'/>
+                </div>
+                <div class='body mb-2'>
+                  <label for='적응력높은'>적응력높은</label>
+                  <input type='checkbox' id='적응력높은' name='characteristics' value='적응력높은'/>
+                  <label for='충성심높은'>충성심높은</label>
+                  <input type='checkbox' id='충성심높은' name='characteristics' value='충성심높은'/>
+                  <label for='애교많은'>애교많은</label>
+                  <input type='checkbox' id='애교많은' name='characteristics' value='애교많은'/>
                 </div>
                 <div class='body'>
-                  <label for='픽업가능'>픽업가능</label>
-                  <input type='checkbox' id='픽업가능' name='etc' value='픽업가능'/>
-                  <label for='산책가능'>산책가능</label>
-                  <input type='checkbox' id='산책가능' name='etc' value='산책가능'/>
-                  <label for='노견/노묘케어가능'>노견/노묘케어가능</label>
-                  <input type='checkbox' id='노견/노묘케어가능' name='etc' value='노견/노묘케어가능'/>
+                  <label for='예민한'>예민한</label>
+                  <input type='checkbox' id='예민한' name='characteristics' value='예민한'/>
+                  <label for='호기심많은'>호기심많은</label>
+                  <input type='checkbox' id='호기심많은' name='characteristics' value='호기심많은'/>
+                  <label for='겁이많은'>겁이많은</label>
+                  <input type='checkbox' id='겁이많은' name='characteristics' value='겁이많은'/>
                 </div>
               </div>
             </div>
 
-            {% comment %} 돌봄 활동 가능 지역 {% endcomment %}
+            {% comment %} 산책 친구의 지역 {% endcomment %}
             <div class='section possible-area row'>
               <div class='head col-3'>
-                <h5>돌봄 활동 가능 지역</h5>
+                <h5>산책 친구의 지역</h5>
               </div>
               <div class='body col-9'>
                 <select name="area" id='area'>
@@ -194,6 +169,7 @@
         <div class="swiper-wrapper">
           <!-- 산책친구 아이템 -->
           {% for article in dogwalking %}
+          {% if article.writing_down == 0 %}
           <div class="swiper-slide">
             <!-- card-item -->
             <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move'>
@@ -245,313 +221,81 @@
               </article>
             </a>
           </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
     </div>
-  
-    <!-- Card-wrap 내주변친구 -->
-    <div class="card-wrap around">
-      <div class="card-top">
-        <h3>내 주변 친구들</h3>
-        <a href="#">
-          <p>더보기<i class="fa-solid fa-chevron-right ms-1"></i></p>
-        </a>
-      </div>
-      <!-- Swiper -->
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <!-- 내주변친구 아이템 -->
-          {% for article in dogwalking %}
-          <div class="swiper-slide">
-            <!-- card-item -->
-            <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move'>
-              <article class="card__item">
-                <!-- card-item-top -->
-                <div class="card__item-top">
-                  <!-- card-item-user -->
-                  <div class="card__item__user">
-                    {% if article.user.profile_image %}
-                    <img src="{{ article.user.profile_image.url }}" alt="card-user-image">
-                    {% else %}
-                    <i class="bi bi-person-circle"></i>
-                    {% endif %}
-                    {% if article.user.nickname %}
-                    <p>{{ article.user.nickname }}</p>
-                    {% else %}
-                    <p>{{ article.user.username }}</p>
-                    {% endif %}
-                  </div>
-                  <!-- card-item-avg -->
-                  {% comment %} <div class="card__item__avg">
-                    <i class="fa-regular fa-heart fa-xl"></i>
-                    <p>평점</p>
-                  </div> {% endcomment %}
-                  <!-- 분류 뱃지 -->
-                  <div class='badge'>
-                    {% if article.pet.species == 'dog' %}
-                    강아지
-                    {% else %}
-                    고양이
-                    {% endif %}
-                  </div>
-                </div>
-            
-                <!-- card-item-image -->
-                <div class="card__item__image">
-                  {% if article.image %}
-                  <img src="{{ article.image.url }}" alt="card-image">
-                  {% else %}
-                  <img src="{% static 'img/dog-walking-icon.png' %}" alt="card-image">
-                  {% endif %}
-                </div>
-            
-                <!-- card-item-bottom -->
-                <div class="card__item-bottom">
-                  <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
-                  <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
-                </div>
-              </article>
-            </a>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  
+
     <!-- Card-wrap 최근매칭 -->
     <div class="card-wrap">
-  
       <div class="card-top">
         <h3>최근 산책 매칭</h3>
         <a href="#">
           <p>더보기<i class="fa-solid fa-chevron-right ms-1"></i></p>
         </a>
       </div>
-  
       <!-- Swiper -->
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
           <!-- slide 최근매칭 아이템 -->
+          {% for article in dogwalking %}
+          {% if article.writing_down == 1 %}
           <div class="swiper-slide">
             <!-- card-item -->
-            <div class="card__item">
-              <!-- 조건문 처리 -->
-              <!-- 조건 1 -->
-              <!-- card-item-back -->
-              <div class="back-top-wrap">
-                <div class="back-wrap"></div>
-                <div class="card__item-back">
-                  <div class="back-user">
-                    <img src="data:image/png;base64,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" alt="my-profile">
-                    <p>유저이름</p>
+            <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move'>
+              <article class="card__item">
+                <!-- card-item-top -->
+                <div class="card__item-top">
+                  <!-- card-item-user -->
+                  <div class="card__item__user">
+                    {% if article.user.profile_image %}
+                    <img src="{{ article.user.profile_image.url }}" alt="card-user-image">
+                    {% else %}
+                    <i class="bi bi-person-circle"></i>
+                    {% endif %}
+                    {% if article.user.nickname %}
+                    <p>{{ article.user.nickname }}</p>
+                    {% else %}
+                    <p>{{ article.user.username }}</p>
+                    {% endif %}
                   </div>
-                  <div class="back-content">
-                    <!-- 바꿀 내용은 여기에 -->
-                    <div class="back-content-date">
-                      <p>날짜</p>
-                      <p>장소</p>
-                    </div>
-                    <div class="back-content-text">
-                      <p>내용</p>
-                    </div>
-                    <div class="back-content-like">
-                      <p>평점</p>
-                    </div>
-                    <!-- 바꿀 내용 끝 -->
+                  <!-- card-item-avg -->
+                  {% comment %} <div class="card__item__avg">
+                    <i class="fa-regular fa-heart fa-xl"></i>
+                    <p>평점</p>
+                  </div> {% endcomment %}
+                  <!-- 분류 뱃지 -->
+                  <div class='badge'>
+                    {% if article.pet.species == 'dog' %}
+                    강아지
+                    {% else %}
+                    고양이
+                    {% endif %}
                   </div>
                 </div>
-              </div>
-              <!-- 조건문 종료 -->
-              <!-- card-item-top -->
-              <div class="card__item-top">
-                <!-- card-item-user -->
-                <div class="card__item__user">
-                  <img src="data:image/png;base64,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" alt="card-user-image">
-                  <p>유저이름</p>
+            
+                <!-- card-item-image -->
+                <div class="card__item__image">
+                  {% if article.image %}
+                  <img src="{{ article.image.url }}" alt="card-image">
+                  {% else %}
+                  <img src="{% static 'img/dog-walking-icon.png' %}" alt="card-image">
+                  {% endif %}
                 </div>
-                <!-- card-item-avg -->
-                <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
+            
+                <!-- card-item-bottom -->
+                <div class="card__item-bottom">
+                  <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
+                  <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
                 </div>
-              </div>
-          
-              <!-- card-item-image -->
-              <div class="card__item__image">
-                <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" alt="card-image">
-              </div>
-          
-              <!-- card-item-bottom -->
-              <div class="card__item-bottom">
-                <p class="card__item__title">카드 제목</p>
-                <p class="card__item__count">카드 카운트</p>
-                <button class="card__item__btn">산책 신청</button>
-              </div>
-            </div>
+              </article>
+            </a>
           </div>
-          <!-- slide -->
-          <div class="swiper-slide">
-            <!-- card-item -->
-            <div class="card__item">
-              <!-- card-item-back -->
-              <div class="back-top-wrap">
-                <div class="back-wrap"></div>
-                <div class="card__item-back">
-                  <div class="back-user">
-                    <img src="data:image/png;base64,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" alt="my-profile">
-                    <p>유저이름</p>
-                  </div>
-                  <div class="back-content">
-                    <div class="back-content-date">
-                      <p>날짜</p>
-                      <p>장소</p>
-                    </div>
-                    <div class="back-content-text">
-                      <p>내용</p>
-                    </div>
-                    <div class="back-content-like">
-                      <p>평점</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- card-item-top -->
-              <div class="card__item-top">
-                <!-- card-item-user -->
-                <div class="card__item__user">
-                  <img src="data:image/png;base64,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" alt="card-user-image">
-                  <p>유저이름</p>
-                </div>
-                <!-- card-item-avg -->
-                <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
-                </div>
-              </div>
-          
-              <!-- card-item-image -->
-              <div class="card__item__image">
-                <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" alt="card-image">
-              </div>
-          
-              <!-- card-item-bottom -->
-              <div class="card__item-bottom">
-                <p class="card__item__title">카드 제목</p>
-                <p class="card__item__count">카드 카운트</p>
-                <button class="card__item__btn">산책 신청</button>
-              </div>
-            </div>
-          </div>
-          <!-- slide -->
-          <div class="swiper-slide">
-            <!-- card-item -->
-            <div class="card__item">
-              <!-- card-item-back -->
-              <div class="back-top-wrap">
-                <div class="back-wrap"></div>
-                <div class="card__item-back">
-                  <div class="back-user">
-                    <img src="data:image/png;base64,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" alt="my-profile">
-                    <p>유저이름</p>
-                  </div>
-                  <div class="back-content">
-                    <div class="back-content-date">
-                      <p>날짜</p>
-                      <p>장소</p>
-                    </div>
-                    <div class="back-content-text">
-                      <p>내용</p>
-                    </div>
-                    <div class="back-content-like">
-                      <p>평점</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- card-item-top -->
-              <div class="card__item-top">
-                <!-- card-item-user -->
-                <div class="card__item__user">
-                  <img src="data:image/png;base64,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" alt="card-user-image">
-                  <p>유저이름</p>
-                </div>
-                <!-- card-item-avg -->
-                <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
-                </div>
-              </div>
-          
-              <!-- card-item-image -->
-              <div class="card__item__image">
-                <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" alt="card-image">
-              </div>
-          
-              <!-- card-item-bottom -->
-              <div class="card__item-bottom">
-                <p class="card__item__title">카드 제목</p>
-                <p class="card__item__count">카드 카운트</p>
-                <button class="card__item__btn">산책 신청</button>
-              </div>
-            </div>
-          </div>
-          <!-- slide -->
-          <div class="swiper-slide">
-            <!-- card-item -->
-            <div class="card__item">
-              <!-- card-item-back -->
-              <div class="back-top-wrap">
-                <div class="back-wrap"></div>
-                <div class="card__item-back">
-                  <div class="back-user">
-                    <img src="data:image/png;base64,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" alt="my-profile">
-                    <p>유저이름</p>
-                  </div>
-                  <div class="back-content">
-                    <div class="back-content-date">
-                      <p>날짜</p>
-                      <p>장소</p>
-                    </div>
-                    <div class="back-content-text">
-                      <p>내용</p>
-                    </div>
-                    <div class="back-content-like">
-                      <p>평점</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- card-item-top -->
-              <div class="card__item-top">
-                <!-- card-item-user -->
-                <div class="card__item__user">
-                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAQlBMVEXk5ueutLetsrXo6uvp6+ypr7OqsLSvtbfJzc/f4eKmrbDi5OXl5+fY29zU19m4vcC/w8bHy828wcO1ur7P0tTIzc4ZeVS/AAAGG0lEQVR4nO2d25ajKhCGheKgiGfz/q+6waSzZ5JOd9QiFk59F73W5Mp/ijohlEXBMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMP8kdVF4AFAA/uhHSUGQ5uuqaee5nOe2qeIPRz8TIkr5ZhitMHek7YY2/H70k6EAUF0m57R4QDtnhyZ/SyrVdsFkj/JuGDPNkLUhoS6Ne6HuhtN9na0dAUppfta3GFL0mdoR2t/sd3dJU2boj+C7p+Dyg8auys2Man4ZXr5FujkvK8Lw5gL9HzdmVOtAMa0WGCNOlYsZoZreCKHPSJmJRKjWueAf6DaHeAPVRnmLxIa+FaHebMGIIS/RF9MegcEZa9oR1audAoWwR2v4GRhWFDLfYzrK0UbNzu5VaHVJ2BXrvUt0gXBAhQ5FobRUFap5txNeMQNRiR7FgovE6mgt3wLDpmr0W4Uk46mv0ASGVopisFEjokLR0VOIakKSRoQeLc5EJEFPxNQX0NTCaajXcBWSy4n7e4oHpCDWReHGmYhrSRkRSnSFpicVa2DCFhjWKallWqObMDZRR6v6A2iRI2lEUuqEVW929/bPjJQUJnDDACFH9DKBCUmVNQ1Sc/83hDKib5Mo1CWZjAgX5JLtiqST85E7p7tCOh0UjCkECjGR8UPo0iiks2+aoipdOFrYnVQK5dHC7kCKfB8V1kcr++IfUHj+VZos0lCpvVNlC0EnW5w/45+/asPfaYsQ2m07f/d0/g64KJL4IaVdjEQJkUo2LJbdxAQCKe0mAva7tYi5EFJ4/l394Ij47QWdujsCl7O/XSsq9IxIKhsWCd5cWEq5IqJKZCNKaicV0MsaSgXNFcRzexFCndMd3FhD8NQX7sk9SfDkHu6RGoomjHsZaBIpeuECmkJdEUuGN85/kh3tNoKkKrDwOE0U4RslOKdM9UD5QjBCPKV5E+GOB7HTFaUg80rtBfXOZt+Qv+0M++pTl8Fd59PfdI4S3VZfzMGCEajsJomSvg9+AYXY4Iwyn6kRRcyLq1O/7ign+mfUZaUzOkqnut9CFdOaCTxTdhN4iuV1zXsarQmlaG4WXAAozTuTsGSuk7ACqh7cLyFHuzHfaWYRBfP0eiKdNFPps7XfFwDVIJyTjyqldqI/wVTBBaXqtu+CpoAxJvyVYurnWqmsMuDPxGGecbhneSnLE073XKivE1qVUrF2qan3uStZhD1yhlm00WRQxNGz5dCPXWfFsgFg7dR1/bCsVu/j2N2jH3QTwWq+aodxsvI6dfYWTO11lyP8c/lZ2LGfGx9NevQTryAEkbqZe6ud04usH7dupHEhl3RDW/k8ok8owJqhs9E8bzYXUb8MQo3t54p4Aonqyk7fLLcSGwdghiKgrckuWAXNYHeNo4sYLbuZokjlm1682S39RjDlREykV1VpNy3Nlxgx0qlZFbSj1hb7YJt0oqwUgaoAinm/870g9MbV0bE1tLjh/zrRtaeo0XXtkYsViuGdgd27kLprjlqqqihNkjP6jxpd1xyxVj3MIrX97hr1+PntcNVsGfe8GeMG/1GNUKAOZ3tLo/jkiVr1uQX6B24sPrQtB/X4iQDzjJSfmUyvmuQZ4hXW9em90SOez9uAFKlfg0O15o1SChJf2VMNbgexBdenFHg52IAL2iZzxg0frUhCshf+6qAk8YzUSd4Yr/puTGp0ggJHdUdmiSdcg21FT0sg/sc+6PjgHY0abqAnJxD3Yx+q1Om2YjaDOH4/yWRLBOSEJNBXT6cMiKCRLtLCtrOUnwDnU2bHtku/IBGuD6EP6kYFJdqQXaIL+9tFGGkr3H1TEdJMnkFk51VFD8QtKPbGU8C6UZgSuyucHv3077An2NDYl/kdv9mKPsUccnR2fMYsCy8Ue9K+TzXwERs3b/NE+rnwi605EfcDTknZ+hWzo5/7fcymWONbilsXL9g0B5R0X/iI2XJs3B/91GvQG4pTjz+9KyFyXB9Nc0n3X6y3oaLe+v6NWb9hk2oKeSJ0u776zsqEGzIi8gcbkyPXDzvNpii9sTrnw5zXKl3/tQ8o4z2ejKDztY9UnOy2H8MwDMMwDMMwDMMwzPn4DxdeXoFp70GXAAAAAElFTkSuQmCC" alt="card-user-image">
-                  <p>유저이름</p>
-                </div>
-                <!-- card-item-avg -->
-                <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
-                </div>
-              </div>
-          
-              <!-- card-item-image -->
-              <div class="card__item__image">
-                <img src="https://i.pinimg.com/564x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" alt="card-image">
-              </div>
-          
-              <!-- card-item-bottom -->
-              <div class="card__item-bottom">
-                <p class="card__item__title">카드 제목</p>
-                <p class="card__item__count">카드 카운트</p>
-                <button class="card__item__btn">산책 신청</button>
-              </div>
-            </div>
-          </div>
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
-  
     </div>
   </section>
 </main>
@@ -562,9 +306,6 @@
 {% block js %}
 <script defer src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script defer src="{% static 'js/dogwalking/index.js' %}"></script>
-{% endblock js%}
-
-
 
 <!-- 기존파일 -->
 {% comment %} {% for dw in dogwalking %}
@@ -576,3 +317,6 @@
 {% else %} <div class="d-flex justify-content-center"> <img src="" alt=""> </div> 
 {% endif %} 
 {% endfor %}  {% endcomment %}
+
+{% endblock js%}
+
