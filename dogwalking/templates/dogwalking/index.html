@@ -160,7 +160,7 @@
     <div class="card-wrap">
       <div class="card-top">
         <h3>산책 친구를 찾습니다</h3>
-        <a href="#">
+        <a href="/dogwalking/more?more=find-friends">
           더보기<i class="fa-solid fa-chevron-right ms-1"></i>
         </a>
       </div>
@@ -231,7 +231,7 @@
     <div class="card-wrap">
       <div class="card-top">
         <h3>최근 산책 매칭</h3>
-        <a href="#">
+        <a href="/dogwalking/more?more=found-friends">
           <p>더보기<i class="fa-solid fa-chevron-right ms-1"></i></p>
         </a>
       </div>
@@ -298,6 +298,9 @@
       </div>
     </div>
   </section>
+
+  {% comment %} 글작성 버튼 {% endcomment %}
+  <a class='writing-btn-round' href="{% url 'dogwalking:create' %}" title='산책메이트 찾는 글 작성하기'><i class="bi bi-pencil"></i></a>
 </main>
 {% endblock content %}
 
