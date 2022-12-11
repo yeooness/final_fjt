@@ -47,6 +47,7 @@ class Dogwalking(models.Model):
     walking_member = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9)],
         help_text="0~9사이 값으로 입력하세요",
+        default=0,
         )
     # 산책 신청 인원
     walking = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="walker")
