@@ -85,6 +85,15 @@ class Care(models.Model):
         choices=gender_choices,
         default="선택",
     )
+    
+    # 글 내림 판단 여부
+    writing_down = models.BooleanField(default=False)
+    # 돌봄 신청자
+    caring = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        related_name="caring",
+        on_delete=models.CASCADE,
+        null=True,)
 
 
 class Review(models.Model):
