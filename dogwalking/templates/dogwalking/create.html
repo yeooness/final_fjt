@@ -35,10 +35,11 @@
         {{ dogwalking_form.area }}
       </div>
 
-      {% comment %} 산책총원 {% endcomment %}
-      <div class='domain'>
-        <h5><span class='important'>*</span> 산책총원</h5>
+      {% comment %} 산책인원 {% endcomment %}
+      <div class='domain member'>
+        <h5><span class='important'>*</span> 산책 인원</h5>
         {{ dogwalking_form.walking_member }}
+        <div class='text'>0 ~ 9사이 값으로 입력하세요</div>
       </div>
 
       {% comment %} 제목 {% endcomment %}
@@ -46,12 +47,6 @@
         <h5><span class='important'>*</span> 제목</h5>
         {{ dogwalking_form.title|attr:'placeholder:제목을 입력하세요' }}
       </div>
-
-      {% comment %} 산책인원 {% endcomment %}
-      {% comment %} <div class='domain'>
-        <h5><span class='important'>*</span> 산책인원</h5>
-        {{ dogwalking_form.members }}
-      </div> {% endcomment %}
 
       {% comment %} 내용 {% endcomment %}
       <div class="domain">
