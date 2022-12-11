@@ -78,6 +78,65 @@ def index(request):
     return render(request, "dogwalking/index.html", context)
 
 
+def more(request):
+    pet = Pet.objects.all()
+    pet_species = request.GET.getlist('pet_species') # 견종
+    pet_characteristics = request.GET.getlist('characteristics') # 반려동물 성격
+    area = request.GET.get('area') # 지역
+    more_what = request.GET.get('more')
+    
+    # 지역별
+    area_list = [
+        "경기도",
+        "서울시",
+        "부산광역시",
+        "경상남도",
+        "인천광역시",
+        "경상북도",
+        "대구광역시",
+        "충청남도",
+        "전라남도",
+        "전라북도",
+        "충청북도",
+        "강원도",
+        "대전광역시",
+        "광주광역시",
+        "울산광역시",
+        "제주도",
+        "세종시",
+    ]
+
+    if more_what == 'find-friends':
+        dogwalking = Dogwalking.objects.filter(writing_down=0).order_by('-pk')
+    elif more_what == 'found-friends':
+        dogwalking = Dogwalking.objects.filter(writing_down=1).order_by('-pk')
+    
+    # DB모델
+    if pet_species:
+        query = Q()
+        for i in pet_species:
+            query = query | Q(species__icontains=i)
+            pet = pet.filter(query)
+    if pet_characteristics:
+        query = Q()
+        for i in pet_characteristics:
+            query = query | Q(characteristics__icontains=i)
+            pet = pet.filter(query)
+    if area:
+        query = Q()
+        for i in area:
+            query = query | Q(area__icontains=i)
+            dogwalking = dogwalking.filter(query)
+
+    context = {
+        'dogwalking': dogwalking,
+        'area_list': area_list,
+        'more_what': more_what,
+    }
+    
+    return render(request, "dogwalking/more.html", context)
+
+
 def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
@@ -148,6 +207,7 @@ def update(request, dogwalking_pk):
 def delete(request, dogwalking_pk):
     Dogwalking.objects.get(pk=dogwalking_pk).delete()
     return redirect("dogwalking:index")
+
 
 def writing(request, dogwalking_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
@@ -230,6 +290,7 @@ def review(request, pk):
             review = review_form.save(commit=False)
             review.user = request.user
             review.dogwalking = dogwalking
+            review.grade = request.POST.get('reviewStar')
             review.save()
             return redirect("dogwalking:detail", pk)
     else:

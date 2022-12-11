@@ -1,27 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
 
 {% block css %}
-{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/dogwalking/review_create.css' %}">
+{% endblock css %}
 
 {% block content %}
-<style>
-.btn {
-  color: #FFFFF;
-  background-color: #c298c8
-  }
-</style>
-<div class="containter mx-5">
-  <div class="row mx-5">
-    <div class="col mx-5">
-      <h1 class="my-4">✏️리뷰 쓰기</h1>
-      <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form review_form %}
-        {% bootstrap_button content="작성완료" button_type="submit" button_class="btn col-12" %}
-      </form>
+<main class="containter">
+  <h1>산책 리뷰 작성</h1>
+  <form id="myform" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% comment %} {% bootstrap_form review_form %} {% endcomment %}
+
+    {% comment %} 같이 산책한 친구 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 같이 산책한 친구</h5>
+      {{ review_form.user }}
     </div>
-  </div>
-</div>
+
+    <div class='row row-cols-2'>
+      {% comment %} 산책 날짜 {% endcomment %}
+      <div class='domain col'>
+        <h5><span class='important'>*</span> 산책 날짜</h5>
+        {{ review_form.dogwalking_date }}
+      </div>
+      {% comment %} 산책 장소 {% endcomment %}
+      <div class='domain col'>
+        <h5><span class='important'>*</span> 산책 장소</h5>
+        {{ review_form.place|attr:'placeholder:산책 장소를 입력하세요' }}
+      </div>
+    </div>
+
+    {% comment %} 산책 후기 {% endcomment %}
+    <div class='domain col'>
+      <h5><span class='important'>*</span> 산책 후기</h5>
+      {{ review_form.content|attr:'placeholder:산책 후기를 입력하세요' }}
+    </div>
+
+    {% comment %} 산책에 대한 평점 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 산책에 대한 평점</h5>
+      <div class='rate'>
+        <fieldset>
+          <input type="radio" name="reviewStar" value="5" id="rate1"><label
+            for="rate1">❤</label>
+          <input type="radio" name="reviewStar" value="4" id="rate2"><label
+            for="rate2">❤</label>
+          <input type="radio" name="reviewStar" value="3" id="rate3"><label
+            for="rate3">❤</label>
+          <input type="radio" name="reviewStar" value="2" id="rate4"><label
+            for="rate4">❤</label>
+          <input type="radio" name="reviewStar" value="1" id="rate5"><label
+            for="rate5">❤</label>
+        </fieldset>	
+        <div class='rate-result'>0점</div>
+      </div>
+    </div>
+
+    {% comment %} 제출버튼 {% endcomment %}
+    <div class='submit-btn-wrap'>
+      <input type="submit" value="리뷰 작성">
+    </div>
+  </form>
+</main>
 {% endblock %}
+
+{% block js %}
+<script src="{% static 'js/dogwalking/review_create.js' %}"></script>
+{% endblock js %}

@@ -33,14 +33,12 @@ class ReviewForm(forms.ModelForm):
             "content",
             "dogwalking_date",
             "place",
-            "grade",
         ]
         labels = {
             "user": "같이 산책 한 친구",
             "dogwalking_date": "산책 날짜",
             "place": "산책 장소",
             "content": "산책 후기",
-            "grade": "산책에 대한 평점",
         }
 
 
