@@ -29,13 +29,13 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = [
-            "user",
+            # "user",
             "content",
             "dogwalking_date",
             "place",
         ]
         labels = {
-            "user": "같이 산책 한 친구",
+            # "user": "같이 산책 한 친구",
             "dogwalking_date": "산책 날짜",
             "place": "산책 장소",
             "content": "산책 후기",

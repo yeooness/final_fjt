@@ -15,9 +15,23 @@
     {% comment %} {% bootstrap_form review_form %} {% endcomment %}
 
     {% comment %} 같이 산책한 친구 {% endcomment %}
-    <div class='domain'>
+    {% comment %} <div class='domain'>
       <h5><span class='important'>*</span> 같이 산책한 친구</h5>
       {{ review_form.user }}
+    </div> {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 같이 산책한 친구</h5>
+      <div class='friend-info'>
+        {% for member in dogwalking.walking.all %}
+        <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ member.username }}">
+          {% if member.profile_image %}
+          <img src="{{ member.profile_image.url }}" alt="">
+          {% else %}
+          <i class="bi bi-person-circle"></i>
+          {% endif %}
+        </a>
+        {% endfor %}
+      </div>
     </div>
 
     <div class='row row-cols-2'>

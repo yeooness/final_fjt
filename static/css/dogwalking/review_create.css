@@ -34,12 +34,11 @@ input[type='submit'] {
 }
 
 /* 같이 산책한 친구 */
-#id_user {
+/* #id_user {
   display: grid;
   padding: 5px 30px 5px 10px;
   width: 250px;
   height: 35px;
-  /* appearance: none; */
   outline: none;
   border: 1px solid #F6A9A8;
   border-radius: 4px;
@@ -52,6 +51,23 @@ input[type='submit'] {
 #id_user option:hover {
   background-color: #F6A9A8;
   color: white;
+} */
+.friend-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.friend-info a img {
+  margin-left: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+.friend-info a .bi-person-circle {
+  margin-left: 0.5rem;
+  font-size: 2.5rem;
+  color: #EB7D80;
+  line-height: 2.5rem;
 }
 
 /* 산책 날짜, 산책 장소, 산책 후기 */
