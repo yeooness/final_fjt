@@ -21,14 +21,16 @@
 #head .category-btns .update-delete-btn .update-btn,
 #head .category-btns .update-delete-btn .delete-btn,
 #head .category-btns .update-delete-btn .applicant-btn,
-#head .category-btns .update-delete-btn .applicant-close-btn {
+#head .category-btns .update-delete-btn .applicant-close-btn,
+#head .detail-info .member-like-wrap .member .matching-btn {
   margin: 0 0.5rem;
   padding: 0;
   border: none;
   background-color: white;
   color: #5A5959;
 }
-#head .category-btns .update-delete-btn .applicant {
+#head .category-btns .update-delete-btn .applicant,
+#head .detail-info .member-like-wrap .member .applicant {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,29 +39,55 @@
   border: 1px solid #D9D9D9;
   border-radius: 2rem;
 }
-#head .category-btns .update-delete-btn .applicant:hover {
+#head .category-btns .update-delete-btn .applicant:hover,
+#head .detail-info .member-like-wrap .member .applicant:hover {
   background-color: #D9D9D9;
   color: black;
 }
-#head .category-btns .update-delete-btn .applicant img {
+#head .category-btns .update-delete-btn .applicant img,
+#head .detail-info .member-like-wrap .member .applicant img {
   margin-right: 1rem;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
 }
-#head .category-btns .update-delete-btn .applicant .bi-person-circle {
+#head .category-btns .update-delete-btn .applicant .bi-person-circle,
+#head .detail-info .member-like-wrap .member .applicant .bi-person-circle {
   font-size: 2rem;
   color: #EB7D80;
   line-height: 2rem;
 }
-#head .category-btns .update-delete-btn .applicant .name {
+#head .category-btns .update-delete-btn .applicant .name,
+#head .detail-info .member-like-wrap .member .applicant .name {
   margin: 0;
+}
+#head .note-btns-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 #head .send-note {
   color: rgb(208, 172, 191);
   font-weight: 800;
   text-decoration: underline;
 }
+#head .apply-buttons {
+  margin-right: 0.5rem;
+}
+#head .apply-buttons .button {
+  text-align: center;
+  text-decoration: underline;
+  margin: 0;
+}
+#head .apply-buttons .button.cancel-btn,
+#head .apply-buttons .button.apply-btn {
+  color: #EB7D80;
+}
+#head .apply-buttons .button.the-end {
+  color: #D9D9D9;
+  text-decoration: none;
+}
+
 #head .title {
   margin-bottom: 0;
   font-weight: 700;
@@ -111,7 +139,8 @@
   justify-content: space-between;
   align-items: center;
 }
-#head .detail-info .member-like-wrap .member {
+#head .detail-info .member-like-wrap .member,
+#head .detail-info .member-like-wrap .member > button {
   margin-right: 2rem;
   font-size: 0.8rem;
   font-weight: 700;

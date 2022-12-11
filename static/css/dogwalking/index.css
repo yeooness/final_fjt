@@ -183,10 +183,6 @@ button {
 }
 
 /* Card-item */
-a.detail-move:hover .card__item {
-  color: black;
-  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgba(0, 0, 0, 0.123);
-}
 .card__item {
   margin: 0.5rem auto;
   position: relative;
@@ -194,6 +190,11 @@ a.detail-move:hover .card__item {
   background-color: #fff;
   box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgb(0 0 0 / 8%);
   border-radius: 20px;
+}
+
+.card__item:hover {
+  color: black;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgba(0, 0, 0, 0.123);
 }
 
 .card__item-back {
@@ -323,12 +324,46 @@ a.detail-move:hover .card__item {
   font-weight: bold;
 }
 
-.card__item__btn {
-  background-color: var(--main-color);
-  width: 90%;
-  padding: 8px;
-  margin: 12px;
-  border-radius: 20px;
+.card__item__title:hover {
+  color: #EB7D80;
+}
+
+.matching {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+.matching > span:first-of-type {
+  margin-right: 0.5rem;
+}
+
+.matching span .number {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #EB7D80;
+}
+
+.apply-buttons .button {
+  display: block;
+  padding: 0.5rem 0;
+  width: 100%;
+  border-radius: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.apply-buttons .button.cancel-btn,
+.apply-buttons .button.apply-btn {
+  background-color: #EB7D80;
+}
+
+.apply-buttons .button.the-end {
+  background-color: #D9D9D9;
+}
+
+.apply-buttons .button.end-btn {
+  background-color: #D0ACBF;
 }
 
 
