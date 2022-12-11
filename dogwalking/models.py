@@ -43,6 +43,13 @@ class Dogwalking(models.Model):
     )
     # 글 내림 판단 여부
     writing_down = models.BooleanField(default=False)
+    # 산책 정원
+    walking_member = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(9)],
+        help_text="0~9사이 값으로 입력하세요",
+        )
+    # 산책 신청 인원
+    walking = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="walker")
 
     area_choices = [
         ("경기도", "경기도"),

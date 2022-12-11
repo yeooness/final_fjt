@@ -61,7 +61,7 @@ def index(request):
     if area:
         query = Q()
         for i in area:
-            query = query | Q(area__icontains=i)
+            query = Q(area__icontains=i)
             dogwalking = dogwalking.filter(query)
 
 
@@ -158,6 +158,16 @@ def writing(request, dogwalking_pk):
             dogwalking.writing_down = True
         dogwalking.save()
     return redirect('dogwalking:detail', dogwalking_pk)
+
+def walking(request, dogwalking_pk):
+    dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
+    
+    if dogwalking.user != request.user:
+        if dogwalking.walking.filter(pk=request.user.pk).exists():
+            dogwalking.walking.remove(request.user)
+        else:
+            dogwalking.walking.add(request.user)
+    return redirect("dogwalking:index")
 
 class TagCloudTV(TemplateView):
     template_name = "taggit/taggit_cloud.html"
