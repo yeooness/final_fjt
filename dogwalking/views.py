@@ -281,6 +281,7 @@ def review(request, pk):
             review = review_form.save(commit=False)
             review.user = request.user
             review.dogwalking = dogwalking
+            review.grade = request.POST.get('reviewStar')
             review.save()
             return redirect("dogwalking:detail", pk)
     else:
