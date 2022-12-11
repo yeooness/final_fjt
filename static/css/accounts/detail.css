@@ -420,3 +420,24 @@
 .modal-body .follow .name, .modal-body .block .name {
   margin: 0;
 }
+
+/* 펫 일기 버튼 */
+.btn-journal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0.4rem 0;
+  width: 140px;
+  height: 40px;
+  border-radius: 0.8rem;
+  background-color: #EB7D80;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #F6A9A8;
+}
+
+.btn-journal:hover {
+  color: white;
+}
+
