@@ -100,6 +100,78 @@ def index(request):
     return render(request, "care/index.html", context)
 
 
+def more(request):
+    pet = Pet.objects.all()
+    pet_species = request.GET.getlist("species")  # 강아지 고양이
+    time = request.GET.getlist("caring_time")  # 돌봄가능 시간
+    etc = request.GET.getlist("etc")  # 기타
+    areas = request.GET.get("area")  # 지역
+    gender = request.GET.get("gender")  # 돌보미 성별
+    more_what = request.GET.get('more')
+    
+    # 지역별
+    area_list = [
+        "경기도",
+        "서울시",
+        "부산광역시",
+        "경상남도",
+        "인천광역시",
+        "경상북도",
+        "대구광역시",
+        "충청남도",
+        "전라남도",
+        "전라북도",
+        "충청북도",
+        "강원도",
+        "대전광역시",
+        "광주광역시",
+        "울산광역시",
+        "제주도",
+        "세종시",
+    ]
+
+    if more_what == 'find-petsitter':
+        care = Care.objects.filter(writing_down=0).order_by('-pk')
+    elif more_what == 'found-petsitter':
+        care = Care.objects.filter(writing_down=1).order_by('-pk')
+    
+    # DB모델
+    if pet_species:
+        query = Q()
+        for i in pet_species:
+            query = query | Q(species__icontains=i)
+            pet = pet.filter(query)
+            # print(query)
+    if time:
+        query = Q()
+        for i in time:
+            query = query | Q(caring_time__icontains=i)
+            care = care.filter(query)
+    if etc:
+        query = Q()
+        for i in etc:
+            query = Q(etc__icontains=i)
+            care = care.filter(query)
+    if areas:
+        query = Q()
+        for i in areas:
+            query = Q(area__icontains=i)
+            care = care.filter(query)
+    if gender:
+        query = Q()
+        for i in gender:
+            query = query | Q(gender__icontains=i)
+            care = care.filter(query)
+
+    context = {
+        'care': care,
+        'area_list': area_list,
+        'more_what': more_what,
+    }
+    
+    return render(request, "care/more.html", context)
+
+
 def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
@@ -129,7 +201,8 @@ def create(request):
 
 def detail(request, care_pk):
     care = Care.objects.get(pk=care_pk)
-    reviews = Review.objects.filter(id=care_pk)
+    reviews = Review.objects.filter(care=care)
+    review = reviews[0] if reviews else ''
     comments = care.comment_set.all()
     form = CommentForm()
     care.save()
@@ -142,7 +215,7 @@ def detail(request, care_pk):
         "comments": comments,
         "form": form,
         "etcs": etcs,
-        "reviews": reviews,
+        "review": review,
     }
     return render(request, "care/detail.html", context)
 
@@ -182,22 +255,26 @@ def delete(request, care_pk):
     return redirect("care:index")
 
 
-# def comment_create(request, pk):
-#     dogwalking = Dogwalking.objects.get(pk=pk)
-#     comment_form = CommentForm(request.POST)
-#     if comment_form.is_valid():
-#         comment = comment_form.save(commit=False)
-#         comment.dogwalking = dogwalking
-#         comment.user = request.user
-#         comment.save()
-#     return redirect("dogwalking:detail", dogwalking.pk)
+def writing(request, care_pk):
+    care = Care.objects.get(pk=care_pk)
+    if request.user == care.user:
+        if care.writing_down:
+            care.writing_down = False
+        else:
+            care.writing_down = True
+        care.save()
+    return redirect('care:index')
 
 
-# def comment_delete(request, dogwalking_pk, comment_pk):
-#     dogwalking = Dogwalking.objects.get(pk=comment_pk)
-#     if request.user == dogwalking.user:
-#         dogwalking.delete()
-#     return redirect("dogwalking:detail", dogwalking_pk)
+def caring(request, care_pk):
+    care = Care.objects.get(pk=care_pk)
+    
+    if care.user != request.user:
+        care.caring = request.user
+        care.writing_down = True
+        care.save()
+
+    return redirect("care:index")
 
 
 def like(request, care_pk):
@@ -239,18 +316,21 @@ def comment_delete(request, care_pk, comment_pk):
 # 리뷰
 @login_required
 def review(request, pk):
+    care = Care.objects.get(pk=pk)
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.user = request.user
-            review.care_id = pk
+            review.care = care
+            review.grade = request.POST.get('reviewStar')
             review.save()
             return redirect("care:detail", pk)
     else:
         review_form = ReviewForm()
     context = {
         "review_form": review_form,
+        'care': care,
     }
     return render(request, "care/review.html", context)
 

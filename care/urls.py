@@ -9,6 +9,9 @@ urlpatterns = [
     path("<int:care_pk>/", views.detail, name="detail"),
     path("<int:care_pk>/update/", views.update, name="update"),
     path("<int:care_pk>/delete/", views.delete, name="delete"),
+    path("caring/<int:care_pk>/", views.caring, name="caring"),
+    path("<int:care_pk>writing/", views.writing, name="writing"),
+    path("more/", views.more, name='more'),
     # like
     path("<int:care_pk>/like/", views.like, name="like"),
     # comment
