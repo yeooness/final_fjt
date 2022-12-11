@@ -162,7 +162,8 @@ def create(request):
 
 def detail(request, dogwalking_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
-    reviews = Review.objects.filter(id=dogwalking_pk)
+    reviews = Review.objects.filter(dogwalking=dogwalking)
+    review = reviews[0] if reviews else ''
     comments = dogwalking.comment_set.all()
     form = CommentForm()
     dogwalking.save()
@@ -174,7 +175,7 @@ def detail(request, dogwalking_pk):
         "dogwalking": dogwalking,
         "comments": comments,
         "form": form,
-        "reviews": reviews,
+        "review": review,
          "characteristics": characteristics,
     }
     return render(request, "dogwalking/detail.html", context)
