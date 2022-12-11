@@ -9,6 +9,7 @@ class DogwalkingForm(forms.ModelForm):
         fields = [
             "title",
             "area",
+            "walking_member",
             "content",
             "image",
             "tags",

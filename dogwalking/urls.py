@@ -9,6 +9,7 @@ urlpatterns = [
     path("<int:dogwalking_pk>/", views.detail, name="detail"),
     path("<int:dogwalking_pk>/update/", views.update, name="update"),
     path("<int:dogwalking_pk>/delete/", views.delete, name="delete"),
+    path("walking/<int:dogwalking_pk>/", views.walking, name="walking"),
     path("<int:dogwalking_pk>writing/", views.writing, name="writing"),
     path("more/", views.more, name='more'),
     # tag

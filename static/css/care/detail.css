@@ -223,8 +223,8 @@
   z-index: 100;
 }
 #modal .modal-window {
-  background: #f7d8d8;
-  box-shadow: 0 8px 32px 0 #faecec;
+  background-image: url('/static/img/paper2.jpg');
+  box-shadow: 0 8px 32px 0 #b0adad;
   backdrop-filter: blur( 13.5px );
   -webkit-backdrop-filter: blur( 13.5px );
   border-radius: 10px;

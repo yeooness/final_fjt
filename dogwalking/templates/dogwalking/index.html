@@ -217,7 +217,18 @@
                 <div class="card__item-bottom">
                   <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
                   <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
-                </div>
+                  <p>최대: {{ article.walking_member }} 매칭: {{ article.walking.count }}</p>
+                  <div>
+                    {% if article.user != request.user %}
+                      {% if request.user in article.walking.all %}
+                        <a href="{% url "dogwalking:walking" article.pk %}">산책신청 취소</a>
+                      {% elif article.walking_member == article.walking.count %}
+                        <p>산책신청마감</p>
+                      {% else %}
+                      <a href="{% url "dogwalking:walking" article.pk %}">산책신청</a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
               </article>
             </a>
           </div>

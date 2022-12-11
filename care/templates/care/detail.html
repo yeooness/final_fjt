@@ -127,9 +127,11 @@
             <th>✔ 요청</th>
 
               <td>          
-                <a class="custom-link fs-4" id="btn-modal">
-                  <span class="fs-6">쪽지</span>
+                {% comment %} <a class="custom-link fs-4" id="btn-modal">
+                  <span class="fs-6">쪽지</span> {% endcomment %}
+                <a href="{% url 'notes:send' care.user.pk %}">쪽지 보내기</a>
                 </a>
+              </td>
               <div id="modal" class="modal-overlay">
                 <div class="modal-window">
                     <div class="title">
