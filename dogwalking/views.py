@@ -218,7 +218,7 @@ def writing(request, dogwalking_pk):
         else:
             dogwalking.writing_down = True
         dogwalking.save()
-    return redirect('dogwalking:detail', dogwalking_pk)
+    return redirect('dogwalking:index')
 
 def walking(request, dogwalking_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)

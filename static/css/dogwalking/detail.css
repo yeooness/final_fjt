@@ -18,14 +18,42 @@
   justify-content: flex-end;
   align-items: center;
 }
-#head .category-btns .update-delete-btn .update-btn {
-  margin-right: 0.5rem;
-  color: #5A5959;
-}
-#head .category-btns .update-delete-btn .delete-btn {
+#head .category-btns .update-delete-btn .update-btn,
+#head .category-btns .update-delete-btn .delete-btn,
+#head .category-btns .update-delete-btn .applicant-btn,
+#head .category-btns .update-delete-btn .applicant-close-btn {
+  margin: 0 0.5rem;
+  padding: 0;
   border: none;
   background-color: white;
   color: #5A5959;
+}
+#head .category-btns .update-delete-btn .applicant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #D9D9D9;
+  border-radius: 2rem;
+}
+#head .category-btns .update-delete-btn .applicant:hover {
+  background-color: #D9D9D9;
+  color: black;
+}
+#head .category-btns .update-delete-btn .applicant img {
+  margin-right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+#head .category-btns .update-delete-btn .applicant .bi-person-circle {
+  font-size: 2rem;
+  color: #EB7D80;
+  line-height: 2rem;
+}
+#head .category-btns .update-delete-btn .applicant .name {
+  margin: 0;
 }
 #head .send-note {
   color: rgb(208, 172, 191);

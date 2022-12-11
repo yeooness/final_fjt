@@ -227,6 +227,8 @@
                       {% else %}
                       <a href="{% url "dogwalking:walking" article.pk %}">산책신청</a>
                       {% endif %}
+                    {% else %}
+                    <a href="{% url 'dogwalking:writing' article.pk %}">산책신청마감!!</a>
                     {% endif %}
                   </div>
               </article>

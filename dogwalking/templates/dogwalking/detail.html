@@ -20,21 +20,15 @@
   <section id='head'>
     <div class='category-btns'>
       <p class='category'>산책메이트를 찾습니다</p>
-      <!-- 수정/삭제/글내림 버튼 -->
+      <!-- 수정/삭제/산책 신청자 목록/산책 마감 버튼 -->
       {% if request.user == dogwalking.user %}
       <div class='update-delete-btn'>
         <a class='update-btn' href="{% url 'dogwalking:update' dogwalking.pk %}">수정</a>
         |
-        <!-- Button trigger modal -->
+        <!-- 게시글 삭제 버튼 - Button trigger modal -->
         <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
           삭제
         </button>
-        {% if dogwalking.writing_down == 0 %}
-        |
-        <a href="{% url 'dogwalking:writing' dogwalking.pk %}" class='update-btn'>
-          <button class='update-btn btn btn-link text-decoration-none p-0 me-0 ms-1'>산책 신청 마감</button> 
-        </a>
-        {% endif %}
         <!-- Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -57,9 +51,64 @@
             </div>
           </div>
         </div>
+        |
+        <!-- 산책 신청자 목록 버튼 - Button trigger modal -->
+        <button type="button" class="applicant-btn" data-bs-toggle="modal" data-bs-target="#applicant-modal">산책 신청자 목록</button>
+        <!-- Modal -->
+        <div class="modal fade" id="applicant-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">산책 신청자 목록</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex flex-column">
+                {% for member in dogwalking.walking.all %}
+                  <a class='applicant' href="{% url 'accounts:detail' member.pk %}">
+                    {% if member.profile_image %}
+                      <img src="{{ member.profile_image.url }}" alt="">
+                    {% else %}
+                      <i class="bi bi-person-circle"></i>
+                    {% endif %}
+                    <p class='name'>{{ member.username }}</p>
+                  </a>
+                  {% empty %}
+                  <p>산책 신청자가 없습니다</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if dogwalking.writing_down == 0 %}
+        |
+        <!-- 산책 신청 마감 버튼 - Button trigger modal -->
+        <button type="button" class="applicant-close-btn" data-bs-toggle="modal" data-bs-target="#applicant-closeModal">
+          산책 신청 마감
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="applicant-closeModal" tabindex="-1" aria-labelledby="applicant-closeModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">산책 신청을 마감하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                산책 신청을 마감하면 더이상 신청자를 받을 수 없습니다.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'dogwalking:writing' dogwalking.pk %}" method='GET'>
+                  <button type="submit" class="btn btn-success">산책 신청 마감</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
       </div>
       {% else %}
-      <a href="{% url 'notes:send' dogwalking.user.pk %}" class='send-note' data-bs-toggle="tooltip-note" data-bs-placement="bottom" data-bs-title="쪽지를 보내 산책메이트가 되어 보세요"><i class="bi bi-send"></i> 쪽지 보내기</a>
+      <a href="{% url 'notes:send' dogwalking.user.pk %}" class='send-note' data-bs-toggle="tooltip-note" data-bs-placement="bottom" data-bs-title="쪽지를 보내 작성자와 이야기를 나눠보세요"><i class="bi bi-send"></i> 쪽지 보내기</a>
       {% endif %}
     </div>
     <h3 class='title'>{{ dogwalking.title }}</h3>
@@ -87,10 +136,10 @@
       </div>
       <div class='member-like-wrap'>
         {% comment %} 최대 산책 인원 / 매칭 인원 {% endcomment %}
-        {% comment %} <div class='member'>
-          <span>최대 <span class='strong'>{{ dogwalking.members}}</span>명</span>
-          <span>매칭 <span class='strong'></span>명</span>
-        </div> {% endcomment %}
+        <div class='member'>
+          <span>최대 <span class='strong'>{{ dogwalking.walking_member }}</span>명</span>
+          <span>매칭 <span class='strong'>{{ dogwalking.walking.count }}</span>명</span>
+        </div>
         <!-- 좋아요 -->
         <div>
           {% if request.user.is_authenticated %}
