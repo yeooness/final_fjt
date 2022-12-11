@@ -134,7 +134,7 @@
       <!-- 산책친구 아이템 -->
       {% for article in dogwalking %}
       <!-- card-item -->
-      <a href="{% url 'dogwalking:detail' article.pk %}" class='detail-move col'>
+      <div class='col'>
         <article class="card__item">
           <!-- card-item-top -->
           <div class="card__item-top">
@@ -157,12 +157,23 @@
               <p>평점</p>
             </div> {% endcomment %}
             <!-- 분류 뱃지 -->
-            <div class='badge'>
-              {% if article.pet.species == 'dog' %}
-              강아지
-              {% else %}
-              고양이
+            <div class='badges'>
+              {% if more_what != 'find-friends' %}
+              <div class='badge review-badge'>
+                {% if article.review_set.all.0 %}
+                후기 O
+                {% else %}
+                후기 X
+                {% endif %}
+              </div>
               {% endif %}
+              <div class='badge species-badge'>
+                {% if article.pet.species == 'dog' %}
+                강아지
+                {% else %}
+                고양이
+                {% endif %}
+              </div>
             </div>
           </div>
       
@@ -177,11 +188,32 @@
       
           <!-- card-item-bottom -->
           <div class="card__item-bottom">
-            <p class="card__item__title">{{ article.title|truncatechars:15 }}</p>
+            <a href="{% url 'dogwalking:detail' article.pk %}" class='card__item__title'>
+              {{ article.title|truncatechars:15 }}
+            </a>
             <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
+            <div class="matching {% if more_what != 'find-friends' %}mb-0{% endif %}">
+              <span>최대 <span class='number'>{{ article.walking_member }}</span>명</span>
+              <span>매칭 <span class='number'>{{ article.walking.count }}</span>명</sp>
+            </div>
+            {% if more_what == 'find-friends' %}
+            <div class='apply-buttons'>
+              {% if article.user != request.user %}
+                {% if request.user in article.walking.all %}
+                  <a class='button cancel-btn' href="{% url "dogwalking:walking" article.pk %}">산책 신청 취소</a>
+                {% elif article.walking_member == article.walking.count %}
+                  <p class='button the-end'>산책 신청 마감</p>
+                {% else %}
+                  <a class='button apply-btn' href="{% url "dogwalking:walking" article.pk %}">산책 신청</a>
+                {% endif %}
+              {% else %}
+              <a class='button end-btn' href="{% url 'dogwalking:writing' article.pk %}">산책 신청 마감</a>
+              {% endif %}
+            </div>
+            {% endif %}
           </div>
         </article>
-      </a>
+      </div>
       {% endfor %}
     </div>
   </section>

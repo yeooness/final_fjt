@@ -291,11 +291,24 @@ button {
 .card__item__avg i {
   margin-right: 8px;
 }
+
+.card__item-top .badges {
+  display: flex;
+}
+
 .card__item-top .badge {
-  margin-right: 1rem;
   color: white;
   background-color: rgb(246, 169, 168);
   border-radius: 1rem;
+}
+
+.card__item-top .badge.review-badge {
+  margin-right: 0.5rem;
+  background-color: #ffd700;
+}
+
+.card__item-top .badge.species-badge {
+  margin-right: 1rem;
 }
 
 

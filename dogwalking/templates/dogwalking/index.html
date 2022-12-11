@@ -194,7 +194,7 @@
                   <p>평점</p>
                 </div> {% endcomment %}
                 <!-- 분류 뱃지 -->
-                <div class='badge'>
+                <div class='badge species-badge'>
                   {% if article.pet.species == 'dog' %}
                   강아지
                   {% else %}
@@ -282,12 +282,21 @@
                     <p>평점</p>
                   </div> {% endcomment %}
                   <!-- 분류 뱃지 -->
-                  <div class='badge'>
-                    {% if article.pet.species == 'dog' %}
-                    강아지
-                    {% else %}
-                    고양이
-                    {% endif %}
+                  <div class='badges'>
+                    <div class='badge review-badge'>
+                      {% if article.review_set.all.0 %}
+                      후기 O
+                      {% else %}
+                      후기 X
+                      {% endif %}
+                    </div>
+                    <div class='badge species-badge'>
+                      {% if article.pet.species == 'dog' %}
+                      강아지
+                      {% else %}
+                      고양이
+                      {% endif %}
+                    </div>
                   </div>
                 </div>
             
