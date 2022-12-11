@@ -10,10 +10,12 @@ def journal_list(request):
     daily_journal = DailyJournal.objects.order_by("-created_at")
     dw_journal = DogwalkingJournal.objects.order_by("-created_at")
     health_journal = HealthJournal.objects.order_by("-created_at")
+    user = request.user
     context = {
         "daily_journal": daily_journal,
         "dw_journal": dw_journal,
         "health_journal": health_journal,
+        "user": user,
     }
     return render(request, "journal/journal_list.html", context)
 
