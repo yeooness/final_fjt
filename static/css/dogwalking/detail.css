@@ -237,6 +237,11 @@
   padding: 1rem 2rem;
   border: 1px solid #F6A9A8;
 }
+#review .inner .text {
+  margin-left: 1rem;
+  margin-bottom: 0;
+  font-weight: 700;
+}
 #review .inner .head {
   display: flex;
   justify-content: space-between;
@@ -246,7 +251,7 @@
 }
 #review .inner .head .friend-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 #review .inner .head .friend-info a img {
@@ -259,13 +264,7 @@
   margin-right: 0.5rem;
   font-size: 2.5rem;
   color: #EB7D80;
-}
-#review .inner .head .friend-info p {
-  margin: 0;
-  font-weight: 600;
-}
-#review .inner .head .friend-info p.friend-name {
-  color: #5A5959;
+  line-height: 2.5rem;
 }
 #review .inner .head .date-place-wrap p {
   margin: 0;
@@ -273,10 +272,16 @@
   font-size: 0.8rem;
 }
 #review .inner .head a.review-btn {
+  display: block;
+  padding: 0.3rem 1rem;
   background-color: #F6A9A8;
   color: white;
   border-radius: 1rem;
-  box-shadow: 0.5rem 0.5rem 1rem 1rem #D9D9D9;
+  font-weight: 700;
+  box-shadow: 0.05rem 0.05rem 0.5rem 0.5rem #d9d9d965;
+}
+#review .inner .head .no-review {
+  color: #F6A9A8;
 }
 #review .inner .body {
   padding: 0.5rem 1rem 0 1rem;

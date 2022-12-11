@@ -8,3 +8,9 @@ reviewStars.forEach(function(reviewStar) {
     rateResult.innerText = event.target.value + '점'
   })
 })
+
+
+
+// 산책 후기 > 같이 산책한 친구 tooltip
+const tooltipTriggerListFriend = document.querySelectorAll('[data-bs-toggle="tooltip-friend"]')
+const tooltipListFriend = [...tooltipTriggerListFriend].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

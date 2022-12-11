@@ -33,5 +33,11 @@ likeBtn.addEventListener('click', function (event) {
 
 
 // 쪽지 보내기 tooltip
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip-note"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltipTriggerListNote = document.querySelectorAll('[data-bs-toggle="tooltip-note"]')
+const tooltipListNote = [...tooltipTriggerListNote].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
+
+// 산책 후기 > 같이 산책한 친구 tooltip
+const tooltipTriggerListFriend = document.querySelectorAll('[data-bs-toggle="tooltip-friend"]')
+const tooltipListFriend = [...tooltipTriggerListFriend].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

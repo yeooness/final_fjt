@@ -298,6 +298,7 @@ def review(request, pk):
         review_form = ReviewForm()
     context = {
         "review_form": review_form,
+        'dogwalking': dogwalking,
     }
     return render(request, "dogwalking/review.html", context)
 

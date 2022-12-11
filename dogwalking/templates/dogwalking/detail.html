@@ -29,16 +29,12 @@
         <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
           삭제
         </button>
+        {% if dogwalking.writing_down == 0 %}
         |
         <a href="{% url 'dogwalking:writing' dogwalking.pk %}" class='update-btn'>
-          {% if dogwalking.writing_down %}
-          {% comment %} 글이 내려간 상태 writing_down == 1 {% endcomment %}
-            <button class='update-btn btn btn-link text-decoration-none'>글 올리기</button>
-          {% else %}
-          {% comment %} 글이 올라가 진 상태 writing_down == 0 {% endcomment %}
-            <button class='update-btn btn btn-link text-decoration-none'>글 내리기</button> 
-          {% endif %}
+          <button class='update-btn btn btn-link text-decoration-none p-0 me-0 ms-1'>산책 신청 마감</button> 
         </a>
+        {% endif %}
         <!-- Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -214,24 +210,21 @@
 
   {% comment %} 산책 후기 {% endcomment %}
   {% if dogwalking.writing_down == 1 %}
-  {% comment %} <section id='review'>
+  <section id='review'>
     <h5>산책 후기</h5>
     <div class='inner'>
-      <div class='head'>
+      <p class='text'>같이 산책한 친구</p>
+      <div class='head' style="{% if not review %}border-bottom: none;{% endif %}">
         <div class='friend-info'>
-          {% for member in dogwalking.members %}
-          <a href="{% url 'accounts:detail' review.user.pk %}">
-            {% if review.user.profile_image %}
-            <img src="{{ review.user.profile_image.url }}" alt="">
+          {% for member in dogwalking.walking.all %}
+          <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ member.username }}">
+            {% if member.profile_image %}
+            <img src="{{ member.profile_image.url }}" alt="">
             {% else %}
             <i class="bi bi-person-circle"></i>
             {% endif %}
           </a>
           {% endfor %}
-          <div>
-            <p class='text'>같이 산책한 친구</p>
-            <p class='friend-name'>{{ review.user.username }}</p>
-          </div>
         </div>
         {% if review %}
         <div class='date-place-wrap'>
@@ -243,15 +236,19 @@
         <a class="review-btn" href="{% url 'dogwalking:review' dogwalking.pk %}">
           + 후기 쓰기
         </a>
+        {% else %}
+        <span class='no-review'>아직 후기를 작성하지 않았습니다</span>
         {% endif %}
         {% endif %}
       </div>
+      {% if review %}
       <div class='body'>
         <p>{{ review.content }}</p>
         <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
       </div>
+      {% endif %}
     </div>
-  </section> {% endcomment %}
+  </section>
   {% endif %}
 </main>
 {% endblock content %}
