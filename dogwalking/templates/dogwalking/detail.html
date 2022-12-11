@@ -212,41 +212,48 @@
     {% endfor %}
   </section>
 
-  {% comment %} 리뷰 {% endcomment %}
-  <div class="d-flex justify-content-between align-items-center container">
-    <!-- 리뷰 쓰기 버튼 -->
-    <a href="{% url 'dogwalking:review' dogwalking.pk %}" class="btn btn-outline-dark rounded-0 w-50 font-space">
-      리뷰 쓰기
-    </a>
-  </div>
-
-  <div class="container my-3">
-    {% for review in reviews %}
-      <div class="my-3">
-        <a href="{% url 'accounts:detail' review.user.pk %}" class="text-decoration-none text-dark">
-          <div class="d-flex justify-content-end align-items-center rounded-0 border border-dark align-middle card-title p-2 font-space fw-bold">
+  {% comment %} 산책 후기 {% endcomment %}
+  {% if dogwalking.writing_down == 1 %}
+  {% comment %} <section id='review'>
+    <h5>산책 후기</h5>
+    <div class='inner'>
+      <div class='head'>
+        <div class='friend-info'>
+          {% for member in dogwalking.members %}
+          <a href="{% url 'accounts:detail' review.user.pk %}">
             {% if review.user.profile_image %}
-              <img src="{{ review.user.profile_image.url }}" alt="" style="width:32px; height:32px; border-radius: 50%;">
+            <img src="{{ review.user.profile_image.url }}" alt="">
             {% else %}
-              <img src="{% static 'img/profile_dogcat.png' %}" alt="" style="width:32px; height:32px;">
+            <i class="bi bi-person-circle"></i>
             {% endif %}
-            &nbsp;
-            {{ review.user.username }}
           </a>
+          {% endfor %}
+          <div>
+            <p class='text'>같이 산책한 친구</p>
+            <p class='friend-name'>{{ review.user.username }}</p>
           </div>
-
-          <div class="card-body d-flex justify-content-between align-items-center rounded-0 border border-top-0 border-dark" style="overflow: hidden;">
-                <p> 산책 후기: {{ review.content }}</p>
-                <p> 평점: {{ review.grade }}</p>
-                <p> 산책 날짜 : {{ review.dogwalking_date }}</p>
-                <p> 산책 장소 : {{ review.place }}</p>
-              </div>
+        </div>
+        {% if review %}
+        <div class='date-place-wrap'>
+          <p>산책 날짜: {{ review.dogwalking_date }}</p>
+          <p>산책 장소: {{ review.place }}</p>
+        </div>
+        {% else %}
+        {% if request.user == dogwalking.user %}
+        <a class="review-btn" href="{% url 'dogwalking:review' dogwalking.pk %}">
+          + 후기 쓰기
+        </a>
+        {% endif %}
+        {% endif %}
       </div>
-    {% endfor %}
-  </div>
+      <div class='body'>
+        <p>{{ review.content }}</p>
+        <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
+      </div>
+    </div>
+  </section> {% endcomment %}
+  {% endif %}
 </main>
-
-
 {% endblock content %}
 
 {% block js %}
