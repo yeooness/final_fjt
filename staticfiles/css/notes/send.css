@@ -33,6 +33,13 @@ section#super-wrap #id_title, section#super-wrap #id_content {
   margin-bottom: 1rem;
   width: 100%;
   outline: none;
+  background: transparent;
+}
+section#super-wrap #id_title {
+  border-bottom: 1px solid #595858;
+}
+section#super-wrap #id_content {
+  border: 1px solid #595858;
 }
 
 /* 전송버튼 */

@@ -18,15 +18,65 @@
   justify-content: flex-end;
   align-items: center;
 }
-#head .category-btns .update-delete-btn .update-btn {
-  margin-right: 0.5rem;
-  color: #5A5959;
-}
-#head .category-btns .update-delete-btn .delete-btn {
+#head .category-btns .update-delete-btn .update-btn,
+#head .category-btns .update-delete-btn .delete-btn,
+#head .category-btns .update-delete-btn .applicant-btn,
+#head .category-btns .update-delete-btn .applicant-close-btn {
+  margin: 0 0.5rem;
+  padding: 0;
   border: none;
   background-color: white;
   color: #5A5959;
 }
+#head .category-btns .update-delete-btn .applicant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #D9D9D9;
+  border-radius: 2rem;
+}
+#head .category-btns .update-delete-btn .applicant:hover {
+  background-color: #D9D9D9;
+  color: black;
+}
+#head .category-btns .update-delete-btn .applicant img {
+  margin-right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+#head .category-btns .update-delete-btn .applicant .bi-person-circle {
+  font-size: 2rem;
+  color: #EB7D80;
+  line-height: 2rem;
+}
+#head .category-btns .update-delete-btn .applicant .name {
+  margin: 0;
+}
+#head .note-btns-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#head .send-note {
+  color: rgb(208, 172, 191);
+  font-weight: 800;
+  text-decoration: underline;
+}
+#head .apply-buttons {
+  margin-right: 0.5rem;
+}
+#head .apply-buttons .button {
+  text-align: center;
+  text-decoration: underline;
+  margin: 0;
+}
+#head .apply-buttons .button.apply-btn {
+  color: #EB7D80;
+}
+
 #head .title {
   margin-bottom: 0;
   font-weight: 700;
@@ -202,6 +252,77 @@
   margin: 0;
   color: #D9D9D9;
 }
+
+/* 리뷰 */
+#review {
+  margin-bottom: 5rem;
+}
+#review h5 {
+  margin-bottom: 1rem;
+  color: #EB7D80;
+  font-weight: 700;
+  text-align: center;
+}
+#review .inner {
+  padding: 1rem 2rem;
+  border: 1px solid #F6A9A8;
+}
+#review .inner .text {
+  margin-left: 1rem;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+#review .inner .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#review .inner .head .friend-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#review .inner .head .friend-info a img {
+  margin-right: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+#review .inner .head .friend-info a .bi-person-circle {
+  margin-right: 0.5rem;
+  font-size: 2.5rem;
+  color: #EB7D80;
+  line-height: 2.5rem;
+}
+#review .inner .head .date-place-wrap p {
+  margin: 0;
+  color: #D9D9D9;
+  font-size: 0.8rem;
+}
+#review .inner .head a.review-btn {
+  display: block;
+  padding: 0.3rem 1rem;
+  background-color: #F6A9A8;
+  color: white;
+  border-radius: 1rem;
+  font-weight: 700;
+  box-shadow: 0.05rem 0.05rem 0.5rem 0.5rem #d9d9d965;
+}
+#review .inner .head .no-review {
+  color: #F6A9A8;
+}
+#review .inner .body {
+  padding: 0.5rem 1rem 0 1rem;
+}
+#review .inner .body .grade {
+  text-align: end;
+}
+#review .inner .body .grade .heart {
+  color: #FF9E26;
+}
+
 
 /* 모달 */
 #modal.modal-overlay {
