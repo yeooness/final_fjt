@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import DailyJournal, DogwalkingJournal, HealthJournal
+from .models import Journal
 
 # Register your models here.
-admin.site.register(DailyJournal)
-admin.site.register(DogwalkingJournal)
-admin.site.register(HealthJournal)
+admin.site.register(Journal)
