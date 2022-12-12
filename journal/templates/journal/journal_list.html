@@ -30,12 +30,13 @@
             {% if request.user == daily.user %}
               <div class="container d-flex justify-content-between align-items-center">
                 <a href="{% url 'journal:daily_detail' daily.pk %}">
-                  <p>
+                  <div class="d-flex align-items-center">
                     {% if daily.image %}
-                      <img src="{{ daily.image.url }}" style="width: 100px; height: 100px; border-radius: 10px">
+                      <img src="{{ daily.image.url }}" style="width: 100px; height: 100px; border-radius: 10px; margin:5px;">
                     {% endif %}
-                    {{ daily.content }}
-                    <span class="text-muted">{{ daily.pet.petname }}</span></p>
+                    <p>{{ daily.created_at|date:'Y-m-d D' }}
+                      {{ daily.pet.petname }}</p>
+                  </div>
                 </a>
                 {% if daily.created_string == False %}
                   <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
@@ -47,12 +48,13 @@
           {% endfor %}
         </div>
         <!-- 산책일기 -->
-        <div class="tab-pane fade" id="nav-dogwalking" role="tabpanel" aria-labelledby="nav-dogwalking-tab" tabindex="0">
+        <div class="tab-pane fade mt-3" id="nav-dogwalking" role="tabpanel" aria-labelledby="nav-dogwalking-tab" tabindex="0">
           {% for dw in dw_journal %}
             {% if request.user == dw.user %}
               <div class="container d-flex justify-content-between">
                 <a href="{% url 'journal:dwj_detail' dw.pk %}">
-                  <p>{{ dw.route }}</p>
+                  <p>{{ dw.created_at|date:'Y-m-d D' }}
+                    {{ dw.pet.petname }}</p>
                 </a>
                 {% if dw.created_string == False %}
                   <small>{{ dw.created_at|date:'Y-m-d H:i' }}</small>
@@ -64,12 +66,13 @@
           {% endfor %}
         </div>
         <!-- 건강일기 -->
-        <div class="tab-pane fade" id="nav-health" role="tabpanel" aria-labelledby="nav-health-tab" tabindex="0">
+        <div class="tab-pane fade mt-3" id="nav-health" role="tabpanel" aria-labelledby="nav-health-tab" tabindex="0">
           {% for health in health_journal %}
             {% if request.user == health.user %}
               <div class="container d-flex justify-content-between">
                 <a href="{% url 'journal:health_detail' health.pk %}">
-                  <p>{{ health.meals }}</p>
+                  <p>{{ health.created_at|date:'Y-m-d D' }}
+                    {{ health.pet.petname }}</p>
                 </a>
                 {% if health.created_string == False %}
                   <small>{{ health.created_at|date:'Y-m-d H:i' }}</small>
