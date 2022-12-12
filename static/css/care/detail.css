@@ -68,6 +68,14 @@
 #head .apply-buttons {
   margin-right: 0.5rem;
 }
+#head .apply-buttons .button {
+  text-align: center;
+  text-decoration: underline;
+  margin: 0;
+}
+#head .apply-buttons .button.apply-btn {
+  color: #EB7D80;
+}
 
 #head .title {
   margin-bottom: 0;

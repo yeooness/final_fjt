@@ -78,12 +78,14 @@ class CustomPetCreationForm(forms.ModelForm):
             "petname",
             "birthday",
             'breeds',
+            'weight',
         ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",
             "birthday": "생년월일",
             'breeds': '종류',
+            'weight': '체중',
         }
 
 
@@ -97,12 +99,14 @@ class CustomPetChangeForm(forms.ModelForm):
             "petname",
             "birthday",
             'breeds',
+            'weight',
         ]
         labels = {
             "pet_image": "사진",
             "petname": "이름",
             "birthday": "생년월일",
             'breeds': '종류',
+            'weight': '체중',
         }
 
 

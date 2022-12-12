@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block css %}
@@ -27,10 +28,10 @@
       {% comment %} {% bootstrap_form form %} {% endcomment %}
       {% comment %} 제목 {% endcomment %}
       <p>Title</p>
-      {{ form.title }}
+      {{ form.title|attr:"placeholder: 제목을 입력하세요" }}
       {% comment %} 내용 {% endcomment %}
       <p>Content</p>
-      {{ form.content }}
+      {{ form.content|attr:"placeholder: 내용을 입력하세요" }}
     </form>
     
     {% comment %} 보내는 사람 {% endcomment %}

@@ -78,7 +78,7 @@
 
   {% comment %} 내용 {% endcomment %}
   <section id='article-content'>
-    <p>{{ community.content}}</p>
+    <p class="text-break">{{ community.content}}</p>
     {% if community.image %}
     <img src="{{ community.image.url }}" alt="">
     {% endif %}
@@ -131,7 +131,7 @@
               {{ comment.created_at|date:"Y.m.d" }} 
               {{ comment.created_at|time:"H:i" }}
             </p>
-            <p>{{ comment.content }}</p>
+            <p class="text-break">{{ comment.content }}</p>
           </div>
         </div>
         {% if request.user == comment.user %}

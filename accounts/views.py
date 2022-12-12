@@ -101,8 +101,8 @@ def pet_register(request, user_pk):
             pet = form.save(commit=False)
             pet.user = request.user
             pet.species = request.POST.get("pet_species")
-            pet.size = request.POST.get("pet_size")
-            # pet.pet_weight = request.POST.get("pet_weight")
+            # pet.size = request.POST.get("pet_size")
+            # pet.weight = request.POST.get("weight")
             pet.petgender = request.POST.get("pet_gender")
             pet.neutralization = request.POST.get("pet_neutralization")
             pet.vaccination_status = request.POST.get("pet_vaccination")
@@ -146,7 +146,7 @@ def pet_update(request, user_pk, pet_pk):
             pet = form.save(commit=False)
             pet.user = request.user
             pet.species = request.POST.get("pet_species")
-            pet.size = request.POST.get("pet_size")
+            # pet.size = request.POST.get("pet_size")
             # pet.pet_weight = request.POST.get("pet_weight")
             pet.petgender = request.POST.get("pet_gender")
             pet.neutralization = request.POST.get("pet_neutralization")
@@ -160,6 +160,7 @@ def pet_update(request, user_pk, pet_pk):
             return redirect("accounts:pet_detail", request.user.pk, pet.pk)
     else:
         form = CustomPetChangeForm(instance=pet)
+        print(form)
 
     context = {
         "form": form,
