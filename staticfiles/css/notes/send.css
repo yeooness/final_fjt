@@ -2,39 +2,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
 
-main#super-wrap {
-  margin: 3rem auto 5rem auto;
+/* 쪽지 */
+section#super-wrap {
+  margin: 3rem auto;
   padding: 3rem;
   background-image: url('/static/img/paper2.jpg');
   background-size: 100%;
   box-shadow: 0.3rem 0.3rem 1rem 1rem rgba(208, 208, 208, 0.555);
 }
-main#super-wrap * {
+section#super-wrap * {
   font-family: 'Playball', 'Gaegu', 'Yeon Sung',  cursive;
 }
-main#super-wrap .to-user {
+section#super-wrap .to-user {
   font-size: 1.5rem;
   font-weight: 900;
 }
-main#super-wrap .to-user .large {
+section#super-wrap .to-user .large {
   font-size: 2rem;
 }
-main#super-wrap .from-user {
+section#super-wrap .from-user {
   font-size: 1rem;
   font-weight: 900;
   text-align: end;
 }
-main#super-wrap .from-user .large {
+section#super-wrap .from-user .large {
   font-size: 1.5rem;
 }
-main#super-wrap #id_title, main#super-wrap #id_content {
+section#super-wrap #id_title, section#super-wrap #id_content {
   border: none;
   margin-bottom: 1rem;
   width: 100%;
   outline: none;
 }
-main#super-wrap .send-btn {
-  background-color: transparent;
+
+/* 전송버튼 */
+section#send-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+section#send-btn-wrap .send-btn {
+  padding: 0.3rem 0.8rem;
+  background-color: #EB7D80;
   border: none;
-  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
 }

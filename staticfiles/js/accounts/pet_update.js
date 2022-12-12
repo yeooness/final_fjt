@@ -5,8 +5,7 @@ const petSizeRadioTags = document.querySelectorAll('input[name="pet_size"]')
 const petGenderLabels = document.querySelectorAll('.pet_gender label')
 const petNeutralizationLabels = document.querySelectorAll('.pet_neutralization label')
 const petVaccinationLabels = document.querySelectorAll('.pet_vaccination label')
-const dogFeaturesLabels = document.querySelectorAll('.features.dog label')
-const catFeaturesLabels = document.querySelectorAll('.features.cat label')
+const petFeaturesLabels = document.querySelectorAll('.features label')
 
 const petSpeciesHiddenTag = document.querySelector('#hidden-pet-species')
 const petSizeHiddenTag = document.querySelector('#hidden-pet-size')
@@ -17,7 +16,7 @@ const petFeaturesHiddenTag = document.querySelector('#hidden-pet-feature')
 
 const regex = /[ㄱ-ㅎ가-힣]+/g;
 const features = petFeaturesHiddenTag.value.match(regex)
-// console.log(features)
+console.log(features)
 
 const match = {
   'dog': 0,
@@ -31,22 +30,15 @@ const match = {
   'N': 1,
   'True': 0,
   'False': 1,
-}
-const dogMatch = {
   '활발한': 0,
   '소심한': 1,
   '긍정적인': 2,
   '적응력높은': 3,
   '충성심높은': 4,
-  '공격적인': 5,
-  '애교많은': 6,
-}
-const catMatch = {
-  '예민한': 0,
-  '공격적인': 1,
-  '애교많은': 2,
-  '호기심많은': 3,
-  '겁이많은': 4,
+  '애교많은': 5,
+  '예민한': 6,
+  '호기심많은': 7,
+  '겁이많은': 8,
 }
 
 const removeAllActive = function (elements) {
@@ -72,29 +64,27 @@ petVaccinationLabels[match[petVaccinationHiddenTag.value]].classList.add('active
 petVaccinationLabels[match[petVaccinationHiddenTag.value]].nextElementSibling.setAttribute('checked', 'True')
 
 // 이전에 선택한 '반려동물 종류'에 따라 '반려동물 성격 및 특징' features 클래스에 active 추가
-const featuresTags = document.querySelectorAll('.features')
-let petFeaturesLabels;
-let featureMatch;
-if (petSpeciesHiddenTag.value === 'dog') {
-  featuresTags[0].classList.add('active')
-  featuresTags[1].classList.remove('active')
-  petFeaturesLabels = dogFeaturesLabels
-  featureMatch = dogMatch
-} else {
-  featuresTags[1].classList.add('active')
-  featuresTags[0].classList.remove('active')
-  petFeaturesLabels = catFeaturesLabels
-  featureMatch = catMatch
-}
+// const featuresTags = document.querySelectorAll('.features')
+// if (petSpeciesHiddenTag.value === 'dog') {
+//   featuresTags[0].classList.add('active')
+//   featuresTags[1].classList.remove('active')
+//   petFeaturesLabels = dogFeaturesLabels
+//   featureMatch = dogMatch
+// } else {
+//   featuresTags[1].classList.add('active')
+//   featuresTags[0].classList.remove('active')
+//   petFeaturesLabels = catFeaturesLabels
+//   featureMatch = catMatch
+// }
 // console.log(petFeaturesLabels)
 // console.log(featureMatch)
-removeAllActive(dogFeaturesLabels)
-removeAllActive(catFeaturesLabels)
+removeAllActive(petFeaturesLabels)
 for (let feature of features) {
-  petFeaturesLabels[featureMatch[feature]].classList.add('active')
-  petFeaturesLabels[featureMatch[feature]].nextElementSibling.setAttribute('checked', 'True')
-  // console.log(petFeaturesLabels[featureMatch[feature]])
-  // console.log(petFeaturesLabels[featureMatch[feature]].nextElementSibling)
+  console.log(feature)
+  console.log(petFeaturesLabels[match[feature]])
+  console.log(petFeaturesLabels[match[feature]].nextElementSibling)
+  petFeaturesLabels[match[feature]].classList.add('active')
+  petFeaturesLabels[match[feature]].nextElementSibling.setAttribute('checked', 'True')
 }
 // 처음에 어디에 체크된건지 확인
 // for (let dogFeaturesLabel of dogFeaturesLabels) {
@@ -206,25 +196,25 @@ petVaccinationLabels.forEach(function(label) {
 
 
 // 선택한 '반려동물 종류'에 따라 '반려동물 성격 및 특징' features 클래스에 active 추가
-const featureRadioTags = document.querySelectorAll('input[name="feature"]')
-petSpeciesRadioTags.forEach(function(radioTag) {
-  radioTag.addEventListener('click', function(event) {
-    // 기존의 checked된 '반려동물 성격 및 특징'는 모두 리셋
-    for (let featureRadioTag of featureRadioTags) {
-      // featureRadioTag.setAttribute('checked', 'False')
-      featureRadioTag.removeAttribute('checked')
-      // console.log(featureRadioTag, featureRadioTag.checked)
-    }
+// const featureRadioTags = document.querySelectorAll('input[name="feature"]')
+// petSpeciesRadioTags.forEach(function(radioTag) {
+//   radioTag.addEventListener('click', function(event) {
+//     // 기존의 checked된 '반려동물 성격 및 특징'는 모두 리셋
+//     for (let featureRadioTag of featureRadioTags) {
+//       // featureRadioTag.setAttribute('checked', 'False')
+//       featureRadioTag.removeAttribute('checked')
+//       // console.log(featureRadioTag, featureRadioTag.checked)
+//     }
 
-    if (event.target.value === 'dog') {
-      featuresTags[0].classList.add('active')
-      featuresTags[1].classList.remove('active')
-    } else {
-      featuresTags[1].classList.add('active')
-      featuresTags[0].classList.remove('active')
-    }
-  })
-})
+//     if (event.target.value === 'dog') {
+//       featuresTags[0].classList.add('active')
+//       featuresTags[1].classList.remove('active')
+//     } else {
+//       featuresTags[1].classList.add('active')
+//       featuresTags[0].classList.remove('active')
+//     }
+//   })
+// })
 
 
 
@@ -237,16 +227,11 @@ const featureLabels = document.querySelectorAll('.features label')
 featureLabels.forEach(function(label) {
   label.addEventListener('click', function(event) {
     // 클릭한 label의 클래스에 active 토글
-    console.log('현재타켓',event.target)
-    if (event.target.nextElementSibling.checked == true) {
-      event.target.classList.remove('active')
-    } else {
-      event.target.classList.add('active')
-    }
+    event.target.classList.toggle('active')
 
     // event.target.classList.toggle('active')
     // event.target.nextElementSibling.setAttribute('checked', 'True')
-    // console.log(event.target.nextElementSibling, event.target.nextElementSibling.checked)
+    console.log(event.target.nextElementSibling, event.target.nextElementSibling.checked)
     
     // 어디에 체크됐는지 확인
     // for (let featureLabel of featureLabels) {

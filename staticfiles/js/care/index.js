@@ -64,10 +64,10 @@ if (parameters) {
     [name, value] = para.split('=')
     console.log(name, value)
     console.log(decodeURI(value))
-    if (name === 'pet_gender') {
+    if (name === 'gender') {
       petsitterGenderLabels[match[decodeURI(value)]].classList.add('active')
       petsitterGenderLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
-    } else if (name === 'caring-pet') {
+    } else if (name === 'species') {
       caringPetLabels[match[decodeURI(value)]].classList.add('active')
       caringPetLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
     } else if (name === 'caring_time') {
@@ -149,10 +149,26 @@ etcLabels.forEach(function(label) {
 
 
 
+
+// 스크롤 내려가면 글 작성 버튼(동그란거) 나타나게
+document.addEventListener('scroll', function() {
+  console.log(document.documentElement.scrollTop)
+  const writingBtnRound = document.querySelector('.writing-btn-round')
+  if (document.documentElement.scrollTop < 340) {
+    writingBtnRound.classList.remove('active')
+  } else {
+    writingBtnRound.classList.add('active')
+  }
+})
+
+
+
+
+// 카드들 Swiper
 var swiper = new Swiper(".mySwiper", {
   slidesPerView: 1,
   spaceBetween: 10,
-  loop: true,
+  // loop: true,
   centerSlide: 'true',
   fade: 'true',
   grabCursor: 'true',

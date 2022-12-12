@@ -4,18 +4,18 @@ const currentUser = document.querySelector('#current-user').value
 if (profileUser !== currentUser) {
   const followForm = document.querySelector('#follow-form')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  
+
   followForm.addEventListener('submit', function (event) {
     event.preventDefault()
     const userId = event.target.dataset.userId
-  
-      axios({
-        method: 'post',
-        url: `/accounts/${userId}/follow/`,
-        headers: {
-          'X-CSRFToken': csrftoken
-        }
-      })
+
+    axios({
+      method: 'post',
+      url: `/accounts/${userId}/follow/`,
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
       .then((response) => {
         const isFollowed = response.data.is_followed
         const followBtn = document.querySelector('#follow-form > input[type=submit]')
@@ -94,7 +94,7 @@ if (profileUser !== currentUser) {
 
 // '반려동물'의 Swiper
 // 뷰포트 너비에 따라 view 당 slide 갯수 결정하는 함수
-const decideSlidesNumber = function(viewportWidth) { 
+const decideSlidesNumber = function (viewportWidth) {
   if (viewportWidth >= 992) {
     return 3
   } else if (viewportWidth >= 768) {
@@ -108,8 +108,8 @@ const decideSlidesNumber = function(viewportWidth) {
 let viewportWidth = window.innerWidth
 let slidesNumber = decideSlidesNumber(viewportWidth)
 
-var swiper = new Swiper("#pets .mySwiper", {  
-  slidesPerView: slidesNumber,  
+var swiper = new Swiper("#pets .mySwiper", {
+  slidesPerView: slidesNumber,
   scrollbar: {
     el: ".swiper-scrollbar",
     hide: true,
@@ -117,14 +117,14 @@ var swiper = new Swiper("#pets .mySwiper", {
 });
 
 // 화면 크기가 변할 때 slide 갯수 변경
-window.addEventListener("resize", function() {
+window.addEventListener("resize", function () {
   let viewportWidth = window.innerWidth
   let slidesNumber = decideSlidesNumber(viewportWidth)
   console.log(viewportWidth)
   console.log(slidesNumber)
 
-  var swiper = new Swiper("#pets .mySwiper", {  
-    slidesPerView: slidesNumber,  
+  var swiper = new Swiper("#pets .mySwiper", {
+    slidesPerView: slidesNumber,
     scrollbar: {
       el: ".swiper-scrollbar",
       hide: true,
@@ -140,18 +140,20 @@ window.addEventListener("resize", function() {
 const pets = document.querySelectorAll('.pet')
 const activePetName = document.querySelector('.active-pet-name')
 
-pets[0].classList.add('active')
-activePetName.innerText = pets[0].dataset.petName
+if (pets == true) {
+  pets[0].classList.add('active')
+  activePetName.innerText = pets[0].dataset.petName
+}
 
 
 
 
 // 반려동물 카드를 선택할 때. 클래스에 active 클래스 넣기
 // 반려동물 카드를 선택할 때. active-pet에 반려동물 이름 넣기
-pets.forEach(function(pet) {
-  pet.addEventListener('click', function(event) {
+pets.forEach(function (pet) {
+  pet.addEventListener('click', function (event) {
     // 전체 반려동물 카드의 클래스에 active 제거
-    pets.forEach(function(pet) {
+    pets.forEach(function (pet) {
       pet.classList.remove('active')
     })
 
@@ -162,3 +164,180 @@ pets.forEach(function(pet) {
     activePetName.innerText = event.target.dataset.petName
   })
 })
+
+
+
+
+
+// '내가 쓴 글' nav & tabs
+const triggerTabList = document.querySelectorAll('#myTab button')
+triggerTabList.forEach(triggerEl => {
+  const tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', event => {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
+
+
+
+
+// --------------------------- 지도 API -----------------------------------
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+  mapOption = {
+    center: new kakao.maps.LatLng(35.8773582, 128.6042956), // 지도의 중심좌표
+    level: 3 // 지도의 확대 레벨
+  };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 현위치!!!!!!!!!!!!!!!!
+// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+if (navigator.geolocation) {
+
+  // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+  navigator.geolocation.getCurrentPosition(function (position) {
+
+    var lat = position.coords.latitude, // 위도
+      lon = position.coords.longitude; // 경도
+
+    var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+      message = '<div style="padding:5px;">현 위치</div>'; // 인포윈도우에 표시될 내용입니다
+
+    // 마커와 인포윈도우를 표시합니다
+    displayMarker(locPosition, message);
+
+  });
+
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+  var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+    message = 'geolocation을 사용할수 없어요..'
+
+  displayMarker(locPosition, message);
+}
+
+// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+function displayMarker(locPosition, message) {
+
+  const profileImg = document.querySelector('#profile-img').value
+  console.log(profileImg)
+  var imageSrc = profileImg ? profileImg : '/static/img/person-icon.png', // 마커이미지의 주소입니다    
+
+    imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
+    imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+  // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+    markerPosition = locPosition; // 마커가 표시될 위치입니다
+
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+    position: markerPosition,
+    image: markerImage // 마커이미지 설정 
+  });
+
+  // 마커가 지도 위에 표시되도록 설정합니다
+  marker.setMap(map);
+
+  var iwContent = message, // 인포윈도우에 표시할 내용
+    iwRemoveable = true;
+
+  // 인포윈도우를 생성합니다
+  var infowindow = new kakao.maps.InfoWindow({
+    content: iwContent,
+    removable: iwRemoveable
+  });
+
+  // 인포윈도우를 마커위에 표시합니다 
+  infowindow.open(map, marker);
+
+  // 지도 중심좌표를 접속위치로 변경합니다
+  map.setCenter(locPosition);
+}
+// 현위치 끝 !!
+// 여기서부터 내 주변 마크가 뜬다 
+const allPetInfo = document.querySelectorAll('.all-pet-info')
+
+// 이 부분은 임시로 작성한 코드입니다.
+// var positions = [
+//   {
+//     address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
+//       text: '무강이'
+//   },
+// ];
+for (let info of allPetInfo) {
+  console.log(info.value)
+  console.log(info.value.split('--'))
+  positions.push()
+}
+
+// var positions = [
+//   {
+//     address: '서울시 가로공원로 228',
+//     text: '무강이'
+//   },
+//   {
+//     address: '서울시 가로공원로 223',
+//     text: '해로'
+//   },
+//   {
+//     address: '서울시 가로공원로 218',
+//     text: '노을'
+//   }
+// ];
+
+for (let i = 0; i < positions.length; i++) {
+  // 주소-좌표 변환 객체를 생성합니다
+  var geocoder = new kakao.maps.services.Geocoder();
+  // 주소로 좌표를 검색합니다
+  geocoder.addressSearch(positions[i].address, function (result, status) {
+    // 정상적으로 검색이 완료됐으면 
+    if (status === kakao.maps.services.Status.OK) {
+      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+      var imageSrc = '/static/img/cat.png', // 마커이미지의 주소입니다    
+        imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) };
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        markerPosition = locPosition;
+
+      // 결과값으로 받은 위치를 마커로 표시합니다
+      var marker = new kakao.maps.Marker({
+        map: map,
+        position: coords,
+        image: markerImage
+      });
+
+      // 마커에 표시할 인포윈도우를 생성합니다 
+      var infowindow = new kakao.maps.InfoWindow({
+        //content: positions[i].content // 인포윈도우에 표시할 내용
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">' + positions[i].text + '</div>' // 인포윈도우에 표시할 내용
+      });
+      infowindow.open(map, marker);
+      kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+      kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+      // map.setCenter(coords);
+    }
+
+  });
+}
+
+// 지도 타입 변경 컨트롤을 생성한다
+var mapTypeControl = new kakao.maps.MapTypeControl();
+
+// 지도의 상단 우측에 지도 타입 변경 컨트롤을 추가한다
+map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+// 지도에 확대 축소 컨트롤을 생성한다
+var zoomControl = new kakao.maps.ZoomControl();
+
+// 지도의 우측에 확대 축소 컨트롤을 추가한다
+map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+// marker.setMap(null);    

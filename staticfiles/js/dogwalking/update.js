@@ -1,3 +1,21 @@
+// 처음 화면에서 기존에 등록한 데이터 반영
+// '같이 산책하고 싶은 반려동물'
+const petSelectTag = document.querySelector('#pet')
+const petOptions = document.querySelectorAll('#pet option')
+
+const petHiddenTag = document.querySelector('#hidden-pet')
+
+const petPk = petHiddenTag.value
+for (let i=0; i < petOptions.length; i++) {
+  if (petOptions[i].dataset.petPk === petPk) {
+    petSelectTag.options[i].selected = true;
+  }
+}
+
+
+
+
+
 // #id_image input 태그 뒤에 있는 '변경' 글자 삭제
 const imgInputTag = document.querySelector('#id_image')
 
