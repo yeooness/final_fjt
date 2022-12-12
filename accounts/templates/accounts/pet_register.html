@@ -46,15 +46,16 @@
         </div>
       </div>
 
-      {% comment %} 반려동물 크기 {% endcomment %}
+      {% comment %} 체중 {% endcomment %}
       <div class='domain pet_size row'>
         <div class='head col-3'>
-          <h5><span class='important'>*</span> 반려동물 크기</h5>
+          <h5><span class='important'>*</span> 체중</h5>
         </div>
         <div class='body col-9'>
-          <label><input type='radio' name='pet_size' value='대' checked/> 대</label>
+          {% comment %} <label><input type='radio' name='pet_size' value='대' checked/> 대</label>
           <label><input type='radio' name='pet_size' value='중'/> 중</label>
-          <label><input type='radio' name='pet_size' value='소'/> 소</label>
+          <label><input type='radio' name='pet_size' value='소'/> 소</label> {% endcomment %}
+          {{ form.weight }} <span>kg</span> 
         </div>
       </div>
 

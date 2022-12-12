@@ -109,7 +109,8 @@ class Pet(models.Model):
     birthday = models.DateField(blank=True)
     vaccination_status = models.BooleanField(default=False)
     characteristics = models.CharField(max_length=100, blank=True)
-    size = models.CharField(max_length=10)
+    size = models.CharField(max_length=10, null=True)  # 대중소
+    weight = models.FloatField(max_length=10, default=0) # 체중
 
 
 # 핸드폰 인증
