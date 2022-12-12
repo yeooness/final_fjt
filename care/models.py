@@ -122,6 +122,11 @@ class Review(models.Model):
     )
     # 돌봄기간
     caring_date = models.DateField(blank=True)
+    care = models.ForeignKey(
+        Care,
+        on_delete=models.CASCADE,
+        null=True,
+    )
 
 
 class Comment(models.Model):
