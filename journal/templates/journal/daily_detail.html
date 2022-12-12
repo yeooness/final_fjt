@@ -5,11 +5,16 @@
   <div class="container">
     <div>
       <h1>일기 페이지</h1>
-      <p>{{ daily.content }}</p>
-      <!-- 이미지 -->
-      {% if daily.image %}
-        <img src="{{ daily.image.url }}" alt="">
-      {% endif %}
+      <div class="d-flex">
+        <!-- 이미지 -->
+        {% if daily.image %}
+          <img src="{{ daily.image.url }}" alt="" style="border-radius: 10px">
+        {% endif %}
+        <!-- 내용 -->
+        <div class="mx-3 mt-3">
+          <p>{{ daily.content }}</p>
+        </div>
+      </div>
       <div>
         <!-- 작성 시간 -->
         {% if daily.created_string == False %}
@@ -19,10 +24,11 @@
         {% endif %}
       </div>
     </div>
-    <div>
-      <a href="{% url 'journal:journal_list' %}" class="btn btn-primary">목록으로</a>
-      <a href="{% url 'journal:daily_update' daily.pk %}" class="btn btn-primary">수정하기</a>
-      <a href="{% url 'journal:daily_delete' daily.pk %}" class="btn btn-danger">삭제하기</a>
+    <!-- 버튼 -->
+    <div class="d-flex justify-content-end">
+      <a href="{% url 'journal:journal_list' %}" class="btn btn-light mx-1">목록으로</a>
+      <a href="{% url 'journal:daily_update' daily.pk %}" class="btn btn-light mx-1">수정하기</a>
+      <a href="{% url 'journal:daily_delete' daily.pk %}" class="btn btn-danger mx-1">삭제하기</a>
     </div>
   </div>
 {% endblock content %}
