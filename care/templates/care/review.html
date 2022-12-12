@@ -1,27 +1,75 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
 
 {% block css %}
+  <link rel="stylesheet" href="{% static 'css/care/review_create.css' %}">
 {% endblock %}
 
 {% block content %}
-<style>
-.btn {
-  color: #FFFFF;
-  background-color: #c298c8
-  }
-</style>
-<div class="containter mx-5">
-  <div class="row mx-5">
-    <div class="col mx-5">
-      <h1 class="my-4">✏️리뷰 쓰기</h1>
-      <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form review_form %}
-        {% bootstrap_button content="작성완료" button_type="submit" button_class="btn col-12" %}
-      </form>
+<main class="containter">
+  <h1>돌봄 리뷰 작성</h1>
+  <form id="myform" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% comment %} {% bootstrap_form review_form %} {% endcomment %}
+
+    {% comment %} 돌보미 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 돌보미</h5>
+      <div class='friend-info'>
+        {% if care.caring %}
+        <a href="{% url 'accounts:detail' care.caring.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
+          {% if care.caring.profile_image %}
+          <img src="{{ care.caring.profile_image.url }}" alt="">
+          {% else %}
+          <i class="bi bi-person-circle"></i>
+          {% endif %}
+        </a>
+        {% endif %}
+      </div>
     </div>
-  </div>
-</div>
+
+    {% comment %} 돌봄 기간 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 돌봄 기간</h5>
+      {{ review_form.caring_date }} 부터 <span class='caring-time'>{{ care.caring_time }}</span>
+    </div>
+
+    {% comment %} 돌봄 후기 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 돌봄 후기</h5>
+      {{ review_form.content|attr:'placeholder:돌보미에 대한 후기를 입력하세요' }}
+    </div>
+
+    {% comment %} 돌보미에 대한 평점 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span> 돌보미에 대한 평점</h5>
+      <div class='rate'>
+        <fieldset>
+          <input type="radio" name="reviewStar" value="5" id="rate1"><label
+            for="rate1">❤</label>
+          <input type="radio" name="reviewStar" value="4" id="rate2"><label
+            for="rate2">❤</label>
+          <input type="radio" name="reviewStar" value="3" id="rate3"><label
+            for="rate3">❤</label>
+          <input type="radio" name="reviewStar" value="2" id="rate4"><label
+            for="rate4">❤</label>
+          <input type="radio" name="reviewStar" value="1" id="rate5"><label
+            for="rate5">❤</label>
+        </fieldset>	
+        <div class='rate-result'>0점</div>
+      </div>
+    </div>
+
+    {% comment %} 제출버튼 {% endcomment %}
+    <div class='submit-btn-wrap'>
+      <input type="submit" value="리뷰 작성">
+    </div>
+  </form>
+</main>
 {% endblock %}
+
+{% block js %}
+<script src="{% static 'js/care/review_create.js' %}"></script>
+{% endblock js %}

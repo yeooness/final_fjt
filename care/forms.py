@@ -65,12 +65,10 @@ class ReviewForm(forms.ModelForm):
         fields = [
             "content",
             "caring_date",
-            "grade",
         ]
         labels = {
             "caring_date": "돌봄 기간",
             "content": "돌봄 후기",
-            "grade": "돌봄에 대한 평점",
         }
 
 
