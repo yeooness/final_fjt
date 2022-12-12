@@ -23,7 +23,13 @@
       <h5><span class='important'>*</span> 같이 산책한 친구</h5>
       <div class='friend-info'>
         {% for member in dogwalking.walking.all %}
-        <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ member.username }}">
+        <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="
+          {% if member.nickname %}
+          {{ member.nickname }}
+          {% else %}
+          {{ member.username }}
+          {% endif %}
+        ">
           {% if member.profile_image %}
           <img src="{{ member.profile_image.url }}" alt="">
           {% else %}

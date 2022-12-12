@@ -64,7 +64,11 @@
                     {% else %}
                       <i class="bi bi-person-circle"></i>
                     {% endif %}
-                    <p class='name'>{{ member.username }}</p>
+                    {% if member.nickname %}
+                      <p class='name'>{{ member.nickname }}</p>
+                    {% else %}
+                      <p class='name'>{{ member.username }}</p>
+                    {% endif %}
                   </a>
                   {% empty %}
                   <p>산책 신청자가 없습니다</p>
@@ -137,7 +141,11 @@
           {% endif %}
         </a>
         <div class='writer-date'>
+          {% if dogwalking.user.nickname %}
+          <p>{{ dogwalking.user.nickname }}</p>
+          {% else %}
           <p>{{ dogwalking.user.username }}</p>
+          {% endif %}
           <p class='date'>{{ dogwalking.updated_at|date:"Y.m.d" }}</p>
         </div>
       </div>
@@ -165,9 +173,13 @@
                       {% else %}
                         <i class="bi bi-person-circle"></i>
                       {% endif %}
-                      <p class='name'>{{ member.username }}</p>
+                      {% if member.nickname %}
+                        <p class='name'>{{ member.nickname }}</p>
+                      {% else %}
+                        <p class='name'>{{ member.username }}</p>
+                      {% endif %}
                     </a>
-                    {% empty %}
+                  {% empty %}
                     <p>산책 신청자가 없습니다</p>
                   {% endfor %}
                 </div>
@@ -191,7 +203,7 @@
 
   {% comment %} 내용 {% endcomment %}
   <section id='article-content'>
-    <p class="text-break">{{ dogwalking.content}}</p>
+    <p class="text-break">{{ dogwalking.content|linebreaksbr }}</p>
     {% if dogwalking.image %}
     <img src="{{ dogwalking.image.url }}" alt="">
     {% endif %}
@@ -268,12 +280,16 @@
             {% endif %}
           </a>
           <div class='detail'>
+            {% if comment.user.nickname %}
+            <p>{{ comment.user.nickname }}</p>
+            {% else %}
             <p>{{ comment.user.username }}</p>
+            {% endif %}
             <p class='date'>
               {{ comment.created_at|date:"Y.m.d" }} 
               {{ comment.created_at|time:"H:i" }}
             </p>
-            <p class="text-break">{{ comment.content }}</p>
+            <p class="text-break">{{ comment.content|linebreaksbr }}</p>
           </div>
         </div>
         {% if request.user == comment.user %}
@@ -300,7 +316,13 @@
       <div class='head' style="{% if not review %}border-bottom: none;{% endif %}">
         <div class='friend-info'>
           {% for member in dogwalking.walking.all %}
-          <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ member.username }}">
+          <a href="{% url 'accounts:detail' member.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="
+          {% if member.nickname %}
+          {{ member.nickname }}
+          {% else %}
+          {{ member.username }}
+          {% endif %}
+          ">
             {% if member.profile_image %}
             <img src="{{ member.profile_image.url }}" alt="">
             {% else %}
@@ -326,7 +348,7 @@
       </div>
       {% if review %}
       <div class='body'>
-        <p class="text-break">{{ review.content }}</p>
+        <p class="text-break">{{ review.content|linebreaksbr }}</p>
         <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
       </div>
       {% endif %}
