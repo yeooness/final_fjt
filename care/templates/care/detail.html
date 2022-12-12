@@ -135,14 +135,13 @@
       </div>
       <div class='like-wrap'>
         <!-- 좋아요 -->
-        {% if request.user.is_authenticated %}
         {% if request.user in care.like_user.all %}
         <i data-care-id="{{ care.pk }}" class="bi bi-heart-fill like-btn"></i> 
         {% else %}
         <i data-care-id="{{ care.pk }}" class="bi bi-heart like-btn"></i> 
         {% endif %}
-        {% endif %}
         <span class="ms-1" id="like-count">{{ care.like_user.count }}</span>
+        <input type="hidden" id='is-authenticated' value="{{ request.user.is_authenticated }}">
       </div>
     </div>
   </section>

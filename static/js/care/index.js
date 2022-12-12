@@ -166,6 +166,13 @@ document.addEventListener('scroll', function() {
 
 
 
+// 로그인 안할 경우, 글작성 버튼 클릭 시 popover되게
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
+
+
 // 카드들 Swiper
 var swiper = new Swiper(".mySwiper", {
   slidesPerView: 1,

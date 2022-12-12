@@ -109,3 +109,9 @@ const dropdownBtn = document.querySelector('#pet-filter .dropdown-toggle')
 const activeDropdownItem = document.querySelector('#pet-filter .dropdown-item.active')
 
 dropdownBtn.innerText = activeDropdownItem.innerText
+
+
+
+// 로그인 안할 경우, 글작성 버튼 클릭 시 popover되게
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))

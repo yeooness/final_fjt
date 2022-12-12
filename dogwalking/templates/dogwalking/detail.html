@@ -177,14 +177,13 @@
         </div>
         <!-- 좋아요 -->
         <div>
-          {% if request.user.is_authenticated %}
           {% if request.user in dogwalking.like_user.all %}
           <i data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-heart-fill like-btn"></i>
           {% else %}
           <i data-dogwalking-id="{{ dogwalking.pk }}" class="bi bi-heart like-btn"></i>
           {% endif %}
-          {% endif %}
           <span id="like-count">{{ dogwalking.like_user.count }}</span>
+          <input type="hidden" id='is-authenticated' value="{{ request.user.is_authenticated }}">
         </div>
       </div>
     </div>
