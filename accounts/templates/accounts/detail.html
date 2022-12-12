@@ -289,7 +289,7 @@
               <p class="title">
                 <a href="{% url "communities:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
               </p>
-              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <p class='content text-break'>{{ article.content|truncatechars:200 }}</p>
               <div class='foot'>
                 <span>{{ article.updated_at|date:"Y.m.d" }}</span>
                 <div class='like-comment'>
@@ -315,7 +315,7 @@
               <p class="title">
                 <a href="{% url "dogwalking:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
               </p>
-              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <p class='content text-break'>{{ article.content|truncatechars:200 }}</p>
               <div class='foot'>
                 <span>{{ article.updated_at|date:"Y.m.d" }}</span>
                 <div class='like-comment'>
@@ -341,7 +341,7 @@
               <p class="title">
                 <a href="{% url "care:detail" article.pk %}">{{ article.title|truncatechars:30 }}</a>
               </p>
-              <p class='content'>{{ article.content|truncatechars:200 }}</p>
+              <p class='content text-break'>{{ article.content|truncatechars:200 }}</p>
               <div class='foot'>
                 <span>{{ article.updated_at|date:"Y.m.d" }}</span>
                 <div class='like-comment'>
