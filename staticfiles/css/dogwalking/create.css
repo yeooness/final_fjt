@@ -33,22 +33,48 @@ input[type='submit'] {
   color: red;
 }
 
+/* 같이 산책하고 싶은 반려동물, 반려동물과 함께 지내는 지역 */
+#pet, #id_area {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 250px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid #F6A9A8;
+  border-radius: 4px;
+  color: #6c757d;
+}
+#pet option, #id_area option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#pet option:hover, #id_area option:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+
 /* 제목, 내용, 태그, 산책인원 */
-#id_title, #id_content, #id_tags, #id_members {
+#id_title, #id_content, #id_tags, #id_walking_member {
   width: 100%;
   padding: 6px 12px;
   border: 1px solid #F6A9A8;
   border-radius: 0.5rem;
 }
-#id_title:focus, #id_content:focus, #id_tags:focus, #id_members:focus {
+#id_title:focus, #id_content:focus, #id_tags:focus, #id_walking_member:focus {
   border: 1px solid #F6A9A8;
   box-shadow: 2px 2px 5px 5px #f6a9a82c;
   outline: none;
 }
 
 /* 산책인원 */
-#id_members {
+#id_walking_member {
   width: 4rem;
+}
+.member .text {
+  margin-top: 0.1rem;
+  font-size: 0.8rem;
+  color: #D9D9D9;
 }
 
 /* 첨부 이미지 */

@@ -70,7 +70,8 @@ main#super-wrap {
 #right table.list-table td {
   font-size: 0.9rem;
 }
-#right table.list-table td .title:hover {
+#right table.list-table td .title:hover, 
+#right table.list-table td a.person:hover {
   text-decoration: underline;
   color: black;
 }

@@ -1,0 +1,15 @@
+.btn-list {
+  padding: 0.4rem 0;
+  width: 100px;
+  height: 40px;
+  border-radius: 0.8rem;
+  background-color: #EB7D80;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #F6A9A8;
+}
+
+.btn-list:hover {
+  color: white;
+}

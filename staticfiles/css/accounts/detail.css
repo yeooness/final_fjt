@@ -4,9 +4,10 @@
 
 /* 집사의 정보 */
 #person {
-  padding: 2rem;
+  padding: 2rem 1rem;
   border: 1px solid #EB7D80;
   border-radius: 2rem;
+  max-height: 50rem;
 }
 #person .img-wrap {
   display: flex;
@@ -35,11 +36,13 @@
   justify-content: space-evenly;
   margin: 1rem 0;
 }
-#person .follow-wrap .follower, #person .follow-wrap .following {
-  font-size: 20px; 
+#person .follow-wrap .follower, 
+#person .follow-wrap .following {
+  font-size: 1.2rem; 
   cursor: pointer;
 }
-#person .follow-wrap .follower #followers-count, #person .follow-wrap .following #followings-count {
+#person .follow-wrap .follower #followers-count, 
+#person .follow-wrap .following #followings-count {
   color: #EB7D80;
 }
 #person .update-block-wrap {
@@ -82,11 +85,41 @@
   color: #D9D9D9;
   text-align: center;
 }
+#person .notes-article-wrap {
+  margin: 0 1rem;
+  padding: 1rem;
+  background-color: #ffe9e981;
+  border-radius: 0 0 2rem 2rem;
+  text-align: center;
+}
+#person .notes-article-wrap .strong {
+  color: #EB7D80;
+  font-weight: 700;
+}
+#person .notes-article-wrap .notes {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#person .notes-article-wrap .notes .go-to-notes,
+#person .notes-article-wrap .articles .go-to-my-article {
+  display: block;
+  margin: 1rem auto 0 auto;
+  padding: 0.5rem 1rem;
+  width: 8rem;
+  border-radius: 1rem;
+  background-color: #EB7D80;
+  color: white;
+}
+#person .notes-article-wrap .articles {
+  padding-top: 1rem;
+}
+
 
 /* 반려동물의 정보 */
 /* 반려동물 등록 */
 #pets {
   margin-bottom: 2rem;
+  padding: 0 3rem;
 }
 #pets .pet-register {
   margin-bottom: 2rem;
@@ -260,6 +293,9 @@
   color: #D0ACBF;
 }
 /* 반려동물 일기 */
+#pets .pet-journal {
+  margin-bottom: 3rem;
+}
 #pets .pet-journal .head {
   display: flex;
   justify-content: space-between;
@@ -281,6 +317,77 @@
   padding: 2rem 0;
   border: 1px solid #e0d2d9;
   color: #e0d2d9;
+}
+/* 지도 */
+#pets .my-friends {
+  margin-bottom: 3rem;
+}
+#pets .my-friends h3 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+.customoverlay {position:relative;bottom:50px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#111;text-align:center;border-radius:6px;font-size:14px;font-weight:500;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:500;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+/* 내가 쓴 글 */
+#pets #my-articles h3 {
+  margin-top: -6rem;
+  padding-top: 6rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+#pets #my-articles .nav-link {
+  color: #D9D9D9;
+}
+#pets #my-articles .nav-link.active {
+  color: #D9D9D9;
+  font-weight: 700;
+}
+#pets #my-articles .nav-link .strong {
+  color: #EB7D80;
+  font-size: 0.8rem;
+}
+#pets #my-articles article {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+#pets #my-articles article .community {
+  font-size: 0.7rem;
+  color: #EB7D80;
+}
+#pets #my-articles article .title {
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+}
+#pets #my-articles article .title a:hover {
+  color: #F6A9A8;
+}
+#pets #my-articles article .content {
+  font-size: 0.9rem;
+  color: #5A5959;
+  text-align: left;
+}
+#pets #my-articles article .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  font-size: 0.6rem;
+  color: #5A5959;
+}
+#pets #my-articles article .foot .like-comment .bi-hand-thumbs-up,
+#pets #my-articles article .foot .like-comment .bi-chat-square {
+  font-size: 0.9rem;
+}
+#pets #my-articles article .foot .like-comment span:nth-of-type(1) {
+  margin-right: 0.5rem;
+}
+#pets #my-articles .no-article {
+  margin-top: 1rem;
+  text-align: center;
+  color: #888;
 }
 
 
@@ -313,3 +420,24 @@
 .modal-body .follow .name, .modal-body .block .name {
   margin: 0;
 }
+
+/* 펫 일기 버튼 */
+.btn-journal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0.4rem 0;
+  width: 140px;
+  height: 40px;
+  border-radius: 0.8rem;
+  background-color: #EB7D80;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #F6A9A8;
+}
+
+.btn-journal:hover {
+  color: white;
+}
+

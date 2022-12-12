@@ -49,7 +49,7 @@
   width: 100%;
   padding: 0 3rem 1rem 3rem;
 }
-#petsitter input[type='submit'] {
+#petsitter input[type='submit'], #petsitter .filter-cancel {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.5rem;
@@ -132,7 +132,7 @@
 }
 
 
-
+/* card-container */
 :root {
   /* Color */
   --main-color: #eb7d80;
@@ -149,36 +149,53 @@ button {
   background: none;
 }
 
-.card-top-wrap {
-  display: flex;
-}
-
 
 /* Card-wrap */
+.main-cards {
+  margin: 3rem auto;
+}
+
 .card-wrap {
-  width: 100%;
+  margin-bottom: 3rem;
   padding: 0 30px;
+  width: 100%;
   text-align: center;
 }
 
+.card-wrap.around {
+  background-color: #fff8f5;
+}
+
 .card-wrap h3 {
-  margin: 30px 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-top a:hover {
+  color: #595858;
 }
 
 /* Card-item */
 .card__item {
-  width: 240px;
-  background-color: #fff;
-  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .1);
-  border-radius: 20px;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   position: relative;
+  width: 90%;
+  background-color: #fff;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgb(0 0 0 / 8%);
+  border-radius: 20px;
+}
+
+.card__item:hover {
+  color: black;
+  box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem rgba(0, 0, 0, 0.123);
 }
 
 .card__item-back {
@@ -245,12 +262,12 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
 }
 
 .card__item__user {
   display: flex;
   align-items: center;
+  padding: 0.5rem 1rem;
 }
 
 .card__item__user img {
@@ -258,6 +275,13 @@ button {
   height: 35px;
   border-radius: 50%;
   margin-right: 8px;
+}
+
+.card__item__user .bi-person-circle {
+  font-size: 35px;
+  margin-right: 8px;
+  line-height: 35px;
+  color: #eb7d80;
 }
 
 .card__item__avg {
@@ -269,12 +293,32 @@ button {
   margin-right: 8px;
 }
 
+.card__item-top .badges {
+  display: flex;
+}
+
+.card__item-top .badge {
+  color: white;
+  background-color: rgb(246, 169, 168);
+  border-radius: 1rem;
+}
+
+.card__item-top .badge.review-badge {
+  margin-right: 0.5rem;
+  background-color: #ffd700;
+}
+
+.card__item-top .badge.species-badge {
+  margin-right: 1rem;
+}
+
 
 /* Card-item-image */
 .card__item__image {
   width: 100%;
   height: 200px;
-  overflow: hidden;
+  border-top: 1px solid #d9d9d923;
+  border-bottom: 1px solid #d9d9d923;
 }
 
 .card__item__image img {
@@ -286,21 +330,34 @@ button {
 /* Card-item-bottom */
 .card__item-bottom {
   text-align: center;
-  height: 123px;
+  padding: 1rem;
 }
 
 .card__item__title {
-  margin: 8px 0;
   font-size: 18px;
   font-weight: bold;
 }
 
-.card__item__btn {
-  background-color: var(--main-color);
-  width: 90%;
-  padding: 8px;
-  margin: 12px;
-  border-radius: 20px;
+.card__item__title:hover {
+  color: #EB7D80;
+}
+
+.apply-buttons .button {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  width: 100%;
+  border-radius: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.apply-buttons .button.apply-btn {
+  background-color: #EB7D80;
+}
+
+.apply-buttons .button.end-btn {
+  background-color: #D0ACBF;
 }
 
 
@@ -311,13 +368,21 @@ button {
 
 
 /* Side-nav */
+.side__nav {
+  width: 300px;
+  height: 100%;
+  text-align: center;
+  padding: 0 18px;
+  /* border-left: 1px solid var(--dark-color); */
+  background-color: #fff;
+}
+
 .side__nav__btn {
   background-color: var(--main-color);
   width: 100px;
   padding: 8px 0;
   border-radius: 10px;
   margin: 12px;
-  margin-right: 0;
 }
 
 /* Media */
@@ -337,4 +402,25 @@ button {
   .card__item {
     width: 90%;
   }
+}
+
+/* 글작성 버튼 */
+.writing-btn-round {
+  display: none;
+  position: fixed;
+  bottom: 2rem;
+  right: 3rem;
+  padding: 1rem 1.2rem;
+  border-radius: 50%;
+  background-color: #EB7D80;
+  color: white;
+  font-size: 1.3rem;
+  box-shadow: 0.2rem 0.2rem 0.5rem 0.5rem #95959525;
+}
+.writing-btn-round.active {
+  display: inline-block;
+}
+.writing-btn-round:hover {
+  background-color: #f07478;
+  color: white;
 }
