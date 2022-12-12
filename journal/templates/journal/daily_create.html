@@ -8,7 +8,7 @@
 
 {% block content %}
   <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form class="create_journal" action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form form %}
       <div class='pet-journal-button d-flex justify-content-around'>
