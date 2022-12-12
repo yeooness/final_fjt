@@ -253,12 +253,15 @@
       {% if request.user == user %}
       <div class='my-friends'>
         <h3>내 주변 친구들</h3>
-        <a href="{% url 'information:friends' %}" class="btn btn-primary">내 주변 친구 찾기</a>
+        {% comment %} <a href="{% url 'information:friends' %}" class="btn btn-primary">내 주변 친구 찾기</a> {% endcomment %}
         {% comment %} 프로필 user의 이미지 {% endcomment %}
         <input type="hidden" id='profile-img' value='{% if user.profile_image %} {{ user.profile_image.url }} {% endif %}'>
         {% comment %} 모든 Pet 데이터 (pet 이름, user의 주소, species) {% endcomment %}
-        {% for pet in all_pet %}
+        {% comment %} {% for pet in all_pet %}
         <input type="hidden" class='all-pet-info' value='{{ pet.petname }}--{{ pet.user.address }}--{{ pet.species }}'>
+        {% endfor %} {% endcomment %}
+        {% for user in all_users %}
+        <input type="hidden" class='all-pet-info' value="{{ user.pet.all.count }}/{{ user.address }}/{% for pet in user.pet.all %}{{ pet.species }}--{{ pet.petname }}--{{ pet.petgender }}--{{ pet.breeds }}&{% endfor %}">
         {% endfor %}
         <div id="map" style="width:550px;height:350px;"></div>
       </div>
