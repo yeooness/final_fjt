@@ -30,6 +30,15 @@
           {{ user.username }}
           {% endif %}
         </p>
+        {% if request.user != user %}
+        <a href="{% url 'notes:send' user.pk %}" class='send-note' data-bs-toggle="tooltip-note" data-bs-placement="bottom" data-bs-title="쪽지를 보내 
+          '{% if user.nickname %}
+          {{ user.nickname }}
+          {% else %}
+          {{ user.username }}
+          {% endif %}'
+        님과 이야기를 나눠보세요"><i class="bi bi-send"></i> 쪽지 보내기</a>
+        {% endif %}
       </div>
 
       <!-- 팔로워 박스 누르면 팔로워 목록 모달로 이동 -->

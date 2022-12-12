@@ -183,6 +183,13 @@ triggerTabList.forEach(triggerEl => {
 
 
 
+// 쪽지 보내기 tooltip
+const tooltipTriggerListNote = document.querySelectorAll('[data-bs-toggle="tooltip-note"]')
+const tooltipListNote = [...tooltipTriggerListNote].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
+
+
 // --------------------------- 지도 API -----------------------------------
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
   mapOption = {
