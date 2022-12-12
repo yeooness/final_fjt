@@ -8,245 +8,294 @@
 {% endblock css %}
 
 {% block content %}
-  <main class="container" style='max-width:40rem;'>
-    {% comment %} 헤더 {% endcomment %}
-    <section id='head'>
-      <div class='category-btns'>
-        <p class='category'>돌보미를 찾습니다</p>
-        <!-- 수정/삭제 버튼 -->
-        {% if request.user == care.user %}
-        <div class='update-delete-btn'>
-          <a class='update-btn' href="{% url 'care:update' care.pk %}">수정</a>
-          |
-          <!-- Button trigger modal -->
-          <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
-            삭제
-          </button>
-          <!-- Modal -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="deleteModalLabel">정말로 삭제하시겠습니까?</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  해당 게시물을 삭제하면 관련 댓글도 전부 지워집니다.<br>
-                  정말로 삭제하시겠습니까?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                  <form action="{% url 'care:delete' care.pk %}" method='POST'>
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">삭제</button>
-                  </form>
-                </div>
+<main class="container" style='max-width:40rem;'>
+  {% comment %} 헤더 {% endcomment %}
+  <section id='head'>
+    <div class='category-btns'>
+      <p class='category'>돌보미를 찾습니다</p>
+      <!-- 수정/삭제 버튼/돌봄 신청자 목록/돌봄 신청 마감 버튼 -->
+      {% if request.user == care.user %}
+      <div class='update-delete-btn'>
+        <a class='update-btn' href="{% url 'care:update' care.pk %}">수정</a>
+        |
+        <!-- 게시글 삭제 버튼 - Button trigger modal -->
+        <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          삭제
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">정말로 삭제하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                해당 게시물을 삭제하면 관련 댓글도 전부 지워집니다.<br>
+                정말로 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'care:delete' care.pk %}" method='POST'>
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">삭제</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        |
+        <!-- 돌봄 신청자 목록 버튼 - Button trigger modal -->
+        <button type="button" class="applicant-btn" data-bs-toggle="modal" data-bs-target="#applicant-modal">돌봄 신청자 목록</button>
+        <!-- Modal -->
+        <div class="modal fade" id="applicant-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">돌봄 신청자 목록</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex flex-column">
+                {% if care.caring %}
+                  <a class='applicant' href="{% url 'accounts:detail' care.caring.pk %}">
+                    {% if care.caring.profile_image %}
+                      <img src="{{ care.caring.profile_image.url }}" alt="">
+                    {% else %}
+                      <i class="bi bi-person-circle"></i>
+                    {% endif %}
+                    <p class='name'>{{ care.caring.username }}</p>
+                  </a>
+                {% else %}
+                  <p>돌봄 신청자가 없습니다</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if care.writing_down == 0 %}
+        |
+        <!-- 돌봄 신청 마감 버튼 - Button trigger modal -->
+        <button type="button" class="applicant-close-btn" data-bs-toggle="modal" data-bs-target="#applicant-closeModal">
+          돌봄 신청 마감
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="applicant-closeModal" tabindex="-1" aria-labelledby="applicant-closeModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">돌봄 신청을 마감하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                돌봄 신청을 마감하면 더이상 신청자를 받을 수 없습니다.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'care:caring' care.pk %}" method='GET'>
+                  <button type="submit" class="btn btn-success">돌봄 신청 마감</button>
+                </form>
               </div>
             </div>
           </div>
         </div>
         {% endif %}
       </div>
-      <h3 class='title'>{{ care.title }}</h3>
-      <p class='pet-need-caring'>돌봄이 필요한 반려동물: 
-        {% if care.pet.species == 'dog' %}
-        <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
-        {% else %}
-        <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
+      {% else %}
+      <div class='note-btns-wrap'>
+        {% if care.writing_down == 0 %}
+        <div class='apply-buttons'>
+          <a class='button apply-btn' href="{% url "care:caring" care.pk %}">돌봄 신청</a>
+        </div>
         {% endif %}
-        - {{ care.pet.petname }}</p>
-      <div class='detail-info'>
+        <a href="{% url 'notes:send' care.user.pk %}" class='send-note' data-bs-toggle="tooltip-note" data-bs-placement="bottom" data-bs-title="쪽지를 보내 작성자와 이야기를 나눠보세요"><i class="bi bi-send"></i> 쪽지 보내기</a>
+      </div>
+      {% endif %}
+    </div>
+    <h3 class='title'>{{ care.title }}</h3>
+    <p class='pet-need-caring'>돌봄이 필요한 반려동물: 
+      {% if care.pet.species == 'dog' %}
+      <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
+      {% else %}
+      <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
+      {% endif %}
+      - {{ care.pet.petname }}</p>
+    <div class='detail-info'>
+      <div class='writer-info'>
+        <a href="{% url 'accounts:detail' care.user.pk %}">
+          {% if care.user.profile_image %}
+          <img class='writer-img' src="{{ care.user.profile_image.url }}" alt="">
+          {% else %}
+          <i class="bi bi-person-circle"></i>
+          {% endif %}
+        </a>
+        <div class='writer-date'>
+          <p>{{ care.user.username }}</p>
+          <p class='date'>{{ care.updated_at|date:"Y.m.d" }}</p>
+        </div>
+      </div>
+      <div class='like-wrap'>
+        <!-- 좋아요 -->
+        {% if request.user.is_authenticated %}
+        {% if request.user in care.like_user.all %}
+        <i data-care-id="{{ care.pk }}" class="bi bi-heart-fill like-btn"></i> 
+        {% else %}
+        <i data-care-id="{{ care.pk }}" class="bi bi-heart like-btn"></i> 
+        {% endif %}
+        {% endif %}
+        <span class="ms-1" id="like-count">{{ care.like_user.count }}</span>
+      </div>
+    </div>
+  </section>
+  
+  {% comment %} 내용 {% endcomment %}
+  <section id='article-content'>
+    <p>{{ care.content}}</p>
+    {% if care.image %}
+    <img src="{{ care.image.url }}" alt="">
+    {% endif %}
+    {% comment %} 돌보미 요구 조건 {% endcomment %}
+    <div class='requirements'>
+      <table>
+        <tr>
+          <th>✔ 돌봄이 필요한 반려동물</th>
+          <td>
+            {% if care.pet.species == 'dog' %}
+            <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
+            {% else %}
+            <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
+            {% endif %}
+            - {{ care.pet.petname }}
+          </td>
+        </tr>
+        <tr>
+          <th>✔ 반려동물과 함께 지내는 지역</th>
+          <td>{{ care.area }}</td>
+        </tr>
+        <tr>
+          <th>✔ 요구하는 돌보미 성별</th>
+          <td>{{ care.gender }}</td>
+        </tr>
+        <tr>
+          <th>✔ 요구하는 돌봄 기간</th>
+          <td>{{ care.caring_time }}</td>
+        </tr>
+        <tr>
+          <th>✔ 기타 요구사항</th>
+          <td>
+            {% for etc in etcs %}
+            <div>{{ etc }}</div>
+            {% endfor %}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- tag -->
+    {% if care.tags.all %}
+    <div class='tags'>
+      {% for tag in care.tags.all %}
+      <a class='tag' href="">#{{ tag.name }}</a>
+      {% endfor %}
+      {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
+    </div>
+    {% endif %}
+  </section>
+  
+  {% comment %} 댓글 {% endcomment %}
+  <section id='article-comment'>
+    <div class='head'>
+      <i class="bi bi-chat-square"></i>
+      <span>{{ care.comment_set.count }}</span>
+    </div>
+    <div class='body'>
+      <!-- 댓글 작성 폼 -->
+      {% if request.user.is_authenticated %}
+      <form class='comment-form' action="{% url 'care:comment_create' care.pk %}" method="POST">
+        {% csrf_token %}
+        <div class='row g-0'>
+          <div class='col-11'>
+            {{ form.content|attr:'rows:1'|attr:'placeholder:댓글을 남겨보세요.' }}
+          </div>
+          <div class='col-1'>
+            <input type="submit" value="저장">
+          </div>
+        </div>
+      </form>
+      {% endif %}
+      <!-- 작성된 댓글 -->
+      {% for comment in comments %}
+      <article>
         <div class='writer-info'>
-          <a href="{% url 'accounts:detail' care.user.pk %}">
-            {% if care.user.profile_image %}
-            <img class='writer-img' src="{{ care.user.profile_image.url }}" alt="">
+          <a href="{% url 'accounts:detail' comment.user.pk %}">
+            {% if comment.user.profile_image %}
+            <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
             {% else %}
             <i class="bi bi-person-circle"></i>
             {% endif %}
           </a>
-          <div class='writer-date'>
-            <p>{{ care.user.username }}</p>
-            <p class='date'>{{ care.updated_at|date:"Y.m.d" }}</p>
+          <div class='detail'>
+            <p>{{ comment.user.username }}</p>
+            <p class='date'>
+              {{ comment.created_at|date:"Y.m.d" }} 
+              {{ comment.created_at|time:"H:i" }}
+            </p>
+            <p>{{ comment.content }}</p>
           </div>
         </div>
-        <div class='like-wrap'>
-          <!-- 좋아요 -->
-          {% if request.user.is_authenticated %}
-          {% if request.user in care.like_user.all %}
-          <i data-care-id="{{ care.pk }}" class="bi bi-heart-fill like-btn"></i> 
-          {% else %}
-          <i data-care-id="{{ care.pk }}" class="bi bi-heart like-btn"></i> 
-          {% endif %}
-          {% endif %}
-          <span class="ms-1" id="like-count">{{ care.like_user.count }}</span>
-        </div>
-      </div>
-    </section>
-    
-    {% comment %} 내용 {% endcomment %}
-    <section id='article-content'>
-      <p>{{ care.content}}</p>
-      {% if care.image %}
-      <img src="{{ care.image.url }}" alt="">
-      {% endif %}
-      {% comment %} 돌보미 요구 조건 {% endcomment %}
-      <div class='requirements'>
-        <table>
-          <tr>
-            <th>✔ 돌봄이 필요한 반려동물</th>
-            <td>
-              {% if care.pet.species == 'dog' %}
-              <img class='pet-icon' src="{% static 'img/dog.png' %}" alt=""> 강아지
-              {% else %}
-              <img class='pet-icon' src="{% static 'img/cat.png' %}" alt=""> 고양이
-              {% endif %}
-              - {{ care.pet.petname }}
-            </td>
-          </tr>
-          <tr>
-            <th>✔ 반려동물과 함께 지내는 지역</th>
-            <td>{{ care.area }}</td>
-          </tr>
-          <tr>
-            <th>✔ 요구하는 돌보미 성별</th>
-            <td>{{ care.gender }}</td>
-          </tr>
-          <tr>
-            <th>✔ 요구하는 돌봄 기간</th>
-            <td>{{ care.caring_time }}</td>
-          </tr>
-          <tr>
-            <th>✔ 기타 요구사항</th>
-            <td>
-              {% for etc in etcs %}
-              <div>{{ etc }}</div>
-              {% endfor %}
-            </td>
-          </tr>
-          <tr>
-            <th>✔ 요청</th>
-
-              <td>          
-                {% comment %} <a class="custom-link fs-4" id="btn-modal">
-                  <span class="fs-6">쪽지</span> {% endcomment %}
-                <a href="{% url 'notes:send' care.user.pk %}">쪽지 보내기</a>
-                </a>
-              </td>
-              <div id="modal" class="modal-overlay">
-                <div class="modal-window">
-                    <div class="title">
-                        <h2>
-                          {{ care.user.nickname }}
-                        </h2>
-                    </div>
-                    <div class="close-area">X</div>
-                    <div class="content">
-                        <h3><a href="{% url 'notes:send' care.user.pk %}" class="text-decoration-none text-white">쪽지</a></h3>
-                    </div>
-                </div>
-            </div>
-
-          </tr>
-        </table>
-      </div>
-      <!-- tag -->
-      {% if care.tags.all %}
-      <div class='tags'>
-        {% for tag in care.tags.all %}
-        <a class='tag' href="">#{{ tag.name }}</a>
-        {% endfor %}
-        {% comment %} <a style="text-decoration: none" href="{% url 'communities:tag_cloud' %}">태그 모아보기<i class="bi bi-tag"></i></a> {% endcomment %}
-      </div>
-      {% endif %}
-    </section>
-    
-    {% comment %} 댓글 {% endcomment %}
-    <section id='article-comment'>
-      <div class='head'>
-        <i class="bi bi-chat-square"></i>
-        <span>{{ care.comment_set.count }}</span>
-      </div>
-      <div class='body'>
-        <!-- 댓글 작성 폼 -->
-        {% if request.user.is_authenticated %}
-        <form class='comment-form' action="{% url 'care:comment_create' care.pk %}" method="POST">
+        {% if request.user == comment.user %}
+        <form action="{% url "care:comment_delete" care.pk comment.pk %}" method="POST">
           {% csrf_token %}
-          <div class='row g-0'>
-            <div class='col-11'>
-              {{ form.content|attr:'rows:1'|attr:'placeholder:댓글을 남겨보세요.' }}
-            </div>
-            <div class='col-1'>
-              <input type="submit" value="저장">
-            </div>
-          </div>
+          <input class='delete-btn' type="submit" value="삭제">
         </form>
         {% endif %}
-        <!-- 작성된 댓글 -->
-        {% for comment in comments %}
-        <article>
-          <div class='writer-info'>
-            <a href="{% url 'accounts:detail' comment.user.pk %}">
-              {% if comment.user.profile_image %}
-              <img class='writer-img' src="{{ comment.user.profile_image.url }}" alt="">
-              {% else %}
-              <i class="bi bi-person-circle"></i>
-              {% endif %}
-            </a>
-            <div class='detail'>
-              <p>{{ comment.user.username }}</p>
-              <p class='date'>
-                {{ comment.created_at|date:"Y.m.d" }} 
-                {{ comment.created_at|time:"H:i" }}
-              </p>
-              <p>{{ comment.content }}</p>
-            </div>
-          </div>
-          {% if request.user == comment.user %}
-          <form action="{% url "care:comment_delete" care.pk comment.pk %}" method="POST">
-            {% csrf_token %}
-            <input class='delete-btn' type="submit" value="삭제">
-          </form>
-          {% endif %}
-        </article>
-      {% empty %}
-        <div class='no-comment'>
-          <p><i class="bi bi-chat-square-text-fill"></i></p>
-          <p class='text'>첫 댓글을 남겨주세요.</p>
-        </div>
-      {% endfor %}
+      </article>
+    {% empty %}
+      <div class='no-comment'>
+        <p><i class="bi bi-chat-square-text-fill"></i></p>
+        <p class='text'>첫 댓글을 남겨주세요.</p>
+      </div>
+    {% endfor %}
+  </section>
 
-      <!-- 리뷰 -->
-
-    <div class="d-flex justify-content-between align-items-center container">
-      <!-- 리뷰 쓰기 버튼 -->
-      <a href="{% url 'care:review' care.pk %}" class="btn btn-outline-dark rounded-0 w-50 font-space">
-        리뷰 쓰기
-      </a>
-    </div>
-    <div class="container my-3">
-      {% for review in reviews %}
-        <div class="my-3">
-          <a href="{% url 'accounts:detail' review.user.pk %}" class="text-decoration-none text-dark">
-            <div class="d-flex justify-content-end align-items-center rounded-0 border border-dark align-middle card-title p-2 font-space fw-bold">
-              {% if review.user.profile_image %}
-                <img src="{{ review.user.profile_image.url }}" alt="" style="width:32px; height:32px; border-radius: 50%;">
-              {% else %}
-                <img src="{% static 'img/profile_dogcat.png' %}" alt="" style="width:32px; height:32px;">
-              {% endif %}
-              &nbsp;
-              {{ review.user.username }}
-            </div>
+  {% comment %} 돌봄 후기 {% endcomment %}
+  {% if care.writing_down == 1 %}
+  <section id='review'>
+    <h5>돌봄 후기</h5>
+    <div class='inner'>
+      <p class='text'>돌보미</p>
+      <div class='head' style="{% if not review %}border-bottom: none;{% endif %}">
+        <div class='friend-info'>
+          <a href="{% url 'accounts:detail' care.caring.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
+            {% if care.caring.profile_image %}
+            <img src="{{ care.caring.profile_image.url }}" alt="">
+            {% else %}
+            <i class="bi bi-person-circle"></i>
+            {% endif %}
           </a>
-            <div class="card-body d-flex justify-content-between align-items-center rounded-0 border border-top-0 border-dark" style="overflow: hidden;">
-              <p> 돌봄 후기: {{ review.content }}</p>
-              <p> 평점: {{ review.grade }}</p>
-              <p> 산책 날짜 : {{ review.caring_date }}</p>
-            </div>
         </div>
-      {% endfor %}
+        {% if review %}
+        <div class='date-place-wrap'>
+          <p>돌봄 기간: {{ review.caring_date }}부터 {{ care.caring_time }}</p>
+        </div>
+        {% else %}
+        {% if request.user == care.user %}
+        <a class="review-btn" href="{% url 'care:review' care.pk %}">
+          + 후기 쓰기
+        </a>
+        {% else %}
+        <span class='no-review'>아직 후기를 작성하지 않았습니다</span>
+        {% endif %}
+        {% endif %}
+      </div>
+      {% if review %}
+      <div class='body'>
+        <p>{{ review.content }}</p>
+        <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
+      </div>
+      {% endif %}
     </div>
-    </section>
-  </main>
+  </section>
+  {% endif %}
+</main>
 {% endblock content %}
 
 {% block js %}

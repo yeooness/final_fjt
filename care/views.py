@@ -266,11 +266,15 @@ def writing(request, care_pk):
     return redirect('care:index')
 
 
+# 돌봄 신청/신청 마감
 def caring(request, care_pk):
     care = Care.objects.get(pk=care_pk)
     
     if care.user != request.user:
         care.caring = request.user
+        care.writing_down = True
+        care.save()
+    else:
         care.writing_down = True
         care.save()
 
