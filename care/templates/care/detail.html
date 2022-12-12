@@ -57,7 +57,7 @@
               </div>
               <div class="modal-body d-flex flex-column">
                 {% if care.caring %}
-                  <a class='applicant' href="{% url 'accounts:detail' care.caring.pk %}">
+                  <a class='applicant' href="{% url 'accounts:detail' care.pk %}">
                     {% if care.caring.profile_image %}
                       <img src="{{ care.caring.profile_image.url }}" alt="">
                     {% else %}
@@ -264,7 +264,7 @@
       <p class='text'>돌보미</p>
       <div class='head' style="{% if not review %}border-bottom: none;{% endif %}">
         <div class='friend-info'>
-          <a href="{% url 'accounts:detail' care.caring.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
+          <a href="{% url 'accounts:detail' care.user.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
             {% if care.caring.profile_image %}
             <img src="{{ care.caring.profile_image.url }}" alt="">
             {% else %}
@@ -301,7 +301,7 @@
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'js/care/detail.js' %}"></script>
-  <script>
+  {% comment %} <script>
     function changeBtnName()  {
       const btnElement 
         = document.getElementById('btn');
@@ -343,5 +343,5 @@
             modalOff()
         }
     })
-    </script>
+    </script> {% endcomment %}
 {% endblock js %}
