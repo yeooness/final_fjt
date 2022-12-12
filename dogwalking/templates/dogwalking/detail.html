@@ -192,7 +192,7 @@
 
   {% comment %} 내용 {% endcomment %}
   <section id='article-content'>
-    <p>{{ dogwalking.content}}</p>
+    <p class="text-break">{{ dogwalking.content}}</p>
     {% if dogwalking.image %}
     <img src="{{ dogwalking.image.url }}" alt="">
     {% endif %}
@@ -274,7 +274,7 @@
               {{ comment.created_at|date:"Y.m.d" }} 
               {{ comment.created_at|time:"H:i" }}
             </p>
-            <p>{{ comment.content }}</p>
+            <p class="text-break">{{ comment.content }}</p>
           </div>
         </div>
         {% if request.user == comment.user %}
@@ -327,7 +327,7 @@
       </div>
       {% if review %}
       <div class='body'>
-        <p>{{ review.content }}</p>
+        <p class="text-break">{{ review.content }}</p>
         <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
       </div>
       {% endif %}
