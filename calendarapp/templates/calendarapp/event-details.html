@@ -10,15 +10,18 @@ Event Details
             <a class="btn btn-primary left" href="{% url 'calendarapp:calendar' %}"> 달력 </a>
             <a class="btn btn-outline-primary right mr-2" href="{% url 'calendarapp:event_edit' event.pk %}"> 수정하기 </a>
         </div>
-        
-        <div class="clearfix">
-            <h3>일지 제목 : {{ event.title }}</h3>
-            <p>From <span style="color: gray;">{{ event.start_time }}</span> To <span style="color: gray;">{{ event.end_time }}</span></p>
-            <hr>
-            <p>{{ event.description }}</p>
+        <div>
+            {{ event.pet.petname }}
+            {{ event.journal_board }}
+            {{ event.content }}
+            {% if event.image %}
+             {{ event.image.url }}
+            {% endif %}
         </div>
-        <hr>
         <div class="clearfix">
+            <p>From <span style="color: gray;">{{ event.start_time }}</span></p>
+        </div>
+        {% comment %} <div class="clearfix">
             <h4 class="left" > Members of this Event</h4>
             <a class="btn btn-outline-success right" href="{% url 'calendarapp:add_eventmember' event.id %}"> 멤버추가 </a>
         </div>
@@ -45,6 +48,6 @@ Event Details
                 </tr>
                 {% endfor %}
               </tbody>
-        </table>
+        </table> {% endcomment %}
     </div>
 {% endblock %}

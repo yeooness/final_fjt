@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 
 from .models import *
 from .utils import Calendar
-from .forms import EventForm, AddMemberForm, DogwalkingJournalForm
+from .forms import *
 
 # Create your views here.
 def index(request):
@@ -56,19 +56,58 @@ class CalendarView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-def create_event(request):
-    form = EventForm(request.POST or None)
+def create_daily_event(request):
+    form = DailyEventForm(request.POST or None)
+    # pet = Pet.objects.get(pk=request.POST.get("pet"))
     if request.POST and form.is_valid():
-        title = form.cleaned_data["title"]
-        description = form.cleaned_data["description"]
+        content = form.cleaned_data["content"]
         start_time = form.cleaned_data["start_time"]
-        end_time = form.cleaned_data["end_time"]
+        pet = form.data["pet"]
+        Event.objects.get_or_create(
+            content=content,
+            start_time=start_time,
+            pet=pet,
+        )
+        form.save()
+        return HttpResponseRedirect(reverse("calendarapp:calendar"))
+    return render(request, "calendarapp/event.html", {"form": form})
+
+
+def create_dogwalking_event(request):
+    form = DogwalkingEventForm(request.POST or None)
+    if request.POST and form.is_valid():
+        route = form.cleaned_data["route"]
+        consumed_calories = form.cleaned_data["consumed_calories"]
+        walking_time = form.cleaned_data["walking_time"]
+        start_time = form.cleaned_data["start_time"]
+        # end_time = form.cleaned_data["end_time"]
+        Dogwalking_Journal.objects.get_or_create(
+            user=request.user,
+            route=route,
+            consumed_calories=consumed_calories,
+            walking_time=walking_time,
+            start_time=start_time,
+            # end_time=end_time,
+        )
+        return HttpResponseRedirect(reverse("calendarapp:calendar"))
+    return render(request, "calendarapp/event.html", {"form": form})
+
+
+def create_health_event(request):
+    form = HealthEventForm(request.POST or None)
+    if request.POST and form.is_valid():
+        meals = form.cleaned_data["meals"]
+        energy = form.cleaned_data["energy"]
+        medicine = form.changed_data["medicine"]
+        start_time = form.cleaned_data["start_time"]
+        # end_time = form.cleaned_data["end_time"]
         Event.objects.get_or_create(
             user=request.user,
-            title=title,
-            description=description,
+            meals=meals,
+            energy=energy,
+            medicine=medicine,
             start_time=start_time,
-            end_time=end_time,
+            # end_time=end_time,
         )
         return HttpResponseRedirect(reverse("calendarapp:calendar"))
     return render(request, "calendarapp/event.html", {"form": form})
@@ -82,14 +121,14 @@ def create_dogwalking(request):
         consumed_calories = form.cleaned_data["consumed_calories"]
         walking_time = form.cleaned_data["walking_time"]
         start_time = form.cleaned_data["start_time"]
-        end_time = form.cleaned_data["end_time"]
+        # end_time = form.cleaned_data["end_time"]
         Dogwalking_Journal.objects.get_or_create(
             user=request.user,
             route=route,
             consumed_calories=consumed_calories,
             walking_time=walking_time,
             start_time=start_time,
-            end_time=end_time,
+            # end_time=end_time,
         )
         return HttpResponseRedirect(reverse("calendarapp:calendar"))
     return render(request, "calendarapp/dwj.html", {"form": form})
@@ -104,8 +143,11 @@ class EventEdit(generic.UpdateView):
 # @login_required(login_url='signup')
 def event_details(request, event_id):
     event = Event.objects.get(id=event_id)
-    eventmember = EventMember.objects.filter(event=event)
-    context = {"event": event, "eventmember": eventmember}
+    # eventmember = EventMember.objects.filter(event=event)
+    context = {
+        "event": event,
+        # "eventmember": eventmember
+    }
     return render(request, "calendarapp/event-details.html", context)
 
 
