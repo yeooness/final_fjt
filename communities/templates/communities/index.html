@@ -91,8 +91,25 @@
             <li><a class="dropdown-item" href="/communities/?board={{ name }}&pet=고양이">고양이</a></li>
           </ul>
         </div>
-        <a class='writing-btn active' href="/communities/create/?category={{ name }}">글 작성</a>
-        <a class='writing-btn-round' href="/communities/create/?category={{ name }}"><i class="bi bi-pencil"></i></a>
+        <a class='writing-btn active' 
+        {% if request.user.is_authenticated %}
+        href="/communities/create/?category={{ name }}"
+        {% endif %}
+        {% if not request.user.is_authenticated %}
+        style='background-color: #D9D9D9;'
+        data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="로그인해야 작성이 가능합니다"
+        {% endif %}
+        >글 작성</a>
+        <a class='writing-btn-round' 
+        {% if request.user.is_authenticated %}
+        href="/communities/create/?category={{ name }}"
+        title='커뮤니티 글 작성하기'
+        {% endif %}
+        {% if not request.user.is_authenticated %}
+        style='background-color: #D9D9D9;'
+        data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="로그인해야 작성이 가능합니다"
+        {% endif %}
+        ><i class="bi bi-pencil"></i></a>
       </div>
     </div>
     {% comment %} 게시글 {% endcomment %}

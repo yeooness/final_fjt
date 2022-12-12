@@ -64,14 +64,13 @@
       </div>
       <!-- 좋아요 -->
       <div>
-        {% if request.user.is_authenticated %}
         {% if request.user in community.like_users.all %}
         <i data-community-id="{{ community.pk }}" class="bi bi-heart-fill like-btn"></i>
         {% else %}
         <i data-community-id="{{ community.pk }}" class="bi bi-heart like-btn"></i>
         {% endif %}
-        {% endif %}
         <span id="like-count">{{ community.like_users.count }}</span>
+        <input type="hidden" id='is-authenticated' value="{{ request.user.is_authenticated }}">
       </div>
     </div>
   </section>
