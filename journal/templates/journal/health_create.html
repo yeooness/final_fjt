@@ -3,13 +3,32 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/journal/create.css' %}">
+  <link rel="stylesheet" href="{% static 'css/journal/create.css' %}">
 {% endblock css %}
 
 {% block content %}
   <div class="container">
     <form action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      <div class='domain'>
+        <h5>
+          <span class='important'>*</span>일기를 작성할 반려동물</h5>
+        <select name="pet" id="pet" required="required">
+          <option value="">
+            -------- 반려동물 선택 --------
+          </option>
+          {% for user_pet in request.user.pet.all %}
+            <option value="{{ user_pet.pk }}">
+              {% if user_pet.species == 'dog' %}
+                강아지
+              {% else %}
+                고양이
+              {% endif %}
+              -
+              {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+      </div>
       {% bootstrap_form form %}
       <div class='pet-journal-button d-flex justify-content-around'>
         <button type="submit" class="btn-journal">등록</button>
