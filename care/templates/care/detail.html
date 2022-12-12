@@ -63,7 +63,11 @@
                     {% else %}
                       <i class="bi bi-person-circle"></i>
                     {% endif %}
-                    <p class='name'>{{ care.caring.username }}</p>
+                    {% if care.caring.nickname %}
+                      <p class='name'>{{ care.caring.nickname }}</p>
+                    {% else %}
+                      <p class='name'>{{ care.caring.username }}</p>
+                    {% endif %}
                   </a>
                 {% else %}
                   <p>돌봄 신청자가 없습니다</p>
@@ -129,7 +133,11 @@
           {% endif %}
         </a>
         <div class='writer-date'>
+          {% if care.user.nickname %}
+          <p>{{ care.user.nickname }}</p>
+          {% else %}
           <p>{{ care.user.username }}</p>
+          {% endif %}
           <p class='date'>{{ care.updated_at|date:"Y.m.d" }}</p>
         </div>
       </div>
@@ -148,7 +156,7 @@
   
   {% comment %} 내용 {% endcomment %}
   <section id='article-content'>
-    <p class="text-break">{{ care.content}}</p>
+    <p class="text-break">{{ care.content|linebreaksbr }}</p>
     {% if care.image %}
     <img src="{{ care.image.url }}" alt="">
     {% endif %}
@@ -232,12 +240,16 @@
             {% endif %}
           </a>
           <div class='detail'>
+            {% if comment.user.nickname %}
+            <p>{{ comment.user.nickname }}</p>
+            {% else %}
             <p>{{ comment.user.username }}</p>
+            {% endif %}
             <p class='date'>
               {{ comment.created_at|date:"Y.m.d" }} 
               {{ comment.created_at|time:"H:i" }}
             </p>
-            <p class="text-break">{{ comment.content }}</p>
+            <p class="text-break">{{ comment.content|linebreaksbr }}</p>
           </div>
         </div>
         {% if request.user == comment.user %}
@@ -263,7 +275,13 @@
       <p class='text'>돌보미</p>
       <div class='head' style="{% if not review %}border-bottom: none;{% endif %}">
         <div class='friend-info'>
-          <a href="{% url 'accounts:detail' care.user.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
+          <a href="{% url 'accounts:detail' care.user.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="
+            {% if care.caring.nickname %}
+            {{ care.caring.nickname }}
+            {% else %}
+            {{ care.caring.username }}
+            {% endif %}
+          ">
             {% if care.caring.profile_image %}
             <img src="{{ care.caring.profile_image.url }}" alt="">
             {% else %}
@@ -287,7 +305,7 @@
       </div>
       {% if review %}
       <div class='body'>
-        <p class="text-break">{{ review.content }}</p>
+        <p class="text-break">{{ review.content|linebreaksbr }}</p>
         <p class='grade'><span class='heart'>♥</span> {{ review.grade }}점</p>
       </div>
       {% endif %}

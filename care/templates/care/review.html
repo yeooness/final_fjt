@@ -19,7 +19,13 @@
       <h5><span class='important'>*</span> 돌보미</h5>
       <div class='friend-info'>
         {% if care.caring %}
-        <a href="{% url 'accounts:detail' care.caring.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="{{ care.caring.username }}">
+        <a href="{% url 'accounts:detail' care.caring.pk %}" data-bs-toggle="tooltip-friend" data-bs-placement="bottom" data-bs-title="
+          {% if care.caring.nickname %}
+          {{ care.caring.nickname }}
+          {% else %}
+          {{ care.caring.username }}
+          {% endif %}
+        ">
           {% if care.caring.profile_image %}
           <img src="{{ care.caring.profile_image.url }}" alt="">
           {% else %}
