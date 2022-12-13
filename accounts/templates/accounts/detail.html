@@ -236,9 +236,6 @@
         <div class='pet-journal-button d-flex justify-content-around'>
           <!-- 일기 작성 버튼 -->
           <a href="{% url 'journal:journal_list' %}" class="btn-journal">전체 일기 목록</a>
-          <a href="{% url 'journal:daily_create' %}" class="btn-journal">일기 작성하기</a>
-          <a href="{% url 'journal:dwj_create' %}" class="btn-journal">산책일기 작성하기</a>
-          <a href="{% url 'journal:health_create' %}" class="btn-journal">건강일기 작성하기</a>
         </div>
         {% endif %}
         {% else %}
