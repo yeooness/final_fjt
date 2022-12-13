@@ -248,7 +248,8 @@
         </div>
         {% endif %}
       </div>
-
+      <!-- 일정 등록하기 -->
+      <a href="{% url 'schedule:index' %}" class="btn btn-primary">일정 등록</a>
       <!-- 지도 -->
       {% if request.user == user %}
       <div class='my-friends'>

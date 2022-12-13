@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "journal",
     "qna",
     "calendarapp",
+    "schedule",
     "django_bootstrap5",
     "imagekit",
     "widget_tweaks",
