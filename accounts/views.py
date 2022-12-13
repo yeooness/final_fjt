@@ -292,7 +292,7 @@ state_token = secrets.token_urlsafe(16)
 # 카카오 로그인
 def kakao_request(request):
     kakao_api = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback"
+    redirect_uri = "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback"
     client_id = "3044dd3e42caed2e8e6ed2f4650c22f7"  # 배포시 보안적용 해야함
     return redirect(f"{kakao_api}&client_id={client_id}&redirect_uri={redirect_uri}")
 
@@ -301,7 +301,7 @@ def kakao_callback(request):
     data = {
         "grant_type": "authorization_code",
         "client_id": "3044dd3e42caed2e8e6ed2f4650c22f7",  # 배포시 보안적용 해야함
-        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback",
+        "redirect_uri": "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/kakao/callback",
         "code": request.GET.get("code"),
     }
     kakao_token_api = "https://kauth.kakao.com/oauth/token"
@@ -332,7 +332,7 @@ def kakao_callback(request):
 def naver_request(request):
     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
     client_id = "rbVOoAEithFIkqeqIciW"  # 배포시 보안적용 해야함
-    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback"
+    redirect_uri = "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback"
     state_token = secrets.token_urlsafe(16)
     return redirect(
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
@@ -346,7 +346,7 @@ def naver_callback(request):
         "client_secret": "nq9LZrYX2Y",
         "code": request.GET.get("code"),
         "state": request.GET.get("state"),
-        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback",
+        "redirect_uri": "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/naver/callback",
     }
     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
     access_token = requests.post(naver_token_request_url, data=data).json()[
@@ -378,7 +378,7 @@ def naver_callback(request):
 def google_request(request):
     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
     client_id = "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-    redirect_uri = "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback"
+    redirect_uri = "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback"
     google_base_url = "https://www.googleapis.com/auth"
     google_email = "/userinfo.email"
     google_myinfo = "/userinfo.profile"
@@ -395,7 +395,7 @@ def google_callback(request):
         "grant_type": "authorization_code",
         "client_id": "526851643558-otkt8p42ql3bhf7akoo5ikgtshc208md.apps.googleusercontent.com",  # 배포시 보안적용 해야함
         "client_secret": "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",
-        "redirect_uri": "http://danggeunjibsabean-env.eba-z2wmzac2.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback",
+        "redirect_uri": "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com/accounts/templates/accounts/login/google/callback",
     }
     google_token_request_url = "https://oauth2.googleapis.com/token"
     access_token = requests.post(google_token_request_url, data=data).json()[
