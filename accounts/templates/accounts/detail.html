@@ -228,14 +228,16 @@
       <!-- 등록한 반려동물이 있으면 일기 작성 가능 - 코드 수정 -->
       <div class='pet-journal'>
         {% if user_pets %}
-        <div class='head'>
+        {% comment %} <div class='head'>
           <h3>'<span class='active-pet-name'></span>'의 일기</h3>
           <span class='text'>일기를 작성하고자 하는 반려동물을 선택해주세요</span>
-        </div>
+        </div> {% endcomment %}
         {% if request.user == user %}
-        <div class='pet-journal-button d-flex justify-content-around'>
+        <div class='pet-journal-button d-flex justify-content-end'>
           <!-- 일기 작성 버튼 -->
-          <a href="{% url 'journal:journal_list' %}" class="btn-journal">전체 일기 목록</a>
+          <a href="{% url 'journal:journal_list' %}" class="btn-journal mx-1">전체 일기 목록</a>
+          <!-- 일정 등록하기 -->
+          <a href="{% url 'schedule:index' %}" class="btn-journal mx-1">일정 등록</a>
         </div>
         {% endif %}
         {% else %}
@@ -245,8 +247,7 @@
         </div>
         {% endif %}
       </div>
-      <!-- 일정 등록하기 -->
-      <a href="{% url 'schedule:index' %}" class="btn btn-primary">일정 등록</a>
+
       <!-- 지도 -->
       {% if request.user == user %}
       <div class='my-friends'>

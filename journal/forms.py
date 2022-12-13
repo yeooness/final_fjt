@@ -22,13 +22,13 @@ class DogwalkingJournalForm(forms.ModelForm):
         model = DogwalkingJournal
         fields = [
             "route",
-            "consumed_calories",
-            "walking_time",
+            # "consumed_calories",
+            # "walking_time",
         ]
         labels = {
             "route": "산책 경로",
-            "consumed_calories": "소모된 칼로리",
-            "walking_time": "산책에 소요된 시간",
+            # "consumed_calories": "소모된 칼로리",
+            # "walking_time": "산책에 소요된 시간",
         }
 
 
