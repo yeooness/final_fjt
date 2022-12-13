@@ -30,4 +30,5 @@ urlpatterns = [
     path("care/", include("care.urls")),
     path("information/", include("information.urls")),
     path("calendar/", include("calendarapp.urls")),
+    path("schedule/", include("schedule.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
