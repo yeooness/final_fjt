@@ -136,7 +136,7 @@ def more(request):
     
     return render(request, "dogwalking/more.html", context)
 
-@login_required
+# @login_required
 def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
@@ -180,7 +180,7 @@ def detail(request, dogwalking_pk):
     }
     return render(request, "dogwalking/detail.html", context)
 
-@login_required
+# @login_required
 def update(request, dogwalking_pk):
     dogwalking = Dogwalking.objects.get(pk=dogwalking_pk)
     if request.user == dogwalking.user:
@@ -204,7 +204,7 @@ def update(request, dogwalking_pk):
     else:
         return redirect(request, "dogwalking/update.html", dogwalking_pk)
 
-@login_required
+# @login_required
 def delete(request, dogwalking_pk):
     Dogwalking.objects.get(pk=dogwalking_pk).delete()
     return redirect("dogwalking:index")
@@ -246,7 +246,7 @@ class TaggedObjectLV(ListView):
         context["tagname"] = self.kwargs["tag"]
         return context
 
-@login_required
+# @login_required
 def comment_create(request, dogwalking_pk):
     dogwalking_data = Dogwalking.objects.get(pk=dogwalking_pk)
 
@@ -268,7 +268,7 @@ def comment_delete(request, dogwalking_pk, comment_pk):
         comment_data.delete()
     return redirect("dogwalking:detail", dogwalking_pk)
 
-@login_required
+# @login_required
 def like(request, dogwalking_pk):
     dogwalking = get_object_or_404(Dogwalking, pk=dogwalking_pk)
     if request.user in dogwalking.like_user.all():
@@ -282,7 +282,7 @@ def like(request, dogwalking_pk):
 
 
 # 리뷰
-@login_required
+# @login_required
 def review(request, pk):
     dogwalking = Dogwalking.objects.get(pk=pk)
     if request.method == "POST":
