@@ -279,14 +279,12 @@
               </div>
               
               <!-- card-item-bottom -->
-              <div class="card__item-bottom">
+              {% comment %} <div class="card__item-bottom">
                 <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
                   {{ article.title|truncatechars:15 }}
                 </a>
-                {% comment %} <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p> {% endcomment %}
-        
-                
-              </div>
+                <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
+              </div> {% endcomment %}
             </article>
           </div>
           {% endif %}
