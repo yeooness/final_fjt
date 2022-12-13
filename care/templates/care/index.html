@@ -141,12 +141,11 @@
       </div>
     </div>
   </section>
-{% comment %} 여기까진 정상 {% endcomment %}
 
   <!-- card-container -->
   <section class="container main-cards">
     <!-- Card-wrap 산책친구 -->
-    {% comment %} <div class="card-wrap">
+    <div class="card-wrap">
       <div class="card-top">
         <h3>돌봄이 필요합니다</h3>
         <a href="/care/more?more=find-petsitter">
@@ -177,6 +176,12 @@
                   <p>{{ article.user.username }}</p>
                   {% endif %}
                 </div>
+                <!-- card-item-avg -->
+                {% comment %} <div class="card__item__avg">
+                  <i class="fa-regular fa-heart fa-xl"></i>
+                  <p>평점</p>
+                </div> {% endcomment %}
+                <!-- 분류 뱃지 -->
                 <div class='badge species-badge'>
                   {% if article.pet.species == 'dog' %}
                   강아지
@@ -184,10 +189,11 @@
                   고양이
                   {% endif %}
                 </div>
-              </div> {% endcomment %}
-          
+              </div>
+              {% comment %} 여기까진 정상 {% endcomment %}
+
               <!-- card-item-image -->
-              <div class="card__item__image">
+              {% comment %} <div class="card__item__image">
                 {% if article.image %}
                 <img src="{{ article.image.url }}" alt="card-image">
                 {% else %}
@@ -208,7 +214,7 @@
                     <a class='button end-btn' href="{% url 'care:caring' article.pk %}">돌봄 신청 마감</a>
                   {% endif %}
                 </div>
-              </div>
+              </div> {% endcomment %}
             </div>
           </div>
           {% endif %}
