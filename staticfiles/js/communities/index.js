@@ -15,43 +15,62 @@ if (currentBoard) {
 
 // '인기글의' Swiper
 // 뷰포트 너비에 따라 view 당 slide 갯수 결정하는 함수
-const decideSlidesNumber = function(viewportWidth) {  
-  if (viewportWidth >= 992) {
-    return 4
-  } else if (viewportWidth >= 768) {
-    return 3
-  } else {
-    return 2
-  }
-}
+// const decideSlidesNumber = function(viewportWidth) {  
+//   if (viewportWidth >= 992) {
+//     return 4
+//   } else if (viewportWidth >= 768) {
+//     return 3
+//   } else {
+//     return 2
+//   }
+// }
 
 // 초기 화면 크기에서의 slide 갯수 지정
-let viewportWidth = window.innerWidth
-let slidesNumber = decideSlidesNumber(viewportWidth)
+// let viewportWidth = window.innerWidth
+// let slidesNumber = decideSlidesNumber(viewportWidth)
 
 var swiper = new Swiper("#popular-articles .mySwiper", {  
-  slidesPerView: slidesNumber,  
+  // slidesPerView: slidesNumber,  
+  slidesPerView: 1,
   scrollbar: {
     el: ".swiper-scrollbar",
     hide: true,
   },
+  breakpoints: {
+    576: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 10,
+    },
+    992: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    1200: {
+      slidesPerView: 4,
+      spaceBetween: 10,
+    },
+  },
 });
 
 // 화면 크기가 변할 때 slide 갯수 변경
-window.addEventListener("resize", function() {
-  let viewportWidth = window.innerWidth
-  let slidesNumber = decideSlidesNumber(viewportWidth)
-  console.log(viewportWidth)
-  console.log(slidesNumber)
+// window.addEventListener("resize", function() {
+//   let viewportWidth = window.innerWidth
+//   let slidesNumber = decideSlidesNumber(viewportWidth)
+//   console.log(viewportWidth)
+//   console.log(slidesNumber)
 
-  var swiper = new Swiper("#popular-articles .mySwiper", {  
-    slidesPerView: slidesNumber,  
-    scrollbar: {
-      el: ".swiper-scrollbar",
-      hide: true,
-    },
-  });
-})
+//   var swiper = new Swiper("#popular-articles .mySwiper", {  
+//     slidesPerView: slidesNumber,  
+//     scrollbar: {
+//       el: ".swiper-scrollbar",
+//       hide: true,
+//     },
+//   });
+// })
 
 
 
@@ -109,3 +128,9 @@ const dropdownBtn = document.querySelector('#pet-filter .dropdown-toggle')
 const activeDropdownItem = document.querySelector('#pet-filter .dropdown-item.active')
 
 dropdownBtn.innerText = activeDropdownItem.innerText
+
+
+
+// 로그인 안할 경우, 글작성 버튼 클릭 시 popover되게
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))

@@ -32,6 +32,11 @@ input[type='submit'] {
 .domain .important {
   color: red;
 }
+.domain .alert-text {
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+  color: red;
+}
 
 /* 같이 산책하고 싶은 반려동물, 반려동물과 함께 지내는 지역 */
 #pet, #id_area {

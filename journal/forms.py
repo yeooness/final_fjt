@@ -1,17 +1,17 @@
 from django import forms
-from .models import Journal
+from .models import *
 
 
 class DailyJournalForm(forms.ModelForm):
     class Meta:
-        model = Journal
+        model = DailyJournal
         fields = [
-            "journal_board",
+            # "journal_board",
             "content",
             "image",
         ]
         labels = {
-            "journal_board": "작성할 일기",
+            # "journal_board": "작성할 일기",
             "content": "내용",
             "image": "사진",
         }
@@ -19,7 +19,7 @@ class DailyJournalForm(forms.ModelForm):
 
 class DogwalkingJournalForm(forms.ModelForm):
     class Meta:
-        model = Journal
+        model = DogwalkingJournal
         fields = [
             "route",
             "consumed_calories",
@@ -34,7 +34,7 @@ class DogwalkingJournalForm(forms.ModelForm):
 
 class HealthJournalForm(forms.ModelForm):
     class Meta:
-        model = Journal
+        model = HealthJournal
         fields = [
             "meals",
             "energy",

@@ -23,16 +23,25 @@
           {% comment %} 주소 {% endcomment %}
           <div class='address-wrap'>
             <h6>주소</h6>
-            {% if request.user.address %}
-            <p>{{ request.user.address }}</p>
-            {% endif %}
             <div class='search-address'>
-              <input type="text" id="sample6_postcode" placeholder="우편번호" name="postcode">
+              <input type="text" id="sample6_postcode" placeholder="우편번호" name="postcode" 
+              {% if request.user.postcode %}
+              value="{{ request.user.postcode }}"
+              {% endif %}>
               <input class="address-btn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
             </div>
-            <input type="text" id="sample6_address" placeholder="주소" name="address">
-            <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
-            <input type="hidden" id="sample6_extraAddress" name="extraAddress">
+            <input type="text" id="sample6_address" placeholder="주소" name="address" 
+            {% if request.user.address %}
+            value="{{ request.user.address }}"
+            {% endif %}>
+            <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress" 
+            {% if request.user.detailAddress %}
+            value="{{ request.user.detailAddress }}"
+            {% endif %}>
+            <input type="hidden" id="sample6_extraAddress" name="extraAddress"
+            {% if request.user.extraAddress %}
+            value="{{ request.user.extraAddress }}"
+            {% endif %}>
           </div>
           {% comment %} 휴대폰번호 {% endcomment %}
           {% if user.is_phone_active %}
@@ -40,16 +49,15 @@
             <label for="id_phone">핸드폰 번호</label>
             <input type="text" name='phone_num' value='{{ request.user.phone_num }}' maxlength='11' class='form-control' placeholder='휴대폰 번호' id='id_phone'>
           </div>
-          <input type="hidden" id='' name="phone_num" value=''>
           <div id="phone-div" class="d-flex mb-3">
-            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}" style="width: 8rem;">번호
+            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}">번호
               변경하기</button>
             <p id="already-auth-user" class="mx-3 my-0 d-flex justify-content-center align-items-center"
               style="font-weight: bolder;">이미 인증된 사용자입니다.</p>
             <input id="auth-phone" class="form-control d-none" name="auth-phone-input" type="text" placeholder="인증번호 입력"
               style="width: 8rem;">
-            <button id="auth-phone-submit" class="form-control btn btn-primary d-none mx-3" type="button"
-              data-account-id="{{ user.pk }}" style="width: 8rem;">인증</button>
+            <button id="auth-phone-submit" class="form-control d-none mx-3" type="button"
+              data-account-id="{{ user.pk }}">인증</button>
             <p id="auth-timer" class="d-none d-flex justify-content-start align-items-center"
               style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
             <p id="help-text" class="d-none d-flex justify-content-start align-items-center"
@@ -60,20 +68,21 @@
             <label for="id_phone">핸드폰 번호</label>
             <input type="text" name='phone_num' value='{{ request.user.phone_num }}' maxlength='11' class='form-control' placeholder='휴대폰 번호' id='id_phone'>
           </div>
-          <input type="hidden" id='' name="phone_num" value=''>
           <div class="d-flex mb-3">
-            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}" style="width: 8rem;">인증번호
+            <button id="get-auth-btn" class="btn btn-primary" data-account-id="{{ user.pk }}">인증번호
               받기</button>
             <input id="auth-phone" class="form-control d-none" name="auth-phone-input" type="text" placeholder="인증번호 입력"
               style="width: 8rem;">
             <button id="auth-phone-submit" class="form-control btn btn-primary d-none mx-3" type="button"
-              data-account-id="{{ user.pk }}" style="width: 8rem;">인증하기</button>
+              data-account-id="{{ user.pk }}">인증</button>
             <p id="auth-timer" class="d-none d-flex justify-content-start align-items-center"
               style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
             <p id="help-text" class="d-none d-flex justify-content-start align-items-center"
               style="width: auto; margin: 0; color:rgb(206, 34, 34); font-weight: bolder;"></p>
           </div>
           {% endif %}
+
+          {% comment %} 제출 버튼 {% endcomment %}
           <button type="submit" class="update-btn">수정 완료</button>
         </form>
         {% comment %} 비밀번호 변경 {% endcomment %}

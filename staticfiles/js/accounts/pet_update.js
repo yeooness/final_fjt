@@ -1,14 +1,14 @@
 // 처음 화면에서 기존에 등록한 데이터 반영
 // '반려동물 분류'/'반려동물 크기'/'성별'/'중성화여부'/'예방접종'/'성격 및 특징'
 const petSpeciesRadioTags = document.querySelectorAll('input[name="pet_species"]')
-const petSizeRadioTags = document.querySelectorAll('input[name="pet_size"]')
+// const petSizeRadioTags = document.querySelectorAll('input[name="pet_size"]')
 const petGenderLabels = document.querySelectorAll('.pet_gender label')
 const petNeutralizationLabels = document.querySelectorAll('.pet_neutralization label')
 const petVaccinationLabels = document.querySelectorAll('.pet_vaccination label')
 const petFeaturesLabels = document.querySelectorAll('.features label')
 
 const petSpeciesHiddenTag = document.querySelector('#hidden-pet-species')
-const petSizeHiddenTag = document.querySelector('#hidden-pet-size')
+// const petSizeHiddenTag = document.querySelector('#hidden-pet-size')
 const petGenderHiddenTag = document.querySelector('#hidden-pet-gender')
 const petNeutralizationHiddenTag = document.querySelector('#hidden-pet-neutralization')
 const petVaccinationHiddenTag = document.querySelector('#hidden-pet-vaccination')
@@ -48,8 +48,8 @@ const removeAllActive = function (elements) {
   }
 }
 
-petSpeciesRadioTags[match[petSpeciesHiddenTag.value]].setAttribute('checked', 'True')
-petSizeRadioTags[match[petSizeHiddenTag.value]].setAttribute('checked', 'True')
+// petSpeciesRadioTags[match[petSpeciesHiddenTag.value]].setAttribute('checked', 'True')
+// petSizeRadioTags[match[petSizeHiddenTag.value]].setAttribute('checked', 'True')
 
 removeAllActive(petGenderLabels)
 petGenderLabels[match[petGenderHiddenTag.value]].classList.add('active')

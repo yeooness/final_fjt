@@ -3,13 +3,35 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/journal/create.css' %}">
+  <link rel="stylesheet" href="{% static 'css/journal/create.css' %}">
 {% endblock css %}
 
 {% block content %}
   <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form class="create_journal" action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      <div class='domain'>
+        <h5>
+          <span class='important'>*</span>일기를 작성할 반려동물</h5>
+        <select name="pet" id="pet" required="required">
+          <option value="">
+            -------- 반려동물 선택 --------
+          </option>
+          {% for user_pet in request.user.pet.all %}
+            <option value="{{ user_pet.pk }}">
+              {% if user_pet.species == 'dog' %}
+                강아지
+              {% else %}
+                고양이
+              {% endif %}
+              -
+              {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+        <p class='alert-text'>
+          '당근집사'에서는 고양이를 산책시키는 것을 추천드리지 않으며, 고양이 대신 집사님들 간의 산책 및 정보 공유 시간으로 사용드리길 강력히 권장드립니다.
+        </p>
+      </div>
       {% bootstrap_form form %}
       <div class='pet-journal-button d-flex justify-content-around'>
         <button type="submit" class="btn-journal">등록</button>

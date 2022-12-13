@@ -51,19 +51,21 @@ const removeAllActive = function (elements) {
 
 if (parameters) {
   parameters = document.location.search.slice(1).split('&');
-  console.log(parameters);
-  removeAllActive(etcLabels)
-  removeAllActive(petsitterGenderLabels)
-  removeAllActive(caringPetLabels)
-  removeAllActive(caringTimeLabels)
+  // console.log(parameters);
+  if (parameters.length > 1) {
+    removeAllActive(etcLabels)
+    removeAllActive(petsitterGenderLabels)
+    removeAllActive(caringPetLabels)
+    removeAllActive(caringTimeLabels)
+  }
   for (let para of parameters) {
-    console.log(para)
-    console.log(para.split('='))
+    // console.log(para)
+    // console.log(para.split('='))
     let name;
     let value;
     [name, value] = para.split('=')
-    console.log(name, value)
-    console.log(decodeURI(value))
+    // console.log(name, value)
+    // console.log(decodeURI(value))
     if (name === 'gender') {
       petsitterGenderLabels[match[decodeURI(value)]].classList.add('active')
       petsitterGenderLabels[match[decodeURI(value)]].nextElementSibling.setAttribute('checked', 'True')
@@ -160,6 +162,13 @@ document.addEventListener('scroll', function() {
     writingBtnRound.classList.add('active')
   }
 })
+
+
+
+
+// 로그인 안할 경우, 글작성 버튼 클릭 시 popover되게
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 
 

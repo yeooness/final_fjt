@@ -1,0 +1,113 @@
+h1 {
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+form {
+  max-width: 50rem;
+  margin: 3rem auto;
+}
+.submit-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+
+/* 공통 적용 부분 */
+.domain {
+  margin: 1.5rem 0;
+}
+.domain h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.domain .important {
+  color: red;
+}
+
+/* 같이 산책한 친구 */
+.friend-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.friend-info a img {
+  margin-left: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+.friend-info a .bi-person-circle {
+  margin-left: 0.5rem;
+  font-size: 2.5rem;
+  color: #EB7D80;
+  line-height: 2.5rem;
+}
+
+/* 돌봄 기간, 돌봄 후기 */
+#id_caring_date, #id_content {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_content:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+#id_caring_date {
+  width: 10rem;
+  color: #6c757d;
+  outline: none;
+}
+.caring-time {
+  font-weight: 700;
+  color: #EB7D80;
+}
+
+/* 돌보미에 대한 평점 */
+#myform .rate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 330px;
+}
+#myform fieldset{
+  display: inline-block;
+  direction: rtl;
+  border:0;
+}
+#myform fieldset legend{
+  text-align: right;
+}
+#myform fieldset input[type=radio]{
+  display: none;
+}
+#myform fieldset label{
+  font-size: 3rem;
+  color: transparent;
+  text-shadow: 0 0 0 #f0f0f0;
+}
+#myform fieldset label:hover{
+  text-shadow: 0 0 0 #FF9E26;
+}
+#myform fieldset label:hover ~ label{
+  text-shadow: 0 0 0 #FF9E26;
+}
+#myform fieldset input[type=radio]:checked ~ label{
+  text-shadow: 0 0 0 #FF9E26;
+}
+#myform .rate-result{
+  font-size: 2rem;
+  font-weight: 800;
+  color: #495057;
+}

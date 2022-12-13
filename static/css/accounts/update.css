@@ -42,13 +42,13 @@
   border: none;
   color: white;
 }
-#id_username, #id_nickname, #id_age, #id_gender, #id_phone_num, #id_profile_image, #sample6_postcode, #sample6_address, #sample6_detailAddress {
+#id_username, #id_nickname, #id_age, #id_gender, #id_phone_num, #id_profile_image, #sample6_postcode, #sample6_address, #sample6_detailAddress, #id_phone, #auth-phone {
   width: 100%;
   padding: 6px 12px;
   border: 1px solid #F6A9A8;
   border-radius: 0.5rem;
 }
-#id_username:focus, #id_nickname:focus, #id_age:focus, #id_gender:focus, #id_phone_num:focus, #id_profile_image:focus, #sample6_postcode:focus, #sample6_address:focus, #sample6_detailAddress:focus {
+#id_username:focus, #id_nickname:focus, #id_age:focus, #id_gender:focus, #id_phone_num:focus, #id_profile_image:focus, #sample6_postcode:focus, #sample6_address:focus, #sample6_detailAddress:focus, #id_phone:focus, #auth-phone:focus {
   border: 1px solid #F6A9A8;
   box-shadow: 2px 2px 5px 5px #f6a9a82c;
   outline: none;
@@ -88,4 +88,18 @@
 #signup .body .withdrawing-member-wrap .withdrawing-member {
   color: red;
   font-weight: 700;
+}
+
+/* 휴대폰 번호 */
+#id_phone {
+  margin-bottom: 0.5rem;
+}
+#get-auth-btn, #auth-phone-submit {
+  padding: 0.5rem;
+  background-color: #F6A9A8;
+  border: none;
+}
+#auth-phone-submit {
+  color: white;
+  width: 20%;
 }
