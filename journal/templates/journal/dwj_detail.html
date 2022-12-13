@@ -4,21 +4,27 @@
 {% block content %}
   <div class="container">
     <div>
-      <h1>산책일기 페이지</h1>
-      <p>{{ dwj.route }}</p>
-      <p>{{ dwj.consuned_calories }}</p>
-      <p>{{ dwj.walking_time }}</p>
-      <!-- 작성 시간 -->
-      {% if dwj.created_string == False %}
-        <small>{{ dwj.created_at|date:'Y-m-d H:i' }}</small>
-      {% else %}
-        <small>{{ dwj.created_string }}</small>
-      {% endif %}
+      <h1>산책일기</h1>
+      <p>경로
+        {{ dwj.route }}</p>
+      <p>칼로리
+        {{ dwj.consumed_calories }}</p>
+      <p>시간
+        {{ dwj.walking_time }}</p>
+      <div>
+        <!-- 작성 시간 -->
+        {% if dwj.created_string == False %}
+          <small>{{ dwj.created_at|date:'Y-m-d H:i' }}</small>
+        {% else %}
+          <small>{{ dwj.created_string }}</small>
+        {% endif %}
+      </div>
     </div>
-    <div>
-      <a href="{% url 'journal:journal_list' %}" class="btn btn-primary">목록으로</a>
-      <a href="{% url 'journal:dwj_update' dwj.pk %}" class="btn btn-primary">수정하기</a>
-      <a href="{% url 'journal:dwj_delete' dwj.pk %}" class="btn btn-danger">삭제하기</a>
+    <!-- 버튼 -->
+    <div class="d-flex justify-content-end">
+      <a href="{% url 'journal:journal_list' %}" class="btn btn-light mx-1">목록으로</a>
+      <a href="{% url 'journal:dwj_update' dwj.pk %}" class="btn btn-light mx-1">수정하기</a>
+      <a href="{% url 'journal:dwj_delete' dwj.pk %}" class="btn btn-danger mx-1">삭제하기</a>
     </div>
   </div>
 {% endblock content %}

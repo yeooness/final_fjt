@@ -7,10 +7,28 @@
 {% endblock css %}
 
 {% block content %}
-  <div class="clearfix">
-    <a class="btn btn-dark right mr-2" href="{% url 'calendarapp:calendar' %}?{{ next_month }} ">
-      Next Month >>
-    </a>
-    <a class="btn btn-dark right mr-2" href="{% url 'calendarapp:calendar' %}?{{ prev_month }}">
-      << Previous Month </a> <a class="btn btn-warning right mr-2" href="{% url 'calendarapp:event_new' %}"> + New Event </a> <a href="{% url 'journal:daily_create' %}" class="btn btn-success">일기 작성하기</a> <a href="{% url 'calendarapp:dogwalking_new' %}" class="btn btn-success">산책일기 작성하기</a> <a href="{% url 'journal:health_create' %}" class="btn btn-success">건강일기 작성하기</a> </div> 
-      {% endblock %}
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <div>
+        <a class="btn btn-dark right mr-2" href="{% url 'calendarapp:calendar' %}?{{ prev_month }}">
+          ⬅︎ 지난 달
+        </a>
+      </div>
+      <div>
+        <a href="{% url 'calendarapp:create_daily_event' %}" class="btn btn-success">일기 작성하기
+        </a>
+        <a href="{% url 'calendarapp:create_dogwalking' %}" class="btn btn-success">산책일기 작성하기</a>
+        <a href="{% url 'calendarapp:create_health_event' %}" class="btn btn-success">건강일기 작성하기</a>
+      </div>
+      <div>
+        <a class="btn btn-dark right mr-2" href="{% url 'calendarapp:calendar' %}?{{ next_month }} ">
+          다음 달 ➡︎
+        </a>
+      </div>
+    </div>
+  </div>
+  <div>
+    {{ calendar }}
+  </div>
+</div>
+{% endblock %}

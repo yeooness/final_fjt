@@ -1,19 +1,49 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
 
-{% block title %}
-Event
-{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/calendarapp/dwj.css' %}">
+{% endblock css %}
 
 {% block content %}
-<div class="clearfix">
-  <a class="btn btn-dark left" href="{% url 'calendarapp:calendar' %}"> Calendar </a>
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <div class='domain'>
+        <h5>
+          <span class='important'>*</span>일기를 작성할 반려동물</h5>
+        <select name="pet" id="pet" required="required">
+          <option value="">
+            -------- 반려동물 선택 --------
+          </option>
+          {% for user_pet in request.user.pet.all %}
+            <option value="{{ user_pet.pk }}">
+              {% if user_pet.species == 'dog' %}
+                강아지
+              {% else %}
+                고양이
+              {% endif %}
+              -
+              {{ user_pet.petname }}</option>
+          {% endfor %}
+        </select>
+        <p class='alert-text'>
+          '당근집사'에서는 고양이를 산책시키는 것을 추천드리지 않으며, 고양이 대신 집사님들 간의 산책 및 정보 공유 시간으로 사용드리길 강력히 권장드립니다.
+        </p>
+      </div>
+      <table class="form form-table">
+        {% bootstrap_form form %}
+      </tr>
+    </table>
+    <div class="mb-3">
+      <button type="submit" class="btn btn-dark right">
+        작성
+      </button>
+      <a class="btn btn-dark left" href="{% url 'calendarapp:calendar' %}">
+        돌아가기
+      </a>
+    </div>
+  </form>
 </div>
-
-<form method="post">
-  {% csrf_token %}
-  <table class="form form-table">
-    {{ form }}
-    <tr><td colspan="2"><button type="submit" class="btn btn-dark right"> Submit </button></td></tr>
-  </table>
-</form>
 {% endblock %}
