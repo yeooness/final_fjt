@@ -330,7 +330,7 @@
   </section>
 
   {% comment %} 글작성 버튼 {% endcomment %}
-  <a class='writing-btn-round' 
+  <a class='writing-btn-round active' 
   {% if request.user.is_authenticated %}
   href="{% url 'care:create' %}" 
   title='돌보미 찾는 글 작성하기'
