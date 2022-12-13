@@ -77,6 +77,7 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 getAuthBtn.addEventListener("click", (event) => {
   event.preventDefault();
   if (phoneId.value.length === 11 && !(isNaN(phoneId.value))) {
+    console.log(phoneId.value)
     let formData = new FormData();
     formData.append("phone", phoneId.value);
     axios({

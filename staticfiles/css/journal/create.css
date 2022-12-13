@@ -19,7 +19,29 @@
 
 .form-control {
   border: 1px solid #EB7D80;
+  margin: auto;
 }
+
+.container {
+  margin: auto;
+}
+
+
+/* create_journal 밑의 div에 속성을 주기 */
+.create_journal >div {
+  width: 80%;
+  margin: auto;
+}
+/* Media */
+@media screen and (max-width: 1600px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+}
+
+@media screen and (max-width: 768px) {
 
 /* 공통 적용 부분 */
 .domain {

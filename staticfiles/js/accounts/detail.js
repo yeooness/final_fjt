@@ -94,43 +94,54 @@ if (profileUser !== currentUser) {
 
 // '반려동물'의 Swiper
 // 뷰포트 너비에 따라 view 당 slide 갯수 결정하는 함수
-const decideSlidesNumber = function (viewportWidth) {
-  if (viewportWidth >= 992) {
-    return 3
-  } else if (viewportWidth >= 768) {
-    return 2
-  } else {
-    return 1
-  }
-}
+// const decideSlidesNumber = function (viewportWidth) {
+//   if (viewportWidth >= 992) {
+//     return 3
+//   } else if (viewportWidth >= 768) {
+//     return 2
+//   } else {
+//     return 1
+//   }
+// }
 
 // 초기 화면 크기에서의 slide 갯수 지정
-let viewportWidth = window.innerWidth
-let slidesNumber = decideSlidesNumber(viewportWidth)
+// let viewportWidth = window.innerWidth
+// let slidesNumber = decideSlidesNumber(viewportWidth)
 
 var swiper = new Swiper("#pets .mySwiper", {
-  slidesPerView: slidesNumber,
+  // slidesPerView: slidesNumber,
+  slidesPerView: 1,
   scrollbar: {
     el: ".swiper-scrollbar",
     hide: true,
   },
+  breakpoints: {
+    576: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+  },
 });
 
 // 화면 크기가 변할 때 slide 갯수 변경
-window.addEventListener("resize", function () {
-  let viewportWidth = window.innerWidth
-  let slidesNumber = decideSlidesNumber(viewportWidth)
-  console.log(viewportWidth)
-  console.log(slidesNumber)
+// window.addEventListener("resize", function () {
+//   let viewportWidth = window.innerWidth
+//   let slidesNumber = decideSlidesNumber(viewportWidth)
+//   console.log(viewportWidth)
+//   console.log(slidesNumber)
 
-  var swiper = new Swiper("#pets .mySwiper", {
-    slidesPerView: slidesNumber,
-    scrollbar: {
-      el: ".swiper-scrollbar",
-      hide: true,
-    },
-  });
-})
+//   var swiper = new Swiper("#pets .mySwiper", {
+//     slidesPerView: slidesNumber,
+//     scrollbar: {
+//       el: ".swiper-scrollbar",
+//       hide: true,
+//     },
+//   });
+// })
 
 
 
@@ -179,6 +190,13 @@ triggerTabList.forEach(triggerEl => {
     tabTrigger.show()
   })
 })
+
+
+
+
+// 쪽지 보내기 tooltip
+const tooltipTriggerListNote = document.querySelectorAll('[data-bs-toggle="tooltip-note"]')
+const tooltipListNote = [...tooltipTriggerListNote].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 
 
