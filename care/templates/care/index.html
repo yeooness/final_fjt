@@ -222,7 +222,7 @@
     </div>
               {% comment %} 여기까진 정상 {% endcomment %}
     <!-- Card-wrap 최근매칭 -->
-    {% comment %} <div class="card-wrap">
+    <div class="card-wrap">
       <div class="card-top">
         <h3>최근 돌봄 매칭</h3>
         <a href="/care/more?more=found-petsitter">
@@ -279,21 +279,21 @@
               </div>
           
               <!-- card-item-bottom -->
-              <div class="card__item-bottom">
+              {% comment %} <div class="card__item-bottom">
                 <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
                   {{ article.title|truncatechars:15 }}
                 </a>
                 <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
-              </div>
+              </div> {% endcomment %}
             </article>
           </div>
           {% endif %}
           {% endfor %}
         </div>
       </div>
-    </div> {% endcomment %}
+    </div>
   </section>
-
+  {% comment %} 여기서부터 정상 {% endcomment %}
   {% comment %} 글작성 버튼 {% endcomment %}
   <a class='writing-btn-round active' 
   {% if request.user.is_authenticated %}
