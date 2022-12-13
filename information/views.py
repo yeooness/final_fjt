@@ -5,7 +5,7 @@ import json
 def index(request):
     name = request.GET.get("board", '동물병원')
     information_name = "모든게시판"
-    information_list = ["동물병원", "애견카페", "애견식당"]
+    information_list = ["동물병원", "애견카페", "애견용품"]
     
     # with open('static/json/animal_hospital.json', encoding='utf-8') as json_file:
     #     animal_hospitals = json.load(json_file)
