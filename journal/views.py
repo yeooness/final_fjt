@@ -34,7 +34,10 @@ def daily_create(request):
             return redirect("journal:daily_detail", daily.pk)
     else:
         form = DailyJournalForm()
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '일기',
+        }
     return render(request, "journal/daily_create.html", context)
 
 
@@ -79,7 +82,10 @@ def dwj_create(request):
             return redirect("journal:dwj_detail", dwj.pk)
     else:
         form = DogwalkingJournalForm()
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '산책일기',
+        }
     return render(request, "journal/dwj_create.html", context)
 
 
@@ -124,7 +130,10 @@ def health_create(request):
             return redirect("journal:health_detail", health.pk)
     else:
         form = HealthJournalForm()
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '건강일기',
+        }
     return render(request, "journal/health_create.html", context)
 
 
