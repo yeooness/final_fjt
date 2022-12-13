@@ -1,34 +1,70 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/communities/detail.css' %}">
+{% endblock css %}
 
 {% block content %}
-  <div class="container">
-    <div>
-      <h1>일기</h1>
-      <div class="d-flex">
-        <!-- 이미지 -->
-        {% if daily.image %}
-          <img src="{{ daily.image.url }}" alt="" style="border-radius: 10px">
-        {% endif %}
-        <!-- 내용 -->
-        <div class="mx-3 mt-3">
-          <p>{{ daily.content }}</p>
+<main class="container mb-3" style='max-width:40rem;'>
+  {% comment %} 헤더 {% endcomment %}
+  <section id='head'>
+    <div class='category-btns'>
+      <p class='category'>{{ category }}</p>
+      <!-- 수정/삭제 버튼 -->
+      {% if request.user == daily.user %}
+      <div class='update-delete-btn'>
+        <a class='update-btn' href="{% url 'journal:daily_update' daily.pk %}">수정</a>
+        |
+        <!-- Button trigger modal -->
+        <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          삭제
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">정말로 삭제하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                해당 게시물을 삭제하면 복구할 수 없습니다.<br>
+                정말로 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form action="{% url 'journal:daily_delete' daily.pk %}" method='POST'>
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">삭제</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
+        |
+        <a href="{% url 'journal:journal_list' %}" class="update-btn ms-2">목록으로</a>
       </div>
-      <div>
-        <!-- 작성 시간 -->
-        {% if daily.created_string == False %}
-          <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
-        {% else %}
-          <small>{{ daily.created_string }}</small>
-        {% endif %}
-      </div>
+      {% endif %}
     </div>
-    <!-- 버튼 -->
-    <div class="d-flex justify-content-end">
-      <a href="{% url 'journal:journal_list' %}" class="btn btn-light mx-1">목록으로</a>
-      <a href="{% url 'journal:daily_update' daily.pk %}" class="btn btn-light mx-1">수정하기</a>
-      <a href="{% url 'journal:daily_delete' daily.pk %}" class="btn btn-danger mx-1">삭제하기</a>
+    <div class='d-flex justify-content-between mt-1'>
+    <h3 class='title mb-0'>'{{ daily.pet.petname }}'에 대한 {{ category }}</h3>
+      <!-- 작성 시간 -->
+      {% if daily.created_string == False %}
+      <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
+      {% else %}
+      <small>{{ daily.created_string }}</small>
+      {% endif %}
     </div>
-  </div>
+  </section>
+
+  {% comment %} 내용 {% endcomment %}
+  <section id='article-content'>
+    <p class="text-break">{{ daily.content|linebreaksbr }}</p>
+    {% if daily.image %}
+    <img src="{{ daily.image.url }}" alt="">
+    {% endif %}
+  </section>
+</main>
 {% endblock content %}

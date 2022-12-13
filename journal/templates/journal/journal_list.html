@@ -7,7 +7,7 @@
 {% endblock css %}
 
 {% block content %}
-  <div class="container">
+  <main class="container">
     <div id='my-articles'>
       {% comment %} 버튼들 {% endcomment %}
       <div class="btns-wrap">
@@ -35,63 +35,97 @@
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
-        <!-- 일기 -->
+        {% comment %} 일기 {% endcomment %}
         <div class="tab-pane fade show active mt-3" id="nav-daily" role="tabpanel" aria-labelledby="nav-daily-tab" tabindex="0">
           {% for daily in daily_journal %}
             {% if request.user == daily.user %}
-              <div class="container d-flex justify-content-between align-items-center">
-                <a href="{% url 'journal:daily_detail' daily.pk %}">
-                  <div class="d-flex align-items-center">
-                    {% if daily.image %}
-                      <img src="{{ daily.image.url }}" style="width: 100px; height: 100px; border-radius: 10px; margin:5px;">
-                    {% endif %}
-                    <p class="mb-0">{{ daily.created_at|date:'Y-m-d D' }}
-                      {{ daily.pet.petname }}</p>
-                  </div>
-                </a>
-                {% if daily.created_string == False %}
-                  <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
-                {% else %}
-                  <small>{{ daily.created_string }}</small>
-                {% endif %}
+              <div class="row">
+                <div class='col-1 d-flex flex-column align-items-center'>
+                  {% if daily.pet.pet_image %}
+                  <img src="{{ daily.pet.pet_image.url }}" alt="" style='width:3rem;height:3rem;border-radius:50%;'>
+                  {% else %}
+                  <img src="{% static 'img/dog_and_cat.png' %}" alt="" style='width:2rem;height:2rem;border-radius:50%;'>
+                  {% endif %}
+                  <span style='color:#EB7D80;font-weight:700;'>{{ daily.pet.petname }}</span>
+                </div>
+                <div class='col-11 d-flex justify-content-between'>
+                  <a href="{% url 'journal:daily_detail' daily.pk %}" class='text-dark d-flex flex-column justify-content-between'>
+                    {{ daily.created_at|date:'D' }} 일기
+                    <div>
+                      {% if daily.created_string == False %}
+                      <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
+                      {% else %}
+                      <small>{{ daily.created_at|date:'Y-m-d H:i' }}</small>
+                      <small class='text-muted'>{{ daily.created_string }}</small>
+                      {% endif %}
+                    </div>
+                  </a>
+                  {% if daily.image %}
+                  <img src="{{ daily.image.url }}" style="width: 100px; height: 100px; border-radius: 10px; margin:5px;">
+                  {% endif %}
+                </div>
               </div>
             {% endif %}
             <hr>
           {% endfor %}
         </div>
-        <!-- 산책일기 -->
+        {% comment %} 산책일기 {% endcomment %}
         <div class="tab-pane fade mt-3" id="nav-dogwalking" role="tabpanel" aria-labelledby="nav-dogwalking-tab" tabindex="0">
           {% for dw in dw_journal %}
-            {% if request.user == dw.user %}
-              <div class="container d-flex justify-content-between">
-                <a href="{% url 'journal:dwj_detail' dw.pk %}">
-                  <p class="mb-0">{{ dw.created_at|date:'Y-m-d D' }}
-                    {{ dw.pet.petname }}</p>
-                </a>
-                {% if dw.created_string == False %}
-                  <small>{{ dw.created_at|date:'Y-m-d H:i' }}</small>
-                {% else %}
-                  <small>{{ dw.created_string }}</small>
-                {% endif %}
+            {% if request.user == dw.user %}   
+              <div class="row">
+                <div class='col-1 d-flex flex-column align-items-center'>
+                  {% if dw.pet.pet_image %}
+                  <img src="{{ dw.pet.pet_image.url }}" alt="" style='width:3rem;height:3rem;border-radius:50%;'>
+                  {% else %}
+                  <img src="{% static 'img/dog_and_cat.png' %}" alt="" style='width:2rem;height:2rem;border-radius:50%;'>
+                  {% endif %}
+                  <span style='color:#EB7D80;font-weight:700;'>{{ dw.pet.petname }}</span>
+                </div>           
+                <div class='col-11'>
+                  <a href="{% url 'journal:dwj_detail' dw.pk %}" class='text-dark d-flex flex-column justify-content-between'>
+                    {{ dw.created_at|date:'D' }} 산책일기
+                    <div>
+                      {% if dw.created_string == False %}
+                      <small>{{ dw.created_at|date:'Y-m-d H:i' }}</small>
+                      {% else %}
+                      <small>{{ dw.created_at|date:'Y-m-d H:i' }}</small>
+                      <small class='text-muted'>{{ dw.created_string }}</small>
+                      {% endif %}
+                    </div>
+                  </a>
+                </div>
               </div>
             {% endif %}
             <hr>
           {% endfor %}
         </div>
-        <!-- 건강일기 -->
+        {% comment %} 건강일기 {% endcomment %}
         <div class="tab-pane fade mt-3" id="nav-health" role="tabpanel" aria-labelledby="nav-health-tab" tabindex="0">
           {% for health in health_journal %}
             {% if request.user == health.user %}
-              <div class="container d-flex justify-content-between">
-                <a href="{% url 'journal:health_detail' health.pk %}">
-                  <p class="mb-0">{{ health.created_at|date:'Y-m-d D' }}
-                    {{ health.pet.petname }}</p>
-                </a>
-                {% if health.created_string == False %}
-                  <small>{{ health.created_at|date:'Y-m-d H:i' }}</small>
-                {% else %}
-                  <small>{{ health.created_string }}</small>
-                {% endif %}
+              <div class="row">
+                <div class='col-1 d-flex flex-column align-items-center'>
+                  {% if health.pet.pet_image %}
+                  <img src="{{ health.pet.pet_image.url }}" alt="" style='width:3rem;height:3rem;border-radius:50%;'>
+                  {% else %}
+                  <img src="{% static 'img/dog_and_cat.png' %}" alt="" style='width:2rem;height:2rem;border-radius:50%;'>
+                  {% endif %}
+                  <span style='color:#EB7D80;font-weight:700;'>{{ health.pet.petname }}</span>
+                </div>           
+                <div class='col-11'>
+                  <a href="{% url 'journal:health_detail' health.pk %}" class='text-dark d-flex flex-column justify-content-between'>
+                    {{ health.created_at|date:'D' }} 건강일기
+                    <div>
+                      {% if health.created_string == False %}
+                      <small>{{ health.created_at|date:'Y-m-d H:i' }}</small>
+                      {% else %}
+                      <small>{{ health.created_at|date:'Y-m-d H:i' }}</small>
+                      <small class='text-muted'>{{ health.created_string }}</small>
+                      {% endif %}
+                    </div>
+                  </a>
+                </div>
               </div>
             {% endif %}
             <hr>
@@ -99,4 +133,5 @@
         </div>
       </div>
     </div>
+  </main>
   {% endblock content %}

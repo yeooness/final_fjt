@@ -1,12 +1,65 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/journal/create.css' %}">
+{% endblock css %}
 
 {% block content %}
-  <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      <button type="submit" class="btn btn-primary">수정</button>
-    </form>
-  </div>
+<main class="container">
+  <h1>
+    <span class='large'>'{{ category }}'</span>수정
+  </h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% comment %} {% bootstrap_form form %} {% endcomment %}
+
+    {% comment %} 일기를 작성할 반려동물 {% endcomment %}
+    <div class='domain'>
+      <h5><span class='important'>*</span>일기를 작성할 반려동물</h5>
+      <select name="pet" id="pet" required="required">
+        {% for user_pet in request.user.pet.all %}
+          <option value="{{ user_pet.pk }}">
+            {% if user_pet.species == 'dog' %}
+              강아지
+            {% else %}
+              고양이
+            {% endif %}
+            -
+            {{ user_pet.petname }}</option>
+        {% endfor %}
+      </select>
+      <input type="hidden" id='hidden-pet' value='{{ health.pet }}'>
+    </div>
+
+    {% comment %} 급여 {% endcomment %}
+    <div class="domain">
+      <h5><span class='important'>*</span> 급여</h5>
+      {{ form.meals|attr:'placeholder:급여' }}
+    </div>
+
+    {% comment %} 활력 {% endcomment %}
+    <div class="domain">
+      <h5><span class='important'>*</span> 활력</h5>
+      {{ form.energy|attr:'placeholder:활력' }}
+    </div>
+
+    {% comment %} 약 {% endcomment %}
+    <div class="domain">
+      <h5><span class='important'>*</span> 약</h5>
+      {{ form.medicine|attr:'placeholder:약' }}
+    </div>
+
+    {% comment %} 제출버튼 {% endcomment %}
+    <div class='submit-btn-wrap'>
+      <input type="submit" value="수정">
+    </div>
+  </form>
+</main>
 {% endblock content %}
+
+{% block js %}
+  <script src="{% static 'js/journal/update.js' %}"></script>
+{% endblock js %}
