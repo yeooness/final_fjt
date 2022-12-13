@@ -79,15 +79,15 @@
           {% if request.user.notice_note %}
           <div class="dropdown">
             <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{% static "img/종1111.png" %}" alt="" style="width: 30px; height:30px;">
+              <img src="{% static "img/알람.png" %}" alt="" style="width: 30px; height:30px;">
             </a>
             <ul class="dropdown-menu p-0" style="background: rgba(23, 24, 23, 0.0); border: none;">
-              <li class="dropdown-item p-3">새로운 알림이 <br> 없어요</li>
+              <li class="dropdown-item p-3">새로운 알림이 없어요</li>
             </ul>
           </div>
           {% else %}
           <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="apen(event)">
-            <img class="bell" src="{% static "img/종2222.png" %}" alt="" style="width: 30px; height:30px;">
+            <img class="bell" src="{% static "img/알람1.png" %}" alt="" style="width: 30px; height:30px;">
           </a>
           {% csrf_token %}
           <ul class="dropdown-menu p-0" id="dropul" style="background: rgba(0, 0, 0, 0.0); border: none;">

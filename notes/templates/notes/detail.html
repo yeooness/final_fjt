@@ -50,6 +50,7 @@
   {% comment %} 답장 버튼 {% endcomment %}
   {% if note.from_user != request.user %}
   <section id="send-btn-wrap">
+    <a class='send-btn mx-1' href="{% url 'notes:index' %}">쪽지함 가기</a>
     <a class='send-btn' href="{% url 'notes:send' note.from_user.pk %}">
       <i class="bi bi-envelope-heart"></i>
       답장하기
