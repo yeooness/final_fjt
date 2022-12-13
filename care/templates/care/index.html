@@ -277,14 +277,14 @@
                 <img src="{% static 'img/pet-care2.png' %}" alt="card-image">
                 {% endif %}
               </div>
-          
+              
               <!-- card-item-bottom -->
-              {% comment %} <div class="card__item-bottom">
-                <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
+              <div class="card__item-bottom">
+                {% comment %} <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
                   {{ article.title|truncatechars:15 }}
-                </a>
+                </a> {% endcomment %}
                 <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
-              </div> {% endcomment %}
+              </div>
             </article>
           </div>
           {% endif %}
