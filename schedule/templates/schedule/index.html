@@ -3,7 +3,7 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-  <link href="{% static '/schedule/lib/fullcalendar-5.10.1/main.css' %}" rel='stylesheet'/>
+  <link href="{% static 'css/schedule/main.css' %}" rel='stylesheet'/>
   <link rel="stylesheet" href="{% static 'css/schedule/index.css' %}">
 {% endblock css %}
 
@@ -19,7 +19,7 @@
 {% endblock content %}
 
 {% block js %}
-  <script src="{% static '/schedule/lib/fullcalendar-5.10.1/main.js' %}"></script>
-  <script src="{% static '/schedule/lib/util.js' %}"></script>
+  <script src="{% static 'js/schedule/main.js' %}"></script>
+  <script src="{% static 'js/schedule/util.js' %}"></script>
   <script src="{% static 'js/schedule/index.js' %}"></script>
 {% endblock js %}
