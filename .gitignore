@@ -334,3 +334,9 @@ secrets.json
 # End of https://www.toptal.com/developers/gitignore/api/django,python,visualstudiocode,windows,macos
 
 # migrations/
+
+
+
+# 캐시관련 파일
+__pycache__/
+*.py[cod]
