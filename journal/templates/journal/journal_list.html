@@ -12,7 +12,7 @@
       <div class="d-flex justify-content-between">
         <h3>전체 일기 목록</h3>
         <div>
-          <a href="{% url 'journal:daily_create' %}" class="btn-journal">일기 작성하기</a>
+          <a href="{% url 'journal:daily_create' %}" class="btn-journal btn btn-primary">일기 작성하기</a>
           <a href="{% url 'journal:dwj_create' %}" class="btn-journal">산책일기 작성하기</a>
           <a href="{% url 'journal:health_create' %}" class="btn-journal">건강일기 작성하기</a>
           <a href="{% url 'accounts:detail' user.pk %}" class="btn-list">마이페이지</a>
