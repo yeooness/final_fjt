@@ -55,7 +55,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">돌봄 신청자 목록</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              {% comment %} <div class="modal-body d-flex flex-column">
+              <div class="modal-body d-flex flex-column">
                 {% if care.caring %}
                   <a class='applicant' href="{% url 'accounts:detail' care.pk %}">
                     {% if care.caring.profile_image %}
@@ -72,7 +72,7 @@
                 {% else %}
                   <p>돌봄 신청자가 없습니다</p>
                 {% endif %}
-              </div> {% endcomment %}
+              </div>
             </div>
           </div>
         </div>
