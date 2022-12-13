@@ -63,7 +63,6 @@ def detail(request, pk):
 
 def delete(request, pk):
     note = get_object_or_404(Notes, pk=pk)
-    print(request.POST)
     if request.user == note.to_user and request.method == "POST":
         note.delete()
         return JsonResponse({"pk": pk})

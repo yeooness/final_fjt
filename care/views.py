@@ -172,6 +172,7 @@ def more(request):
     return render(request, "care/more.html", context)
 
 
+@login_required
 def create(request):
     if request.method == "POST":
         # tags = request.POST.get("tags", "").split(",")
@@ -199,6 +200,7 @@ def create(request):
     return render(request, "care/create.html", context)
 
 
+@login_required
 def detail(request, care_pk):
     care = Care.objects.get(pk=care_pk)
     reviews = Review.objects.filter(care=care)
@@ -220,6 +222,7 @@ def detail(request, care_pk):
     return render(request, "care/detail.html", context)
 
 
+@login_required
 def update(request, care_pk):
     care = Care.objects.get(pk=care_pk)
     if request.user == care.user:
@@ -228,7 +231,6 @@ def update(request, care_pk):
             pet = Pet.objects.get(pk=request.POST.get("pet_need_caring"))
             if care_form.is_valid():
                 care = care_form.save(commit=False)
-                print("넘어가나?22")
                 care.pet = pet
                 care.caring_animal = pet.species
                 care.gender = request.POST.get("gender")
@@ -250,6 +252,7 @@ def update(request, care_pk):
         return redirect(request, "care/update.html", care_pk)
 
 
+@login_required
 def delete(request, care_pk):
     Care.objects.get(pk=care_pk).delete()
     return redirect("care:index")
@@ -281,6 +284,7 @@ def caring(request, care_pk):
     return redirect("care:index")
 
 
+@login_required
 def like(request, care_pk):
     care = get_object_or_404(Care, pk=care_pk)
     if request.user in care.like_user.all():
@@ -294,6 +298,7 @@ def like(request, care_pk):
 
 
 # 댓글
+@login_required
 def comment_create(request, care_pk):
     care_data = Care.objects.get(pk=care_pk)
 
@@ -309,6 +314,7 @@ def comment_create(request, care_pk):
     return redirect("accounts:login")
 
 
+@login_required
 def comment_delete(request, care_pk, comment_pk):
     comment_data = Comment.objects.get(pk=comment_pk)
 
@@ -339,6 +345,7 @@ def review(request, pk):
     return render(request, "care/review.html", context)
 
 
+@login_required
 def review_update(request, care_pk, review_pk):
     review = Review.objects.get(pk=review_pk)
     if request.method == "POST":
@@ -357,6 +364,7 @@ def review_update(request, care_pk, review_pk):
     return render(request, "care/review_update.html", context)
 
 
+@login_required
 def review_delete(request, care_pk, review_pk):
     review = Review.objects.get(pk=review_pk)
     if request.user == review.user:
