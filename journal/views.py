@@ -44,7 +44,10 @@ def daily_create(request):
 # 일기 조회
 def daily_detail(request, dj_pk):
     daily = get_object_or_404(DailyJournal, pk=dj_pk)
-    context = {"daily": daily}
+    context = {
+        "daily": daily,
+        "category": '일기',
+        }
     return render(request, "journal/daily_detail.html", context)
 
 
@@ -58,7 +61,11 @@ def daily_update(request, dj_pk):
             return redirect("journal:daily_detail", daily.pk)
     else:
         form = DailyJournalForm(instance=daily)
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '일기',
+        'daily': daily,
+        }
     return render(request, "journal/daily_update.html", context)
 
 
@@ -92,7 +99,10 @@ def dwj_create(request):
 # 산책일기 조회
 def dwj_detail(request, dwj_pk):
     dwj = get_object_or_404(DogwalkingJournal, pk=dwj_pk)
-    context = {"dwj": dwj}
+    context = {
+        "dwj": dwj,
+        "category": '산책 일기',
+        }
     return render(request, "journal/dwj_detail.html", context)
 
 
@@ -106,7 +116,11 @@ def dwj_update(request, dwj_pk):
             return redirect("journal:dwj_detail", dwj.pk)
     else:
         form = DogwalkingJournalForm(instance=dwj)
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '산책 일기',
+        'dwj': dwj,
+        }
     return render(request, "journal/dwj_update.html", context)
 
 
@@ -140,7 +154,10 @@ def health_create(request):
 # 건강일기 조회
 def health_detail(request, hj_pk):
     health = get_object_or_404(HealthJournal, pk=hj_pk)
-    context = {"health": health}
+    context = {
+        "health": health,
+        "category": '건강 일기',
+        }
     return render(request, "journal/health_detail.html", context)
 
 
@@ -154,7 +171,11 @@ def health_update(request, hj_pk):
             return redirect("journal:health_detail", health.pk)
     else:
         form = HealthJournalForm(instance=health)
-    context = {"form": form}
+    context = {
+        "form": form,
+        "category": '건강 일기',
+        'health': health,
+        }
     return render(request, "journal/health_update.html", context)
 
 

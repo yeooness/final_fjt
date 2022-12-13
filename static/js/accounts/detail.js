@@ -148,33 +148,33 @@ var swiper = new Swiper("#pets .mySwiper", {
 
 // 등록된 반려동물 중 가장 첫번째 pet에 active 클래스 넣기
 // active-pet에 가장 첫번째 반려동물 이름 넣기
-const pets = document.querySelectorAll('.pet')
-const activePetName = document.querySelector('.active-pet-name')
+// const pets = document.querySelectorAll('.pet')
+// const activePetName = document.querySelector('.active-pet-name')
 
-if (pets == true) {
-  pets[0].classList.add('active')
-  activePetName.innerText = pets[0].dataset.petName
-}
+// if (pets == true) {
+//   pets[0].classList.add('active')
+//   activePetName.innerText = pets[0].dataset.petName
+// }
 
 
 
 
 // 반려동물 카드를 선택할 때. 클래스에 active 클래스 넣기
 // 반려동물 카드를 선택할 때. active-pet에 반려동물 이름 넣기
-pets.forEach(function (pet) {
-  pet.addEventListener('click', function (event) {
-    // 전체 반려동물 카드의 클래스에 active 제거
-    pets.forEach(function (pet) {
-      pet.classList.remove('active')
-    })
+// pets.forEach(function (pet) {
+//   pet.addEventListener('click', function (event) {
+//     // 전체 반려동물 카드의 클래스에 active 제거
+//     pets.forEach(function (pet) {
+//       pet.classList.remove('active')
+//     })
 
-    // 클릭한 반려동물 카드의 클래스에 active 추가
-    event.target.classList.add('active')
+//     // 클릭한 반려동물 카드의 클래스에 active 추가
+//     event.target.classList.add('active')
 
-    // active-pet에 반려동물 이름 넣기
-    activePetName.innerText = event.target.dataset.petName
-  })
-})
+//     // active-pet에 반려동물 이름 넣기
+//     activePetName.innerText = event.target.dataset.petName
+//   })
+// })
 
 
 
