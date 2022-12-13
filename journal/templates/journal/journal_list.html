@@ -9,7 +9,8 @@
 {% block content %}
   <div class="container">
     <div id='my-articles'>
-      <div class="d-flex justify-content-between; mt-5">
+      {% comment %} 버튼들 {% endcomment %}
+      <div class="btns-wrap">
         <div>
           <a href="{% url 'accounts:detail' user.pk %}" class="btn-list">마이페이지</a>
         </div>
@@ -19,13 +20,17 @@
           <a href="{% url 'journal:health_create' %}" class="btn-list">건강일기 작성하기</a>
         </div>
       </div>
-      <nav class="mt-3">
+      {% comment %} 네브탭 {% endcomment %}
+      <nav class="journal-nav">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <button class="nav-link active" id="nav-daily-tab" data-bs-toggle="tab" data-bs-target="#nav-daily" type="button" role="tab" aria-controls="nav-daily" aria-selected="true">일기
+          <button class="nav-link active" id="nav-daily-tab" data-bs-toggle="tab" data-bs-target="#nav-daily" type="button" role="tab" aria-controls="nav-daily" aria-selected="true">
+            일기 <span class='strong'>{{ daily_journal.count }}</span>
           </button>
-          <button class="nav-link" id="nav-dogwalking-tab" data-bs-toggle="tab" data-bs-target="#nav-dogwalking" type="button" role="tab" aria-controls="nav-dogwalking" aria-selected="false">산책일기
+          <button class="nav-link" id="nav-dogwalking-tab" data-bs-toggle="tab" data-bs-target="#nav-dogwalking" type="button" role="tab" aria-controls="nav-dogwalking" aria-selected="false">
+            산책일기 <span class='strong'>{{ dw_journal.count }}</span>
           </button>
-          <button class="nav-link" id="nav-health-tab" data-bs-toggle="tab" data-bs-target="#nav-health" type="button" role="tab" aria-controls="nav-health" aria-selected="false">건강일기
+          <button class="nav-link" id="nav-health-tab" data-bs-toggle="tab" data-bs-target="#nav-health" type="button" role="tab" aria-controls="nav-health" aria-selected="false">
+            건강일기 <span class='strong'>{{ health_journal.count }}</span>
           </button>
         </div>
       </nav>

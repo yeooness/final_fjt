@@ -313,7 +313,7 @@ for (let info of allPetInfo) {
   }
 }
 
-console.log(positions)
+// console.log(positions)
 
 
 for (let i = 0; i < positions.length; i++) {
