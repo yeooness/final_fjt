@@ -106,15 +106,15 @@ characteristicsLabels.forEach(function(label) {
 
 
 // 스크롤 내려가면 글 작성 버튼(동그란거) 나타나게
-document.addEventListener('scroll', function() {
-  // console.log(document.documentElement.scrollTop)
-  const writingBtnRound = document.querySelector('.writing-btn-round')
-  if (document.documentElement.scrollTop < 340) {
-    writingBtnRound.classList.remove('active')
-  } else {
-    writingBtnRound.classList.add('active')
-  }
-})
+// document.addEventListener('scroll', function() {
+//   // console.log(document.documentElement.scrollTop)
+//   const writingBtnRound = document.querySelector('.writing-btn-round')
+//   if (document.documentElement.scrollTop < 340) {
+//     writingBtnRound.classList.remove('active')
+//   } else {
+//     writingBtnRound.classList.add('active')
+//   }
+// })
 
 
 
