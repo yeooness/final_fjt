@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Community, Comment
 from .forms import CommunityForm, CommentForm, PostSearchForm
 from django.core.paginator import Paginator
@@ -43,7 +44,7 @@ def index(request):
 
     return render(request, "communities/index.html", context)
 
-
+@login_required
 def create(request):
     if request.method == "POST":
         tags = request.POST.get("tags", "").split(",")
@@ -121,6 +122,7 @@ def delete(request, community_pk):
 
 
 # 댓글
+@login_required
 def comment_create(request, community_pk):
     community_data = Community.objects.get(pk=community_pk)
 
@@ -144,6 +146,7 @@ def comment_delete(request, community_pk, comment_pk):
 
 
 # 좋아요
+@login_required
 def like(request, community_pk):
     community = get_object_or_404(Community, pk=community_pk)
     if request.user in community.like_users.all():
