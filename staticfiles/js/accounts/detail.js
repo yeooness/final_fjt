@@ -239,10 +239,11 @@ if (navigator.geolocation) {
 // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 function displayMarker(locPosition, message) {
 
-  const profileImg = document.querySelector('#profile-img').value
-  console.log(profileImg)
-  var imageSrc = profileImg ? profileImg : '/static/img/person-icon.png', // 마커이미지의 주소입니다    
+  // const profileImg = document.querySelector('#profile-img').value
+  // console.log(profileImg)
+  // var imageSrc = profileImg ? profileImg : '/static/img/person-icon.png', // 마커이미지의 주소입니다    
 
+  var imageSrc = '/static/img/person-icon.png', // 마커이미지의 주소입니다    
     imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
     imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -279,45 +280,66 @@ function displayMarker(locPosition, message) {
 const allPetInfo = document.querySelectorAll('.all-pet-info')
 
 // 이 부분은 임시로 작성한 코드입니다.
-// var positions = [
-//   {
-//     address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
-//       text: '무강이'
-//   },
-// ];
+var positions = [
+  // {
+  //   address:'경북 문경시 매봉4길 9영풍마드레빌 101동 801호',
+  //     text: '무강이'
+  // },
+];
 for (let info of allPetInfo) {
-  console.log(info.value)
-  console.log(info.value.split('--'))
-  positions.push()
+  // console.log(info.value)
+  // console.log(info.value.split('/'))
+  let petCount; let petAddress; let petInfo;
+  [petCount, petAddress, petInfo] = info.value.split('/')
+  
+  let allPet = petInfo.split('&').slice(0, -1)
+  let petInformations = []
+  
+  for (let pet of allPet) {
+    let petSpecies; let petName; let petGender; let petBreed;
+    [petSpecies, petName, petGender, petBreed] = pet.split('--')
+    petInformations.push({petSpecies, petName, petGender, petBreed})
+  }
+
+  // console.log(petInformations)
+
+  if (petCount > 0) {
+    let information = {
+      petCount,
+      petAddress,
+      petInformations,
+    }
+    positions.push(information)
+  }
 }
 
-// var positions = [
-//   {
-//     address: '서울시 가로공원로 228',
-//     text: '무강이'
-//   },
-//   {
-//     address: '서울시 가로공원로 223',
-//     text: '해로'
-//   },
-//   {
-//     address: '서울시 가로공원로 218',
-//     text: '노을'
-//   }
-// ];
+console.log(positions)
+
 
 for (let i = 0; i < positions.length; i++) {
   // 주소-좌표 변환 객체를 생성합니다
   var geocoder = new kakao.maps.services.Geocoder();
   // 주소로 좌표를 검색합니다
-  geocoder.addressSearch(positions[i].address, function (result, status) {
+  geocoder.addressSearch(positions[i].petAddress, function (result, status) {
     // 정상적으로 검색이 완료됐으면 
     if (status === kakao.maps.services.Status.OK) {
       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-      var imageSrc = '/static/img/cat.png', // 마커이미지의 주소입니다    
+      // 마커이미지의 주소입니다    
+      if (positions[i].petCount > 1) {
+        var imageSrc = '/static/img/pet_profile_icon.png',
         imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
         imageOption = { offset: new kakao.maps.Point(27, 69) };
+      } else if (positions[i].petInformations[0].petSpecies === 'dog' ) {
+        var imageSrc = '/static/img/dog.png',
+        imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) };
+      } else {
+        var imageSrc = '/static/img/cat.png',
+        imageSize = new kakao.maps.Size(34, 36), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) };
+      }
+      
 
       // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
@@ -331,18 +353,58 @@ for (let i = 0; i < positions.length; i++) {
       });
 
       // 마커에 표시할 인포윈도우를 생성합니다 
+      // let petSpecies; let petName; let petGender; let petBreed;
+      let inner = ''
+
+      for (let pet of positions[i].petInformations) {
+        console.log(pet.petName, pet.petGender, pet.petBreed)
+        let species = ''
+        let source = ''
+        if (pet.petSpecies === 'dog') {
+          species = '강아지'
+          source = '/static/img/dog.png'
+        } else {
+          species = '고양이'
+          source = '/static/img/cat.png'
+        }
+
+        inner += 
+        `
+        <div>
+          <img src='${source}' style='width:1rem;height:1rem;'>
+          <span style='font-size:1rem;color:#EB7D80;font-weight:700;'>${pet.petName}</span>
+          <span style='font-size:0.8rem;color:#D9D9D9;'>${pet.petGender}/${pet.petBreed}</span>
+        </div>
+        `
+      }
+
+      content = '<div style="width:10rem;padding:6px;">' + inner + '</div>' // 인포윈도우에 표시할 내용
+
       var infowindow = new kakao.maps.InfoWindow({
-        //content: positions[i].content // 인포윈도우에 표시할 내용
-        content: '<div style="width:150px;text-align:center;padding:6px 0;">' + positions[i].text + '</div>' // 인포윈도우에 표시할 내용
+        content  // 인포윈도우에 표시할 내용
       });
-      infowindow.open(map, marker);
+
+      // infowindow.open(map, marker);
       kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
       kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       // map.setCenter(coords);
     }
-
   });
+}
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+function makeOverListener(map, marker, infowindow) {
+  return function() {
+      infowindow.open(map, marker);
+  };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+function makeOutListener(infowindow) {
+  return function() {
+      infowindow.close();
+  };
 }
 
 // 지도 타입 변경 컨트롤을 생성한다
