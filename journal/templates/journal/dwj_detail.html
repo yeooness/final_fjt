@@ -5,12 +5,7 @@
   <div class="container">
     <div>
       <h1>산책일기</h1>
-      <p>경로
-        {{ dwj.route }}</p>
-      <p>칼로리
-        {{ dwj.consumed_calories }}</p>
-      <p>시간
-        {{ dwj.walking_time }}</p>
+      <p>{{ dwj.route }}</p>
       <div>
         <!-- 작성 시간 -->
         {% if dwj.created_string == False %}

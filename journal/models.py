@@ -92,8 +92,8 @@ class DogwalkingJournal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     route = models.TextField()
-    consumed_calories = models.IntegerField()
-    walking_time = models.IntegerField()
+    # consumed_calories = models.IntegerField()
+    # walking_time = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # 작성 시간
