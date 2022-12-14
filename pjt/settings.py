@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "Danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com",
+    "danggeunjibsa-env.eba-y8yce3qe.ap-northeast-2.elasticbeanstalk.com",
 ]
 
 
@@ -158,7 +158,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
 
-DEBUG = os.getenv("DEBUG") == "True" 
+DEBUG = os.getenv("DEBUG") == "True"
 
 if DEBUG:
     MEDIA_URL = "/media/"
