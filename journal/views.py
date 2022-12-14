@@ -8,9 +8,9 @@ from accounts.models import Pet
 
 # 목록
 def journal_list(request, user_pk):
-    daily_journal = DailyJournal.objects.order_by("-created_at")
-    dw_journal = DogwalkingJournal.objects.order_by("-created_at")
-    health_journal = HealthJournal.objects.order_by("-created_at")
+    daily_journal = DailyJournal.objects.get(user_pk=user_pk).order_by("-created_at")
+    dw_journal = DogwalkingJournal.objects.get(user_pk=user_pk).order_by("-created_at")
+    health_journal = HealthJournal.objects.get(user_pk=user_pk).order_by("-created_at")
     user = request.user
     context = {
         "daily_journal": daily_journal,
@@ -18,7 +18,7 @@ def journal_list(request, user_pk):
         "health_journal": health_journal,
         "user": user,
     }
-    return render(request, "journal/journal_list.html", context, user_pk)
+    return render(request, "journal/journal_list.html", context)
 
 
 # 일기 작성
