@@ -1,4 +1,4 @@
-.btn-journal {
+/* .btn-journal {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -24,14 +24,14 @@
 
 .container {
   margin: auto;
-}
+} */
 
 
 /* create_journal 밑의 div에 속성을 주기 */
-.create_journal >div {
+/* .create_journal >div {
   width: 80%;
   margin: auto;
-}
+} */
 /* Media */
 @media screen and (max-width: 1600px) {
 
@@ -43,4 +43,110 @@
 
 @media screen and (max-width: 768px) {
 
+}
+
+
+h1 {
+  margin: 3rem 0;
+  font-size: 1rem;
+  text-align: center;
+}
+h1 .large {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+form {
+  max-width: 50rem;
+  margin: 3rem auto;
+}
+.submit-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+input[type='submit'] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #EB7D80;
+  color: white;
+}
+
+/* 공통 적용 부분 */
+.domain {
+  margin: 1.5rem 0;
+}
+.domain h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.domain .important {
+  color: red;
+}
+.domain .alert-text {
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+  color: red;
+}
+
+/* 일기를 작성할 반려동물 */
+#pet {
+  display: grid;
+  padding: 5px 30px 5px 10px;
+  width: 250px;
+  height: 35px;
+  /* appearance: none; */
+  outline: none;
+  border: 1px solid #F6A9A8;
+  border-radius: 4px;
+  color: #6c757d;
+}
+#pet option {
+  color: #6c757d;
+  padding: 3px 0;
+}
+#pet option:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+
+/* 제목, 내용, 산책경로, 급여, 활력, 약 */
+#id_content, #id_route, #id_meals, #id_energy, #id_medicine {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #F6A9A8;
+  border-radius: 0.5rem;
+}
+#id_content:focus, #id_route:focus, #id_meals:focus, #id_energy:focus, #id_medicine:focus {
+  border: 1px solid #F6A9A8;
+  box-shadow: 2px 2px 5px 5px #f6a9a82c;
+  outline: none;
+}
+
+/* 첨부 이미지 */
+.upload-img-wrap {
+  display: none;
+  background-color: #FFF8F5;
+  text-align: center;
+}
+.upload-img-wrap.active {
+  display: block;
+}
+.upload-img {
+  width: 30%;
+}
+.img-label {
+  padding: 0.5rem;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #F6A9A8;
+  color: #F6A9A8;
+  text-align: center;
+}
+.img-label:hover {
+  background-color: #F6A9A8;
+  color: white;
+}
+#id_image {
+  display: none;
 }
