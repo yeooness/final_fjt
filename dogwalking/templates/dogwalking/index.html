@@ -168,8 +168,7 @@
         <div class="swiper-wrapper">
           <!-- 산책친구 아이템 -->
           {% for article in dogwalking %}
-          {{ article.writing_down }}
-          {% comment %} {% if not article.writing_down %}
+          {% if article.writing_down == 'False' %}
           <div class="swiper-slide">
             <!-- card-item -->
             <article class="card__item">
@@ -233,7 +232,7 @@
               </div>
             </article>
           </div>
-          {% endif %} {% endcomment %}
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -251,8 +250,8 @@
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
           <!-- slide 최근매칭 아이템 -->
-          {% comment %} {% for article in dogwalking %}
-          {% if article.writing_down %}
+          {% for article in dogwalking %}
+          {% if article.writing_down == 'True' %}
           <div class="swiper-slide">
             <!-- card-item -->
             <article class="card__item">
@@ -316,7 +315,7 @@
             </article>
           </div>
           {% endif %}
-          {% endfor %} {% endcomment %}
+          {% endfor %}
         </div>
       </div>
     </div>
