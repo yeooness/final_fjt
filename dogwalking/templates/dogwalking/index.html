@@ -168,7 +168,7 @@
         <div class="swiper-wrapper">
           <!-- 산책친구 아이템 -->
           {% for article in dogwalking %}
-          {% if article.writing_down == 'False' %}
+          {% if article.writing_down == 0 %}
           <div class="swiper-slide">
             <!-- card-item -->
             <article class="card__item">
@@ -251,7 +251,7 @@
         <div class="swiper-wrapper">
           <!-- slide 최근매칭 아이템 -->
           {% for article in dogwalking %}
-          {% if article.writing_down == 'True' %}
+          {% if article.writing_down == 1 %}
           <div class="swiper-slide">
             <!-- card-item -->
             <article class="card__item">
@@ -277,11 +277,11 @@
                 </div>
                 <!-- 분류 뱃지 -->
                 <div class='badges'>
-                  {% if article.review_set.all.0 %}
+                  {% comment %} {% if article.review_set.all.0 %}
                   <div class='badge review-badge'>
                     후기 O
                   </div>
-                  {% endif %}
+                  {% endif %} {% endcomment %}
                   <div class='badge species-badge'>
                     {% if article.pet.species == 'dog' %}
                     강아지
