@@ -8,10 +8,10 @@ from accounts.models import Pet
 
 # 목록
 def journal_list(request, user_pk):
-    daily_journal = DailyJournal.objects.get(user_pk=user_pk)
-    dw_journal = DogwalkingJournal.objects.get(user_pk=user_pk)
-    health_journal = HealthJournal.objects.get(user_pk=user_pk)
-    user = request.user
+    user = User.objects.get(pk=user_pk)
+    daily_journal = user.dailyjournal_set.all()
+    dw_journal = user.dogwlkingjournal_set.all()
+    health_journal = user.healthjournal_set.all()
     context = {
         "daily_journal": daily_journal,
         "dw_journal": dw_journal,
