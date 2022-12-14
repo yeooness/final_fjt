@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "imagekit",
     "widget_tweaks",
     "storages",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
