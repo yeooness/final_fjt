@@ -153,7 +153,6 @@
       <button class="side__nav__btn">적용</button>
     </div> {% endcomment %}
   </section>
-  {% comment %} <img src="" alt="" style="height: 30px; width: 30px;"> {% endcomment %}
   <!-- card-container -->
   <section class="container main-cards">
     <!-- Card-wrap 산책친구 -->
@@ -245,7 +244,7 @@
     </div>
 
     <!-- Card-wrap 최근매칭 -->
-    {% comment %} <div class="card-wrap">
+    <div class="card-wrap">
       <div class="card-top">
         <h3>최근 산책 매칭</h3>
         <a href="/dogwalking/more?more=found-friends">
@@ -286,7 +285,7 @@
                     <!-- 바꿀 내용 끝 -->
                   </div>
                 </div>
-              </div>
+              </div> {% endcomment %}
               <!-- 조건문 종료 --> 
               <!-- card-item-top -->
               <div class="card__item-top">
@@ -304,7 +303,7 @@
                   {% endif %}
                 </div>
                 <!-- card-item-avg -->
-                {% comment %} <div class="card__item__avg">
+               <div class="card__item__avg">
                   <i class="fa-regular fa-heart fa-xl"></i>
                   <p>평점</p>
                 </div>
@@ -351,7 +350,7 @@
           {% endfor %}
         </div>
       </div>
-    </div> {% endcomment %}
+    </div>
   </section>
 
   {% comment %} 글작성 버튼 {% endcomment %}
