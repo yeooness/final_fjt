@@ -44,7 +44,7 @@
           </div>
         </div>
         |
-        <a href="{% url 'journal:journal_list' %}" class="update-btn ms-2">목록으로</a>
+        <a href="{% url 'journal:journal_list' user.pk %}" class="update-btn ms-2">목록으로</a>
       </div>
       {% endif %}
     </div>
