@@ -82,7 +82,7 @@
               <img src="{% static "img/종1111.png" %}" alt="" style="width: 30px; height:30px;">
             </a>
             <ul class="dropdown-menu p-0" style="background: rgba(23, 24, 23, 0.0); border: none;">
-              <li class="dropdown-item p-3">새로운 알림이 <br> 없어요</li>
+              <li class="dropdown-item p-3">새로운 알림이 없어요</li>
             </ul>
           </div>
           {% else %}
@@ -204,8 +204,11 @@
                 const p = document.createElement('p')
                 const h6 = document.createElement('h6')
                 h6.innerText = time
+                h6.style.fontSize = '0.8rem'
                 p.innerText = `${items[i][1][1]} 님이 쪽지를 보냈어요.`
                 p.className = 'mb-0'
+                p.style.fontSize = '1rem'
+                p.style.fontWeight = '700'
                 a.appendChild(h6)
                 a.appendChild(p)
                 li.appendChild(a)
