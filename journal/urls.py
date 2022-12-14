@@ -5,7 +5,7 @@ app_name = "journal"
 
 urlpatterns = [
     # 목록
-    path("journal_list/<int:user_pk>/", views.journal_list, name="journal_list"),
+    path("<int:user_pk>/journal_list/", views.journal_list, name="journal_list"),
     # 일기 CRUD
     path("daily_journal/create/", views.daily_create, name="daily_create"),
     path("daily_journal/<int:dj_pk>/", views.daily_detail, name="daily_detail"),
