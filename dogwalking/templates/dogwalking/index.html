@@ -168,7 +168,7 @@
         <div class="swiper-wrapper">
           <!-- 산책친구 아이템 -->
           {% for article in dogwalking %}
-          {% nicknameif article.writing_down == False %}
+          {% if article.writing_down == False %}
           <div class="swiper-slide">
             <!-- card-item -->
             <article class="card__item">
