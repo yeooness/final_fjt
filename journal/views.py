@@ -10,7 +10,7 @@ from accounts.models import Pet
 def journal_list(request, user_pk):
     user = User.objects.get(pk=user_pk)
     daily_journal = user.dailyjournal_set.all()
-    dw_journal = user.dogwlkingjournal_set.all()
+    dw_journal = user.dogwalkingjournal_set.all()
     health_journal = user.healthjournal_set.all()
     context = {
         "daily_journal": daily_journal,
@@ -18,7 +18,7 @@ def journal_list(request, user_pk):
         "health_journal": health_journal,
         "user": user,
     }
-    return render(request, "journal/journal_list.html", context, user_pk)
+    return render(request, "journal/journal_list.html", context)
 
 
 # 일기 작성
