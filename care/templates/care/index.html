@@ -220,7 +220,7 @@
         </div>
       </div>
     </div>
-              {% comment %} 여기까진 정상 {% endcomment %}
+
     <!-- Card-wrap 최근매칭 -->
     <div class="card-wrap">
       <div class="card-top">
@@ -230,7 +230,7 @@
         </a>
       </div>
       <!-- Swiper -->
-      {% comment %} <div class="swiper mySwiper">
+      <div class="swiper mySwiper">
         <div class="swiper-wrapper">
           <!-- slide 최근매칭 아이템 -->
           {% for article in care %}
@@ -290,10 +290,10 @@
           {% endif %}
           {% endfor %}
         </div>
-      </div> {% endcomment %}
+      </div>
     </div> 
   </section>
-  {% comment %} 여기서부터 정상 {% endcomment %}
+
   {% comment %} 글작성 버튼 {% endcomment %}
   <a class='writing-btn-round active' 
   {% if request.user.is_authenticated %}
