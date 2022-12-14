@@ -7,8 +7,8 @@ from accounts.models import Pet
 
 
 # 목록
-def journal_list(request):
-    daily_journal = DailyJournal.objects.order_by("-created_at")
+def journal_list(request, user_pk):
+    daily_journal = DailyJournal.objects.filter(user_pk=user_pk).order_by("-created_at")
     dw_journal = DogwalkingJournal.objects.order_by("-created_at")
     health_journal = HealthJournal.objects.order_by("-created_at")
     user = request.user
@@ -36,8 +36,8 @@ def daily_create(request):
         form = DailyJournalForm()
     context = {
         "form": form,
-        "category": '일기',
-        }
+        "category": "일기",
+    }
     return render(request, "journal/daily_create.html", context)
 
 
@@ -46,8 +46,8 @@ def daily_detail(request, dj_pk):
     daily = get_object_or_404(DailyJournal, pk=dj_pk)
     context = {
         "daily": daily,
-        "category": '일기',
-        }
+        "category": "일기",
+    }
     return render(request, "journal/daily_detail.html", context)
 
 
@@ -63,9 +63,9 @@ def daily_update(request, dj_pk):
         form = DailyJournalForm(instance=daily)
     context = {
         "form": form,
-        "category": '일기',
-        'daily': daily,
-        }
+        "category": "일기",
+        "daily": daily,
+    }
     return render(request, "journal/daily_update.html", context)
 
 
@@ -91,8 +91,8 @@ def dwj_create(request):
         form = DogwalkingJournalForm()
     context = {
         "form": form,
-        "category": '산책일기',
-        }
+        "category": "산책일기",
+    }
     return render(request, "journal/dwj_create.html", context)
 
 
@@ -101,8 +101,8 @@ def dwj_detail(request, dwj_pk):
     dwj = get_object_or_404(DogwalkingJournal, pk=dwj_pk)
     context = {
         "dwj": dwj,
-        "category": '산책 일기',
-        }
+        "category": "산책 일기",
+    }
     return render(request, "journal/dwj_detail.html", context)
 
 
@@ -118,9 +118,9 @@ def dwj_update(request, dwj_pk):
         form = DogwalkingJournalForm(instance=dwj)
     context = {
         "form": form,
-        "category": '산책 일기',
-        'dwj': dwj,
-        }
+        "category": "산책 일기",
+        "dwj": dwj,
+    }
     return render(request, "journal/dwj_update.html", context)
 
 
@@ -146,8 +146,8 @@ def health_create(request):
         form = HealthJournalForm()
     context = {
         "form": form,
-        "category": '건강일기',
-        }
+        "category": "건강일기",
+    }
     return render(request, "journal/health_create.html", context)
 
 
@@ -156,8 +156,8 @@ def health_detail(request, hj_pk):
     health = get_object_or_404(HealthJournal, pk=hj_pk)
     context = {
         "health": health,
-        "category": '건강 일기',
-        }
+        "category": "건강 일기",
+    }
     return render(request, "journal/health_detail.html", context)
 
 
@@ -173,9 +173,9 @@ def health_update(request, hj_pk):
         form = HealthJournalForm(instance=health)
     context = {
         "form": form,
-        "category": '건강 일기',
-        'health': health,
-        }
+        "category": "건강 일기",
+        "health": health,
+    }
     return render(request, "journal/health_update.html", context)
 
 

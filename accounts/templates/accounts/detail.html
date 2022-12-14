@@ -236,7 +236,7 @@
         {% if request.user == user and user_pets %}
         <div class='pet-journal-button d-flex justify-content-end'>
           <!-- 일기 작성 버튼 -->
-          <a href="{% url 'journal:journal_list' %}" class="btn-journal mx-1">전체 일기 목록</a>
+          <a href="{% url 'journal:journal_list' user.pk %}" class="btn-journal mx-1">전체 일기 목록</a>
           <!-- 일정 등록하기 -->
           <a href="{% url 'schedule:index' %}" class="btn-journal mx-1">일정 등록</a>
         </div>
