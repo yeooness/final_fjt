@@ -94,7 +94,7 @@
 .domain .image img:nth-of-type(2) {
   display: block;
   position: absolute;
-  top: 5%;
+  top: 3%;
   width: 665px;
   height: 340px;
   object-fit: contain;
