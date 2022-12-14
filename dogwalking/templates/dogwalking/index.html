@@ -182,9 +182,9 @@
                   <i class="bi bi-person-circle"></i>
                   {% endif %}
                   {% if article.user.nickname %}
-                  <p>{{ article.user.nickname }}</p>
+                  <p>{{ article.user.nickname|truncatechars:10 }}</p>
                   {% else %}
-                  <p>{{ article.user.username }}</p>
+                  <p>{{ article.user.username|truncatechars:10 }}</p>
                   {% endif %}
                 </div>
                 <!-- 분류 뱃지 -->
@@ -265,15 +265,10 @@
                   <i class="bi bi-person-circle"></i>
                   {% endif %}
                   {% if article.user.nickname %}
-                  <p>{{ article.user.nickname }}</p>
+                  <p>{{ article.user.nickname|truncatechars:10 }}</p>
                   {% else %}
-                  <p>{{ article.user.username }}</p>
+                  <p>{{ article.user.username|truncatechars:10 }}</p>
                   {% endif %}
-                </div>
-                <!-- card-item-avg -->
-               <div class="card__item__avg">
-                  <i class="fa-regular fa-heart fa-xl"></i>
-                  <p>평점</p>
                 </div>
                 <!-- 분류 뱃지 -->
                 <div class='badges'>
