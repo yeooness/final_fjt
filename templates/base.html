@@ -204,8 +204,11 @@
                 const p = document.createElement('p')
                 const h6 = document.createElement('h6')
                 h6.innerText = time
+                h6.style.fontSize = '0.8rem'
                 p.innerText = `${items[i][1][1]} 님이 쪽지를 보냈어요.`
                 p.className = 'mb-0'
+                p.style.fontSize = '1rem'
+                p.style.fontWeight = '700'
                 a.appendChild(h6)
                 a.appendChild(p)
                 li.appendChild(a)
