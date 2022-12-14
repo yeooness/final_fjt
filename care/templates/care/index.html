@@ -171,9 +171,9 @@
                   <i class="bi bi-person-circle"></i>
                   {% endif %}
                   {% if article.user.nickname %}
-                  <p>{{ article.user.nickname }}</p>
+                  <p>{{ article.user.nickname|truncatechars:5 }}</p>
                   {% else %}
-                  <p>{{ article.user.username }}</p>
+                  <p>{{ article.user.username|truncatechars: 5 }}</p>
                   {% endif %}
                 </div>
                 <!-- card-item-avg -->
@@ -202,7 +202,7 @@
               <!-- card-item-bottom -->
               <div class="card__item-bottom">
                 <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
-                  {{ article.title|truncatechars:15 }}
+                  {{ article.title|truncatechars:13 }}
                 </a>
                 <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
                 <div class='apply-buttons'>
@@ -281,7 +281,7 @@
               <!-- card-item-bottom -->
               <div class="card__item-bottom">
                 <a href="{% url 'care:detail' article.pk %}" class='card__item__title'>
-                  {{ article.title|truncatechars:15 }}
+                  {{ article.title|truncatechars:13 }}
                 </a>
                 <p><i class="bi bi-geo-alt"></i> {{ article.area }}</p>
               </div>

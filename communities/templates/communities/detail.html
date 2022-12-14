@@ -129,10 +129,10 @@
             {% endif %}
           </a>
           <div class='detail'>
-            {% if community.user.nickname %}
-            <p>{{ community.user.nickname }}</p>
+            {% if comment.user.nickname %}
+            <p>{{ comment.user.nickname }}</p>
             {% else %}
-            <p>{{ community.user.username }}</p>
+            <p>{{ comment.user.username }}</p>
             {% endif %}
             <p class='date'>
               {{ comment.created_at|date:"Y.m.d" }} 
