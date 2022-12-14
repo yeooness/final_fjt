@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-        {% if dogwalking.writing_down == 0 %}
+        {% if dogwalking.writing_down == false %}
         |
         <!-- 산책 신청 마감 버튼 - Button trigger modal -->
         <button type="button" class="applicant-close-btn" data-bs-toggle="modal" data-bs-target="#applicant-closeModal">
@@ -107,7 +107,7 @@
       </div>
       {% else %}
       <div class='note-btns-wrap'>
-        {% if dogwalking.writing_down == 0 %}
+        {% if dogwalking.writing_down == false %}
         <div class='apply-buttons'>
           {% if request.user in dogwalking.walking.all %}
             <a class='button cancel-btn' href="{% url "dogwalking:walking" dogwalking.pk %}">산책 신청 취소</a>
@@ -308,7 +308,7 @@
   </section>
 
   {% comment %} 산책 후기 {% endcomment %}
-  {% if dogwalking.writing_down == 1 %}
+  {% if dogwalking.writing_down == true %}
   <section id='review'>
     <h5>산책 후기</h5>
     <div class='inner'>

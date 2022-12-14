@@ -76,7 +76,7 @@
             </div>
           </div>
         </div>
-        {% if care.writing_down == 0 %}
+        {% if care.writing_down == false %}
         |
         <!-- 돌봄 신청 마감 버튼 - Button trigger modal -->
         <button type="button" class="applicant-close-btn" data-bs-toggle="modal" data-bs-target="#applicant-closeModal">
@@ -106,7 +106,7 @@
       </div>
       {% else %}
       <div class='note-btns-wrap'>
-        {% if care.writing_down == 0 %}
+        {% if care.writing_down == false %}
         <div class='apply-buttons'>
           <a class='button apply-btn' href="{% url "care:caring" care.pk %}">돌봄 신청</a>
         </div>
@@ -268,7 +268,7 @@
   </section>
 
   {% comment %} 돌봄 후기 {% endcomment %}
-  {% if care.writing_down == 1 %}
+  {% if care.writing_down == true %}
   <section id='review'>
     <h5>돌봄 후기</h5>
     <div class='inner'>
