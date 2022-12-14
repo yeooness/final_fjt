@@ -272,11 +272,11 @@
                 </div>
                 <!-- 분류 뱃지 -->
                 <div class='badges'>
-                  {% comment %} {% if article.review_set.all.0 %}
+                  {% if article.review_set.all.0 %}
                   <div class='badge review-badge'>
                     후기 O
                   </div>
-                  {% endif %} {% endcomment %}
+                  {% endif %} 
                   <div class='badge species-badge'>
                     {% if article.pet.species == 'dog' %}
                     강아지
