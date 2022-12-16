@@ -12,7 +12,7 @@
 
 ## 🏆 award
 
-<img src="readme.assets/IMG_0141.jpg" alt="IMG_0141" style="zoom:50%;" />
+<img src="readme.assets/IMG_0141-1196370.jpg" alt="IMG_0141" style="zoom:50%;" />
 
 
 
