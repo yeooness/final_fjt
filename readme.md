@@ -68,35 +68,6 @@
 <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=ffffff"/> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-square&logo=Amazon S3&logoColor=ffffff"/> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat-square&logo=Amazon RDS&logoColor=ffffff"/> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=GitHub Actions&logoColor=ffffff"/>
 
 
-
-## 📍 Description
-1. accounts 앱 개발
-
-   1. 회원가입/로그인/회원정보 수정/회원탈퇴
-   2. 핸드폰 문자 인증
-      1. 네이버 클라우드 플랫폼을 이용해 사용자가 입력한 핸드폰 번호로 SMS 인증 번호 전송
-      2. 사용자가 받은 인증 번호를 입력하고 인증하기 버튼을 누르면 발송한 인증번호와 입력한 인증번호가 동일한지 검증 후 인증 완료
-   3. 소셜 로그인
-      1. 구글/카카오/네이버 계정으로 회원가입 없이 로그인 가능
-   4. 반려동물 등록
-      1. 회원가입 및 로그인 후 마이페이지에서 반려동물 등록 가능
-      2. 여러 마리 등록 가능
-      3. 이름, 나이, 성별, 중성화 여부 등 선택 가능
-   5. 회원간 팔로우/차단
-      1. 나를 제외한 다른 회원을 팔로우 하거나 차단 할 수 있음
-
-2. journal 앱 개발
-
-   1. 회원이 등록한 반려동물에 대해 일기 작성
-   2. 일기를 작성할 때 반려동물 선택 가능
-   3. 일기 목록 분리
-   4. 목록은 언제 작성했는지, 어떤 아이에 대한 일기인지 한 눈에 보이게 함
-
-3. AWS Elastic Beanstalk 배포
-
-   1. S3 버킷을 사용해 업로드 되는 파일 저장
-   2. RDS와 PostgreSQL을 이용해 데이터 저장
-
 ## 🔥 Issues
 
 <details>
