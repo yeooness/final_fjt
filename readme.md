@@ -71,19 +71,6 @@
 ## 🔥 Issues
 
 <details>
-  <summary>[accounts 이슈] missing ), unterminated subpattern at position 3</summary>
-  <div markdown="1">
-    <br>❌ 에러 사항<br>
-    회원가입을 시도하면 ‘missing ), unterminated subpattern at position 3' 에러 발생<br><br>
-  </div>
-  <div markdown="1"> 
-    💡 해결 방법<br>
-		accounts/models.py에 User 모델을 작성할 때 닫히지 않은 괄호가 있었음.<br>
-    괄호를 추가하고 다시 회원가입을 시도하니 정상적으로 가입 됨
-  </div>
-</details>
-
-<details>
   <summary>[AWS 이슈] Incorrect application version found on all instances</summary>
   <div markdown="1">
     <br>❌ 에러 사항<br>
